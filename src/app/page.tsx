@@ -2,6 +2,8 @@
 
 import { Hero } from '@/components/Hero'
 import { SocialLinks } from '@/components/SocialLinks'
+import { ProjectPreview } from '@/components/ProjectPreview'
+import { projects } from '@/lib/projects-data'
 import Link from 'next/link'
 
 export default function HomePage() {
@@ -82,8 +84,8 @@ export default function HomePage() {
               <Link href="/portfolio/facilis-ai" className="group block">
                 <article className="glass-elevated rounded-card-lg p-8 hover:scale-[1.02] transition-all duration-normal">
                   <div className="space-y-6">
-                    <div className="aspect-video bg-gradient-subtle rounded-card flex items-center justify-center">
-                      <div className="text-foreground-subtle">Facilis</div>
+                    <div className="aspect-video bg-surface rounded-card overflow-hidden">
+                      <ProjectPreview project={projects.find(p => p.id === 'facilis-ai')!} size="lg" />
                     </div>
                     <div className="space-y-3">
                       <h3 className="text-title group-hover:text-accent-blue transition-colors">
@@ -109,8 +111,8 @@ export default function HomePage() {
               <Link href="/portfolio/surf" className="group block">
                 <article className="glass-elevated rounded-card-lg p-8 hover:scale-[1.02] transition-all duration-normal">
                   <div className="space-y-6">
-                    <div className="aspect-video bg-gradient-subtle rounded-card flex items-center justify-center">
-                      <div className="text-foreground-subtle">Surf</div>
+                    <div className="aspect-video bg-surface rounded-card overflow-hidden">
+                      <ProjectPreview project={projects.find(p => p.id === 'surf')!} size="lg" />
                     </div>
                     <div className="space-y-3">
                       <h3 className="text-title group-hover:text-accent-blue transition-colors">

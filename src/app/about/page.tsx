@@ -151,12 +151,7 @@ export default function AboutPage() {
       <div className="mx-auto max-w-4xl px-6 pb-20" style={{ paddingTop: '50px' }}>
         <div className="space-y-16">
           {/* Current Role */}
-          <motion.section
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-            className="space-y-6"
-          >
+          <section className="space-y-6">
             <h2 className="text-2xl font-semibold tracking-tight">Current</h2>
             <div className="space-y-4 text-foreground-muted leading-relaxed">
               <p>
@@ -170,15 +165,10 @@ export default function AboutPage() {
                 in Electrical Engineering with specialization in Machine Learning and Controls (2024-2026).
               </p>
             </div>
-          </motion.section>
+          </section>
 
           {/* Experience */}
-          <motion.section
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.7 }}
-            className="space-y-8"
-          >
+          <section className="space-y-8">
             <h2 className="text-2xl font-semibold tracking-tight">Experience</h2>
 
             <div className="space-y-10">
@@ -230,15 +220,10 @@ export default function AboutPage() {
                 </ul>
               </div>
             </div>
-          </motion.section>
+          </section>
 
           {/* Education */}
-          <motion.section
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.8 }}
-            className="space-y-8"
-          >
+          <section className="space-y-8">
             <h2 className="text-2xl font-semibold tracking-tight">Education</h2>
 
             <div className="space-y-8">
@@ -270,15 +255,10 @@ export default function AboutPage() {
                 </div>
               </div>
             </div>
-          </motion.section>
+          </section>
 
           {/* Technical Skills */}
-          <motion.section
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.9 }}
-            className="space-y-8"
-          >
+          <section className="space-y-8">
             <h2 className="text-2xl font-semibold tracking-tight">Technical Skills</h2>
 
             <div className="grid gap-8 md:grid-cols-2">
@@ -313,15 +293,10 @@ export default function AboutPage() {
                 </div>
               </div>
             </div>
-          </motion.section>
+          </section>
 
           {/* Approach */}
-          <motion.section
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 1 }}
-            className="space-y-6"
-          >
+          <section className="space-y-6">
             <h2 className="text-2xl font-semibold tracking-tight">Approach</h2>
             <div className="space-y-4 text-foreground-muted leading-relaxed">
               <p>
@@ -335,15 +310,10 @@ export default function AboutPage() {
                 technical depth required and the product decisions that matter.
               </p>
             </div>
-          </motion.section>
+          </section>
 
           {/* CTA */}
-          <motion.section
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 1.1 }}
-            className="pt-8 border-t border-border-subtle"
-          >
+          <section className="pt-8 border-t border-border-subtle">
             <div className="flex flex-col sm:flex-row gap-4">
               <Link
                 href="/portfolio"
@@ -358,7 +328,7 @@ export default function AboutPage() {
                 Get in Touch
               </Link>
             </div>
-          </motion.section>
+          </section>
         </div>
       </div>
     </main>

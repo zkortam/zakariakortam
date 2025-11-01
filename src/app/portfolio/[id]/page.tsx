@@ -1,10 +1,10 @@
 'use client'
 
-import { notFound, useRouter } from 'next/navigation'
+import { notFound } from 'next/navigation'
 import { projects } from '@/lib/projects-data'
-import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { use } from 'react'
+import { ProjectPreview } from '@/components/ProjectPreview'
 
 interface ProjectDetailPageProps {
   params: Promise<{
@@ -13,7 +13,6 @@ interface ProjectDetailPageProps {
 }
 
 export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
-  const router = useRouter()
   const { id } = use(params)
   const project = projects.find(p => p.id === id)
 
@@ -28,12 +27,7 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
   return (
     <main className="min-h-screen pt-16">
       <div className="mx-auto max-w-5xl px-6 py-16">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="space-y-12"
-        >
+        <div className="space-y-12">
           {/* Back Button */}
           <Link
             href="/portfolio"
@@ -91,12 +85,7 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
 
           {/* Project Image */}
           <div className="aspect-video glass-elevated rounded-card-lg overflow-hidden">
-            <div className="w-full h-full bg-gradient-subtle flex items-center justify-center">
-              <div className="text-center space-y-2">
-                <div className="text-2xl font-medium">{project.title}</div>
-                <div className="text-foreground-subtle">Project Preview</div>
-              </div>
-            </div>
+            <ProjectPreview project={project} size="lg" />
           </div>
 
           {/* Project Content */}
@@ -280,7 +269,7 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
               )}
             </div>
           </section>
-        </motion.div>
+        </div>
       </div>
     </main>
   )

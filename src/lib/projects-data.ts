@@ -45,6 +45,9 @@ export const projects: Project[] = [
       'Enabled autonomous decision-making in enterprise workflows'
     ],
     technologies: ['MCP', 'Node.js', 'React', 'TypeScript', 'AI Agents', 'Enterprise Systems', 'REST APIs'],
+    links: {
+      live: 'https://facilis.ai',
+    },
   },
   {
     id: 'surf',
@@ -70,6 +73,9 @@ export const projects: Project[] = [
       'Enterprise-grade security and data privacy'
     ],
     technologies: ['Flutter', 'Dart', 'GPT-4', 'YOLOv8', 'Flask', 'Python', 'Supabase', 'PostgreSQL', 'Firebase', 'Codemagic', 'Vector Database', 'REST APIs'],
+    links: {
+      live: 'https://surfsocial.org',
+    },
   },
   {
     id: 'documap-ai',
@@ -93,6 +99,9 @@ export const projects: Project[] = [
       'Made legal document review accessible to non-specialists'
     ],
     technologies: ['GPT-4', 'LangChain', 'React', 'Python', 'NLP', 'Legal Tech'],
+    links: {
+      live: 'https://documap.ai',
+    },
   },
   {
     id: 'incorta-dashboards',
@@ -117,6 +126,9 @@ export const projects: Project[] = [
       'Comprehensive testing with Jest for code reliability'
     ],
     technologies: ['React', 'Node.js', 'TypeScript', 'JavaScript', 'Jest', 'REST APIs', 'JSON', 'Data Visualization', 'SDKs'],
+    links: {
+      live: 'https://incorta.com',
+    },
   },
   {
     id: 'closingthedivide',
@@ -143,6 +155,9 @@ export const projects: Project[] = [
       'Developed accessible mobile apps in Java'
     ],
     technologies: ['C++', 'Java', 'Mobile Development', 'Project Management', 'Supply Chain', 'Curriculum Development'],
+    links: {
+      live: 'https://closingthedivide.foundation',
+    },
   },
   {
     id: 'risk-factors-viz',
@@ -262,6 +277,9 @@ export const projects: Project[] = [
       'Hands-on experience with embedded systems at UC San Diego'
     ],
     technologies: ['C/C++', 'Embedded Systems', 'Control Systems', 'Sensor Fusion', 'Arduino', 'Motor Control', 'Robotics'],
+    links: {
+      live: 'https://nexusrobot.org',
+    },
   },
   {
     id: 'clippy-2',
