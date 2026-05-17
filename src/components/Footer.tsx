@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import { Linkedin, Twitter, Instagram, Github } from 'lucide-react'
-import { Container } from './Container'
 
 const socials = [
   { name: 'LinkedIn', href: 'https://linkedin.com/in/zkortam', icon: Linkedin },
@@ -11,19 +10,22 @@ const socials = [
 
 export function Footer() {
   return (
-    <Container className="pb-6">
-      <footer className="glass rounded-4xl px-8 py-9">
-        <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+    <footer className="hairline">
+      <div className="mx-auto w-full max-w-content px-6 py-14 sm:px-8">
+        <div className="flex flex-col gap-8 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <Link href="/" className="text-sm font-semibold tracking-tight">
+            <Link
+              href="/"
+              className="text-lg font-semibold tracking-tight transition-colors hover:text-accent"
+            >
               Zakaria Kortam
             </Link>
-            <p className="mt-1 text-sm text-foreground-subtle">
+            <p className="mt-1.5 text-sm text-foreground-subtle">
               AI Engineer · San Jose, California
             </p>
           </div>
 
-          <div className="flex items-center gap-5">
+          <div className="flex items-center gap-3">
             {socials.map((s) => (
               <a
                 key={s.name}
@@ -31,7 +33,7 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={s.name}
-                className="focus-ring rounded-full text-foreground-subtle transition-colors hover:text-foreground"
+                className="focus-ring flex h-10 w-10 items-center justify-center rounded-full border border-white/[0.07] text-foreground-subtle transition-all duration-300 hover:-translate-y-0.5 hover:border-accent/30 hover:text-accent"
               >
                 <s.icon className="h-[18px] w-[18px]" />
               </a>
@@ -39,10 +41,10 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-8 border-t border-white/8 pt-6 text-xs text-foreground-subtle">
-          © {new Date().getFullYear()} Zakaria Kortam
+        <div className="mt-10 border-t border-white/[0.06] pt-6 text-xs text-foreground-subtle">
+          © {new Date().getFullYear()} Zakaria Kortam — Built with Next.js
         </div>
-      </footer>
-    </Container>
+      </div>
+    </footer>
   )
 }

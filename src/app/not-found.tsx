@@ -1,34 +1,26 @@
 import Link from 'next/link'
-import { Container } from '@/components/Container'
 
 export default function NotFound() {
   return (
-    <main className="flex min-h-screen items-center pt-28">
-      <Container className="pb-24">
-        <section className="glass rounded-5xl px-8 py-20 text-center sm:px-14">
-          <p className="text-sm font-medium text-foreground-subtle">404</p>
-          <h1 className="mt-4 text-4xl font-semibold tracking-tight text-gradient sm:text-5xl">
-            Page not found
-          </h1>
-          <p className="mt-4 text-foreground-muted">
-            This page does not exist or has moved.
-          </p>
-          <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <Link
-              href="/"
-              className="focus-ring rounded-full bg-foreground px-7 py-3.5 text-sm font-medium text-background transition-transform duration-300 hover:scale-[1.03]"
-            >
-              Home
-            </Link>
-            <Link
-              href="/portfolio"
-              className="glass glass-hover focus-ring rounded-full px-7 py-3.5 text-sm font-medium"
-            >
-              View Work
-            </Link>
-          </div>
-        </section>
-      </Container>
+    <main className="relative flex min-h-[100svh] items-center justify-center overflow-hidden px-6 text-center">
+      <div className="pointer-events-none absolute left-1/2 top-1/2 h-[460px] w-[460px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/15 blur-[150px]" />
+      <div className="relative">
+        <p className="text-[clamp(5rem,18vw,11rem)] font-bold leading-none text-accent">
+          404
+        </p>
+        <h1 className="mt-2 text-headline text-gradient">Page not found</h1>
+        <p className="mt-4 text-foreground-muted">
+          This page does not exist or has moved.
+        </p>
+        <div className="mt-10 flex flex-wrap justify-center gap-3">
+          <Link href="/" className="btn-primary focus-ring">
+            Home
+          </Link>
+          <Link href="/portfolio" className="btn-secondary focus-ring">
+            View Work
+          </Link>
+        </div>
+      </div>
     </main>
   )
 }

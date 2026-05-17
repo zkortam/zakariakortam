@@ -1,14 +1,14 @@
 'use client'
 
 import Link from 'next/link'
-import { Container } from '@/components/Container'
+import { Section } from '@/components/Section'
 import { Reveal } from '@/components/Reveal'
 
 const experience = [
   {
     role: 'AI Engineer',
     org: 'Facilis',
-    when: 'Apr 2025 to Present',
+    when: 'Apr 2025 — Present',
     points: [
       'Build agentic AI tools for industrial enterprise using the Model Context Protocol',
       'Architect agent orchestration with React, TypeScript, and Node.js',
@@ -18,7 +18,7 @@ const experience = [
   {
     role: 'Product Development Intern',
     org: 'Incorta',
-    when: 'Jun 2024 to Mar 2025',
+    when: 'Jun 2024 — Mar 2025',
     points: [
       'Built full-stack visual components and interactive dashboards',
       'Contributed to AI Copilot features on an enterprise analytics platform',
@@ -28,7 +28,7 @@ const experience = [
   {
     role: 'Founder and Lead Engineer',
     org: 'Surf',
-    when: 'Aug 2022 to Mar 2025',
+    when: 'Aug 2022 — Mar 2025',
     points: [
       'Built a cross-platform social app with Flutter and Dart',
       'Integrated GPT-4 for language and YOLOv8 for vision',
@@ -41,141 +41,136 @@ const education = [
   {
     school: 'University of California, San Diego',
     detail: 'B.S. Electrical Engineering: Machine Learning and Controls',
-    when: '2024 to 2026',
+    when: '2024 — 2026',
   },
   {
     school: 'Evergreen Valley College',
     detail: 'Triple major: Computer Science, Mathematics, Physics. Magna Cum Laude.',
-    when: '2022 to 2024',
+    when: '2022 — 2024',
   },
 ]
 
-const skills = [
+const skills: [string, string][] = [
   ['AI and ML', 'Agentic AI, MCP, LLMs (GPT-4, Claude), LangChain, vector databases, computer vision'],
   ['Engineering', 'React, TypeScript, Node.js, Flutter, Dart, Python, system architecture'],
   ['Infrastructure', 'Supabase, PostgreSQL, Docker, CI/CD, cloud platforms'],
   ['Languages', 'English (native), Arabic (professional), French (working)'],
 ]
 
-function Panel({
-  title,
-  children,
-}: {
-  title: string
-  children: React.ReactNode
-}) {
-  return (
-    <Reveal>
-      <section className="glass rounded-5xl px-8 py-12 sm:px-14">
-        <h2 className="text-sm font-medium text-foreground-subtle">{title}</h2>
-        <div className="mt-10">{children}</div>
-      </section>
-    </Reveal>
-  )
-}
-
 export default function AboutPage() {
   return (
-    <main className="pt-28">
-      <Container className="space-y-6 pb-24">
-        <Reveal>
-          <section className="glass rounded-5xl px-8 py-16 sm:px-14">
-            <h1 className="text-4xl font-semibold tracking-tight text-gradient sm:text-5xl">
-              About
-            </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-foreground-muted text-pretty">
-              I am an AI engineer focused on building production systems across
-              machine learning, product engineering, and distributed systems.
-              Currently at Facilis and a senior in Electrical Engineering at UC
-              San Diego.
-            </p>
-          </section>
+    <main>
+      {/* Hero — full-bleed, asymmetric */}
+      <Section className="relative overflow-hidden pt-40 pb-24 sm:pt-48 sm:pb-32">
+        <div className="pointer-events-none absolute -right-32 top-10 h-[460px] w-[460px] rounded-full bg-accent/15 blur-[140px]" />
+        <Reveal className="relative">
+          <span className="badge">
+            <span className="badge-dot" />
+            About
+          </span>
+          <h1 className="mt-8 max-w-4xl text-display text-balance">
+            <span className="text-gradient">AI engineer </span>
+            <span className="text-accent">building</span>
+            <span className="text-gradient"> production systems.</span>
+          </h1>
+          <p className="mt-8 max-w-2xl text-lg leading-relaxed text-foreground-muted text-pretty sm:text-xl">
+            I work across machine learning, product engineering, and distributed
+            systems. Currently at Facilis and a senior in Electrical Engineering
+            at UC San Diego.
+          </p>
         </Reveal>
+      </Section>
 
-        <Panel title="Experience">
-          <div className="space-y-12">
+      {/* Experience — editorial timeline */}
+      <Section divider band className="py-24 sm:py-32">
+        <Reveal className="grid gap-x-16 gap-y-12 lg:grid-cols-[0.55fr_1.45fr]">
+          <p className="eyebrow lg:sticky lg:top-28 lg:self-start">
+            Experience
+          </p>
+          <div className="space-y-px overflow-hidden rounded-3xl border border-white/[0.07]">
             {experience.map((e) => (
-              <div
-                key={e.org}
-                className="grid gap-3 sm:grid-cols-[170px_1fr] sm:gap-8"
-              >
-                <div className="text-sm text-foreground-subtle">{e.when}</div>
-                <div>
-                  <h3 className="font-semibold">
+              <div key={e.org} className="bg-white/[0.015] p-8 sm:p-10">
+                <div className="flex flex-wrap items-baseline justify-between gap-2">
+                  <h3 className="text-xl font-semibold">
                     {e.role}{' '}
-                    <span className="text-foreground-muted">· {e.org}</span>
+                    <span className="text-accent">· {e.org}</span>
                   </h3>
-                  <ul className="mt-3 space-y-2">
-                    {e.points.map((p) => (
-                      <li
-                        key={p}
-                        className="flex gap-3 text-sm text-foreground-muted"
-                      >
-                        <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-foreground-subtle" />
-                        {p}
-                      </li>
-                    ))}
-                  </ul>
+                  <span className="text-sm text-foreground-subtle">
+                    {e.when}
+                  </span>
                 </div>
+                <ul className="mt-5 space-y-2.5">
+                  {e.points.map((p) => (
+                    <li
+                      key={p}
+                      className="flex gap-3 text-sm leading-relaxed text-foreground-muted"
+                    >
+                      <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-accent" />
+                      {p}
+                    </li>
+                  ))}
+                </ul>
               </div>
             ))}
           </div>
-        </Panel>
+        </Reveal>
+      </Section>
 
-        <Panel title="Education">
+      {/* Education */}
+      <Section divider className="py-24 sm:py-32">
+        <Reveal className="grid gap-x-16 gap-y-12 lg:grid-cols-[0.55fr_1.45fr]">
+          <p className="eyebrow">Education</p>
           <div className="space-y-10">
             {education.map((e) => (
-              <div
-                key={e.school}
-                className="grid gap-3 sm:grid-cols-[170px_1fr] sm:gap-8"
-              >
-                <div className="text-sm text-foreground-subtle">{e.when}</div>
-                <div>
-                  <h3 className="font-semibold">{e.school}</h3>
-                  <p className="mt-1 text-sm text-foreground-muted">
-                    {e.detail}
-                  </p>
+              <div key={e.school}>
+                <div className="flex flex-wrap items-baseline justify-between gap-2">
+                  <h3 className="text-xl font-semibold">{e.school}</h3>
+                  <span className="text-sm text-foreground-subtle">
+                    {e.when}
+                  </span>
                 </div>
+                <p className="mt-2 text-foreground-muted">{e.detail}</p>
               </div>
             ))}
           </div>
-        </Panel>
+        </Reveal>
+      </Section>
 
-        <Panel title="Skills">
-          <div className="space-y-8">
+      {/* Skills */}
+      <Section divider band className="py-24 sm:py-32">
+        <Reveal className="grid gap-x-16 gap-y-12 lg:grid-cols-[0.55fr_1.45fr]">
+          <p className="eyebrow">Skills</p>
+          <div className="grid gap-px overflow-hidden rounded-3xl border border-white/[0.07] sm:grid-cols-2">
             {skills.map(([title, body]) => (
-              <div
-                key={title}
-                className="grid gap-2 sm:grid-cols-[170px_1fr] sm:gap-8"
-              >
-                <div className="text-sm font-medium">{title}</div>
-                <p className="text-sm leading-relaxed text-foreground-muted">
+              <div key={title} className="bg-white/[0.015] p-8">
+                <h3 className="font-semibold text-accent">{title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-foreground-muted">
                   {body}
                 </p>
               </div>
             ))}
           </div>
-        </Panel>
-
-        <Reveal>
-          <section className="glass rounded-5xl px-8 py-12 text-center sm:px-14">
-            <div className="flex flex-wrap justify-center gap-3">
-              <Link
-                href="/portfolio"
-                className="focus-ring rounded-full bg-foreground px-7 py-3.5 text-sm font-medium text-background transition-transform duration-300 hover:scale-[1.03]"
-              >
-                View Work
-              </Link>
-              <Link
-                href="/contact"
-                className="glass glass-hover focus-ring rounded-full px-7 py-3.5 text-sm font-medium"
-              >
-                Get in Touch
-              </Link>
-            </div>
-          </section>
         </Reveal>
-      </Container>
+      </Section>
+
+      {/* CTA */}
+      <Section divider className="relative overflow-hidden py-32 sm:py-40">
+        <div className="pointer-events-none absolute left-1/2 top-1/2 h-[400px] w-[400px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/15 blur-[140px]" />
+        <Reveal className="relative text-center">
+          <h2 className="mx-auto max-w-3xl text-display text-balance">
+            <span className="text-gradient">Let&apos;s work </span>
+            <span className="text-accent">together.</span>
+          </h2>
+          <div className="mt-10 flex flex-wrap justify-center gap-3">
+            <Link href="/portfolio" className="btn-primary focus-ring">
+              View Work
+            </Link>
+            <Link href="/contact" className="btn-secondary focus-ring">
+              Get in Touch
+            </Link>
+          </div>
+        </Reveal>
+      </Section>
     </main>
   )
 }

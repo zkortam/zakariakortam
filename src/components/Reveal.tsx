@@ -3,9 +3,10 @@
 import { motion, type HTMLMotionProps } from 'framer-motion'
 import { type ReactNode } from 'react'
 
-const EASE = [0.4, 0, 0.2, 1] as const
+// Axis / KFK signature easing
+const EASE = [0.16, 1, 0.3, 1] as const
 
-/** One quiet fade-up. No blur, no bounce, no stagger soup. */
+/** Quiet fade-up on the Axis/KFK easing curve. */
 export function Reveal({
   children,
   delay = 0,
@@ -16,10 +17,10 @@ export function Reveal({
 }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 16 }}
+      initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-60px' }}
-      transition={{ duration: 0.6, delay, ease: EASE }}
+      transition={{ duration: 0.9, delay, ease: EASE }}
       {...rest}
     >
       {children}

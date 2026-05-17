@@ -4,14 +4,18 @@
 
 @layer base {
   :root {
-    --background: 8 9 12;        /* #08090C */
+    --background: 0 0 0;          /* pure black — Axis / KFK canvas */
 
-    --foreground: 240 241 244;
-    --foreground-muted: 158 161 169;
-    --foreground-subtle: 110 113 121;
+    --foreground: 255 255 255;
+    --foreground-muted: 161 161 170;   /* neutral-400 */
+    --foreground-subtle: 113 113 122;  /* neutral-500 */
+
+    /* Accent — blue (KortamForKongress) */
+    --accent: 59 130 246;        /* blue-500 #3b82f6 */
+    --accent-strong: 37 99 235;  /* blue-600 #2563eb */
 
     --line: 255 255 255;
-    --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   * {
@@ -30,21 +34,26 @@
     font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
     line-height: 1.6;
     letter-spacing: -0.012em;
+    overflow-x: hidden;
   }
 
-  /* One calm ambient field. No orbs, no stars. */
+  /* Ambient field — deep-blue blurred radials, the Axis/KFK signature */
   body::before {
     content: '';
     position: fixed;
     inset: 0;
     z-index: -1;
     background:
-      radial-gradient(58rem 46rem at 78% -8%, rgb(255 255 255 / 0.05), transparent 62%),
-      radial-gradient(50rem 44rem at 6% 104%, rgb(255 255 255 / 0.035), transparent 60%);
+      radial-gradient(60rem 48rem at 82% -10%, rgb(var(--accent) / 0.16), transparent 60%),
+      radial-gradient(52rem 46rem at 4% 108%, rgb(var(--accent) / 0.12), transparent 58%),
+      radial-gradient(40rem 40rem at 50% 50%, rgb(var(--accent) / 0.05), transparent 70%);
     pointer-events: none;
   }
 
-  ::selection { background: rgb(var(--foreground) / 0.16); }
+  ::selection {
+    background: rgb(var(--accent) / 0.3);
+    color: #fff;
+  }
 
   ::-webkit-scrollbar { width: 8px; }
   ::-webkit-scrollbar-track { background: transparent; }
@@ -52,11 +61,12 @@
     background: rgb(var(--line) / 0.1);
     border-radius: 999px;
   }
-  ::-webkit-scrollbar-thumb:hover { background: rgb(var(--line) / 0.2); }
+  ::-webkit-scrollbar-thumb:hover { background: rgb(var(--accent) / 0.4); }
 
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
       animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
       scroll-behavior: auto !important;
     }
@@ -66,54 +76,128 @@
 @layer components {
   /* Glass surface */
   .glass {
-    background: rgb(var(--line) / 0.045);
+    background: rgb(var(--line) / 0.035);
     backdrop-filter: blur(22px) saturate(170%);
     -webkit-backdrop-filter: blur(22px) saturate(170%);
     border: 1px solid rgb(var(--line) / 0.09);
     box-shadow:
-      inset 0 1px 0 rgb(var(--line) / 0.07),
-      0 22px 50px -28px rgb(0 0 0 / 0.65);
+      inset 0 1px 0 rgb(var(--line) / 0.06),
+      0 22px 50px -28px rgb(0 0 0 / 0.7);
   }
 
   /* Stronger glass for nav / floating chrome */
   .glass-nav {
-    background: rgb(var(--background) / 0.55);
+    background: rgb(var(--background) / 0.6);
     backdrop-filter: blur(24px) saturate(180%);
     -webkit-backdrop-filter: blur(24px) saturate(180%);
     border: 1px solid rgb(var(--line) / 0.09);
     box-shadow:
       inset 0 1px 0 rgb(var(--line) / 0.07),
-      0 18px 40px -26px rgb(0 0 0 / 0.7);
+      0 18px 40px -26px rgb(0 0 0 / 0.75);
   }
 
-  /* Interactive glass: gentle lift, brighter rim */
+  /* Interactive glass: gentle lift + blue rim/glow on hover (Axis card-hover-glow) */
   .glass-hover {
-    transition: transform 0.4s var(--ease), border-color 0.4s var(--ease),
-      background-color 0.4s var(--ease), box-shadow 0.4s var(--ease);
+    transition: transform 0.5s var(--ease), border-color 0.5s var(--ease),
+      background-color 0.5s var(--ease), box-shadow 0.5s var(--ease);
   }
   .glass-hover:hover {
-    transform: translateY(-3px);
-    border-color: rgb(var(--line) / 0.2);
-    background: rgb(var(--line) / 0.065);
+    transform: translateY(-4px);
+    border-color: rgb(var(--accent) / 0.35);
+    background: rgb(var(--line) / 0.055);
     box-shadow:
       inset 0 1px 0 rgb(var(--line) / 0.1),
-      0 30px 60px -30px rgb(0 0 0 / 0.75);
+      0 0 50px -10px rgb(var(--accent) / 0.25),
+      0 30px 60px -30px rgb(0 0 0 / 0.8);
+  }
+
+  /* Pulsing-dot badge with tracked label */
+  .badge {
+    @apply inline-flex items-center gap-2.5 rounded-full px-4 py-2 text-xs font-semibold uppercase;
+    letter-spacing: 0.2em;
+    color: rgb(var(--accent));
+    background: rgb(var(--accent) / 0.1);
+    border: 1px solid rgb(var(--accent) / 0.3);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+  .badge-dot {
+    @apply h-2 w-2 rounded-full;
+    background: rgb(var(--accent));
+    animation: pulse-dot 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  /* Eyebrow / section label */
+  .eyebrow {
+    @apply text-xs font-semibold uppercase;
+    letter-spacing: 0.2em;
+    color: rgb(var(--accent));
+  }
+
+  /* Buttons */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-7 py-3.5 text-sm font-semibold;
+    color: #fff;
+    background: rgb(var(--accent-strong));
+    transition: all 0.4s var(--ease);
+  }
+  .btn-primary:hover {
+    background: rgb(var(--accent));
+    transform: translateY(-2px);
+    box-shadow: 0 12px 34px -10px rgb(var(--accent) / 0.55);
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-7 py-3.5 text-sm font-medium;
+    color: rgb(var(--foreground));
+    background: rgb(var(--line) / 0.05);
+    border: 1px solid rgb(var(--line) / 0.1);
+    transition: all 0.4s var(--ease);
+  }
+  .btn-secondary:hover {
+    transform: translateY(-2px);
+    background: rgb(var(--line) / 0.09);
+    border-color: rgb(var(--accent) / 0.3);
   }
 
   .focus-ring:focus-visible {
-    outline: 2px solid rgb(var(--foreground) / 0.5);
+    outline: 2px solid rgb(var(--accent) / 0.6);
     outline-offset: 2px;
   }
 
+  /* Headline gradient — white fading to translucent */
   .text-gradient {
     background: linear-gradient(
       180deg,
       rgb(var(--foreground)) 0%,
-      rgb(var(--foreground) / 0.58) 100%
+      rgb(var(--foreground) / 0.62) 100%
     );
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+  }
+
+  /* Accent text */
+  .text-accent { color: rgb(var(--accent)); }
+
+  /* Hairline divider between full-bleed sections */
+  .hairline {
+    border-top: 1px solid rgb(var(--line) / 0.08);
+  }
+
+  /* Subtle tonal band to separate sections without boxing them */
+  .band {
+    background:
+      linear-gradient(180deg, rgb(var(--line) / 0.02), transparent 40%),
+      radial-gradient(60rem 40rem at 50% 0%, rgb(var(--accent) / 0.06), transparent 70%);
+  }
+
+  /* Big editorial link row */
+  .row-link {
+    transition: background-color 0.5s var(--ease), padding-left 0.5s var(--ease);
+  }
+  .row-link:hover {
+    background: rgb(var(--line) / 0.03);
   }
 }
 
@@ -121,3 +205,23 @@
   .text-balance { text-wrap: balance; }
   .text-pretty { text-wrap: pretty; }
 }
+
+/* ============================================
+   ANIMATION KEYFRAMES (Axis / KFK)
+   ============================================ */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.85); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+.animate-float { animation: float 6s ease-in-out infinite; }
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.75; }
+}
+.animate-glow-pulse { animation: glow-pulse 5s ease-in-out infinite; }

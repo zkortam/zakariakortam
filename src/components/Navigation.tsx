@@ -36,9 +36,9 @@ export function Navigation() {
               <Link
                 key={item.name}
                 href={item.href}
-                className={`focus-ring rounded-full px-4 py-2 text-sm transition-colors duration-300 ${
+                className={`focus-ring rounded-full px-4 py-2 text-sm font-medium transition-colors duration-300 ${
                   isActive(item.href)
-                    ? 'bg-white/8 text-foreground'
+                    ? 'bg-accent/15 text-accent'
                     : 'text-foreground-muted hover:text-foreground'
                 }`}
               >
@@ -79,9 +79,9 @@ export function Navigation() {
               <Link
                 key={item.name}
                 href={item.href}
-                className={`focus-ring rounded-2xl px-4 py-3 text-sm transition-colors ${
+                className={`focus-ring rounded-2xl px-4 py-3 text-sm font-medium transition-colors ${
                   isActive(item.href)
-                    ? 'bg-white/8 text-foreground'
+                    ? 'bg-accent/15 text-accent'
                     : 'text-foreground-muted'
                 }`}
               >

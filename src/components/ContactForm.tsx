@@ -11,7 +11,7 @@ interface FormData {
 type FormErrors = Partial<Record<keyof FormData, string>>
 
 const field =
-  'w-full rounded-2xl border bg-white/[0.03] px-4 py-3 text-sm outline-none transition-colors duration-200 placeholder:text-foreground-subtle focus:border-white/30'
+  'w-full rounded-2xl border bg-white/[0.03] px-4 py-3 text-sm outline-none transition-colors duration-200 placeholder:text-foreground-subtle focus:border-accent/60'
 
 export function ContactForm() {
   const [data, setData] = useState<FormData>({ name: '', email: '', message: '' })
@@ -128,7 +128,7 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={sending}
-        className="focus-ring rounded-full bg-foreground px-6 py-3 text-sm font-medium text-background transition-opacity hover:opacity-90 disabled:opacity-50"
+        className="btn-primary focus-ring disabled:opacity-50"
       >
         {sending ? 'Sending' : 'Send Message'}
       </button>

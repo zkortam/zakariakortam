@@ -36,34 +36,39 @@ export function ProjectCard({ project }: { project: Project }) {
   return (
     <Link
       href={`/portfolio/${project.id}`}
-      className="glass glass-hover focus-ring group flex flex-col rounded-4xl p-7"
+      className="focus-ring group relative flex min-h-[19rem] flex-col overflow-hidden rounded-4xl border border-white/[0.07] bg-white/[0.015] p-9 transition-all duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1.5 hover:border-accent/30 hover:bg-white/[0.03]"
     >
-      <div className="flex items-center justify-between">
-        <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/[0.05] text-foreground-muted">
-          <ProjectIcon id={project.id} />
+      {/* Accent wash that blooms on hover */}
+      <div className="pointer-events-none absolute -right-20 -top-24 h-64 w-64 rounded-full bg-accent/0 blur-[90px] transition-all duration-[700ms] group-hover:bg-accent/25" />
+
+      <div className="relative flex items-start justify-between">
+        <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-accent/20 bg-accent/[0.08] text-accent transition-all duration-500 group-hover:scale-105 group-hover:border-accent/40 group-hover:bg-accent/15">
+          <ProjectIcon id={project.id} className="h-6 w-6" />
         </div>
-        <ArrowUpRight className="h-4 w-4 text-foreground-subtle transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-foreground" />
+        <ArrowUpRight className="h-5 w-5 text-foreground-subtle transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent" />
       </div>
 
-      <div className="mt-6 text-xs font-medium uppercase tracking-wider text-foreground-subtle">
-        {project.category} · {project.year}
-      </div>
-      <h3 className="mt-2 text-lg font-semibold tracking-tight">
-        {project.title}
-      </h3>
-      <p className="mt-2.5 line-clamp-2 flex-1 text-sm leading-relaxed text-foreground-muted">
-        {project.description}
-      </p>
+      <div className="relative mt-auto pt-10">
+        <div className="text-xs font-semibold uppercase tracking-[0.18em] text-accent">
+          {project.category} · {project.year}
+        </div>
+        <h3 className="mt-3 text-2xl font-semibold tracking-tight">
+          {project.title}
+        </h3>
+        <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-foreground-muted">
+          {project.description}
+        </p>
 
-      <div className="mt-6 flex flex-wrap gap-2">
-        {project.tags.slice(0, 4).map((t) => (
-          <span
-            key={t}
-            className="rounded-full bg-white/5 px-3 py-1 text-xs text-foreground-subtle"
-          >
-            {t}
-          </span>
-        ))}
+        <div className="mt-6 flex flex-wrap gap-2">
+          {project.tags.slice(0, 3).map((t) => (
+            <span
+              key={t}
+              className="rounded-full border border-white/[0.06] bg-white/[0.03] px-3 py-1 text-xs text-foreground-subtle"
+            >
+              {t}
+            </span>
+          ))}
+        </div>
       </div>
     </Link>
   )
