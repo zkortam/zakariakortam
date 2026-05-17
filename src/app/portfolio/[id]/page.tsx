@@ -36,108 +36,116 @@ export default function ProjectDetailPage({
   ].filter(([, v]) => v) as [string, string][]
 
   return (
-    <main className="pt-16">
-      <Container>
-        <div className="py-12">
+    <main className="pt-28">
+      <Container className="space-y-6 pb-24">
+        <Reveal className="px-2">
           <Link
             href="/portfolio"
-            className="focus-ring group inline-flex items-center gap-2 rounded text-sm text-foreground-muted transition-colors hover:text-foreground"
+            className="focus-ring group inline-flex items-center gap-2 rounded-full text-sm text-foreground-muted transition-colors hover:text-foreground"
           >
-            <ArrowLeft className="h-4 w-4 transition-transform duration-200 group-hover:-translate-x-0.5" />
+            <ArrowLeft className="h-4 w-4 transition-transform duration-300 group-hover:-translate-x-0.5" />
             Work
           </Link>
-        </div>
+        </Reveal>
 
-        <header className="border-b border-white/8 pb-14">
-          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-white/[0.04] text-foreground-muted">
-            <ProjectIcon id={project.id} className="h-5 w-5" />
-          </div>
-          <div className="mt-6 text-xs font-medium uppercase tracking-wider text-foreground-subtle">
-            {project.category} · {project.year}
-          </div>
-          <h1 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
-            {project.title}
-          </h1>
-          <p className="mt-5 max-w-2xl text-lg leading-relaxed text-foreground-muted text-pretty">
-            {project.description}
-          </p>
-
-          <dl className="mt-10 grid grid-cols-2 gap-x-8 gap-y-6 sm:grid-cols-4">
-            {meta.map(([k, v]) => (
-              <div key={k}>
-                <dt className="text-xs uppercase tracking-wider text-foreground-subtle">
-                  {k}
-                </dt>
-                <dd className="mt-1.5 text-sm font-medium">{v}</dd>
-              </div>
-            ))}
-          </dl>
-        </header>
-
-        <div className="grid gap-16 py-14 lg:grid-cols-[1fr_280px]">
-          <div className="space-y-12">
-            {sections.map(([title, body]) => (
-              <Reveal key={title}>
-                <h2 className="text-xs font-medium uppercase tracking-wider text-foreground-subtle">
-                  {title}
-                </h2>
-                <p className="mt-4 leading-relaxed text-foreground-muted text-pretty">
-                  {body}
-                </p>
-              </Reveal>
-            ))}
-
-            {project.impact && project.impact.length > 0 && (
-              <Reveal>
-                <h2 className="text-xs font-medium uppercase tracking-wider text-foreground-subtle">
-                  Impact
-                </h2>
-                <ul className="mt-4 space-y-2.5">
-                  {project.impact.map((it) => (
-                    <li
-                      key={it}
-                      className="flex gap-3 text-foreground-muted"
-                    >
-                      <span className="mt-2.5 h-1 w-1 shrink-0 rounded-full bg-foreground-subtle" />
-                      {it}
-                    </li>
-                  ))}
-                </ul>
-              </Reveal>
-            )}
-          </div>
-
-          <aside className="space-y-8 lg:border-l lg:border-white/8 lg:pl-8">
-            <div>
-              <h2 className="text-xs font-medium uppercase tracking-wider text-foreground-subtle">
-                Technologies
-              </h2>
-              <ul className="mt-4 space-y-2 text-sm text-foreground-muted">
-                {project.technologies.map((t) => (
-                  <li key={t}>{t}</li>
-                ))}
-              </ul>
+        <Reveal>
+          <header className="glass rounded-5xl px-8 py-12 sm:px-14">
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/[0.05] text-foreground-muted">
+              <ProjectIcon id={project.id} className="h-5 w-5" />
             </div>
+            <div className="mt-7 text-xs font-medium uppercase tracking-wider text-foreground-subtle">
+              {project.category} · {project.year}
+            </div>
+            <h1 className="mt-3 text-3xl font-semibold tracking-tight text-gradient sm:text-5xl">
+              {project.title}
+            </h1>
+            <p className="mt-5 max-w-2xl text-lg leading-relaxed text-foreground-muted text-pretty">
+              {project.description}
+            </p>
 
-            {project.links?.live && (
-              <a
-                href={project.links.live}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="focus-ring group inline-flex items-center gap-1.5 rounded text-sm font-medium transition-colors hover:text-foreground-muted"
-              >
-                Visit live
-                <ArrowUpRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-              </a>
-            )}
-          </aside>
+            <dl className="mt-10 grid grid-cols-2 gap-x-8 gap-y-6 border-t border-white/8 pt-8 sm:grid-cols-4">
+              {meta.map(([k, v]) => (
+                <div key={k}>
+                  <dt className="text-xs uppercase tracking-wider text-foreground-subtle">
+                    {k}
+                  </dt>
+                  <dd className="mt-1.5 text-sm font-medium">{v}</dd>
+                </div>
+              ))}
+            </dl>
+          </header>
+        </Reveal>
+
+        <div className="grid gap-6 lg:grid-cols-[1fr_300px]">
+          <Reveal>
+            <div className="glass space-y-12 rounded-4xl px-8 py-10 sm:px-12">
+              {sections.map(([title, body]) => (
+                <div key={title}>
+                  <h2 className="text-xs font-medium uppercase tracking-wider text-foreground-subtle">
+                    {title}
+                  </h2>
+                  <p className="mt-4 leading-relaxed text-foreground-muted text-pretty">
+                    {body}
+                  </p>
+                </div>
+              ))}
+
+              {project.impact && project.impact.length > 0 && (
+                <div>
+                  <h2 className="text-xs font-medium uppercase tracking-wider text-foreground-subtle">
+                    Impact
+                  </h2>
+                  <ul className="mt-4 space-y-2.5">
+                    {project.impact.map((it) => (
+                      <li key={it} className="flex gap-3 text-foreground-muted">
+                        <span className="mt-2.5 h-1 w-1 shrink-0 rounded-full bg-foreground-subtle" />
+                        {it}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          </Reveal>
+
+          <Reveal delay={0.06}>
+            <aside className="glass space-y-8 rounded-4xl px-7 py-8">
+              <div>
+                <h2 className="text-xs font-medium uppercase tracking-wider text-foreground-subtle">
+                  Technologies
+                </h2>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {project.technologies.map((t) => (
+                    <span
+                      key={t}
+                      className="rounded-full bg-white/5 px-3 py-1 text-xs text-foreground-muted"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {project.links?.live && (
+                <a
+                  href={project.links.live}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="focus-ring group inline-flex items-center gap-1.5 rounded-full text-sm font-medium transition-colors hover:text-foreground-muted"
+                >
+                  Visit live
+                  <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </a>
+              )}
+            </aside>
+          </Reveal>
         </div>
 
-        <nav className="grid gap-px overflow-hidden rounded-2xl border border-white/8 sm:grid-cols-2">
+        <div className="grid gap-5 pt-4 sm:grid-cols-2">
           {prev ? (
             <Link
               href={`/portfolio/${prev.id}`}
-              className="card-hover bg-white/[0.02] p-6 transition-colors"
+              className="glass glass-hover focus-ring rounded-4xl p-7"
             >
               <div className="text-xs uppercase tracking-wider text-foreground-subtle">
                 Previous
@@ -145,12 +153,12 @@ export default function ProjectDetailPage({
               <div className="mt-2 font-medium">{prev.title}</div>
             </Link>
           ) : (
-            <div />
+            <div className="hidden sm:block" />
           )}
           {next && (
             <Link
               href={`/portfolio/${next.id}`}
-              className="card-hover bg-white/[0.02] p-6 text-right transition-colors"
+              className="glass glass-hover focus-ring rounded-4xl p-7 sm:text-right"
             >
               <div className="text-xs uppercase tracking-wider text-foreground-subtle">
                 Next
@@ -158,9 +166,7 @@ export default function ProjectDetailPage({
               <div className="mt-2 font-medium">{next.title}</div>
             </Link>
           )}
-        </nav>
-
-        <div className="h-20" />
+        </div>
       </Container>
     </main>
   )

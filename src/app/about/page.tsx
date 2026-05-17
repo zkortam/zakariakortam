@@ -57,13 +57,30 @@ const skills = [
   ['Languages', 'English (native), Arabic (professional), French (working)'],
 ]
 
+function Panel({
+  title,
+  children,
+}: {
+  title: string
+  children: React.ReactNode
+}) {
+  return (
+    <Reveal>
+      <section className="glass rounded-5xl px-8 py-12 sm:px-14">
+        <h2 className="text-sm font-medium text-foreground-subtle">{title}</h2>
+        <div className="mt-10">{children}</div>
+      </section>
+    </Reveal>
+  )
+}
+
 export default function AboutPage() {
   return (
-    <main className="pt-16">
-      <Container>
-        <section className="border-b border-white/8 py-20">
-          <Reveal>
-            <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+    <main className="pt-28">
+      <Container className="space-y-6 pb-24">
+        <Reveal>
+          <section className="glass rounded-5xl px-8 py-16 sm:px-14">
+            <h1 className="text-4xl font-semibold tracking-tight text-gradient sm:text-5xl">
               About
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-relaxed text-foreground-muted text-pretty">
@@ -72,94 +89,92 @@ export default function AboutPage() {
               Currently at Facilis and a senior in Electrical Engineering at UC
               San Diego.
             </p>
-          </Reveal>
-        </section>
+          </section>
+        </Reveal>
 
-        <section className="border-b border-white/8 py-16">
-          <h2 className="text-sm font-medium text-foreground-subtle">
-            Experience
-          </h2>
-          <div className="mt-10 space-y-12">
-            {experience.map((e, i) => (
-              <Reveal key={e.org} delay={i * 0.04}>
-                <div className="grid gap-3 sm:grid-cols-[170px_1fr] sm:gap-8">
-                  <div className="text-sm text-foreground-subtle">{e.when}</div>
-                  <div>
-                    <h3 className="font-semibold">
-                      {e.role}{' '}
-                      <span className="text-foreground-muted">· {e.org}</span>
-                    </h3>
-                    <ul className="mt-3 space-y-2">
-                      {e.points.map((p) => (
-                        <li
-                          key={p}
-                          className="flex gap-3 text-sm text-foreground-muted"
-                        >
-                          <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-foreground-subtle" />
-                          {p}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+        <Panel title="Experience">
+          <div className="space-y-12">
+            {experience.map((e) => (
+              <div
+                key={e.org}
+                className="grid gap-3 sm:grid-cols-[170px_1fr] sm:gap-8"
+              >
+                <div className="text-sm text-foreground-subtle">{e.when}</div>
+                <div>
+                  <h3 className="font-semibold">
+                    {e.role}{' '}
+                    <span className="text-foreground-muted">· {e.org}</span>
+                  </h3>
+                  <ul className="mt-3 space-y-2">
+                    {e.points.map((p) => (
+                      <li
+                        key={p}
+                        className="flex gap-3 text-sm text-foreground-muted"
+                      >
+                        <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-foreground-subtle" />
+                        {p}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-              </Reveal>
+              </div>
             ))}
           </div>
-        </section>
+        </Panel>
 
-        <section className="border-b border-white/8 py-16">
-          <h2 className="text-sm font-medium text-foreground-subtle">
-            Education
-          </h2>
-          <div className="mt-10 space-y-10">
-            {education.map((e, i) => (
-              <Reveal key={e.school} delay={i * 0.04}>
-                <div className="grid gap-3 sm:grid-cols-[170px_1fr] sm:gap-8">
-                  <div className="text-sm text-foreground-subtle">{e.when}</div>
-                  <div>
-                    <h3 className="font-semibold">{e.school}</h3>
-                    <p className="mt-1 text-sm text-foreground-muted">
-                      {e.detail}
-                    </p>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </section>
-
-        <section className="border-b border-white/8 py-16">
-          <h2 className="text-sm font-medium text-foreground-subtle">Skills</h2>
-          <div className="mt-10 space-y-8">
-            {skills.map(([title, body], i) => (
-              <Reveal key={title} delay={i * 0.04}>
-                <div className="grid gap-2 sm:grid-cols-[170px_1fr] sm:gap-8">
-                  <div className="text-sm font-medium">{title}</div>
-                  <p className="text-sm leading-relaxed text-foreground-muted">
-                    {body}
+        <Panel title="Education">
+          <div className="space-y-10">
+            {education.map((e) => (
+              <div
+                key={e.school}
+                className="grid gap-3 sm:grid-cols-[170px_1fr] sm:gap-8"
+              >
+                <div className="text-sm text-foreground-subtle">{e.when}</div>
+                <div>
+                  <h3 className="font-semibold">{e.school}</h3>
+                  <p className="mt-1 text-sm text-foreground-muted">
+                    {e.detail}
                   </p>
                 </div>
-              </Reveal>
+              </div>
             ))}
           </div>
-        </section>
+        </Panel>
 
-        <section className="py-20">
-          <div className="flex flex-wrap gap-3">
-            <Link
-              href="/portfolio"
-              className="focus-ring rounded-full bg-foreground px-6 py-3 text-sm font-medium text-background transition-opacity hover:opacity-90"
-            >
-              View Work
-            </Link>
-            <Link
-              href="/contact"
-              className="card card-hover focus-ring rounded-full px-6 py-3 text-sm font-medium"
-            >
-              Get in Touch
-            </Link>
+        <Panel title="Skills">
+          <div className="space-y-8">
+            {skills.map(([title, body]) => (
+              <div
+                key={title}
+                className="grid gap-2 sm:grid-cols-[170px_1fr] sm:gap-8"
+              >
+                <div className="text-sm font-medium">{title}</div>
+                <p className="text-sm leading-relaxed text-foreground-muted">
+                  {body}
+                </p>
+              </div>
+            ))}
           </div>
-        </section>
+        </Panel>
+
+        <Reveal>
+          <section className="glass rounded-5xl px-8 py-12 text-center sm:px-14">
+            <div className="flex flex-wrap justify-center gap-3">
+              <Link
+                href="/portfolio"
+                className="focus-ring rounded-full bg-foreground px-7 py-3.5 text-sm font-medium text-background transition-transform duration-300 hover:scale-[1.03]"
+              >
+                View Work
+              </Link>
+              <Link
+                href="/contact"
+                className="glass glass-hover focus-ring rounded-full px-7 py-3.5 text-sm font-medium"
+              >
+                Get in Touch
+              </Link>
+            </div>
+          </section>
+        </Reveal>
       </Container>
     </main>
   )

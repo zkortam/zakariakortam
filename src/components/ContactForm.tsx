@@ -11,7 +11,7 @@ interface FormData {
 type FormErrors = Partial<Record<keyof FormData, string>>
 
 const field =
-  'w-full rounded-xl border bg-white/[0.02] px-4 py-3 text-sm outline-none transition-colors duration-200 placeholder:text-foreground-subtle focus:border-white/25'
+  'w-full rounded-2xl border bg-white/[0.03] px-4 py-3 text-sm outline-none transition-colors duration-200 placeholder:text-foreground-subtle focus:border-white/30'
 
 export function ContactForm() {
   const [data, setData] = useState<FormData>({ name: '', email: '', message: '' })
@@ -59,7 +59,7 @@ export function ContactForm() {
 
   if (sent) {
     return (
-      <div className="flex items-center gap-3 rounded-xl border border-white/8 bg-white/[0.02] p-6 text-sm">
+      <div className="flex items-center gap-3 rounded-2xl border border-white/8 bg-white/[0.03] p-6 text-sm">
         <Check className="h-5 w-5 shrink-0" />
         <span className="text-foreground-muted">
           Your mail client should have opened. I will get back to you shortly.

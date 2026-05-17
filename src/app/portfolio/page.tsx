@@ -13,44 +13,44 @@ export default function PortfolioPage() {
     active === 'All' ? projects : projects.filter((p) => p.category === active)
 
   return (
-    <main className="pt-16">
-      <Container>
-        <section className="border-b border-white/8 py-20">
-          <Reveal>
-            <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+    <main className="pt-28">
+      <Container className="space-y-6 pb-24">
+        <Reveal>
+          <section className="glass rounded-5xl px-8 py-16 sm:px-14">
+            <h1 className="text-4xl font-semibold tracking-tight text-gradient sm:text-5xl">
               Work
             </h1>
-            <p className="mt-4 max-w-xl text-foreground-muted">
+            <p className="mt-5 max-w-xl text-lg text-foreground-muted">
               Shipped products, research, and the systems behind them.
             </p>
-          </Reveal>
-        </section>
+          </section>
+        </Reveal>
 
-        <section className="py-12">
-          <div className="flex flex-wrap gap-x-6 gap-y-2 border-b border-white/8 pb-6">
+        <Reveal>
+          <div className="glass flex flex-wrap gap-1.5 rounded-full p-1.5">
             {categories.map((c) => (
               <button
                 key={c}
                 onClick={() => setActive(c)}
-                className={`focus-ring rounded text-sm transition-colors duration-200 ${
+                className={`focus-ring rounded-full px-4 py-2 text-sm transition-colors duration-300 ${
                   active === c
-                    ? 'text-foreground'
-                    : 'text-foreground-subtle hover:text-foreground-muted'
+                    ? 'bg-white/10 text-foreground'
+                    : 'text-foreground-muted hover:text-foreground'
                 }`}
               >
                 {c}
               </button>
             ))}
           </div>
+        </Reveal>
 
-          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {filtered.map((p, i) => (
-              <Reveal key={p.id} delay={(i % 3) * 0.05}>
-                <ProjectCard project={p} />
-              </Reveal>
-            ))}
-          </div>
-        </section>
+        <div className="grid gap-5 pt-4 sm:grid-cols-2 lg:grid-cols-3">
+          {filtered.map((p, i) => (
+            <Reveal key={p.id} delay={(i % 3) * 0.05}>
+              <ProjectCard project={p} />
+            </Reveal>
+          ))}
+        </div>
       </Container>
     </main>
   )

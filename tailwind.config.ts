@@ -22,9 +22,11 @@ const config: Config = {
         content: "64rem", // 1024px — the one width everything aligns to
       },
       borderRadius: {
-        xl: "0.75rem",
-        "2xl": "1rem",
-        "3xl": "1.25rem",
+        xl: "0.875rem",
+        "2xl": "1.25rem",
+        "3xl": "1.75rem",
+        "4xl": "2.25rem",
+        "5xl": "2.75rem",
       },
     },
   },

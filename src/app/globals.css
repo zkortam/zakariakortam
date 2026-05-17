@@ -4,16 +4,14 @@
 
 @layer base {
   :root {
-    --background: 9 10 12;        /* #090A0C */
-    --surface: 16 18 21;         /* #101215 */
+    --background: 8 9 12;        /* #08090C */
 
-    --foreground: 237 238 240;   /* #EDEEF0 */
-    --foreground-muted: 153 156 164;
-    --foreground-subtle: 107 110 118;
+    --foreground: 240 241 244;
+    --foreground-muted: 158 161 169;
+    --foreground-subtle: 110 113 121;
 
-    --line: 255 255 255;         /* hairlines via low alpha */
-
-    --ease: cubic-bezier(0.4, 0, 0.2, 1);
+    --line: 255 255 255;
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   * {
@@ -31,12 +29,22 @@
     color: rgb(var(--foreground));
     font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
     line-height: 1.6;
-    letter-spacing: -0.011em;
+    letter-spacing: -0.012em;
   }
 
-  ::selection {
-    background: rgb(var(--foreground) / 0.16);
+  /* One calm ambient field. No orbs, no stars. */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background:
+      radial-gradient(58rem 46rem at 78% -8%, rgb(255 255 255 / 0.05), transparent 62%),
+      radial-gradient(50rem 44rem at 6% 104%, rgb(255 255 255 / 0.035), transparent 60%);
+    pointer-events: none;
   }
+
+  ::selection { background: rgb(var(--foreground) / 0.16); }
 
   ::-webkit-scrollbar { width: 8px; }
   ::-webkit-scrollbar-track { background: transparent; }
@@ -44,7 +52,7 @@
     background: rgb(var(--line) / 0.1);
     border-radius: 999px;
   }
-  ::-webkit-scrollbar-thumb:hover { background: rgb(var(--line) / 0.18); }
+  ::-webkit-scrollbar-thumb:hover { background: rgb(var(--line) / 0.2); }
 
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
@@ -56,21 +64,56 @@
 }
 
 @layer components {
-  /* The single card surface used everywhere */
-  .card {
-    background: rgb(var(--line) / 0.02);
-    border: 1px solid rgb(var(--line) / 0.08);
-    transition: border-color 0.25s var(--ease), background-color 0.25s var(--ease);
+  /* Glass surface */
+  .glass {
+    background: rgb(var(--line) / 0.045);
+    backdrop-filter: blur(22px) saturate(170%);
+    -webkit-backdrop-filter: blur(22px) saturate(170%);
+    border: 1px solid rgb(var(--line) / 0.09);
+    box-shadow:
+      inset 0 1px 0 rgb(var(--line) / 0.07),
+      0 22px 50px -28px rgb(0 0 0 / 0.65);
   }
-  a.card:hover,
-  .card-hover:hover {
-    border-color: rgb(var(--line) / 0.18);
-    background: rgb(var(--line) / 0.04);
+
+  /* Stronger glass for nav / floating chrome */
+  .glass-nav {
+    background: rgb(var(--background) / 0.55);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid rgb(var(--line) / 0.09);
+    box-shadow:
+      inset 0 1px 0 rgb(var(--line) / 0.07),
+      0 18px 40px -26px rgb(0 0 0 / 0.7);
+  }
+
+  /* Interactive glass: gentle lift, brighter rim */
+  .glass-hover {
+    transition: transform 0.4s var(--ease), border-color 0.4s var(--ease),
+      background-color 0.4s var(--ease), box-shadow 0.4s var(--ease);
+  }
+  .glass-hover:hover {
+    transform: translateY(-3px);
+    border-color: rgb(var(--line) / 0.2);
+    background: rgb(var(--line) / 0.065);
+    box-shadow:
+      inset 0 1px 0 rgb(var(--line) / 0.1),
+      0 30px 60px -30px rgb(0 0 0 / 0.75);
   }
 
   .focus-ring:focus-visible {
     outline: 2px solid rgb(var(--foreground) / 0.5);
     outline-offset: 2px;
+  }
+
+  .text-gradient {
+    background: linear-gradient(
+      180deg,
+      rgb(var(--foreground)) 0%,
+      rgb(var(--foreground) / 0.58) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
 }
 

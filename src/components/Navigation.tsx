@@ -13,15 +13,7 @@ const navItems = [
 
 export function Navigation() {
   const pathname = usePathname()
-  const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8)
-    onScroll()
-    window.addEventListener('scroll', onScroll)
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
 
   useEffect(() => setOpen(false), [pathname])
 
@@ -29,30 +21,24 @@ export function Navigation() {
     href === '/' ? pathname === '/' : pathname.startsWith(href)
 
   return (
-    <header
-      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
-        scrolled
-          ? 'border-b border-white/8 bg-background/80 backdrop-blur-xl'
-          : 'border-b border-transparent'
-      }`}
-    >
+    <header className="fixed inset-x-0 top-4 z-50">
       <Container>
-        <div className="flex h-16 items-center justify-between">
+        <div className="glass-nav flex h-14 items-center justify-between rounded-full pl-6 pr-3">
           <Link
             href="/"
-            className="focus-ring rounded text-sm font-semibold tracking-tight"
+            className="focus-ring rounded-full text-sm font-semibold tracking-tight"
           >
             Zakaria Kortam
           </Link>
 
-          <nav className="hidden items-center gap-8 sm:flex">
+          <nav className="hidden items-center gap-1 sm:flex">
             {navItems.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
-                className={`focus-ring rounded text-sm transition-colors duration-200 ${
+                className={`focus-ring rounded-full px-4 py-2 text-sm transition-colors duration-300 ${
                   isActive(item.href)
-                    ? 'text-foreground'
+                    ? 'bg-white/8 text-foreground'
                     : 'text-foreground-muted hover:text-foreground'
                 }`}
               >
@@ -63,7 +49,7 @@ export function Navigation() {
 
           <button
             onClick={() => setOpen((v) => !v)}
-            className="focus-ring -mr-2 flex h-9 w-9 items-center justify-center rounded sm:hidden"
+            className="focus-ring flex h-10 w-10 items-center justify-center rounded-full sm:hidden"
             aria-label="Menu"
             aria-expanded={open}
           >
@@ -88,14 +74,14 @@ export function Navigation() {
         </div>
 
         {open && (
-          <nav className="flex flex-col gap-1 border-t border-white/8 py-3 sm:hidden">
+          <nav className="glass mt-3 flex flex-col gap-1 rounded-3xl p-3 sm:hidden">
             {navItems.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
-                className={`focus-ring rounded-lg px-3 py-2.5 text-sm transition-colors ${
+                className={`focus-ring rounded-2xl px-4 py-3 text-sm transition-colors ${
                   isActive(item.href)
-                    ? 'bg-white/5 text-foreground'
+                    ? 'bg-white/8 text-foreground'
                     : 'text-foreground-muted'
                 }`}
               >

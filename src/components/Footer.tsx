@@ -11,9 +11,9 @@ const socials = [
 
 export function Footer() {
   return (
-    <footer className="border-t border-white/8">
-      <Container>
-        <div className="flex flex-col gap-6 py-10 sm:flex-row sm:items-center sm:justify-between">
+    <Container className="pb-6">
+      <footer className="glass rounded-4xl px-8 py-9">
+        <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <Link href="/" className="text-sm font-semibold tracking-tight">
               Zakaria Kortam
@@ -31,7 +31,7 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={s.name}
-                className="focus-ring rounded text-foreground-subtle transition-colors hover:text-foreground"
+                className="focus-ring rounded-full text-foreground-subtle transition-colors hover:text-foreground"
               >
                 <s.icon className="h-[18px] w-[18px]" />
               </a>
@@ -39,10 +39,10 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-white/8 py-6 text-xs text-foreground-subtle">
+        <div className="mt-8 border-t border-white/8 pt-6 text-xs text-foreground-subtle">
           © {new Date().getFullYear()} Zakaria Kortam
         </div>
-      </Container>
-    </footer>
+      </footer>
+    </Container>
   )
 }
