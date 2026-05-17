@@ -1,28 +1,32 @@
 import Link from 'next/link'
+import { Container } from '@/components/Container'
 
 export default function NotFound() {
   return (
-    <main className="flex min-h-[100svh] items-center justify-center px-6">
-      <div className="mx-auto max-w-md text-center">
-        <div className="text-display text-gradient">404</div>
+    <main className="flex min-h-screen items-center pt-16">
+      <Container>
+        <p className="text-sm font-medium text-foreground-subtle">404</p>
+        <h1 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">
+          Page not found
+        </h1>
         <p className="mt-4 text-foreground-muted">
           This page does not exist or has moved.
         </p>
-        <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
+        <div className="mt-8 flex flex-wrap gap-3">
           <Link
             href="/"
-            className="focus-ring rounded-full bg-foreground px-7 py-3.5 text-sm font-semibold text-background transition-transform duration-base hover:scale-[1.03]"
+            className="focus-ring rounded-full bg-foreground px-6 py-3 text-sm font-medium text-background transition-opacity hover:opacity-90"
           >
-            Back Home
+            Home
           </Link>
           <Link
             href="/portfolio"
-            className="glass focus-ring rounded-full px-7 py-3.5 text-sm font-semibold transition-all duration-base hover:scale-[1.03]"
+            className="card card-hover focus-ring rounded-full px-6 py-3 text-sm font-medium"
           >
             View Work
           </Link>
         </div>
-      </div>
+      </Container>
     </main>
   )
 }

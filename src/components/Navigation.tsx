@@ -3,109 +3,108 @@
 import { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
-import { motion, AnimatePresence } from 'framer-motion'
+import { Container } from './Container'
 
 const navItems = [
-  { name: 'Home', href: '/' },
-  { name: 'About', href: '/about' },
   { name: 'Work', href: '/portfolio' },
+  { name: 'About', href: '/about' },
   { name: 'Contact', href: '/contact' },
 ]
 
 export function Navigation() {
   const pathname = usePathname()
+  const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8)
+    onScroll()
+    window.addEventListener('scroll', onScroll)
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   useEffect(() => setOpen(false), [pathname])
 
-  return (
-    <header className="fixed inset-x-0 top-4 z-50 px-4">
-      <div className="mx-auto flex max-w-3xl items-center justify-between gap-3">
-        <Link
-          href="/"
-          className="glass focus-ring flex h-12 items-center rounded-full px-5 text-sm font-semibold tracking-tight transition-colors duration-base hover:text-foreground"
-        >
-          ZK
-        </Link>
+  const isActive = (href: string) =>
+    href === '/' ? pathname === '/' : pathname.startsWith(href)
 
-        {/* Desktop pill */}
-        <nav className="glass hidden h-12 items-center rounded-full p-1 md:flex">
-          {navItems.map((item) => {
-            const active = pathname === item.href
-            return (
+  return (
+    <header
+      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
+        scrolled
+          ? 'border-b border-white/8 bg-background/80 backdrop-blur-xl'
+          : 'border-b border-transparent'
+      }`}
+    >
+      <Container>
+        <div className="flex h-16 items-center justify-between">
+          <Link
+            href="/"
+            className="focus-ring rounded text-sm font-semibold tracking-tight"
+          >
+            Zakaria Kortam
+          </Link>
+
+          <nav className="hidden items-center gap-8 sm:flex">
+            {navItems.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
-                className="focus-ring relative rounded-full px-4 py-2 text-sm font-medium"
+                className={`focus-ring rounded text-sm transition-colors duration-200 ${
+                  isActive(item.href)
+                    ? 'text-foreground'
+                    : 'text-foreground-muted hover:text-foreground'
+                }`}
               >
-                <span
-                  className={`relative z-10 transition-colors duration-base ${
-                    active ? 'text-background' : 'text-foreground-muted hover:text-foreground'
-                  }`}
-                >
-                  {item.name}
-                </span>
-                {active && (
-                  <motion.span
-                    layoutId="nav-pill"
-                    className="absolute inset-0 rounded-full bg-foreground"
-                    transition={{ type: 'spring', stiffness: 380, damping: 32 }}
-                  />
-                )}
+                {item.name}
               </Link>
-            )
-          })}
-        </nav>
+            ))}
+          </nav>
 
-        {/* Mobile toggle */}
-        <button
-          onClick={() => setOpen((v) => !v)}
-          className="glass focus-ring flex h-12 w-12 items-center justify-center rounded-full md:hidden"
-          aria-label="Menu"
-        >
-          <div className="relative h-3.5 w-5">
-            <motion.span
-              className="absolute left-0 h-px w-5 bg-foreground"
-              animate={open ? { top: 6, rotate: 45 } : { top: 2, rotate: 0 }}
-              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            />
-            <motion.span
-              className="absolute left-0 bottom-0 h-px w-5 bg-foreground"
-              animate={open ? { bottom: 6, rotate: -45 } : { bottom: 2, rotate: 0 }}
-              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            />
-          </div>
-        </button>
-      </div>
-
-      <AnimatePresence>
-        {open && (
-          <motion.nav
-            initial={{ opacity: 0, y: -12, filter: 'blur(8px)' }}
-            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-            exit={{ opacity: 0, y: -12, filter: 'blur(8px)' }}
-            transition={{ duration: 0.34, ease: [0.22, 1, 0.36, 1] }}
-            className="glass-elevated mx-auto mt-3 max-w-3xl space-y-1 rounded-3xl p-3 md:hidden"
+          <button
+            onClick={() => setOpen((v) => !v)}
+            className="focus-ring -mr-2 flex h-9 w-9 items-center justify-center rounded sm:hidden"
+            aria-label="Menu"
+            aria-expanded={open}
           >
-            {navItems.map((item) => {
-              const active = pathname === item.href
-              return (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className={`focus-ring block rounded-2xl px-4 py-3 text-sm font-medium transition-colors duration-base ${
-                    active
-                      ? 'bg-foreground text-background'
-                      : 'text-foreground-muted hover:bg-white/5 hover:text-foreground'
-                  }`}
-                >
-                  {item.name}
-                </Link>
-              )
-            })}
-          </motion.nav>
+            <div className="space-y-[5px]">
+              <span
+                className={`block h-px w-5 bg-foreground transition-transform duration-300 ${
+                  open ? 'translate-y-[6px] rotate-45' : ''
+                }`}
+              />
+              <span
+                className={`block h-px w-5 bg-foreground transition-opacity duration-200 ${
+                  open ? 'opacity-0' : ''
+                }`}
+              />
+              <span
+                className={`block h-px w-5 bg-foreground transition-transform duration-300 ${
+                  open ? '-translate-y-[6px] -rotate-45' : ''
+                }`}
+              />
+            </div>
+          </button>
+        </div>
+
+        {open && (
+          <nav className="flex flex-col gap-1 border-t border-white/8 py-3 sm:hidden">
+            {navItems.map((item) => (
+              <Link
+                key={item.name}
+                href={item.href}
+                className={`focus-ring rounded-lg px-3 py-2.5 text-sm transition-colors ${
+                  isActive(item.href)
+                    ? 'bg-white/5 text-foreground'
+                    : 'text-foreground-muted'
+                }`}
+              >
+                {item.name}
+              </Link>
+            ))}
+          </nav>
         )}
-      </AnimatePresence>
+      </Container>
     </header>
   )
 }

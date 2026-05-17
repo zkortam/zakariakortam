@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import { motion } from 'framer-motion'
 import { Check } from 'lucide-react'
 
 interface FormData {
@@ -11,8 +10,8 @@ interface FormData {
 }
 type FormErrors = Partial<Record<keyof FormData, string>>
 
-const fieldClass =
-  'w-full rounded-2xl border bg-white/[0.02] px-5 py-3.5 text-sm text-foreground placeholder:text-foreground-subtle outline-none transition-colors duration-base focus:border-accent/60'
+const field =
+  'w-full rounded-xl border bg-white/[0.02] px-4 py-3 text-sm outline-none transition-colors duration-200 placeholder:text-foreground-subtle focus:border-white/25'
 
 export function ContactForm() {
   const [data, setData] = useState<FormData>({ name: '', email: '', message: '' })
@@ -27,8 +26,7 @@ export function ContactForm() {
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email))
       e.email = 'Enter a valid email'
     if (!data.message.trim()) e.message = 'Required'
-    else if (data.message.trim().length < 10)
-      e.message = 'A little more detail, please'
+    else if (data.message.trim().length < 10) e.message = 'A little more detail'
     setErrors(e)
     return Object.keys(e).length === 0
   }
@@ -61,28 +59,20 @@ export function ContactForm() {
 
   if (sent) {
     return (
-      <motion.div
-        initial={{ opacity: 0, scale: 0.96 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-        className="flex flex-col items-center gap-4 py-12 text-center"
-      >
-        <div className="flex h-14 w-14 items-center justify-center rounded-full bg-accent/15">
-          <Check className="h-6 w-6 text-accent" />
-        </div>
-        <h3 className="text-title">Message ready to send.</h3>
-        <p className="max-w-sm text-sm text-foreground-muted">
-          Your mail client should have opened. I'll get back to you shortly.
-        </p>
-      </motion.div>
+      <div className="flex items-center gap-3 rounded-xl border border-white/8 bg-white/[0.02] p-6 text-sm">
+        <Check className="h-5 w-5 shrink-0" />
+        <span className="text-foreground-muted">
+          Your mail client should have opened. I will get back to you shortly.
+        </span>
+      </div>
     )
   }
 
   const border = (k: keyof FormData) =>
-    errors[k] ? 'border-red-400/60' : 'border-white/8 hover:border-white/15'
+    errors[k] ? 'border-red-400/50' : 'border-white/10'
 
   return (
-    <form onSubmit={submit} className="space-y-5">
+    <form onSubmit={submit} className="max-w-xl space-y-5">
       <div className="grid gap-5 sm:grid-cols-2">
         <div className="space-y-2">
           <label htmlFor="name" className="text-sm font-medium">
@@ -94,7 +84,7 @@ export function ContactForm() {
             value={data.name}
             onChange={change}
             placeholder="Your name"
-            className={`${fieldClass} ${border('name')}`}
+            className={`${field} ${border('name')}`}
           />
           {errors.name && (
             <p className="text-xs text-red-400">{errors.name}</p>
@@ -111,7 +101,7 @@ export function ContactForm() {
             value={data.email}
             onChange={change}
             placeholder="you@example.com"
-            className={`${fieldClass} ${border('email')}`}
+            className={`${field} ${border('email')}`}
           />
           {errors.email && (
             <p className="text-xs text-red-400">{errors.email}</p>
@@ -125,11 +115,11 @@ export function ContactForm() {
         <textarea
           id="message"
           name="message"
-          rows={5}
+          rows={6}
           value={data.message}
           onChange={change}
           placeholder="What are you working on?"
-          className={`${fieldClass} resize-none ${border('message')}`}
+          className={`${field} resize-none ${border('message')}`}
         />
         {errors.message && (
           <p className="text-xs text-red-400">{errors.message}</p>
@@ -138,9 +128,9 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={sending}
-        className="focus-ring w-full rounded-full bg-foreground py-4 text-sm font-semibold text-background transition-transform duration-base hover:scale-[1.02] disabled:opacity-50"
+        className="focus-ring rounded-full bg-foreground px-6 py-3 text-sm font-medium text-background transition-opacity hover:opacity-90 disabled:opacity-50"
       >
-        {sending ? 'Sending...' : 'Send Message'}
+        {sending ? 'Sending' : 'Send Message'}
       </button>
     </form>
   )
