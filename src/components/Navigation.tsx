@@ -4,152 +4,106 @@ import { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X } from 'lucide-react'
 
 const navItems = [
   { name: 'Home', href: '/' },
   { name: 'About', href: '/about' },
-  { name: 'Portfolio', href: '/portfolio' },
+  { name: 'Work', href: '/portfolio' },
   { name: 'Contact', href: '/contact' },
 ]
 
 export function Navigation() {
   const pathname = usePathname()
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [isScrolled, setIsScrolled] = useState(false)
+  const [open, setOpen] = useState(false)
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50)
-    }
-
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
-  useEffect(() => {
-    setIsMenuOpen(false)
-  }, [pathname])
+  useEffect(() => setOpen(false), [pathname])
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'glass-elevated' : 'bg-transparent'
-      }`}
-      style={{ opacity: 1, visibility: 'visible' }}
-    >
-      <div className="mx-auto max-w-7xl px-6">
-        <div className="flex items-center justify-between h-14">
-          {/* Logo */}
-          <Link href="/" className="focus-ring rounded">
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              className="text-lg font-semibold tracking-tight"
-            >
-              Zakaria Kortam
-            </motion.div>
-          </Link>
+    <header className="fixed inset-x-0 top-4 z-50 px-4">
+      <div className="mx-auto flex max-w-3xl items-center justify-between gap-3">
+        <Link
+          href="/"
+          className="glass focus-ring flex h-12 items-center rounded-full px-5 text-sm font-semibold tracking-tight transition-colors duration-base hover:text-foreground"
+        >
+          ZK
+        </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-1">
+        {/* Desktop pill */}
+        <nav className="glass hidden h-12 items-center rounded-full p-1 md:flex">
+          {navItems.map((item) => {
+            const active = pathname === item.href
+            return (
+              <Link
+                key={item.name}
+                href={item.href}
+                className="focus-ring relative rounded-full px-4 py-2 text-sm font-medium"
+              >
+                <span
+                  className={`relative z-10 transition-colors duration-base ${
+                    active ? 'text-background' : 'text-foreground-muted hover:text-foreground'
+                  }`}
+                >
+                  {item.name}
+                </span>
+                {active && (
+                  <motion.span
+                    layoutId="nav-pill"
+                    className="absolute inset-0 rounded-full bg-foreground"
+                    transition={{ type: 'spring', stiffness: 380, damping: 32 }}
+                  />
+                )}
+              </Link>
+            )
+          })}
+        </nav>
+
+        {/* Mobile toggle */}
+        <button
+          onClick={() => setOpen((v) => !v)}
+          className="glass focus-ring flex h-12 w-12 items-center justify-center rounded-full md:hidden"
+          aria-label="Menu"
+        >
+          <div className="relative h-3.5 w-5">
+            <motion.span
+              className="absolute left-0 h-px w-5 bg-foreground"
+              animate={open ? { top: 6, rotate: 45 } : { top: 2, rotate: 0 }}
+              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            />
+            <motion.span
+              className="absolute left-0 bottom-0 h-px w-5 bg-foreground"
+              animate={open ? { bottom: 6, rotate: -45 } : { bottom: 2, rotate: 0 }}
+              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            />
+          </div>
+        </button>
+      </div>
+
+      <AnimatePresence>
+        {open && (
+          <motion.nav
+            initial={{ opacity: 0, y: -12, filter: 'blur(8px)' }}
+            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            exit={{ opacity: 0, y: -12, filter: 'blur(8px)' }}
+            transition={{ duration: 0.34, ease: [0.22, 1, 0.36, 1] }}
+            className="glass-elevated mx-auto mt-3 max-w-3xl space-y-1 rounded-3xl p-3 md:hidden"
+          >
             {navItems.map((item) => {
-              const isActive = pathname === item.href
+              const active = pathname === item.href
               return (
                 <Link
                   key={item.name}
                   href={item.href}
-                  className="relative px-4 py-2 text-sm font-medium transition-colors duration-200 focus-ring rounded-full"
+                  className={`focus-ring block rounded-2xl px-4 py-3 text-sm font-medium transition-colors duration-base ${
+                    active
+                      ? 'bg-foreground text-background'
+                      : 'text-foreground-muted hover:bg-white/5 hover:text-foreground'
+                  }`}
                 >
-                  <span
-                    className={`transition-colors duration-200 ${
-                      isActive
-                        ? 'text-foreground'
-                        : 'text-foreground-muted hover:text-foreground'
-                    }`}
-                  >
-                    {item.name}
-                  </span>
-                  {isActive && (
-                    <motion.div
-                      layoutId="activeTab"
-                      className="absolute inset-0 bg-surface-elevated rounded-full -z-10"
-                      initial={false}
-                      transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
-                    />
-                  )}
+                  {item.name}
                 </Link>
               )
             })}
-          </nav>
-
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden p-2 focus-ring rounded"
-            aria-label="Toggle menu"
-          >
-            <AnimatePresence mode="wait">
-              {isMenuOpen ? (
-                <motion.div
-                  key="close"
-                  initial={{ rotate: -90, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: 90, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <X className="w-5 h-5" />
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="menu"
-                  initial={{ rotate: 90, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: -90, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <Menu className="w-5 h-5" />
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile Navigation */}
-      <AnimatePresence>
-        {isMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className="md:hidden glass-elevated border-t border-border-subtle"
-          >
-            <nav className="px-6 py-4 space-y-2">
-              {navItems.map((item, index) => {
-                const isActive = pathname === item.href
-                return (
-                  <motion.div
-                    key={item.name}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.1, duration: 0.3 }}
-                  >
-                    <Link
-                      href={item.href}
-                      className={`block px-4 py-3 text-sm font-medium rounded-card transition-colors duration-200 focus-ring ${
-                        isActive
-                          ? 'bg-surface-elevated text-foreground'
-                          : 'text-foreground-muted hover:text-foreground hover:bg-surface'
-                      }`}
-                    >
-                      {item.name}
-                    </Link>
-                  </motion.div>
-                )
-              })}
-            </nav>
-          </motion.div>
+          </motion.nav>
         )}
       </AnimatePresence>
     </header>

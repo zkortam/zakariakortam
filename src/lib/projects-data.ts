@@ -221,7 +221,7 @@ export const projects: Project[] = [
     team: 'Solo project during Adobe apprenticeship',
     overview: 'Pixal is a Slack application that implements generative AI in workspaces. It connects data from your workspace to its knowledge base to answer any question regarding any subject from your Slack workspace.',
     challenge: 'Teams struggle to find information scattered across Slack channels, threads, and shared documents. Questions get repeated, institutional knowledge is lost, and productivity suffers when information is difficult to locate. Traditional keyword search misses contextual understanding.',
-    solution: 'Built a Slack app that integrates with workspace data to create a searchable knowledge base powered by generative AI. Users can ask questions in natural language—summarizing discussions, finding timestamps, understanding individual perspectives, or identifying who certain individuals are—and Pixal answers based on all public data in the Slack workspace. Developed, tested, and debugged using Python and JavaScript, presented to Adobe staff during the Adobe Career Academy program.',
+    solution: 'Built a Slack app that integrates with workspace data to create a searchable knowledge base powered by generative AI. Users can ask questions in natural language, summarizing discussions, finding timestamps, understanding individual perspectives, or identifying who certain individuals are, and Pixal answers based on all public data in the Slack workspace. Developed, tested, and debugged using Python and JavaScript, presented to Adobe staff during the Adobe Career Academy program.',
     impact: [
       'Seamlessly integrated into existing Slack workflows',
       'Automated knowledge retrieval from workspace conversations',
@@ -295,7 +295,7 @@ export const projects: Project[] = [
     team: 'Solo project',
     overview: 'A viral chatbot that brought Microsoft\'s iconic Clippy assistant back to life with modern AI capabilities. Combined nostalgia with cutting-edge language models to create an engaging user experience.',
     challenge: 'Create a chatbot that captures Clippy\'s iconic personality while providing actually useful assistance powered by modern AI. The challenge was balancing humor with utility and building viral appeal that would resonate with users who remembered the original assistant.',
-    solution: 'Built a GPT-3.5 powered chatbot with carefully crafted system prompts that embody Clippy\'s personality—helpful, slightly annoying, and endearingly persistent. Created a web interface with nostalgic Windows aesthetics. Implemented conversation memory and context awareness to maintain engaging interactions.',
+    solution: 'Built a GPT-3.5 powered chatbot with carefully crafted system prompts that embody Clippy\'s personality: helpful, slightly annoying, and endearingly persistent. Created a web interface with nostalgic Windows aesthetics. Implemented conversation memory and context awareness to maintain engaging interactions.',
     impact: [
       'Over 1,200 active users at peak',
       'Viral spread across social media',

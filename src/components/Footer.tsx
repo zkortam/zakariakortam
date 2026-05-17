@@ -1,88 +1,56 @@
 import Link from 'next/link'
 import { Linkedin, Twitter, Instagram, Github } from 'lucide-react'
 
-const socialLinks = [
-  {
-    name: 'LinkedIn',
-    href: 'https://linkedin.com/in/zkortam',
-    icon: Linkedin,
-  },
-  {
-    name: 'X (Twitter)',
-    href: 'https://x.com/zakariakortam',
-    icon: Twitter,
-  },
-  {
-    name: 'Instagram',
-    href: 'https://instagram.com/zkortam',
-    icon: Instagram,
-  },
-  {
-    name: 'GitHub',
-    href: 'https://github.com/zkortam',
-    icon: Github,
-  },
+const socials = [
+  { name: 'LinkedIn', href: 'https://linkedin.com/in/zkortam', icon: Linkedin },
+  { name: 'X', href: 'https://x.com/zakariakortam', icon: Twitter },
+  { name: 'Instagram', href: 'https://instagram.com/zkortam', icon: Instagram },
+  { name: 'GitHub', href: 'https://github.com/zkortam', icon: Github },
 ]
 
 export function Footer() {
   return (
-    <footer className="border-t border-border-subtle bg-surface/30">
-      <div className="mx-auto max-w-7xl px-6 py-10">
-        <div className="grid gap-8 md:grid-cols-3 items-center">
-          {/* Branding */}
-          <div className="space-y-2">
-            <Link href="/" className="text-lg font-semibold hover:text-accent-blue transition-colors">
-              Zakaria Kortam
-            </Link>
-            <p className="text-sm text-foreground-muted">
-              AI Engineer & Product Engineer
-            </p>
-          </div>
-
-          {/* Navigation Links */}
-          <nav className="flex justify-center">
-            <div className="flex space-x-6">
-              {['About', 'Portfolio', 'Contact'].map((item) => (
-                <Link
-                  key={item}
-                  href={`/${item.toLowerCase()}`}
-                  className="text-sm text-foreground-muted hover:text-foreground transition-colors"
-                >
-                  {item}
-                </Link>
-              ))}
-            </div>
-          </nav>
-
-          {/* Social Links */}
-          <div className="flex justify-end space-x-4">
-            {socialLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 text-foreground-muted hover:text-foreground transition-colors focus-ring rounded"
-                aria-label={link.name}
-              >
-                <link.icon className="w-4 h-4" />
-              </a>
-            ))}
-          </div>
+    <footer className="px-4 pb-6">
+      <div className="glass mx-auto flex max-w-6xl flex-col gap-6 rounded-4xl px-8 py-10 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <Link href="/" className="text-base font-semibold tracking-tight">
+            Zakaria Kortam
+          </Link>
+          <p className="mt-1 text-sm text-foreground-subtle">
+            AI Engineer · San Jose, California
+          </p>
         </div>
 
-        {/* Copyright */}
-        <div className="mt-8 pt-8 border-t border-border-subtle">
-          <div className="flex flex-col sm:flex-row justify-between items-center space-y-2 sm:space-y-0">
-            <p className="text-sm text-foreground-subtle">
-              © {new Date().getFullYear()} Zakaria Kortam. All rights reserved.
-            </p>
-            <p className="text-sm text-foreground-subtle">
-              Based in San Jose, California
-            </p>
-          </div>
+        <nav className="flex gap-6 text-sm text-foreground-muted">
+          {['About', 'Portfolio', 'Contact'].map((i) => (
+            <Link
+              key={i}
+              href={`/${i.toLowerCase()}`}
+              className="transition-colors hover:text-foreground"
+            >
+              {i}
+            </Link>
+          ))}
+        </nav>
+
+        <div className="flex items-center gap-2">
+          {socials.map((s) => (
+            <a
+              key={s.name}
+              href={s.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={s.name}
+              className="focus-ring flex h-9 w-9 items-center justify-center rounded-full border border-white/8 text-foreground-muted transition-all duration-base hover:scale-110 hover:border-white/25 hover:text-foreground"
+            >
+              <s.icon className="h-4 w-4" />
+            </a>
+          ))}
         </div>
       </div>
+      <p className="mt-6 text-center text-xs text-foreground-subtle">
+        © {new Date().getFullYear()} Zakaria Kortam
+      </p>
     </footer>
   )
 }

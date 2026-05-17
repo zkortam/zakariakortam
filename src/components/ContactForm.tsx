@@ -2,164 +2,122 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
+import { Check } from 'lucide-react'
 
 interface FormData {
   name: string
   email: string
   message: string
 }
+type FormErrors = Partial<Record<keyof FormData, string>>
 
-interface FormErrors {
-  name?: string
-  email?: string
-  message?: string
-}
+const fieldClass =
+  'w-full rounded-2xl border bg-white/[0.02] px-5 py-3.5 text-sm text-foreground placeholder:text-foreground-subtle outline-none transition-colors duration-base focus:border-accent/60'
 
 export function ContactForm() {
-  const [formData, setFormData] = useState<FormData>({
-    name: '',
-    email: '',
-    message: ''
-  })
+  const [data, setData] = useState<FormData>({ name: '', email: '', message: '' })
   const [errors, setErrors] = useState<FormErrors>({})
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [isSubmitted, setIsSubmitted] = useState(false)
+  const [sending, setSending] = useState(false)
+  const [sent, setSent] = useState(false)
 
-  const validateForm = (): boolean => {
-    const newErrors: FormErrors = {}
-
-    if (!formData.name.trim()) {
-      newErrors.name = 'Name is required'
-    }
-
-    if (!formData.email.trim()) {
-      newErrors.email = 'Email is required'
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email address'
-    }
-
-    if (!formData.message.trim()) {
-      newErrors.message = 'Message is required'
-    } else if (formData.message.trim().length < 10) {
-      newErrors.message = 'Message should be at least 10 characters'
-    }
-
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
+  const validate = () => {
+    const e: FormErrors = {}
+    if (!data.name.trim()) e.name = 'Required'
+    if (!data.email.trim()) e.email = 'Required'
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email))
+      e.email = 'Enter a valid email'
+    if (!data.message.trim()) e.message = 'Required'
+    else if (data.message.trim().length < 10)
+      e.message = 'A little more detail, please'
+    setErrors(e)
+    return Object.keys(e).length === 0
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-
-    if (!validateForm()) return
-
-    setIsSubmitting(true)
-
-    // Create mailto link with form data
-    const subject = encodeURIComponent(`Portfolio Contact from ${formData.name}`)
-    const body = encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`)
-    const mailtoLink = `mailto:zakaria@zakariakortam.com?subject=${subject}&body=${body}`
-
-    // Open mail client
-    window.location.href = mailtoLink
-
-    setIsSubmitting(false)
-    setIsSubmitted(true)
-
-    // Reset form after success
+  const submit = (ev: React.FormEvent) => {
+    ev.preventDefault()
+    if (!validate()) return
+    setSending(true)
+    const subject = encodeURIComponent(`Portfolio message from ${data.name}`)
+    const body = encodeURIComponent(
+      `Name: ${data.name}\nEmail: ${data.email}\n\n${data.message}`,
+    )
+    window.location.href = `mailto:zakaria@zakariakortam.com?subject=${subject}&body=${body}`
+    setSending(false)
+    setSent(true)
     setTimeout(() => {
-      setFormData({ name: '', email: '', message: '' })
-      setIsSubmitted(false)
-    }, 3000)
+      setData({ name: '', email: '', message: '' })
+      setSent(false)
+    }, 3500)
   }
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const change = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     const { name, value } = e.target
-    setFormData(prev => ({ ...prev, [name]: value }))
-
-    // Clear error when user starts typing
-    if (errors[name as keyof FormErrors]) {
-      setErrors(prev => ({ ...prev, [name]: undefined }))
-    }
+    setData((d) => ({ ...d, [name]: value }))
+    if (errors[name as keyof FormErrors])
+      setErrors((er) => ({ ...er, [name]: undefined }))
   }
 
-  if (isSubmitted) {
+  if (sent) {
     return (
       <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
+        initial={{ opacity: 0, scale: 0.96 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="glass-elevated rounded-card-lg p-8 text-center space-y-4"
+        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+        className="flex flex-col items-center gap-4 py-12 text-center"
       >
-        <div className="w-12 h-12 bg-green-500/20 rounded-full flex items-center justify-center mx-auto">
-          <svg className="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-          </svg>
+        <div className="flex h-14 w-14 items-center justify-center rounded-full bg-accent/15">
+          <Check className="h-6 w-6 text-accent" />
         </div>
-        <h3 className="text-title">Message Sent Successfully!</h3>
-        <p className="text-body text-foreground-muted">
-          Thank you for reaching out. I'll get back to you within 24-48 hours.
+        <h3 className="text-title">Message ready to send.</h3>
+        <p className="max-w-sm text-sm text-foreground-muted">
+          Your mail client should have opened. I'll get back to you shortly.
         </p>
       </motion.div>
     )
   }
 
+  const border = (k: keyof FormData) =>
+    errors[k] ? 'border-red-400/60' : 'border-white/8 hover:border-white/15'
+
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      {/* Name Field */}
-      <div className="space-y-2">
-        <label htmlFor="name" className="text-sm font-medium">
-          Name
-        </label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          className={`w-full px-4 py-3 bg-surface border rounded-card transition-colors duration-normal focus-ring ${
-            errors.name ? 'border-red-500' : 'border-border-subtle hover:border-border'
-          }`}
-          placeholder="Your name"
-        />
-        {errors.name && (
-          <motion.p
-            initial={{ opacity: 0, y: -4 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-sm text-red-500"
-          >
-            {errors.name}
-          </motion.p>
-        )}
+    <form onSubmit={submit} className="space-y-5">
+      <div className="grid gap-5 sm:grid-cols-2">
+        <div className="space-y-2">
+          <label htmlFor="name" className="text-sm font-medium">
+            Name
+          </label>
+          <input
+            id="name"
+            name="name"
+            value={data.name}
+            onChange={change}
+            placeholder="Your name"
+            className={`${fieldClass} ${border('name')}`}
+          />
+          {errors.name && (
+            <p className="text-xs text-red-400">{errors.name}</p>
+          )}
+        </div>
+        <div className="space-y-2">
+          <label htmlFor="email" className="text-sm font-medium">
+            Email
+          </label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            value={data.email}
+            onChange={change}
+            placeholder="you@example.com"
+            className={`${fieldClass} ${border('email')}`}
+          />
+          {errors.email && (
+            <p className="text-xs text-red-400">{errors.email}</p>
+          )}
+        </div>
       </div>
-
-      {/* Email Field */}
-      <div className="space-y-2">
-        <label htmlFor="email" className="text-sm font-medium">
-          Email
-        </label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          className={`w-full px-4 py-3 bg-surface border rounded-card transition-colors duration-normal focus-ring ${
-            errors.email ? 'border-red-500' : 'border-border-subtle hover:border-border'
-          }`}
-          placeholder="your.email@example.com"
-        />
-        {errors.email && (
-          <motion.p
-            initial={{ opacity: 0, y: -4 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-sm text-red-500"
-          >
-            {errors.email}
-          </motion.p>
-        )}
-      </div>
-
-      {/* Message Field */}
       <div className="space-y-2">
         <label htmlFor="message" className="text-sm font-medium">
           Message
@@ -167,39 +125,22 @@ export function ContactForm() {
         <textarea
           id="message"
           name="message"
-          value={formData.message}
-          onChange={handleChange}
           rows={5}
-          className={`w-full px-4 py-3 bg-surface border rounded-card transition-colors duration-normal focus-ring resize-none ${
-            errors.message ? 'border-red-500' : 'border-border-subtle hover:border-border'
-          }`}
-          placeholder="Tell me about your project or idea..."
+          value={data.message}
+          onChange={change}
+          placeholder="What are you working on?"
+          className={`${fieldClass} resize-none ${border('message')}`}
         />
         {errors.message && (
-          <motion.p
-            initial={{ opacity: 0, y: -4 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-sm text-red-500"
-          >
-            {errors.message}
-          </motion.p>
+          <p className="text-xs text-red-400">{errors.message}</p>
         )}
       </div>
-
-      {/* Submit Button */}
       <button
         type="submit"
-        disabled={isSubmitting}
-        className="w-full px-6 py-3 bg-foreground text-background rounded-card font-medium transition-all duration-normal hover:bg-foreground/90 disabled:opacity-50 disabled:cursor-not-allowed focus-ring"
+        disabled={sending}
+        className="focus-ring w-full rounded-full bg-foreground py-4 text-sm font-semibold text-background transition-transform duration-base hover:scale-[1.02] disabled:opacity-50"
       >
-        {isSubmitting ? (
-          <span className="flex items-center justify-center gap-2">
-            <div className="w-4 h-4 border-2 border-background/30 border-t-background rounded-full animate-spin" />
-            Sending...
-          </span>
-        ) : (
-          'Send Message'
-        )}
+        {sending ? 'Sending...' : 'Send Message'}
       </button>
     </form>
   )

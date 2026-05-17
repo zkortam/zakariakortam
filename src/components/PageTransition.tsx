@@ -2,37 +2,24 @@
 
 import { motion, AnimatePresence } from 'framer-motion'
 import { usePathname } from 'next/navigation'
-import { ReactNode, useEffect, useState } from 'react'
+import { type ReactNode, useEffect, useState } from 'react'
 
-interface PageTransitionProps {
-  children: ReactNode
-}
-
-export function PageTransition({ children }: PageTransitionProps) {
+export function PageTransition({ children }: { children: ReactNode }) {
   const pathname = usePathname()
-  const [isFirstRender, setIsFirstRender] = useState(true)
+  const [mounted, setMounted] = useState(false)
 
-  useEffect(() => {
-    // After first render, mark as mounted
-    setIsFirstRender(false)
-  }, [])
+  useEffect(() => setMounted(true), [])
 
-  // On first render, render without animation to prevent flash
-  if (isFirstRender) {
-    return <>{children}</>
-  }
+  if (!mounted) return <>{children}</>
 
   return (
     <AnimatePresence mode="wait" initial={false}>
       <motion.div
         key={pathname}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{
-          duration: 0.3,
-          ease: [0.25, 0.1, 0.25, 1],
-        }}
+        initial={{ opacity: 0, filter: 'blur(10px)', y: 8 }}
+        animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
+        exit={{ opacity: 0, filter: 'blur(10px)', y: -8 }}
+        transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
       >
         {children}
       </motion.div>

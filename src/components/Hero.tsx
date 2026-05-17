@@ -1,199 +1,96 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import Link from 'next/link'
 
-const headlines = [
-  'AI Engineer and Product Engineer in San Jose.',
-  'Engineering elegant intelligence.',
-  'From models to products, end to end.',
-  'Products where AI feels invisible.',
-  'Systems thinking, product taste, shipped impact.',
-]
+const EASE = [0.22, 1, 0.36, 1] as const
+const line1 = ['Engineering', 'intelligence']
+const line2 = ['that', 'feels', 'invisible.']
 
 export function Hero() {
-  const [currentHeadline, setCurrentHeadline] = useState(0)
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentHeadline((prev) => (prev + 1) % headlines.length)
-    }, 6000)
-
-    return () => clearInterval(interval)
-  }, [])
+  let i = 0
+  const word = (w: string) => {
+    const delay = 0.15 + i++ * 0.06
+    return (
+      <span key={w} className="inline-block overflow-hidden align-bottom">
+        <motion.span
+          className="inline-block"
+          initial={{ y: '110%' }}
+          animate={{ y: 0 }}
+          transition={{ duration: 0.95, delay, ease: EASE }}
+        >
+          {w}&nbsp;
+        </motion.span>
+      </span>
+    )
+  }
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute inset-0 noise opacity-[0.015]" />
-      <div className="absolute inset-0 gradient-subtle opacity-30" />
-
-      {/* Animated Twinkling Stars */}
-      <div className="absolute inset-0 opacity-70 pointer-events-none">
-        {Array.from({ length: 150 }).map((_, i) => {
-          const x = (i * 17.3 + 13) % 100;
-          const y = (i * 23.7 + 7) % 100;
-          const duration = 2 + (i % 4);
-          const delay = (i % 8) * 0.3;
-          const size = i % 4 === 0 ? 2 : 1;
-
-          return (
-            <div
-              key={i}
-              className="absolute animate-pulse"
-              style={{
-                left: `${x}%`,
-                top: `${y}%`,
-                width: `${size}px`,
-                height: `${size}px`,
-                backgroundColor: 'white',
-                borderRadius: '50%',
-                animation: `pulse ${duration}s ease-in-out ${delay}s infinite`,
-                opacity: 0.6,
-              }}
-            />
-          );
-        })}
-      </div>
-
-      {/* Floating Gradient Orbs - Space Nebula Effect */}
-      <div className="absolute inset-0 opacity-20 pointer-events-none overflow-hidden">
+    <section className="relative flex min-h-[100svh] items-center justify-center px-6">
+      <div className="mx-auto w-full max-w-4xl text-center">
         <motion.div
-          className="absolute w-96 h-96 rounded-full bg-gradient-to-r from-blue-500/40 to-purple-500/40 blur-3xl"
-          animate={{
-            x: [0, 120, 0],
-            y: [0, -60, 0],
-            scale: [1, 1.3, 1],
-          }}
-          transition={{
-            duration: 25,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-          style={{ left: '5%', top: '15%' }}
-        />
-        <motion.div
-          className="absolute w-80 h-80 rounded-full bg-gradient-to-r from-cyan-500/30 to-blue-500/30 blur-3xl"
-          animate={{
-            x: [0, -100, 0],
-            y: [0, 70, 0],
-            scale: [1, 1.4, 1],
-          }}
-          transition={{
-            duration: 30,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-          style={{ right: '5%', top: '25%' }}
-        />
-        <motion.div
-          className="absolute w-64 h-64 rounded-full bg-gradient-to-r from-purple-500/25 to-pink-500/25 blur-3xl"
-          animate={{
-            x: [0, 80, 0],
-            y: [0, -80, 0],
-            scale: [1, 1.2, 1],
-          }}
-          transition={{
-            duration: 20,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-          style={{ left: '40%', bottom: '10%' }}
-        />
-      </div>
-
-      {/* Distant Stars - Smaller Static Stars for Depth */}
-      <div className="absolute inset-0 opacity-40 pointer-events-none">
-        {Array.from({ length: 80 }).map((_, i) => {
-          const x = (i * 31.7 + 19) % 100;
-          const y = (i * 47.3 + 23) % 100;
-
-          return (
-            <div
-              key={`distant-${i}`}
-              className="absolute rounded-full bg-white"
-              style={{
-                left: `${x}%`,
-                top: `${y}%`,
-                width: '0.5px',
-                height: '0.5px',
-              }}
-            />
-          );
-        })}
-      </div>
-
-      <div className="relative z-10 mx-auto max-w-4xl px-6 text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: 'easeOut' }}
-          className="space-y-6"
+          transition={{ duration: 0.7, ease: EASE }}
+          className="mb-8 inline-flex items-center gap-2.5 rounded-full glass px-4 py-2 text-sm text-foreground-muted"
         >
-          {/* Main Name */}
-          <motion.h1
-            className="text-display font-semibold tracking-tight"
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+          <span className="relative flex h-1.5 w-1.5">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60" />
+            <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-accent" />
+          </span>
+          AI Engineer at Facilis
+        </motion.div>
+
+        <h1 className="text-display text-gradient">
+          <span className="block">{line1.map(word)}</span>
+          <span className="block">{line2.map(word)}</span>
+        </h1>
+
+        <motion.p
+          initial={{ opacity: 0, y: 14, filter: 'blur(8px)' }}
+          animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+          transition={{ duration: 0.9, delay: 0.6, ease: EASE }}
+          className="mx-auto mt-7 max-w-xl text-balance text-lg text-foreground-muted"
+        >
+          I build agentic AI products and the systems behind them, from model
+          to interface, with restraint and intent.
+        </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, delay: 0.78, ease: EASE }}
+          className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row"
+        >
+          <Link
+            href="/portfolio"
+            className="focus-ring rounded-full bg-foreground px-7 py-3.5 text-sm font-semibold text-background transition-transform duration-base hover:scale-[1.03]"
           >
-            Zakaria Kortam
-          </motion.h1>
-
-          {/* Rotating Headlines */}
-          <div className="h-12 flex items-center justify-center">
-            <AnimatePresence mode="wait">
-              <motion.p
-                key={currentHeadline}
-                initial={{ opacity: 0, y: 20, filter: 'blur(4px)' }}
-                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                exit={{ opacity: 0, y: -20, filter: 'blur(4px)' }}
-                transition={{ duration: 0.5, ease: 'easeInOut' }}
-                className="text-lg md:text-xl text-foreground-muted max-w-2xl text-balance"
-              >
-                {headlines[currentHeadline]}
-              </motion.p>
-            </AnimatePresence>
-          </div>
-
-          {/* CTAs */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8"
+            View Work
+          </Link>
+          <Link
+            href="/contact"
+            className="glass focus-ring rounded-full px-7 py-3.5 text-sm font-semibold transition-all duration-base hover:scale-[1.03] hover:text-foreground"
           >
-            <Link
-              href="/portfolio"
-              className="group px-8 py-4 bg-foreground text-background rounded-full font-medium transition-all duration-normal hover:bg-foreground/90 hover:scale-[1.02] focus-ring"
-            >
-              <span className="flex items-center gap-2">
-                View My Work
-                <motion.svg
-                  className="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  whileHover={{ x: 2 }}
-                  transition={{ type: 'spring', stiffness: 400 }}
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </motion.svg>
-              </span>
-            </Link>
-
-            <Link
-              href="/contact"
-              className="group px-8 py-4 glass-elevated rounded-full font-medium transition-all duration-normal hover:scale-[1.02] focus-ring"
-            >
-              Let's Connect
-            </Link>
-          </motion.div>
-
-
+            Get in Touch
+          </Link>
         </motion.div>
       </div>
+
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1, delay: 1.4 }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2"
+      >
+        <div className="h-9 w-5 rounded-full border border-white/15">
+          <motion.div
+            animate={{ y: [4, 14, 4], opacity: [1, 0.2, 1] }}
+            transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
+            className="mx-auto mt-1.5 h-1.5 w-1 rounded-full bg-foreground-muted"
+          />
+        </div>
+      </motion.div>
     </section>
   )
 }
