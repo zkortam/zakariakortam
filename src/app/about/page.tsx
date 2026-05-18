@@ -12,7 +12,7 @@ const experience = [
     points: [
       'Architected and launched the flagship agentic platform connecting plant systems (PLCs, MES, SCADA) to specialized AI agents',
       'Led 0-to-1 discovery with 15+ customer interviews; owned ICP, roadmap, demos, and enterprise sales',
-      'Deployed to 20 enterprise testers (MEAU, OKI); secured $100K+ in provisional contracts',
+      'Deployed to 20 enterprise testers; converted demos into provisional contracts',
     ],
   },
   {

@@ -49,8 +49,8 @@ export const projects: Project[] = [
     solution:
       'Owned the agent architecture and integrations end to end, then led 0-to-1 discovery across 15+ customer interviews to shape the ICP, roadmap, and positioning. Shipped on-prem and air-gapped deployments with edge-SLM packaging for OT environments, and ran demos and enterprise sales.',
     impact: [
-      'Deployed to 20 enterprise demo testers including MEAU and OKI',
-      'Secured $100K+ in provisional contracts with ~100% retention',
+      'Deployed to 20 enterprise demo testers',
+      'Converted demos into provisional contracts with ~100% retention',
       'Cut month-long operational tasks down to hours',
       'Shipped on-prem, air-gapped, edge-SLM deployment',
     ],
