@@ -10,10 +10,10 @@ export function StructuredData() {
       "https://x.com/zakariakortam",
       "https://github.com/zkortam"
     ],
-    "jobTitle": "AI Engineer",
+    "jobTitle": "Founding AI Engineer",
     "worksFor": {
       "@type": "Organization",
-      "name": "Facilis"
+      "name": "FacilisAI"
     },
     "alumniOf": {
       "@type": "CollegeOrUniversity",

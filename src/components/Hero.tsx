@@ -15,10 +15,8 @@ const item = (delay: number) => ({
 export function Hero() {
   return (
     <section className="relative flex min-h-[100svh] flex-col overflow-hidden">
-      {/* Blue hue behind the portrait */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -right-24 top-1/2 h-[62vh] w-[55vw] max-w-[680px] -translate-y-1/2 rounded-full bg-accent/20 blur-[150px]" />
-      </div>
+      {/* Subtle blue hue, low and behind the portrait */}
+      <div className="pointer-events-none absolute -bottom-24 right-[4%] -z-10 h-[46vh] w-[40vw] max-w-[520px] rounded-full bg-accent/12 blur-[160px]" />
 
       {/* Portrait bleeding off the right edge */}
       <div className="absolute bottom-0 right-0 hidden h-[88%] w-[52%] lg:block xl:w-[48%]">
@@ -61,9 +59,9 @@ export function Hero() {
               {...item(0.24)}
               className="mt-8 max-w-md text-lg leading-relaxed text-foreground-muted text-pretty sm:text-xl"
             >
-              I build <span className="text-accent">agentic AI</span> tools at
-              Facilis and study Electrical Engineering at UC San Diego.
-              Previously product engineer at Incorta, founder of Surf.
+              Founding AI Engineer at <span className="text-accent">FacilisAI</span>,
+              building agentic systems for industrial enterprise. Previously
+              product engineering at Incorta and Adobe. EE at UC San Diego.
             </motion.p>
 
             <motion.div

@@ -24,7 +24,7 @@ export default function PortfolioPage() {
       <Section divider band className="py-20 sm:py-28">
         <Reveal>
           <p className="eyebrow">Work</p>
-          <h2 className="mt-3 text-headline">Roles and ventures</h2>
+          <h2 className="mt-3 text-headline">Roles</h2>
         </Reveal>
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {work.map((p, i) => (
@@ -39,7 +39,7 @@ export default function PortfolioPage() {
       <Section divider className="py-20 sm:py-28">
         <Reveal>
           <p className="eyebrow">Projects</p>
-          <h2 className="mt-3 text-headline">Builds and experiments</h2>
+          <h2 className="mt-3 text-headline">Projects</h2>
         </Reveal>
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {builds.map((p, i) => (

@@ -70,7 +70,7 @@ export default function HomePage() {
         <Reveal className="flex flex-wrap items-end justify-between gap-6">
           <div>
             <p className="eyebrow">Work</p>
-            <h2 className="mt-4 text-headline">Roles and ventures</h2>
+            <h2 className="mt-4 text-headline">Roles</h2>
           </div>
           <Link
             href="/portfolio"

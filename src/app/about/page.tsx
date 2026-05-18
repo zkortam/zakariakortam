@@ -6,33 +6,41 @@ import { Reveal } from '@/components/Reveal'
 
 const experience = [
   {
-    role: 'AI Engineer',
-    org: 'Facilis',
+    role: 'Founding AI Engineer',
+    org: 'FacilisAI',
     when: 'Apr 2025 to Present',
     points: [
-      'Build agentic AI tools for industrial enterprise using the Model Context Protocol',
-      'Architect agent orchestration with React, TypeScript, and Node.js',
-      'Design and ship production LLM integrations',
+      'Architected and launched the flagship agentic platform connecting plant systems (PLCs, MES, SCADA) to specialized AI agents',
+      'Led 0-to-1 discovery with 15+ customer interviews; owned ICP, roadmap, demos, and enterprise sales',
+      'Deployed to 20 enterprise testers (MEAU, OKI); secured $100K+ in provisional contracts',
     ],
   },
   {
-    role: 'Product Development Intern',
+    role: 'Product Engineering Intern',
     org: 'Incorta',
-    when: 'Jun 2024 to Mar 2025',
+    when: 'Jul 2024 to Mar 2025',
     points: [
-      'Built full-stack visual components and interactive dashboards',
-      'Contributed to AI Copilot features on an enterprise analytics platform',
-      'Shipped responsive UI in React and TypeScript',
+      'Built TypeScript schema interpreters powering the AI Copilot dashboard, JSON spec to streamed charts',
+      'Shipped 5+ features end to end: PRDs, design reviews, QA, and rollout',
+      'Built a GitHub Actions CI pipeline (Jest, shell) at 90%+ coverage',
     ],
   },
   {
-    role: 'Founder and Lead Engineer',
-    org: 'Surf',
-    when: 'Aug 2022 to Mar 2025',
+    role: 'Technical Intern',
+    org: 'Adobe',
+    when: 'Jun 2023 to Aug 2023',
     points: [
-      'Built a cross-platform social app with Flutter and Dart',
-      'Integrated GPT-4 for language and YOLOv8 for vision',
-      'Owned the full product lifecycle over 2.5 years',
+      'Built a Slack-native GenAI app (Node.js, Slack Bolt) integrating RAG with RBAC and audit logging',
+      'Implemented vector search over Slack data with natural-language Q&A and thread summarization',
+    ],
+  },
+  {
+    role: 'Product Intern',
+    org: 'Inqueue',
+    when: 'Jun 2023 to Oct 2023',
+    points: [
+      'Owned MVP discovery to launch: market research, core journeys, and a shipped Flutter app',
+      'Defined activation, completion, and engagement KPIs; reprioritized the backlog from signals',
     ],
   },
 ]
@@ -40,21 +48,16 @@ const experience = [
 const education = [
   {
     school: 'University of California, San Diego',
-    detail: 'B.S. Electrical Engineering: Machine Learning and Controls',
-    when: '2024 to 2026',
-  },
-  {
-    school: 'Evergreen Valley College',
-    detail: 'Triple major: Computer Science, Mathematics, Physics. Magna Cum Laude.',
-    when: '2022 to 2024',
+    detail: 'B.S. Electrical Engineering, Computer System Design Depth',
+    when: 'Expected Jun 2026',
   },
 ]
 
 const skills: [string, string][] = [
-  ['AI and ML', 'Agentic AI, MCP, LLMs (GPT-4, Claude), LangChain, vector databases, computer vision'],
-  ['Engineering', 'React, TypeScript, Node.js, Flutter, Dart, Python, system architecture'],
-  ['Infrastructure', 'Supabase, PostgreSQL, Docker, CI/CD, cloud platforms'],
-  ['Languages', 'English (native), Arabic (professional), French (working)'],
+  ['Languages', 'C/C++, Python, Go, Rust, Java, TypeScript, Shell, SQL'],
+  ['AI', 'MCP, LangChain, RAG, vector databases, Claude, OpenAI, Codex'],
+  ['Infrastructure', 'Docker, Kubernetes, AWS, Azure, GCP, PostgreSQL, Firebase'],
+  ['Product', 'Roadmapping, PRDs, KPIs, user research, A/B testing, Agile'],
 ]
 
 export default function AboutPage() {
@@ -68,9 +71,9 @@ export default function AboutPage() {
             AI engineer building production systems.
           </h1>
           <p className="mt-8 max-w-2xl text-lg leading-relaxed text-foreground-muted text-pretty sm:text-xl">
-            I work across machine learning, product engineering, and distributed
-            systems. Currently at Facilis and a senior in Electrical Engineering
-            at UC San Diego.
+            I build products end to end: engineering, design, and product.
+            Founding AI Engineer at FacilisAI, finishing a B.S. in Electrical
+            Engineering at UC San Diego.
           </p>
         </Reveal>
       </Section>
