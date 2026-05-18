@@ -3,6 +3,9 @@ const nextConfig = {
   allowedDevOrigins: ["*.preview.same-app.com"],
   images: {
     unoptimized: true,
+    dangerouslyAllowSVG: true,
+    contentDispositionType: "attachment",
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     domains: [
       "source.unsplash.com",
       "images.unsplash.com",

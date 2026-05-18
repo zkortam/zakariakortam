@@ -24,6 +24,9 @@ export interface Project {
 
 const PLACEHOLDER = '/api/placeholder/400/300'
 
+/** Branded tile. Swap in a real logo by replacing public/roles/<id>.svg. */
+const roleTile = (id: string) => `/roles/${id}.svg`
+
 export const projects: Project[] = [
   // ---------- WORK (resume experience) ----------
   {
@@ -33,7 +36,7 @@ export const projects: Project[] = [
       'Founding engineer building the agentic platform that connects plant systems (PLCs, MES, SCADA) to specialized AI agents.',
     category: 'AI/ML',
     tags: ['AI Agents', 'MCP', 'TypeScript', 'Node.js', 'Edge SLMs'],
-    image: PLACEHOLDER,
+    image: roleTile("facilis-ai"),
     featured: true,
     year: '2025',
     role: 'Founding AI Engineer',
@@ -69,7 +72,7 @@ export const projects: Project[] = [
       'Built the schema interpreters and charting library behind Incorta’s AI Copilot dashboards, and shipped 5+ features end to end.',
     category: 'Product Engineering',
     tags: ['TypeScript', 'React', 'SQL', 'Jest', 'GitHub Actions'],
-    image: PLACEHOLDER,
+    image: roleTile("incorta-dashboards"),
     featured: true,
     year: '2024-2025',
     role: 'Product Engineering Intern',
@@ -104,7 +107,7 @@ export const projects: Project[] = [
       'Built a Slack-native generative AI app with RAG, RBAC, and audit logging for semantic search over workspace data.',
     category: 'AI/ML',
     tags: ['Node.js', 'Slack Bolt', 'RAG', 'Vector Search'],
-    image: PLACEHOLDER,
+    image: roleTile("adobe"),
     featured: false,
     year: '2023',
     role: 'Technical Intern',
@@ -130,7 +133,7 @@ export const projects: Project[] = [
       'Owned a mobile queuing app from discovery to launch: market research, core journeys, and a shipped Flutter MVP.',
     category: 'Product Engineering',
     tags: ['Flutter', 'Product', 'KPIs', 'User Research'],
-    image: PLACEHOLDER,
+    image: roleTile("inqueue"),
     featured: false,
     year: '2023',
     role: 'Product Intern',

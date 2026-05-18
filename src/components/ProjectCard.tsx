@@ -1,10 +1,12 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { type Project } from '@/lib/projects-data'
+import { type Project, isWorkProject } from '@/lib/projects-data'
 
 export function ProjectCard({ project }: { project: Project }) {
   const hasImage =
     !!project.image && !project.image.startsWith('/api/placeholder')
+  const kicker =
+    isWorkProject(project) && project.role ? project.role : project.category
 
   return (
     <Link
@@ -31,7 +33,7 @@ export function ProjectCard({ project }: { project: Project }) {
         <div className="absolute inset-x-0 bottom-0 p-4 transition-transform duration-[400ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-1">
           <div className="rounded-2xl border border-white/[0.12] bg-white/[0.06] p-5 backdrop-blur-xl transition-colors duration-300 group-hover:border-white/20 group-hover:bg-white/[0.09]">
             <div className="flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.12em] text-foreground-subtle">
-              <span>{project.category}</span>
+              <span>{kicker}</span>
               <span className="h-1 w-1 rounded-full bg-foreground-subtle/60" />
               <span>{project.year}</span>
             </div>
