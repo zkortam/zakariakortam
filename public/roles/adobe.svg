@@ -1,16 +1,14 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 560" preserveAspectRatio="xMidYMid slice" font-family="Inter, system-ui, -apple-system, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 560" preserveAspectRatio="xMidYMid slice">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#1c0a0a"/>
+      <stop offset="0" stop-color="#1d0b0b"/>
       <stop offset="1" stop-color="#070708"/>
     </linearGradient>
-    <radialGradient id="glow" cx="0.5" cy="0.42" r="0.6">
+    <radialGradient id="glow" cx="0.32" cy="0.3" r="0.75">
       <stop offset="0" stop-color="#fa0f00" stop-opacity="0.20"/>
       <stop offset="1" stop-color="#fa0f00" stop-opacity="0"/>
     </radialGradient>
   </defs>
   <rect width="800" height="560" fill="url(#bg)"/>
   <rect width="800" height="560" fill="url(#glow)"/>
-  <text x="400" y="285" text-anchor="middle" fill="#ffffff" font-size="84" font-weight="700" letter-spacing="-2">Adobe</text>
-  <rect x="366" y="320" width="68" height="3" rx="1.5" fill="#fa0f00"/>
 </svg>

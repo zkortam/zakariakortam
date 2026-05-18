@@ -1,16 +1,14 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 560" preserveAspectRatio="xMidYMid slice" font-family="Inter, system-ui, -apple-system, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 560" preserveAspectRatio="xMidYMid slice">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#0c1322"/>
+      <stop offset="0" stop-color="#0d1424"/>
       <stop offset="1" stop-color="#070708"/>
     </linearGradient>
-    <radialGradient id="glow" cx="0.5" cy="0.42" r="0.6">
-      <stop offset="0" stop-color="#3b82f6" stop-opacity="0.22"/>
+    <radialGradient id="glow" cx="0.32" cy="0.3" r="0.75">
+      <stop offset="0" stop-color="#3b82f6" stop-opacity="0.26"/>
       <stop offset="1" stop-color="#3b82f6" stop-opacity="0"/>
     </radialGradient>
   </defs>
   <rect width="800" height="560" fill="url(#bg)"/>
   <rect width="800" height="560" fill="url(#glow)"/>
-  <text x="400" y="285" text-anchor="middle" fill="#ffffff" font-size="78" font-weight="700" letter-spacing="-2">FacilisAI</text>
-  <rect x="356" y="320" width="88" height="3" rx="1.5" fill="#3b82f6"/>
 </svg>
