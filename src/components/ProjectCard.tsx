@@ -28,7 +28,7 @@ export function ProjectCard({ project }: { project: Project }) {
         )}
 
         {/* Glass panel — fills most of the card, color framing the edges */}
-        <div className="absolute inset-3 flex flex-col justify-end rounded-[1.25rem] border border-white/[0.14] bg-white/[0.07] p-7 backdrop-blur-2xl transition-all duration-[400ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:border-white/25 group-hover:bg-white/[0.1] sm:inset-4 sm:p-9">
+        <div className="absolute inset-3 flex flex-col justify-end rounded-[1.25rem] border border-white/[0.08] bg-black/25 p-7 backdrop-blur-2xl transition-all duration-[400ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:border-white/15 group-hover:bg-black/15 sm:inset-4 sm:p-9">
           <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-sm font-medium uppercase tracking-[0.12em] text-foreground-subtle">
             <span>{kicker}</span>
             <span className="h-1 w-1 rounded-full bg-foreground-subtle/60" />
