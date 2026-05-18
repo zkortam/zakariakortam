@@ -4,13 +4,13 @@
 
 @layer base {
   :root {
-    --background: 0 0 0;          /* pure black — Axis / KFK canvas */
+    --background: 0 0 0;          /* pure black */
 
     --foreground: 255 255 255;
     --foreground-muted: 161 161 170;   /* neutral-400 */
     --foreground-subtle: 113 113 122;  /* neutral-500 */
 
-    /* Accent — blue (KortamForKongress) */
+    /* Accent: blue */
     --accent: 59 130 246;        /* blue-500 #3b82f6 */
     --accent-strong: 37 99 235;  /* blue-600 #2563eb */
 
@@ -37,7 +37,7 @@
     overflow-x: hidden;
   }
 
-  /* Faint single radial — just enough to lift pure black off the screen */
+  /* Faint single radial: just enough to lift pure black off the screen */
   body::before {
     content: '';
     position: fixed;
@@ -94,7 +94,7 @@
       0 18px 40px -26px rgb(0 0 0 / 0.75);
   }
 
-  /* Eyebrow / section label — restrained, not glowing accent */
+  /* Eyebrow / section label: restrained, not glowing accent */
   .eyebrow {
     @apply text-xs font-medium uppercase;
     letter-spacing: 0.12em;

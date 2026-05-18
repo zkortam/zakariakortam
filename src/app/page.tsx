@@ -4,7 +4,7 @@ import { Hero } from '@/components/Hero'
 import { Section } from '@/components/Section'
 import { ProjectCard } from '@/components/ProjectCard'
 import { Reveal } from '@/components/Reveal'
-import { projects } from '@/lib/projects-data'
+import { projects, isWorkProject } from '@/lib/projects-data'
 
 const focus = [
   {
@@ -13,7 +13,7 @@ const focus = [
   },
   {
     area: 'Product Engineering',
-    desc: 'React, TypeScript, and Node.js — shipping interfaces people actually use.',
+    desc: 'React, TypeScript, and Node.js. Shipping interfaces people actually use.',
   },
   {
     area: 'Applied ML',
@@ -25,16 +25,14 @@ const focus = [
   },
 ]
 
-const featuredIds = ['facilis-ai', 'surf', 'documap-ai', 'incorta-dashboards']
-
 export default function HomePage() {
-  const featured = featuredIds.map((id) => projects.find((p) => p.id === id)!)
+  const featured = projects.filter(isWorkProject)
 
   return (
     <main>
       <Hero />
 
-      {/* What I work on — editorial, numbered, asymmetric */}
+      {/* What I work on */}
       <Section divider className="py-24 sm:py-32">
         <Reveal>
           <div className="grid gap-x-16 gap-y-12 lg:grid-cols-[0.8fr_1.2fr]">
@@ -67,18 +65,18 @@ export default function HomePage() {
         </Reveal>
       </Section>
 
-      {/* Selected work — full-bleed band, large cards */}
+      {/* Work: professional roles and ventures */}
       <Section divider band className="py-24 sm:py-32">
         <Reveal className="flex flex-wrap items-end justify-between gap-6">
           <div>
-            <p className="eyebrow">Portfolio</p>
-            <h2 className="mt-4 text-headline">Selected work</h2>
+            <p className="eyebrow">Work</p>
+            <h2 className="mt-4 text-headline">Roles and ventures</h2>
           </div>
           <Link
             href="/portfolio"
             className="focus-ring group inline-flex shrink-0 items-center gap-2 rounded-full border border-white/10 px-5 py-2.5 text-sm text-foreground-muted transition-all duration-300 hover:border-accent/30 hover:text-accent"
           >
-            All projects
+            Work and projects
             <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
           </Link>
         </Reveal>
@@ -92,7 +90,7 @@ export default function HomePage() {
         </div>
       </Section>
 
-      {/* CTA — full-bleed, centered, glow */}
+      {/* CTA */}
       <Section divider className="relative overflow-hidden py-32 sm:py-40">
         <Reveal className="relative text-center">
           <p className="eyebrow">Get in touch</p>

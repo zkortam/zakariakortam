@@ -42,7 +42,7 @@ export function Footer() {
         </div>
 
         <div className="mt-10 border-t border-white/[0.06] pt-6 text-xs text-foreground-subtle">
-          © {new Date().getFullYear()} Zakaria Kortam — Built with Next.js
+          © {new Date().getFullYear()} Zakaria Kortam · Built with Next.js
         </div>
       </div>
     </footer>

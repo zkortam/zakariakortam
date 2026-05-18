@@ -15,6 +15,11 @@ const item = (delay: number) => ({
 export function Hero() {
   return (
     <section className="relative flex min-h-[100svh] flex-col overflow-hidden">
+      {/* Blue hue behind the portrait */}
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute -right-24 top-1/2 h-[62vh] w-[55vw] max-w-[680px] -translate-y-1/2 rounded-full bg-accent/20 blur-[150px]" />
+      </div>
+
       {/* Portrait bleeding off the right edge */}
       <div className="absolute bottom-0 right-0 hidden h-[88%] w-[52%] lg:block xl:w-[48%]">
         <Image
@@ -32,7 +37,7 @@ export function Hero() {
         />
       </div>
 
-      {/* Content — left aligned, generous space */}
+      {/* Content */}
       <div className="relative z-10 flex flex-1 items-center">
         <div className="mx-auto w-full max-w-content px-6 pt-28 sm:px-8">
           <div className="max-w-2xl">
@@ -40,7 +45,7 @@ export function Hero() {
               {...item(0)}
               className="text-sm font-medium text-foreground-muted"
             >
-              AI Engineer — San Jose, CA
+              AI Engineer · San Jose, CA
             </motion.p>
 
             <motion.h1

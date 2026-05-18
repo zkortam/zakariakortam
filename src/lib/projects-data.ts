@@ -331,3 +331,18 @@ export const projects: Project[] = [
 ]
 
 export const categories = ['All', 'AI/ML', 'Product Engineering', 'Research/Academic', 'Tools'] as const
+
+/**
+ * Work = professional roles and ventures (employment, founded company,
+ * org leadership). Everything else is a personal build, hackathon, or
+ * academic project. Single source of truth for the Work / Projects split.
+ */
+export const WORK_IDS = [
+  'facilis-ai',
+  'surf',
+  'incorta-dashboards',
+  'closingthedivide',
+] as const
+
+export const isWorkProject = (p: Project): boolean =>
+  (WORK_IDS as readonly string[]).includes(p.id)

@@ -2,7 +2,7 @@ import { type ReactNode } from 'react'
 
 /**
  * Full-bleed section. Content is constrained to the reading column,
- * but the section itself spans the viewport — hairline dividers and
+ * but the section itself spans the viewport. Hairline dividers and
  * tonal bands separate sections instead of glass boxes.
  */
 export function Section({

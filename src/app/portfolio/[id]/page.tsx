@@ -36,7 +36,7 @@ export default function ProjectDetailPage({
 
   return (
     <main>
-      {/* Hero header — full-bleed */}
+      {/* Hero header */}
       <Section className="relative overflow-hidden pt-36 pb-20 sm:pt-44 sm:pb-24">
         <div className="relative">
           <Reveal>

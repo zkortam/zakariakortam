@@ -1,16 +1,11 @@
-'use client'
-
-import { useState } from 'react'
 import { Section } from '@/components/Section'
 import { ProjectCard } from '@/components/ProjectCard'
 import { Reveal } from '@/components/Reveal'
-import { projects, categories } from '@/lib/projects-data'
+import { projects, isWorkProject } from '@/lib/projects-data'
 
 export default function PortfolioPage() {
-  const [active, setActive] = useState<string>('All')
-
-  const filtered =
-    active === 'All' ? projects : projects.filter((p) => p.category === active)
+  const work = projects.filter(isWorkProject)
+  const builds = projects.filter((p) => !isWorkProject(p))
 
   return (
     <main>
@@ -25,28 +20,29 @@ export default function PortfolioPage() {
         </Reveal>
       </Section>
 
-      {/* Filters + grid */}
-      <Section divider band className="py-16 sm:py-20">
+      {/* Work: professional roles and ventures */}
+      <Section divider band className="py-20 sm:py-28">
         <Reveal>
-          <div className="flex flex-wrap gap-2">
-            {categories.map((c) => (
-              <button
-                key={c}
-                onClick={() => setActive(c)}
-                className={`focus-ring rounded-full border px-5 py-2.5 text-sm font-medium transition-all duration-300 ${
-                  active === c
-                    ? 'border-white/20 bg-white/[0.08] text-foreground'
-                    : 'border-white/10 text-foreground-muted hover:border-white/20 hover:text-foreground'
-                }`}
-              >
-                {c}
-              </button>
-            ))}
-          </div>
+          <p className="eyebrow">Work</p>
+          <h2 className="mt-3 text-headline">Roles and ventures</h2>
         </Reveal>
-
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {filtered.map((p, i) => (
+          {work.map((p, i) => (
+            <Reveal key={p.id} delay={(i % 3) * 0.06}>
+              <ProjectCard project={p} />
+            </Reveal>
+          ))}
+        </div>
+      </Section>
+
+      {/* Projects: builds, hackathons, and experiments */}
+      <Section divider className="py-20 sm:py-28">
+        <Reveal>
+          <p className="eyebrow">Projects</p>
+          <h2 className="mt-3 text-headline">Builds and experiments</h2>
+        </Reveal>
+        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {builds.map((p, i) => (
             <Reveal key={p.id} delay={(i % 3) * 0.06}>
               <ProjectCard project={p} />
             </Reveal>

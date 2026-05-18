@@ -8,7 +8,7 @@ const experience = [
   {
     role: 'AI Engineer',
     org: 'Facilis',
-    when: 'Apr 2025 — Present',
+    when: 'Apr 2025 to Present',
     points: [
       'Build agentic AI tools for industrial enterprise using the Model Context Protocol',
       'Architect agent orchestration with React, TypeScript, and Node.js',
@@ -18,7 +18,7 @@ const experience = [
   {
     role: 'Product Development Intern',
     org: 'Incorta',
-    when: 'Jun 2024 — Mar 2025',
+    when: 'Jun 2024 to Mar 2025',
     points: [
       'Built full-stack visual components and interactive dashboards',
       'Contributed to AI Copilot features on an enterprise analytics platform',
@@ -28,7 +28,7 @@ const experience = [
   {
     role: 'Founder and Lead Engineer',
     org: 'Surf',
-    when: 'Aug 2022 — Mar 2025',
+    when: 'Aug 2022 to Mar 2025',
     points: [
       'Built a cross-platform social app with Flutter and Dart',
       'Integrated GPT-4 for language and YOLOv8 for vision',
@@ -41,12 +41,12 @@ const education = [
   {
     school: 'University of California, San Diego',
     detail: 'B.S. Electrical Engineering: Machine Learning and Controls',
-    when: '2024 — 2026',
+    when: '2024 to 2026',
   },
   {
     school: 'Evergreen Valley College',
     detail: 'Triple major: Computer Science, Mathematics, Physics. Magna Cum Laude.',
-    when: '2022 — 2024',
+    when: '2022 to 2024',
   },
 ]
 
@@ -60,7 +60,7 @@ const skills: [string, string][] = [
 export default function AboutPage() {
   return (
     <main>
-      {/* Hero — full-bleed, asymmetric */}
+      {/* Hero */}
       <Section className="relative overflow-hidden pt-40 pb-24 sm:pt-48 sm:pb-32">
         <Reveal className="relative">
           <p className="eyebrow">About</p>
@@ -75,7 +75,7 @@ export default function AboutPage() {
         </Reveal>
       </Section>
 
-      {/* Experience — editorial timeline */}
+      {/* Experience */}
       <Section divider band className="py-24 sm:py-32">
         <Reveal className="grid gap-x-16 gap-y-12 lg:grid-cols-[0.55fr_1.45fr]">
           <p className="eyebrow lg:sticky lg:top-28 lg:self-start">
