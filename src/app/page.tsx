@@ -40,7 +40,7 @@ export default function HomePage() {
           <div className="grid gap-x-16 gap-y-12 lg:grid-cols-[0.8fr_1.2fr]">
             <div>
               <p className="eyebrow">What I work on</p>
-              <h2 className="mt-4 text-headline text-gradient">
+              <h2 className="mt-4 text-headline">
                 Systems that
                 <br />
                 think and ship.
@@ -53,7 +53,7 @@ export default function HomePage() {
                   key={f.area}
                   className="group bg-black p-8 transition-colors duration-500 hover:bg-white/[0.02]"
                 >
-                  <div className="text-sm font-semibold text-accent">
+                  <div className="text-sm font-semibold text-foreground-subtle">
                     {String(i + 1).padStart(2, '0')}
                   </div>
                   <h3 className="mt-5 text-lg font-semibold">{f.area}</h3>
@@ -72,7 +72,7 @@ export default function HomePage() {
         <Reveal className="flex flex-wrap items-end justify-between gap-6">
           <div>
             <p className="eyebrow">Portfolio</p>
-            <h2 className="mt-4 text-headline text-gradient">Selected work</h2>
+            <h2 className="mt-4 text-headline">Selected work</h2>
           </div>
           <Link
             href="/portfolio"
@@ -94,12 +94,10 @@ export default function HomePage() {
 
       {/* CTA — full-bleed, centered, glow */}
       <Section divider className="relative overflow-hidden py-32 sm:py-40">
-        <div className="pointer-events-none absolute left-1/2 top-1/2 h-[420px] w-[420px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/15 blur-[140px]" />
         <Reveal className="relative text-center">
           <p className="eyebrow">Get in touch</p>
           <h2 className="mx-auto mt-5 max-w-3xl text-display text-balance">
-            <span className="text-gradient">Let&apos;s build </span>
-            <span className="text-accent">something.</span>
+            Let&apos;s build <span className="text-accent">something.</span>
           </h2>
           <p className="mx-auto mt-7 max-w-md text-lg text-foreground-muted">
             Open to AI engineering work and product collaborations. I usually

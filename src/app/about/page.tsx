@@ -62,16 +62,10 @@ export default function AboutPage() {
     <main>
       {/* Hero — full-bleed, asymmetric */}
       <Section className="relative overflow-hidden pt-40 pb-24 sm:pt-48 sm:pb-32">
-        <div className="pointer-events-none absolute -right-32 top-10 h-[460px] w-[460px] rounded-full bg-accent/15 blur-[140px]" />
         <Reveal className="relative">
-          <span className="badge">
-            <span className="badge-dot" />
-            About
-          </span>
-          <h1 className="mt-8 max-w-4xl text-display text-balance">
-            <span className="text-gradient">AI engineer </span>
-            <span className="text-accent">building</span>
-            <span className="text-gradient"> production systems.</span>
+          <p className="eyebrow">About</p>
+          <h1 className="mt-4 max-w-4xl text-display text-balance">
+            AI engineer building production systems.
           </h1>
           <p className="mt-8 max-w-2xl text-lg leading-relaxed text-foreground-muted text-pretty sm:text-xl">
             I work across machine learning, product engineering, and distributed
@@ -93,7 +87,7 @@ export default function AboutPage() {
                 <div className="flex flex-wrap items-baseline justify-between gap-2">
                   <h3 className="text-xl font-semibold">
                     {e.role}{' '}
-                    <span className="text-accent">· {e.org}</span>
+                    <span className="text-foreground-muted">· {e.org}</span>
                   </h3>
                   <span className="text-sm text-foreground-subtle">
                     {e.when}
@@ -105,7 +99,7 @@ export default function AboutPage() {
                       key={p}
                       className="flex gap-3 text-sm leading-relaxed text-foreground-muted"
                     >
-                      <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-accent" />
+                      <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-foreground-subtle" />
                       {p}
                     </li>
                   ))}
@@ -143,7 +137,7 @@ export default function AboutPage() {
           <div className="grid gap-px overflow-hidden rounded-3xl border border-white/[0.07] sm:grid-cols-2">
             {skills.map(([title, body]) => (
               <div key={title} className="bg-white/[0.015] p-8">
-                <h3 className="font-semibold text-accent">{title}</h3>
+                <h3 className="font-semibold">{title}</h3>
                 <p className="mt-3 text-sm leading-relaxed text-foreground-muted">
                   {body}
                 </p>
@@ -155,11 +149,9 @@ export default function AboutPage() {
 
       {/* CTA */}
       <Section divider className="relative overflow-hidden py-32 sm:py-40">
-        <div className="pointer-events-none absolute left-1/2 top-1/2 h-[400px] w-[400px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/15 blur-[140px]" />
         <Reveal className="relative text-center">
           <h2 className="mx-auto max-w-3xl text-display text-balance">
-            <span className="text-gradient">Let&apos;s work </span>
-            <span className="text-accent">together.</span>
+            Let&apos;s work <span className="text-accent">together.</span>
           </h2>
           <div className="mt-10 flex flex-wrap justify-center gap-3">
             <Link href="/portfolio" className="btn-primary focus-ring">

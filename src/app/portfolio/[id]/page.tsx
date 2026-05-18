@@ -5,7 +5,6 @@ import { use } from 'react'
 import Link from 'next/link'
 import { ArrowLeft, ArrowRight, ArrowUpRight } from 'lucide-react'
 import { projects } from '@/lib/projects-data'
-import { ProjectIcon } from '@/components/ProjectCard'
 import { Section } from '@/components/Section'
 import { Reveal } from '@/components/Reveal'
 
@@ -39,7 +38,6 @@ export default function ProjectDetailPage({
     <main>
       {/* Hero header — full-bleed */}
       <Section className="relative overflow-hidden pt-36 pb-20 sm:pt-44 sm:pb-24">
-        <div className="pointer-events-none absolute -right-32 top-0 h-[460px] w-[460px] rounded-full bg-accent/15 blur-[140px]" />
         <div className="relative">
           <Reveal>
             <Link
@@ -51,14 +49,11 @@ export default function ProjectDetailPage({
             </Link>
           </Reveal>
 
-          <Reveal delay={0.06} className="mt-10">
-            <div className="flex h-16 w-16 items-center justify-center rounded-3xl border border-accent/20 bg-accent/[0.08] text-accent">
-              <ProjectIcon id={project.id} className="h-7 w-7" />
-            </div>
-            <p className="mt-8 eyebrow">
+          <Reveal delay={0.06} className="mt-12">
+            <p className="eyebrow">
               {project.category} · {project.year}
             </p>
-            <h1 className="mt-4 max-w-4xl text-display text-balance text-gradient">
+            <h1 className="mt-4 max-w-4xl text-display text-balance">
               {project.title}
             </h1>
             <p className="mt-7 max-w-2xl text-lg leading-relaxed text-foreground-muted text-pretty sm:text-xl">
@@ -99,7 +94,7 @@ export default function ProjectDetailPage({
                       key={it}
                       className="flex gap-3 leading-relaxed text-foreground-muted"
                     >
-                      <span className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
+                      <span className="mt-2.5 h-1 w-1 shrink-0 rounded-full bg-foreground-subtle" />
                       {it}
                     </li>
                   ))}
@@ -144,7 +139,7 @@ export default function ProjectDetailPage({
           {prev ? (
             <Link
               href={`/portfolio/${prev.id}`}
-              className="focus-ring group rounded-4xl border border-white/[0.07] bg-white/[0.015] p-8 transition-all duration-500 hover:-translate-y-1 hover:border-accent/30"
+              className="focus-ring group rounded-2xl border border-white/[0.06] bg-white/[0.02] p-8 transition-all duration-500 hover:-translate-y-1 hover:border-white/[0.12] hover:bg-white/[0.04]"
             >
               <div className="eyebrow flex items-center gap-2">
                 <ArrowLeft className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-x-1" />
@@ -158,7 +153,7 @@ export default function ProjectDetailPage({
           {next && (
             <Link
               href={`/portfolio/${next.id}`}
-              className="focus-ring group rounded-4xl border border-white/[0.07] bg-white/[0.015] p-8 transition-all duration-500 hover:-translate-y-1 hover:border-accent/30 sm:text-right"
+              className="focus-ring group rounded-2xl border border-white/[0.06] bg-white/[0.02] p-8 transition-all duration-500 hover:-translate-y-1 hover:border-white/[0.12] hover:bg-white/[0.04] sm:text-right"
             >
               <div className="eyebrow flex items-center gap-2 sm:justify-end">
                 Next

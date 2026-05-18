@@ -3,12 +3,11 @@ import Link from 'next/link'
 export default function NotFound() {
   return (
     <main className="relative flex min-h-[100svh] items-center justify-center overflow-hidden px-6 text-center">
-      <div className="pointer-events-none absolute left-1/2 top-1/2 h-[460px] w-[460px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/15 blur-[150px]" />
       <div className="relative">
-        <p className="text-[clamp(5rem,18vw,11rem)] font-bold leading-none text-accent">
+        <p className="text-[clamp(5rem,18vw,11rem)] font-bold leading-none text-foreground-subtle">
           404
         </p>
-        <h1 className="mt-2 text-headline text-gradient">Page not found</h1>
+        <h1 className="mt-2 text-headline">Page not found</h1>
         <p className="mt-4 text-foreground-muted">
           This page does not exist or has moved.
         </p>

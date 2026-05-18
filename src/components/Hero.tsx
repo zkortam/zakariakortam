@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
-import { ArrowRight, ArrowDown } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 
 const EASE = [0.16, 1, 0.3, 1] as const
 const item = (delay: number) => ({
@@ -15,12 +15,6 @@ const item = (delay: number) => ({
 export function Hero() {
   return (
     <section className="relative flex min-h-[100svh] flex-col overflow-hidden">
-      {/* Ambient blue glows */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -left-32 top-[8%] h-[42vw] max-h-[520px] w-[42vw] max-w-[520px] rounded-full bg-accent/20 blur-[130px] animate-glow-pulse" />
-        <div className="absolute -right-24 bottom-[6%] h-[38vw] max-h-[460px] w-[38vw] max-w-[460px] rounded-full bg-accent-strong/15 blur-[120px]" />
-      </div>
-
       {/* Portrait bleeding off the right edge */}
       <div className="absolute bottom-0 right-0 hidden h-[88%] w-[52%] lg:block xl:w-[48%]">
         <Image
@@ -42,20 +36,20 @@ export function Hero() {
       <div className="relative z-10 flex flex-1 items-center">
         <div className="mx-auto w-full max-w-content px-6 pt-28 sm:px-8">
           <div className="max-w-2xl">
-            <motion.div {...item(0)}>
-              <span className="badge">
-                <span className="badge-dot" />
-                AI Engineer · San Jose, CA
-              </span>
-            </motion.div>
+            <motion.p
+              {...item(0)}
+              className="text-sm font-medium text-foreground-muted"
+            >
+              AI Engineer — San Jose, CA
+            </motion.p>
 
             <motion.h1
               {...item(0.12)}
-              className="mt-8 text-balance text-display"
+              className="mt-6 text-balance text-display"
             >
-              <span className="text-gradient">Zakaria</span>
+              Zakaria
               <br />
-              <span className="text-gradient">Kortam</span>
+              Kortam
             </motion.h1>
 
             <motion.p
@@ -83,17 +77,8 @@ export function Hero() {
         </div>
       </div>
 
-      {/* Bottom fade + scroll cue */}
+      {/* Bottom fade to blend the portrait into the page */}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black via-black/70 to-transparent" />
-      <motion.div
-        {...item(0.6)}
-        className="absolute inset-x-0 bottom-7 z-10 flex justify-center"
-      >
-        <span className="flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-foreground-subtle">
-          <ArrowDown className="h-3.5 w-3.5 animate-bounce" />
-          Scroll
-        </span>
-      </motion.div>
     </section>
   )
 }

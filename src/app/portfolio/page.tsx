@@ -16,16 +16,9 @@ export default function PortfolioPage() {
     <main>
       {/* Hero */}
       <Section className="relative overflow-hidden pt-40 pb-20 sm:pt-48 sm:pb-24">
-        <div className="pointer-events-none absolute -right-32 top-10 h-[440px] w-[440px] rounded-full bg-accent/15 blur-[140px]" />
         <Reveal className="relative">
-          <span className="badge">
-            <span className="badge-dot" />
-            Portfolio
-          </span>
-          <h1 className="mt-8 text-display text-balance">
-            <span className="text-gradient">Selected </span>
-            <span className="text-accent">work.</span>
-          </h1>
+          <p className="eyebrow">Portfolio</p>
+          <h1 className="mt-4 text-display text-balance">Selected work</h1>
           <p className="mt-7 max-w-xl text-lg text-foreground-muted sm:text-xl">
             Shipped products, research, and the systems behind them.
           </p>
@@ -42,7 +35,7 @@ export default function PortfolioPage() {
                 onClick={() => setActive(c)}
                 className={`focus-ring rounded-full border px-5 py-2.5 text-sm font-medium transition-all duration-300 ${
                   active === c
-                    ? 'border-accent/40 bg-accent/15 text-accent'
+                    ? 'border-white/20 bg-white/[0.08] text-foreground'
                     : 'border-white/10 text-foreground-muted hover:border-white/20 hover:text-foreground'
                 }`}
               >

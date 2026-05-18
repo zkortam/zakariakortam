@@ -28,16 +28,9 @@ export default function ContactPage() {
     <main>
       {/* Hero */}
       <Section className="relative overflow-hidden pt-40 pb-20 sm:pt-48 sm:pb-24">
-        <div className="pointer-events-none absolute -right-32 top-10 h-[440px] w-[440px] rounded-full bg-accent/15 blur-[140px]" />
         <Reveal className="relative">
-          <span className="badge">
-            <span className="badge-dot" />
-            Contact
-          </span>
-          <h1 className="mt-8 text-display text-balance">
-            <span className="text-gradient">Let&apos;s </span>
-            <span className="text-accent">talk.</span>
-          </h1>
+          <p className="eyebrow">Contact</p>
+          <h1 className="mt-4 text-display text-balance">Let&apos;s talk.</h1>
           <p className="mt-7 max-w-xl text-lg text-foreground-muted sm:text-xl">
             AI engineering, product work, or collaboration. I usually reply
             within a day.
