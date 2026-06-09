@@ -5,6 +5,7 @@ import { Linkedin, Twitter, Instagram, Github, Check, Copy } from 'lucide-react'
 import { Section } from '@/components/Section'
 import { ContactForm } from '@/components/ContactForm'
 import { Reveal } from '@/components/Reveal'
+import { MaskText } from '@/components/MaskText'
 
 const socials = [
   { name: 'LinkedIn', href: 'https://linkedin.com/in/zkortam', icon: Linkedin },
@@ -28,14 +29,23 @@ export default function ContactPage() {
     <main>
       {/* Hero */}
       <Section className="relative overflow-hidden pt-40 pb-20 sm:pt-48 sm:pb-24">
-        <Reveal className="relative">
-          <p className="eyebrow">Contact</p>
-          <h1 className="mt-4 text-display text-balance">Let&apos;s talk.</h1>
-          <p className="mt-7 max-w-xl text-lg text-foreground-muted sm:text-xl">
-            AI engineering, product work, or collaboration. I usually reply
-            within a day.
-          </p>
-        </Reveal>
+        <div className="relative">
+          <Reveal>
+            <p className="eyebrow">Contact</p>
+          </Reveal>
+          <MaskText
+            as="h1"
+            inView={false}
+            className="mt-4 text-display text-balance"
+            lines={["Let's talk."]}
+          />
+          <Reveal delay={0.12}>
+            <p className="mt-7 max-w-xl text-lg text-foreground-muted sm:text-xl">
+              AI engineering, product work, or collaboration. I usually reply
+              within a day.
+            </p>
+          </Reveal>
+        </div>
       </Section>
 
       {/* Form + details */}

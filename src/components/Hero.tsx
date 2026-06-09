@@ -1,25 +1,58 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { useRef } from 'react'
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useReducedMotion,
+} from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowRight } from 'lucide-react'
+import { MaskText } from './MaskText'
 
 const EASE = [0.16, 1, 0.3, 1] as const
-const item = (delay: number) => ({
-  initial: { opacity: 0, y: 24 },
-  animate: { opacity: 1, y: 0 },
+const fade = (delay: number) => ({
+  initial: { opacity: 0, y: 20, filter: 'blur(6px)' },
+  animate: { opacity: 1, y: 0, filter: 'blur(0px)' },
   transition: { duration: 1, delay, ease: EASE },
 })
 
 export function Hero() {
+  const ref = useRef<HTMLElement>(null)
+  const reduce = useReducedMotion()
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start start', 'end start'],
+  })
+
+  // Layered parallax: portrait drifts slow, content lifts faster, glow trails.
+  const portraitY = useTransform(scrollYProgress, [0, 1], ['0%', '-14%'])
+  const portraitScale = useTransform(scrollYProgress, [0, 1], [1, 1.08])
+  const contentY = useTransform(scrollYProgress, [0, 1], ['0%', '-40%'])
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0])
+  const glowY = useTransform(scrollYProgress, [0, 1], ['0%', '30%'])
+  const cueOpacity = useTransform(scrollYProgress, [0, 0.12], [1, 0])
+
+  const s = reduce ? {} : undefined
+
   return (
-    <section className="relative flex min-h-[100svh] flex-col overflow-hidden">
-      {/* Subtle blue hue, low and behind the portrait */}
-      <div className="pointer-events-none absolute -bottom-24 right-[4%] -z-10 h-[46vh] w-[40vw] max-w-[520px] rounded-full bg-accent/12 blur-[160px]" />
+    <section
+      ref={ref}
+      className="relative flex min-h-[100svh] flex-col overflow-hidden"
+    >
+      {/* Warm hue, low and behind the portrait */}
+      <motion.div
+        style={reduce ? undefined : { y: glowY }}
+        className="pointer-events-none absolute -bottom-24 right-[4%] -z-10 h-[48vh] w-[42vw] max-w-[540px] rounded-full bg-accent/[0.10] blur-[170px]"
+      />
 
       {/* Portrait bleeding off the right edge */}
-      <div className="absolute bottom-0 right-0 hidden h-[88%] w-[52%] lg:block xl:w-[48%]">
+      <motion.div
+        style={reduce ? s : { y: portraitY, scale: portraitScale }}
+        className="absolute bottom-0 right-0 hidden h-[88%] w-[52%] origin-bottom lg:block xl:w-[48%]"
+      >
         <Image
           src="/zakaria.png"
           alt="Zakaria Kortam"
@@ -27,47 +60,46 @@ export function Hero() {
           priority
           className="object-contain object-bottom mix-blend-lighten"
           style={{
-            maskImage:
-              'linear-gradient(to left, black 38%, transparent 90%)',
+            maskImage: 'linear-gradient(to left, black 38%, transparent 90%)',
             WebkitMaskImage:
               'linear-gradient(to left, black 38%, transparent 90%)',
           }}
         />
-      </div>
+      </motion.div>
 
       {/* Content */}
-      <div className="relative z-10 flex flex-1 items-center">
+      <motion.div
+        style={reduce ? undefined : { y: contentY, opacity: contentOpacity }}
+        className="relative z-10 flex flex-1 items-center"
+      >
         <div className="mx-auto w-full max-w-content px-6 pt-28 sm:px-8">
           <div className="max-w-2xl">
             <motion.p
-              {...item(0)}
-              className="text-sm font-medium text-foreground-muted"
+              {...fade(0)}
+              className="text-sm font-medium tracking-wide text-foreground-muted"
             >
               AI Engineer · San Jose, CA
             </motion.p>
 
-            <motion.h1
-              {...item(0.12)}
-              className="mt-6 text-balance text-display"
-            >
-              Zakaria
-              <br />
-              Kortam
-            </motion.h1>
+            <MaskText
+              as="h1"
+              inView={false}
+              stagger={0.1}
+              className="mt-6 text-display text-balance"
+              lines={['Zakaria', 'Kortam']}
+            />
 
             <motion.p
-              {...item(0.24)}
+              {...fade(0.5)}
               className="mt-8 max-w-md text-lg leading-relaxed text-foreground-muted text-pretty sm:text-xl"
             >
-              Founding AI Engineer at <span className="text-accent">FacilisAI</span>,
-              building agentic systems for industrial enterprise. Previously
-              product engineering at Incorta and Adobe. EE at UC San Diego.
+              Founding AI Engineer at{' '}
+              <span className="text-accent">FacilisAI</span>, building agentic
+              systems for industrial enterprise. Previously product engineering
+              at Incorta and Adobe. EE at UC San Diego.
             </motion.p>
 
-            <motion.div
-              {...item(0.36)}
-              className="mt-11 flex flex-wrap gap-3"
-            >
+            <motion.div {...fade(0.62)} className="mt-11 flex flex-wrap gap-3">
               <Link href="/portfolio" className="btn-primary focus-ring group">
                 View Work
                 <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
@@ -78,7 +110,24 @@ export function Hero() {
             </motion.div>
           </div>
         </div>
-      </div>
+      </motion.div>
+
+      {/* Scroll cue */}
+      <motion.div
+        style={reduce ? undefined : { opacity: cueOpacity }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.1, duration: 0.8, ease: EASE }}
+        className="pointer-events-none absolute inset-x-0 bottom-7 z-10 flex justify-center"
+      >
+        <div className="flex h-9 w-[22px] items-start justify-center rounded-full border border-white/15 p-1.5">
+          <motion.span
+            animate={reduce ? undefined : { y: [0, 8, 0], opacity: [1, 0.2, 1] }}
+            transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+            className="block h-1.5 w-1.5 rounded-full bg-foreground/70"
+          />
+        </div>
+      </motion.div>
 
       {/* Bottom fade to blend the portrait into the page */}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black via-black/70 to-transparent" />

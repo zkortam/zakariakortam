@@ -41,8 +41,9 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-10 border-t border-white/[0.06] pt-6 text-xs text-foreground-subtle">
-          © {new Date().getFullYear()} Zakaria Kortam · Built with Next.js
+        <div className="mt-10 flex flex-wrap items-center justify-between gap-3 border-t border-white/[0.06] pt-6 text-xs text-foreground-subtle">
+          <span>© {new Date().getFullYear()} Zakaria Kortam</span>
+          <span>Designed &amp; built in California</span>
         </div>
       </div>
     </footer>

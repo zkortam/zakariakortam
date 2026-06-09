@@ -3,10 +3,12 @@ import { ArrowRight } from 'lucide-react'
 import { Hero } from '@/components/Hero'
 import { Section } from '@/components/Section'
 import { ProjectCard } from '@/components/ProjectCard'
-import { Reveal } from '@/components/Reveal'
+import { Reveal, Stagger, StaggerItem } from '@/components/Reveal'
+import { MaskText } from '@/components/MaskText'
+import { FocusScroll, type Focus } from '@/components/FocusScroll'
 import { projects, isWorkProject } from '@/lib/projects-data'
 
-const focus = [
+const focus: Focus[] = [
   {
     area: 'Agentic AI',
     desc: 'Model Context Protocol, tool-using agents, and orchestration for enterprise systems.',
@@ -32,45 +34,15 @@ export default function HomePage() {
     <main>
       <Hero />
 
-      {/* What I work on */}
-      <Section divider className="py-24 sm:py-32">
-        <Reveal>
-          <div className="grid gap-x-16 gap-y-12 lg:grid-cols-[0.8fr_1.2fr]">
-            <div>
-              <p className="eyebrow">What I work on</p>
-              <h2 className="mt-4 text-headline">
-                Systems that
-                <br />
-                think and ship.
-              </h2>
-            </div>
-
-            <div className="grid gap-px overflow-hidden rounded-3xl border border-white/[0.07] bg-white/[0.04] sm:grid-cols-2">
-              {focus.map((f, i) => (
-                <div
-                  key={f.area}
-                  className="group bg-black p-8 transition-colors duration-500 hover:bg-white/[0.02]"
-                >
-                  <div className="text-sm font-semibold text-foreground-subtle">
-                    {String(i + 1).padStart(2, '0')}
-                  </div>
-                  <h3 className="mt-5 text-lg font-semibold">{f.area}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-foreground-muted">
-                    {f.desc}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </Reveal>
-      </Section>
+      {/* What I work on — pinned, scrubbed */}
+      <FocusScroll items={focus} />
 
       {/* Work: professional roles and ventures */}
       <Section divider band className="py-24 sm:py-32">
         <Reveal className="flex flex-wrap items-end justify-between gap-6">
           <div>
             <p className="eyebrow">Work</p>
-            <h2 className="mt-4 text-headline">Roles</h2>
+            <MaskText as="h2" className="mt-4 text-headline" lines={['Roles']} />
           </div>
           <Link
             href="/portfolio"
@@ -81,40 +53,51 @@ export default function HomePage() {
           </Link>
         </Reveal>
 
-        <div className="mt-14 grid gap-6 sm:grid-cols-2">
-          {featured.map((p, i) => (
-            <Reveal key={p.id} delay={(i % 2) * 0.08}>
+        <Stagger className="mt-14 grid gap-6 sm:grid-cols-2">
+          {featured.map((p) => (
+            <StaggerItem key={p.id}>
               <ProjectCard project={p} />
-            </Reveal>
+            </StaggerItem>
           ))}
-        </div>
+        </Stagger>
       </Section>
 
       {/* CTA */}
       <Section divider className="relative overflow-hidden py-32 sm:py-40">
-        <Reveal className="relative text-center">
-          <p className="eyebrow">Get in touch</p>
-          <h2 className="mx-auto mt-5 max-w-3xl text-display text-balance">
-            Let&apos;s build <span className="text-accent">something.</span>
-          </h2>
-          <p className="mx-auto mt-7 max-w-md text-lg text-foreground-muted">
-            Open to AI engineering work and product collaborations. I usually
-            reply within a day.
-          </p>
-          <div className="mt-10 flex flex-wrap justify-center gap-3">
-            <Link href="/contact" className="btn-primary focus-ring">
-              Contact
-            </Link>
-            <a
-              href="https://github.com/zkortam"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-secondary focus-ring"
-            >
-              GitHub
-            </a>
-          </div>
-        </Reveal>
+        <div className="relative text-center">
+          <Reveal>
+            <p className="eyebrow">Get in touch</p>
+          </Reveal>
+          <MaskText
+            as="h2"
+            stagger={0.1}
+            className="mx-auto mt-5 max-w-3xl text-display text-balance"
+            lines={[
+              <span key="cta">
+                Let&apos;s build <span className="text-accent">something.</span>
+              </span>,
+            ]}
+          />
+          <Reveal delay={0.1}>
+            <p className="mx-auto mt-7 max-w-md text-lg text-foreground-muted">
+              Open to AI engineering work and product collaborations. I usually
+              reply within a day.
+            </p>
+            <div className="mt-10 flex flex-wrap justify-center gap-3">
+              <Link href="/contact" className="btn-primary focus-ring">
+                Contact
+              </Link>
+              <a
+                href="https://github.com/zkortam"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-secondary focus-ring"
+              >
+                GitHub
+              </a>
+            </div>
+          </Reveal>
+        </div>
       </Section>
     </main>
   )

@@ -18,12 +18,13 @@ const config: Config = {
         "accent-strong": "rgb(var(--accent-strong) / <alpha-value>)",
       },
       fontFamily: {
-        inter: ["var(--font-inter)", "ui-sans-serif", "system-ui", "sans-serif"],
+        display: ["var(--font-display)", "Georgia", "Times New Roman", "serif"],
+        sans: ["var(--font-sans)", "ui-sans-serif", "system-ui", "sans-serif"],
       },
       fontSize: {
-        // Fluid display scale — KFK heading-xl / Axis hero
-        display: ["clamp(2.75rem, 8vw, 5.75rem)", { lineHeight: "0.9", letterSpacing: "-0.04em", fontWeight: "700" }],
-        headline: ["clamp(2rem, 5.5vw, 3.5rem)", { lineHeight: "0.95", letterSpacing: "-0.03em", fontWeight: "700" }],
+        // Fluid display scale — optical serif, tuned for large sizes
+        display: ["clamp(2.75rem, 8vw, 6rem)", { lineHeight: "0.96", letterSpacing: "-0.022em", fontWeight: "560" }],
+        headline: ["clamp(2rem, 5.5vw, 3.5rem)", { lineHeight: "1", letterSpacing: "-0.018em", fontWeight: "560" }],
       },
       maxWidth: {
         content: "64rem", // 1024px — the one width everything aligns to

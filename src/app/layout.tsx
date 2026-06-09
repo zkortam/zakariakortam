@@ -1,15 +1,25 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Fraunces, Hanken_Grotesk } from "next/font/google";
 import "./globals.css";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { PageTransition } from "@/components/PageTransition";
 import { StructuredData } from "@/components/StructuredData";
+import { MotionProvider } from "@/components/MotionProvider";
 
-const inter = Inter({
+// Body / UI: a clean, slightly warm grotesk (not Inter)
+const hanken = Hanken_Grotesk({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-sans",
   display: "swap",
+});
+
+// Display: an optical serif for headline gravitas
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  variable: "--font-display",
+  display: "swap",
+  axes: ["opsz"],
 });
 
 export const metadata: Metadata = {
@@ -99,7 +109,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang="en" className={`${hanken.variable} ${fraunces.variable}`}>
       <head>
         <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
@@ -108,13 +118,15 @@ export default function RootLayout({
         <link rel="manifest" href="/site.webmanifest" />
         <meta name="theme-color" content="#000000" />
       </head>
-      <body className="font-inter antialiased">
+      <body className="font-sans antialiased">
         <StructuredData />
-        <Navigation />
-        <PageTransition>
-          {children}
-        </PageTransition>
-        <Footer />
+        <MotionProvider>
+          <Navigation />
+          <PageTransition>
+            {children}
+          </PageTransition>
+          <Footer />
+        </MotionProvider>
       </body>
     </html>
   );
