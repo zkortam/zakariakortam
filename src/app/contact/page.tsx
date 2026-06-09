@@ -6,6 +6,12 @@ import { Section } from '@/components/Section'
 import { ContactForm } from '@/components/ContactForm'
 import { Reveal } from '@/components/Reveal'
 import { MaskText } from '@/components/MaskText'
+import { ChapterRail } from '@/components/ChapterRail'
+
+const chapters = [
+  { id: 'intro', label: 'Contact' },
+  { id: 'form', label: 'Message' },
+]
 
 const socials = [
   { name: 'LinkedIn', href: 'https://linkedin.com/in/zkortam', icon: Linkedin },
@@ -27,8 +33,10 @@ export default function ContactPage() {
 
   return (
     <main>
+      <ChapterRail chapters={chapters} />
+
       {/* Hero */}
-      <Section className="relative overflow-hidden pt-40 pb-20 sm:pt-48 sm:pb-24">
+      <Section id="intro" className="relative overflow-hidden pt-40 pb-20 sm:pt-48 sm:pb-24">
         <div className="relative">
           <Reveal>
             <p className="eyebrow">Contact</p>
@@ -49,7 +57,7 @@ export default function ContactPage() {
       </Section>
 
       {/* Form + details */}
-      <Section divider band className="py-20 sm:py-28">
+      <Section id="form" divider band className="py-20 sm:py-28">
         <div className="grid gap-16 lg:grid-cols-[1.4fr_0.6fr]">
           <Reveal>
             <ContactForm />

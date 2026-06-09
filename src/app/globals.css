@@ -47,24 +47,6 @@
     font-optical-sizing: auto;
   }
 
-  /* Warm ambient depth — soft, low, off-center. Gravitas, not a blob. */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    background:
-      radial-gradient(75rem 60rem at 82% -18%, rgb(var(--accent) / 0.09), transparent 62%),
-      radial-gradient(60rem 50rem at 8% 108%, rgb(var(--accent) / 0.06), transparent 60%);
-    pointer-events: none;
-    animation: ambient-drift 26s ease-in-out infinite alternate;
-  }
-
-  @keyframes ambient-drift {
-    from { transform: translate3d(0, 0, 0) scale(1); }
-    to   { transform: translate3d(-2.5%, 1.5%, 0) scale(1.06); }
-  }
-
   ::selection {
     background: rgb(var(--accent) / 0.28);
     color: #fff;

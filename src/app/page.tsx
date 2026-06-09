@@ -6,7 +6,15 @@ import { WorkIndex } from '@/components/WorkIndex'
 import { Reveal } from '@/components/Reveal'
 import { MaskText } from '@/components/MaskText'
 import { FocusScroll, type Focus } from '@/components/FocusScroll'
+import { ChapterRail } from '@/components/ChapterRail'
 import { projects, isWorkProject } from '@/lib/projects-data'
+
+const chapters = [
+  { id: 'intro', label: 'Intro' },
+  { id: 'focus', label: 'What I do' },
+  { id: 'work', label: 'Work' },
+  { id: 'contact', label: 'Contact' },
+]
 
 const focus: Focus[] = [
   {
@@ -32,13 +40,17 @@ export default function HomePage() {
 
   return (
     <main>
-      <Hero />
+      <ChapterRail chapters={chapters} />
+
+      <div id="intro">
+        <Hero />
+      </div>
 
       {/* What I work on — pinned, scrubbed */}
-      <FocusScroll items={focus} />
+      <FocusScroll items={focus} id="focus" />
 
       {/* Work: professional roles and ventures */}
-      <Section divider band className="py-24 sm:py-32">
+      <Section id="work" divider band className="py-24 sm:py-32">
         <Reveal className="flex flex-wrap items-end justify-between gap-6">
           <div>
             <p className="eyebrow">Work</p>
@@ -57,7 +69,7 @@ export default function HomePage() {
       </Section>
 
       {/* CTA */}
-      <Section divider className="relative overflow-hidden py-32 sm:py-40">
+      <Section id="contact" divider className="relative overflow-hidden py-32 sm:py-40">
         <div className="relative text-center">
           <Reveal>
             <p className="eyebrow">Get in touch</p>

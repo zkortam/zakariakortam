@@ -3,7 +3,14 @@ import { WorkIndex } from '@/components/WorkIndex'
 import { ProjectGrid } from '@/components/ProjectGrid'
 import { Reveal } from '@/components/Reveal'
 import { MaskText } from '@/components/MaskText'
+import { ChapterRail } from '@/components/ChapterRail'
 import { projects, isWorkProject } from '@/lib/projects-data'
+
+const chapters = [
+  { id: 'intro', label: 'Overview' },
+  { id: 'work', label: 'Roles' },
+  { id: 'projects', label: 'Builds' },
+]
 
 export default function PortfolioPage() {
   const work = projects.filter(isWorkProject)
@@ -11,8 +18,10 @@ export default function PortfolioPage() {
 
   return (
     <main>
+      <ChapterRail chapters={chapters} />
+
       {/* Hero */}
-      <Section className="relative overflow-hidden pt-40 pb-20 sm:pt-48 sm:pb-24">
+      <Section id="intro" className="relative overflow-hidden pt-40 pb-20 sm:pt-48 sm:pb-24">
         <div className="relative">
           <Reveal>
             <p className="eyebrow">Portfolio</p>
@@ -33,7 +42,7 @@ export default function PortfolioPage() {
       </Section>
 
       {/* Roles — editorial index */}
-      <Section divider band className="py-20 sm:py-28">
+      <Section id="work" divider band className="py-20 sm:py-28">
         <Reveal>
           <p className="eyebrow">Work</p>
           <MaskText as="h2" className="mt-3 text-headline" lines={['Roles']} />
@@ -42,7 +51,7 @@ export default function PortfolioPage() {
       </Section>
 
       {/* Projects — filterable, animated */}
-      <Section divider className="py-20 sm:py-28">
+      <Section id="projects" divider className="py-20 sm:py-28">
         <Reveal className="mb-12">
           <p className="eyebrow">Projects</p>
           <MaskText as="h2" className="mt-3 text-headline" lines={['Builds']} />
