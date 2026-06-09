@@ -52,7 +52,7 @@ export function MaskText({
           <span
             key={i}
             className="block overflow-hidden"
-            style={{ paddingBottom: '0.1em' }}
+            style={{ paddingBottom: '0.22em', marginBottom: '-0.12em' }}
           >
             <motion.span variants={line} className="block will-change-transform">
               {l}

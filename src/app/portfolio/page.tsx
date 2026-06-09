@@ -1,6 +1,7 @@
 import { Section } from '@/components/Section'
-import { ProjectCard } from '@/components/ProjectCard'
-import { Reveal, Stagger, StaggerItem } from '@/components/Reveal'
+import { WorkIndex } from '@/components/WorkIndex'
+import { ProjectGrid } from '@/components/ProjectGrid'
+import { Reveal } from '@/components/Reveal'
 import { MaskText } from '@/components/MaskText'
 import { projects, isWorkProject } from '@/lib/projects-data'
 
@@ -24,40 +25,29 @@ export default function PortfolioPage() {
           />
           <Reveal delay={0.12}>
             <p className="mt-7 max-w-xl text-lg text-foreground-muted sm:text-xl">
-              Shipped products, research, and the systems behind them.
+              Shipped products, research, and the systems behind them — from a
+              founding AI role to hackathon wins.
             </p>
           </Reveal>
         </div>
       </Section>
 
-      {/* Work: professional roles and ventures */}
+      {/* Roles — editorial index */}
       <Section divider band className="py-20 sm:py-28">
         <Reveal>
           <p className="eyebrow">Work</p>
           <MaskText as="h2" className="mt-3 text-headline" lines={['Roles']} />
         </Reveal>
-        <Stagger className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {work.map((p) => (
-            <StaggerItem key={p.id}>
-              <ProjectCard project={p} />
-            </StaggerItem>
-          ))}
-        </Stagger>
+        <WorkIndex items={work} />
       </Section>
 
-      {/* Projects: builds, hackathons, and experiments */}
+      {/* Projects — filterable, animated */}
       <Section divider className="py-20 sm:py-28">
-        <Reveal>
+        <Reveal className="mb-12">
           <p className="eyebrow">Projects</p>
-          <MaskText as="h2" className="mt-3 text-headline" lines={['Projects']} />
+          <MaskText as="h2" className="mt-3 text-headline" lines={['Builds']} />
         </Reveal>
-        <Stagger className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {builds.map((p) => (
-            <StaggerItem key={p.id}>
-              <ProjectCard project={p} />
-            </StaggerItem>
-          ))}
-        </Stagger>
+        <ProjectGrid projects={builds} />
       </Section>
     </main>
   )

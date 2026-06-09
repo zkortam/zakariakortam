@@ -2,8 +2,8 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { Hero } from '@/components/Hero'
 import { Section } from '@/components/Section'
-import { ProjectCard } from '@/components/ProjectCard'
-import { Reveal, Stagger, StaggerItem } from '@/components/Reveal'
+import { WorkIndex } from '@/components/WorkIndex'
+import { Reveal } from '@/components/Reveal'
 import { MaskText } from '@/components/MaskText'
 import { FocusScroll, type Focus } from '@/components/FocusScroll'
 import { projects, isWorkProject } from '@/lib/projects-data'
@@ -53,13 +53,7 @@ export default function HomePage() {
           </Link>
         </Reveal>
 
-        <Stagger className="mt-14 grid gap-6 sm:grid-cols-2">
-          {featured.map((p) => (
-            <StaggerItem key={p.id}>
-              <ProjectCard project={p} />
-            </StaggerItem>
-          ))}
-        </Stagger>
+        <WorkIndex items={featured} />
       </Section>
 
       {/* CTA */}

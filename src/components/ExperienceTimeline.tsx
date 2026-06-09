@@ -42,11 +42,27 @@ export function ExperienceTimeline({ items }: { items: Experience[] }) {
 
   return (
     <div ref={ref} className="relative pl-9 sm:pl-14">
-      {/* Track + maroon fill */}
-      <div className="absolute bottom-2 left-[10px] top-2 w-px bg-white/10 sm:left-[15px]" />
+      {/* Track (always-visible faint maroon) + bright maroon scroll fill.
+          Both fade out below the last dot so the line never looks cut off. */}
+      <div
+        className="absolute bottom-10 left-[10px] top-2 w-[2px] rounded-full bg-accent/20 sm:left-[15px]"
+        style={{
+          maskImage: 'linear-gradient(to bottom, #000 86%, transparent)',
+          WebkitMaskImage: 'linear-gradient(to bottom, #000 86%, transparent)',
+        }}
+      />
       <motion.div
-        style={reduce ? { transform: 'scaleY(1)' } : { scaleY: lineScale }}
-        className="absolute bottom-2 left-[10px] top-2 w-px origin-top bg-accent sm:left-[15px]"
+        style={
+          reduce
+            ? { transform: 'scaleY(1)' }
+            : {
+                scaleY: lineScale,
+                maskImage: 'linear-gradient(to bottom, #000 86%, transparent)',
+                WebkitMaskImage:
+                  'linear-gradient(to bottom, #000 86%, transparent)',
+              }
+        }
+        className="absolute bottom-10 left-[10px] top-2 w-[2px] origin-top rounded-full bg-accent sm:left-[15px]"
       />
 
       <div className="space-y-12 sm:space-y-16">
