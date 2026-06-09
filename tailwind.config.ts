@@ -27,7 +27,7 @@ const config: Config = {
         headline: ["clamp(2rem, 5.5vw, 3.5rem)", { lineHeight: "1", letterSpacing: "-0.018em", fontWeight: "560" }],
       },
       maxWidth: {
-        content: "64rem", // 1024px — the one width everything aligns to
+        content: "80rem", // 1280px — the one width everything aligns to
       },
       borderRadius: {
         xl: "0.875rem",

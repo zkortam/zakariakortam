@@ -21,8 +21,8 @@ export function WorkIndex({ items }: { items: Project[] }) {
             {/* Maroon wash sweeps from the left on hover */}
             <span className="pointer-events-none absolute inset-0 origin-left scale-x-0 bg-gradient-to-r from-accent/[0.16] via-accent/[0.05] to-transparent transition-transform duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-x-100" />
 
-            <div className="relative grid grid-cols-[auto_1fr_auto] items-center gap-4 py-7 sm:gap-8 sm:py-9">
-              <span className="font-display text-sm tabular-nums text-foreground-subtle transition-colors duration-500 group-hover:text-accent">
+            <div className="relative grid grid-cols-[2.25rem_1fr_auto] items-center gap-4 py-7 sm:grid-cols-[4rem_1fr_auto] sm:gap-8 sm:py-9">
+              <span className="font-display text-2xl leading-none tabular-nums text-white/20 transition-colors duration-500 group-hover:text-accent sm:text-4xl">
                 {String(i + 1).padStart(2, '0')}
               </span>
 
