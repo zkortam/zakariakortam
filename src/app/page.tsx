@@ -1,8 +1,7 @@
 import Link from 'next/link'
-import { ArrowRight } from 'lucide-react'
 import { Hero } from '@/components/Hero'
 import { Section } from '@/components/Section'
-import { WorkIndex } from '@/components/WorkIndex'
+import { WorkShowcase } from '@/components/WorkShowcase'
 import { Reveal } from '@/components/Reveal'
 import { MaskText } from '@/components/MaskText'
 import { FocusScroll, type Focus } from '@/components/FocusScroll'
@@ -37,24 +36,8 @@ export default function HomePage() {
       {/* What I work on — pinned, scrubbed */}
       <FocusScroll items={focus} />
 
-      {/* Work: professional roles and ventures */}
-      <Section divider band className="py-24 sm:py-32">
-        <Reveal className="flex flex-wrap items-end justify-between gap-6">
-          <div>
-            <p className="eyebrow">Work</p>
-            <MaskText as="h2" className="mt-4 text-headline" lines={['Roles']} />
-          </div>
-          <Link
-            href="/portfolio"
-            className="focus-ring group inline-flex shrink-0 items-center gap-2 rounded-full border border-white/10 px-5 py-2.5 text-sm text-foreground-muted transition-all duration-300 hover:border-accent/30 hover:text-accent"
-          >
-            Work and projects
-            <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
-          </Link>
-        </Reveal>
-
-        <WorkIndex items={featured} />
-      </Section>
+      {/* Work: horizontal scroll showcase */}
+      <WorkShowcase items={featured} />
 
       {/* CTA */}
       <Section divider className="relative overflow-hidden py-32 sm:py-40">
