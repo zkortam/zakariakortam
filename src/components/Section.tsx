@@ -11,18 +11,15 @@ export function Section({
   divider = false,
   band = false,
   width = 'normal',
-  id,
 }: {
   children: ReactNode
   className?: string
   divider?: boolean
   band?: boolean
   width?: 'normal' | 'wide'
-  id?: string
 }) {
   return (
     <section
-      id={id}
       className={`relative ${divider ? 'hairline' : ''} ${
         band ? 'band' : ''
       } ${className}`}

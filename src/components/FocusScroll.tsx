@@ -15,7 +15,7 @@ export type Focus = { area: string; desc: string }
 
 const EASE = [0.16, 1, 0.3, 1] as const
 
-export function FocusScroll({ items, id }: { items: Focus[]; id?: string }) {
+export function FocusScroll({ items }: { items: Focus[] }) {
   const ref = useRef<HTMLDivElement>(null)
   const reduce = useReducedMotion()
   const [active, setActive] = useState(0)
@@ -46,7 +46,7 @@ export function FocusScroll({ items, id }: { items: Focus[]; id?: string }) {
   // Static grid — mobile and reduced-motion.
   if (!enhanced) {
     return (
-      <Section id={id} divider className="py-24 sm:py-32">
+      <Section divider className="py-24 sm:py-32">
         <Reveal>
           <p className="eyebrow">What I work on</p>
           <h2 className="mt-4 text-headline">Systems that think and ship.</h2>
@@ -69,12 +69,7 @@ export function FocusScroll({ items, id }: { items: Focus[]; id?: string }) {
   }
 
   return (
-    <section
-      ref={ref}
-      id={id}
-      className="hairline relative"
-      style={{ height: '300vh' }}
-    >
+    <section ref={ref} className="hairline relative" style={{ height: '300vh' }}>
       <div className="sticky top-0 flex h-screen items-center overflow-hidden">
         <div className="mx-auto grid w-full max-w-content gap-x-16 gap-y-12 px-6 sm:px-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
           {/* Left: heading + big changing index */}

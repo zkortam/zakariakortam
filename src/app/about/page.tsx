@@ -5,15 +5,6 @@ import { Section } from '@/components/Section'
 import { Reveal, Stagger, StaggerItem } from '@/components/Reveal'
 import { MaskText } from '@/components/MaskText'
 import { ExperienceTimeline } from '@/components/ExperienceTimeline'
-import { ChapterRail } from '@/components/ChapterRail'
-
-const chapters = [
-  { id: 'intro', label: 'About' },
-  { id: 'experience', label: 'Experience' },
-  { id: 'education', label: 'Education' },
-  { id: 'skills', label: 'Skills' },
-  { id: 'contact', label: 'Contact' },
-]
 
 const experience = [
   {
@@ -74,10 +65,8 @@ const skills: [string, string][] = [
 export default function AboutPage() {
   return (
     <main>
-      <ChapterRail chapters={chapters} />
-
       {/* Hero */}
-      <Section id="intro" className="relative overflow-hidden pt-40 pb-24 sm:pt-48 sm:pb-32">
+      <Section className="relative overflow-hidden pt-40 pb-24 sm:pt-48 sm:pb-32">
         <div className="relative">
           <Reveal>
             <p className="eyebrow">About</p>
@@ -99,7 +88,7 @@ export default function AboutPage() {
       </Section>
 
       {/* Experience */}
-      <Section id="experience" divider band className="py-24 sm:py-32">
+      <Section divider band className="py-24 sm:py-32">
         <div className="grid gap-x-16 gap-y-12 lg:grid-cols-[0.55fr_1.45fr]">
           <Reveal>
             <p className="eyebrow lg:sticky lg:top-28 lg:self-start">
@@ -111,7 +100,7 @@ export default function AboutPage() {
       </Section>
 
       {/* Education */}
-      <Section id="education" divider className="py-24 sm:py-32">
+      <Section divider className="py-24 sm:py-32">
         <Reveal className="grid gap-x-16 gap-y-12 lg:grid-cols-[0.55fr_1.45fr]">
           <p className="eyebrow">Education</p>
           <div className="space-y-10">
@@ -131,7 +120,7 @@ export default function AboutPage() {
       </Section>
 
       {/* Skills */}
-      <Section id="skills" divider band className="py-24 sm:py-32">
+      <Section divider band className="py-24 sm:py-32">
         <div className="grid gap-x-16 gap-y-12 lg:grid-cols-[0.55fr_1.45fr]">
           <Reveal>
             <p className="eyebrow">Skills</p>
@@ -150,7 +139,7 @@ export default function AboutPage() {
       </Section>
 
       {/* CTA */}
-      <Section id="contact" divider className="relative overflow-hidden py-32 sm:py-40">
+      <Section divider className="relative overflow-hidden py-32 sm:py-40">
         <div className="relative text-center">
           <MaskText
             as="h2"
