@@ -13,7 +13,7 @@ import { WorkIndex } from './WorkIndex'
 import { Section } from './Section'
 import { Reveal } from './Reveal'
 import { MaskText } from './MaskText'
-import { Constellation } from './Constellation'
+import { ShaderGradient } from './ShaderGradient'
 import { type Project } from '@/lib/projects-data'
 
 const GUTTER = 'max(2rem,calc((100vw-80rem)/2+2rem))'
@@ -84,10 +84,10 @@ export function WorkShowcase({ items }: { items: Project[] }) {
             style={{ width: `${PANEL}vw`, paddingLeft: GUTTER }}
           >
             <div
-              className="pointer-events-none absolute inset-y-8 right-[4vw] w-[36%] opacity-80"
+              className="pointer-events-none absolute inset-y-6 right-[3vw] w-[40%] overflow-hidden rounded-[1.75rem]"
               style={maskFade}
             >
-              <Constellation seed={1} nodes={16} className="h-full w-full" />
+              <ShaderGradient seed={0.15} className="block h-full w-full" />
             </div>
             <div className="relative z-10">
               <p className="eyebrow">Work</p>
@@ -117,12 +117,15 @@ export function WorkShowcase({ items }: { items: Project[] }) {
                 className="focus-ring group block w-full"
               >
                 <div className="glass relative flex h-full w-full overflow-hidden rounded-[2rem] p-10 transition-colors duration-500 group-hover:border-accent/25 sm:p-14">
-                  {/* Generative graphic — right side, fading into the type */}
+                  {/* Shader graphic — right side, fading into the type */}
                   <div
-                    className="pointer-events-none absolute inset-y-0 right-0 w-[58%]"
+                    className="pointer-events-none absolute inset-y-0 right-0 w-[56%]"
                     style={maskFade}
                   >
-                    <Constellation seed={i + 2} className="h-full w-full" />
+                    <ShaderGradient
+                      seed={(i + 1) * 0.41}
+                      className="block h-full w-full"
+                    />
                   </div>
 
                   <div className="relative z-10 flex w-full flex-col justify-between">
