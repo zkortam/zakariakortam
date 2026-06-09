@@ -6,6 +6,7 @@ import { Footer } from "@/components/Footer";
 import { PageTransition } from "@/components/PageTransition";
 import { StructuredData } from "@/components/StructuredData";
 import { MotionProvider } from "@/components/MotionProvider";
+import { ScrollProgress } from "@/components/ScrollProgress";
 
 // Body / UI: a clean, slightly warm grotesk (not Inter)
 const hanken = Hanken_Grotesk({
@@ -121,6 +122,7 @@ export default function RootLayout({
       <body className="font-sans antialiased">
         <StructuredData />
         <MotionProvider>
+          <ScrollProgress />
           <Navigation />
           <PageTransition>
             {children}

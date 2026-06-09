@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { ArrowLeft, ArrowRight, ArrowUpRight } from 'lucide-react'
 import { projects } from '@/lib/projects-data'
 import { Section } from '@/components/Section'
-import { Reveal } from '@/components/Reveal'
+import { Reveal, Stagger, StaggerItem } from '@/components/Reveal'
 
 export default function ProjectDetailPage({
   params,
@@ -75,18 +75,18 @@ export default function ProjectDetailPage({
       {/* Body */}
       <Section divider band className="py-20 sm:py-28">
         <div className="grid gap-16 lg:grid-cols-[1.5fr_0.5fr]">
-          <Reveal className="space-y-14">
+          <Stagger className="space-y-14">
             {sections.map(([title, body]) => (
-              <div key={title}>
+              <StaggerItem key={title}>
                 <h2 className="eyebrow">{title}</h2>
                 <p className="mt-5 text-lg leading-relaxed text-foreground-muted text-pretty">
                   {body}
                 </p>
-              </div>
+              </StaggerItem>
             ))}
 
             {project.impact && project.impact.length > 0 && (
-              <div>
+              <StaggerItem>
                 <h2 className="eyebrow">Impact</h2>
                 <ul className="mt-5 space-y-3">
                   {project.impact.map((it) => (
@@ -99,9 +99,9 @@ export default function ProjectDetailPage({
                     </li>
                   ))}
                 </ul>
-              </div>
+              </StaggerItem>
             )}
-          </Reveal>
+          </Stagger>
 
           <Reveal delay={0.08} className="space-y-10 lg:sticky lg:top-28 lg:self-start">
             <div>

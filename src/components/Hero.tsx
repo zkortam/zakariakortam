@@ -33,7 +33,6 @@ export function Hero() {
   const contentY = useTransform(scrollYProgress, [0, 1], ['0%', '-40%'])
   const contentOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0])
   const glowY = useTransform(scrollYProgress, [0, 1], ['0%', '30%'])
-  const cueOpacity = useTransform(scrollYProgress, [0, 0.12], [1, 0])
 
   const s = reduce ? {} : undefined
 
@@ -42,10 +41,14 @@ export function Hero() {
       ref={ref}
       className="relative flex min-h-[100svh] flex-col overflow-hidden"
     >
-      {/* Warm hue, low and behind the portrait */}
+      {/* Deep maroon hue, low and behind the portrait, slowly breathing */}
       <motion.div
         style={reduce ? undefined : { y: glowY }}
-        className="pointer-events-none absolute -bottom-24 right-[4%] -z-10 h-[48vh] w-[42vw] max-w-[540px] rounded-full bg-accent/[0.10] blur-[170px]"
+        animate={
+          reduce ? undefined : { scale: [1, 1.12, 1], x: ['0%', '-6%', '0%'] }
+        }
+        transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut' }}
+        className="pointer-events-none absolute -bottom-24 right-[4%] -z-10 h-[48vh] w-[42vw] max-w-[540px] rounded-full bg-accent/[0.16] blur-[170px]"
       />
 
       {/* Portrait bleeding off the right edge */}
@@ -109,23 +112,6 @@ export function Hero() {
               </Link>
             </motion.div>
           </div>
-        </div>
-      </motion.div>
-
-      {/* Scroll cue */}
-      <motion.div
-        style={reduce ? undefined : { opacity: cueOpacity }}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.1, duration: 0.8, ease: EASE }}
-        className="pointer-events-none absolute inset-x-0 bottom-7 z-10 flex justify-center"
-      >
-        <div className="flex h-9 w-[22px] items-start justify-center rounded-full border border-white/15 p-1.5">
-          <motion.span
-            animate={reduce ? undefined : { y: [0, 8, 0], opacity: [1, 0.2, 1] }}
-            transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
-            className="block h-1.5 w-1.5 rounded-full bg-foreground/70"
-          />
         </div>
       </motion.div>
 

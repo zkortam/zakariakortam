@@ -10,9 +10,9 @@
     --foreground-muted: 163 161 156;   /* warm neutral-400 */
     --foreground-subtle: 115 113 108;  /* warm neutral-500 */
 
-    /* Accent: warm amber — used sparingly, never as a glow-by-default */
-    --accent: 232 168 92;        /* #E8A85C */
-    --accent-strong: 214 142 64; /* #D68E40 */
+    /* Accent: deep maroon / wine — used sparingly, never as a glow-by-default */
+    --accent: 168 58 70;         /* #A83A46 */
+    --accent-strong: 120 26 40;  /* #781A28 */
 
     --line: 255 255 255;
 
@@ -54,9 +54,15 @@
     inset: 0;
     z-index: -1;
     background:
-      radial-gradient(75rem 60rem at 82% -18%, rgb(var(--accent) / 0.06), transparent 62%),
-      radial-gradient(60rem 50rem at 8% 108%, rgb(var(--accent) / 0.035), transparent 60%);
+      radial-gradient(75rem 60rem at 82% -18%, rgb(var(--accent) / 0.09), transparent 62%),
+      radial-gradient(60rem 50rem at 8% 108%, rgb(var(--accent) / 0.06), transparent 60%);
     pointer-events: none;
+    animation: ambient-drift 26s ease-in-out infinite alternate;
+  }
+
+  @keyframes ambient-drift {
+    from { transform: translate3d(0, 0, 0) scale(1); }
+    to   { transform: translate3d(-2.5%, 1.5%, 0) scale(1.06); }
   }
 
   ::selection {
@@ -115,14 +121,15 @@
   /* Buttons — warm pill, dark ink (the un-default choice) */
   .btn-primary {
     @apply inline-flex items-center justify-center gap-2 rounded-full px-7 py-3.5 text-sm font-semibold;
-    color: #120c04;
-    background: rgb(var(--accent));
+    color: #fff;
+    background: rgb(var(--accent-strong));
+    border: 1px solid rgb(var(--accent) / 0.5);
     transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease), background 0.5s var(--ease);
   }
   .btn-primary:hover {
-    background: rgb(var(--accent) / 0.92);
+    background: rgb(var(--accent));
     transform: translateY(-2px);
-    box-shadow: 0 16px 40px -12px rgb(var(--accent) / 0.45);
+    box-shadow: 0 16px 40px -12px rgb(var(--accent) / 0.5);
   }
 
   .btn-secondary {

@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { Section } from '@/components/Section'
 import { Reveal, Stagger, StaggerItem } from '@/components/Reveal'
 import { MaskText } from '@/components/MaskText'
+import { ExperienceTimeline } from '@/components/ExperienceTimeline'
 
 const experience = [
   {
@@ -94,32 +95,7 @@ export default function AboutPage() {
               Experience
             </p>
           </Reveal>
-          <Stagger className="space-y-px overflow-hidden rounded-3xl border border-white/[0.07]">
-            {experience.map((e) => (
-              <StaggerItem key={e.org} className="bg-white/[0.015] p-8 sm:p-10">
-                <div className="flex flex-wrap items-baseline justify-between gap-2">
-                  <h3 className="text-xl font-semibold">
-                    {e.role}{' '}
-                    <span className="text-foreground-muted">· {e.org}</span>
-                  </h3>
-                  <span className="text-sm text-foreground-subtle">
-                    {e.when}
-                  </span>
-                </div>
-                <ul className="mt-5 space-y-2.5">
-                  {e.points.map((p) => (
-                    <li
-                      key={p}
-                      className="flex gap-3 text-sm leading-relaxed text-foreground-muted"
-                    >
-                      <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-foreground-subtle" />
-                      {p}
-                    </li>
-                  ))}
-                </ul>
-              </StaggerItem>
-            ))}
-          </Stagger>
+          <ExperienceTimeline items={experience} />
         </div>
       </Section>
 
