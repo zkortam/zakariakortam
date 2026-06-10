@@ -102,8 +102,8 @@ function WorkShowcasePinned({ items }: { items: Project[] }) {
               <p className="eyebrow">Work</p>
               <h2 className="mt-5 text-display leading-[0.9]">Roles</h2>
               <p className="mt-7 text-lg leading-relaxed text-foreground-muted">
-                Four roles, end to end — founding AI engineer at FacilisAI back
-                to a first product internship.
+                Four roles, from founding AI engineer at FacilisAI to a first
+                product internship.
               </p>
             </div>
           </div>

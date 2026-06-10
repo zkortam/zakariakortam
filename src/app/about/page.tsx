@@ -74,7 +74,7 @@ export default function AboutPage() {
           />
           <Reveal delay={0.12}>
             <p className="mt-8 max-w-2xl text-lg leading-relaxed text-foreground-muted text-pretty sm:text-xl">
-              I build products end to end — engineering, design, and product.
+              I build products across engineering, design, and product.
               Founding AI Engineer at FacilisAI, finishing a B.S. in Electrical
               Engineering at UC San Diego. Based in San Jose.
             </p>
@@ -90,8 +90,8 @@ export default function AboutPage() {
         <Reveal delay={0.08}>
           <p className="mt-8 max-w-5xl text-[clamp(1.5rem,3.4vw,2.6rem)] font-medium leading-[1.28] tracking-tight text-pretty">
             I work at the seam between{' '}
-            <span className="text-accent">hardware and intelligence</span> —
-            agentic systems for industrial plants, a SPICE-class circuit
+            <span className="text-accent">hardware and intelligence</span>.
+            Agentic systems for industrial plants, a SPICE-class circuit
             simulator written from scratch, computer-vision pipelines shipped
             solo. From PRD to PID loop,{' '}
             <span className="text-accent">owned end to end</span>.
@@ -101,14 +101,15 @@ export default function AboutPage() {
 
       {/* Experience */}
       <Section divider band className="py-24 sm:py-32">
-        <div className="grid gap-x-16 gap-y-12 lg:grid-cols-[0.55fr_1.45fr]">
-          <Reveal>
-            <p className="eyebrow lg:sticky lg:top-28 lg:self-start">
-              Experience
-            </p>
-          </Reveal>
-          <ExperienceTimeline items={experience} />
-        </div>
+        <Reveal>
+          <p className="eyebrow">Career</p>
+          <MaskText
+            as="h2"
+            className="mt-3 text-headline"
+            lines={['Experience']}
+          />
+        </Reveal>
+        <ExperienceTimeline items={experience} />
       </Section>
 
       {/* By the numbers */}
