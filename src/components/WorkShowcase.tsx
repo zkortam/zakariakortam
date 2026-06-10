@@ -20,7 +20,6 @@ const GUTTER = 'max(2rem,calc((100vw-80rem)/2+2rem))'
 const PANEL = 80 // vw per panel slot
 
 export function WorkShowcase({ items }: { items: Project[] }) {
-  const ref = useRef<HTMLDivElement>(null)
   const reduce = useReducedMotion()
   const [enhanced, setEnhanced] = useState(false)
 
@@ -32,6 +31,38 @@ export function WorkShowcase({ items }: { items: Project[] }) {
     return () => mq.removeEventListener('change', apply)
   }, [reduce])
 
+  // Pinned scene mounts only once enhanced — so useScroll measures the real,
+  // final DOM (the short static version lagged the scroll progress).
+  return enhanced ? (
+    <WorkShowcasePinned items={items} />
+  ) : (
+    <WorkShowcaseStatic items={items} />
+  )
+}
+
+function WorkShowcaseStatic({ items }: { items: Project[] }) {
+  return (
+    <Section divider band className="py-24 sm:py-32">
+      <Reveal className="flex flex-wrap items-end justify-between gap-6">
+        <div>
+          <p className="eyebrow">Work</p>
+          <MaskText as="h2" className="mt-4 text-headline" lines={['Roles']} />
+        </div>
+        <Link
+          href="/portfolio"
+          className="focus-ring group inline-flex shrink-0 items-center gap-2 rounded-full border border-white/10 px-5 py-2.5 text-sm text-foreground-muted transition-all duration-300 hover:border-accent/30 hover:text-accent"
+        >
+          Work and projects
+          <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+        </Link>
+      </Reveal>
+      <WorkIndex items={items} />
+    </Section>
+  )
+}
+
+function WorkShowcasePinned({ items }: { items: Project[] }) {
+  const ref = useRef<HTMLDivElement>(null)
   const panelCount = items.length + 2 // intro + roles + outro
   const endX = -((panelCount - 1) * PANEL)
 
@@ -41,28 +72,6 @@ export function WorkShowcase({ items }: { items: Project[] }) {
   })
   const x = useTransform(scrollYProgress, [0, 1], ['0vw', `${endX}vw`])
   const railScale = useTransform(scrollYProgress, [0, 1], [0, 1])
-
-  // Mobile / reduced-motion: the clean vertical index.
-  if (!enhanced) {
-    return (
-      <Section divider band className="py-24 sm:py-32">
-        <Reveal className="flex flex-wrap items-end justify-between gap-6">
-          <div>
-            <p className="eyebrow">Work</p>
-            <MaskText as="h2" className="mt-4 text-headline" lines={['Roles']} />
-          </div>
-          <Link
-            href="/portfolio"
-            className="focus-ring group inline-flex shrink-0 items-center gap-2 rounded-full border border-white/10 px-5 py-2.5 text-sm text-foreground-muted transition-all duration-300 hover:border-accent/30 hover:text-accent"
-          >
-            Work and projects
-            <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
-          </Link>
-        </Reveal>
-        <WorkIndex items={items} />
-      </Section>
-    )
-  }
 
   const maskFade = {
     maskImage: 'linear-gradient(to right, transparent, #000 42%)',

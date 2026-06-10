@@ -16,11 +16,7 @@ export type Focus = { area: string; desc: string }
 const EASE = [0.16, 1, 0.3, 1] as const
 
 export function FocusScroll({ items }: { items: Focus[] }) {
-  const ref = useRef<HTMLDivElement>(null)
   const reduce = useReducedMotion()
-  const [active, setActive] = useState(0)
-  // Pin/scrub only on large screens with motion allowed. Static-first so SSR
-  // and mobile never reserve the tall scroll track or mismatch on hydrate.
   const [enhanced, setEnhanced] = useState(false)
 
   useEffect(() => {
@@ -31,47 +27,53 @@ export function FocusScroll({ items }: { items: Focus[] }) {
     return () => mq.removeEventListener('change', apply)
   }, [reduce])
 
+  // Pinned scene mounts only once enhanced — so useScroll measures the real,
+  // final DOM instead of the short static version (which lagged the progress).
+  return enhanced ? <FocusPinned items={items} /> : <FocusStatic items={items} />
+}
+
+function FocusStatic({ items }: { items: Focus[] }) {
+  return (
+    <Section divider className="py-24 sm:py-32">
+      <Reveal>
+        <p className="eyebrow">What I work on</p>
+        <h2 className="mt-4 text-headline">Systems that think and ship.</h2>
+      </Reveal>
+      <Stagger className="mt-12 grid gap-px overflow-hidden rounded-3xl border border-white/[0.07] sm:grid-cols-2">
+        {items.map((f, i) => (
+          <StaggerItem key={f.area} className="bg-black p-8">
+            <div className="font-display text-sm text-foreground-subtle">
+              {String(i + 1).padStart(2, '0')}
+            </div>
+            <h3 className="mt-5 text-lg font-semibold">{f.area}</h3>
+            <p className="mt-2 text-sm leading-relaxed text-foreground-muted">
+              {f.desc}
+            </p>
+          </StaggerItem>
+        ))}
+      </Stagger>
+    </Section>
+  )
+}
+
+function FocusPinned({ items }: { items: Focus[] }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const [active, setActive] = useState(0)
+
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ['start start', 'end end'],
   })
 
-  // Advance through all items over the first 88% of the pin, then hold the
-  // last one until the section releases — so no item gets squeezed at the
-  // unpin boundary and skipped.
-  const ACTIVE_SPAN = 0.88
+  // Advance through all items over the first 86% of the pin, then hold the
+  // last one until release — so no item lands on the unpin boundary.
+  const ACTIVE_SPAN = 0.86
   useMotionValueEvent(scrollYProgress, 'change', (v) => {
     const ratio = Math.min(0.999, Math.max(0, v / ACTIVE_SPAN))
-    const idx = Math.min(items.length - 1, Math.floor(ratio * items.length))
-    setActive(idx)
+    setActive(Math.min(items.length - 1, Math.floor(ratio * items.length)))
   })
 
   const railScale = useTransform(scrollYProgress, [0, ACTIVE_SPAN], [0, 1])
-
-  // Static grid — mobile and reduced-motion.
-  if (!enhanced) {
-    return (
-      <Section divider className="py-24 sm:py-32">
-        <Reveal>
-          <p className="eyebrow">What I work on</p>
-          <h2 className="mt-4 text-headline">Systems that think and ship.</h2>
-        </Reveal>
-        <Stagger className="mt-12 grid gap-px overflow-hidden rounded-3xl border border-white/[0.07] sm:grid-cols-2">
-          {items.map((f, i) => (
-            <StaggerItem key={f.area} className="bg-black p-8">
-              <div className="font-display text-sm text-foreground-subtle">
-                {String(i + 1).padStart(2, '0')}
-              </div>
-              <h3 className="mt-5 text-lg font-semibold">{f.area}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-foreground-muted">
-                {f.desc}
-              </p>
-            </StaggerItem>
-          ))}
-        </Stagger>
-      </Section>
-    )
-  }
 
   return (
     <section
