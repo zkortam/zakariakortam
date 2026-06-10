@@ -6,6 +6,7 @@ import { Section } from '@/components/Section'
 import { ContactForm } from '@/components/ContactForm'
 import { Reveal } from '@/components/Reveal'
 import { MaskText } from '@/components/MaskText'
+import { HeroShader } from '@/components/HeroShader'
 
 const socials = [
   { name: 'LinkedIn', href: 'https://linkedin.com/in/zkortam', icon: Linkedin },
@@ -28,7 +29,10 @@ export default function ContactPage() {
   return (
     <main>
       {/* Hero */}
-      <Section className="relative overflow-hidden pt-40 pb-20 sm:pt-48 sm:pb-24">
+      <Section
+        className="relative overflow-hidden pt-40 pb-20 sm:pt-48 sm:pb-24"
+        backdrop={<HeroShader seed={1.1} />}
+      >
         <div className="relative">
           <Reveal>
             <p className="eyebrow">Contact</p>

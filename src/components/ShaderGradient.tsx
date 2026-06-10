@@ -60,12 +60,17 @@ function compile(gl: WebGLRenderingContext, type: number, src: string) {
   return sh
 }
 
-/** Flowing maroon gradient on a GPU canvas. Animates only while on-screen. */
+/**
+ * Flowing maroon gradient on a GPU canvas. Animates only while on-screen.
+ * `animate={false}` renders a single static frame (cheap — for many tiles).
+ */
 export function ShaderGradient({
   seed = 0,
+  animate = true,
   className = '',
 }: {
   seed?: number
+  animate?: boolean
   className?: string
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -102,6 +107,11 @@ export function ShaderGradient({
     const uSeed = gl.getUniformLocation(prog, 'uSeed')
     gl.uniform1f(uSeed, seed)
 
+    const drawStatic = () => {
+      gl.uniform1f(uTime, seed * 13.0)
+      gl.drawArrays(gl.TRIANGLES, 0, 3)
+    }
+
     const dpr = Math.min(window.devicePixelRatio || 1, 1.25)
     const resize = () => {
       const w = Math.max(1, Math.floor(canvas.clientWidth * dpr))
@@ -112,6 +122,7 @@ export function ShaderGradient({
         gl.viewport(0, 0, w, h)
       }
       gl.uniform2f(uRes, canvas.width, canvas.height)
+      if (!animate) drawStatic()
     }
     const ro = new ResizeObserver(resize)
     ro.observe(canvas)
@@ -119,31 +130,39 @@ export function ShaderGradient({
 
     let raf = 0
     let visible = true
-    const start = performance.now()
-    const render = (now: number) => {
-      gl.uniform1f(uTime, (now - start) / 1000)
-      gl.drawArrays(gl.TRIANGLES, 0, 3)
-      raf = visible ? requestAnimationFrame(render) : 0
-    }
-    raf = requestAnimationFrame(render)
+    if (animate) {
+      const start = performance.now()
+      const render = (now: number) => {
+        gl.uniform1f(uTime, (now - start) / 1000)
+        gl.drawArrays(gl.TRIANGLES, 0, 3)
+        raf = visible ? requestAnimationFrame(render) : 0
+      }
+      raf = requestAnimationFrame(render)
 
-    const io = new IntersectionObserver(
-      ([e]) => {
-        visible = e.isIntersecting
-        if (visible && !raf) raf = requestAnimationFrame(render)
-      },
-      { threshold: 0 },
-    )
-    io.observe(canvas)
+      const io = new IntersectionObserver(
+        ([e]) => {
+          visible = e.isIntersecting
+          if (visible && !raf) raf = requestAnimationFrame(render)
+        },
+        { threshold: 0 },
+      )
+      io.observe(canvas)
+
+      return () => {
+        cancelAnimationFrame(raf)
+        ro.disconnect()
+        io.disconnect()
+        const ext = gl.getExtension('WEBGL_lose_context')
+        ext?.loseContext()
+      }
+    }
 
     return () => {
-      cancelAnimationFrame(raf)
       ro.disconnect()
-      io.disconnect()
       const ext = gl.getExtension('WEBGL_lose_context')
       ext?.loseContext()
     }
-  }, [seed])
+  }, [seed, animate])
 
   return <canvas ref={canvasRef} className={className} aria-hidden="true" />
 }

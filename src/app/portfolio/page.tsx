@@ -3,6 +3,7 @@ import { WorkIndex } from '@/components/WorkIndex'
 import { ProjectGrid } from '@/components/ProjectGrid'
 import { Reveal } from '@/components/Reveal'
 import { MaskText } from '@/components/MaskText'
+import { HeroShader } from '@/components/HeroShader'
 import { projects, isWorkProject } from '@/lib/projects-data'
 
 export default function PortfolioPage() {
@@ -12,7 +13,10 @@ export default function PortfolioPage() {
   return (
     <main>
       {/* Hero */}
-      <Section className="relative overflow-hidden pt-40 pb-20 sm:pt-48 sm:pb-24">
+      <Section
+        className="relative overflow-hidden pt-40 pb-20 sm:pt-48 sm:pb-24"
+        backdrop={<HeroShader seed={0.5} />}
+      >
         <div className="relative">
           <Reveal>
             <p className="eyebrow">Portfolio</p>

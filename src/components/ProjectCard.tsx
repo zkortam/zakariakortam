@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef } from 'react'
+import { useMemo, useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import {
@@ -10,10 +10,16 @@ import {
   useReducedMotion,
 } from 'framer-motion'
 import { ArrowUpRight } from 'lucide-react'
+import { ShaderGradient } from './ShaderGradient'
 import { type Project, isWorkProject } from '@/lib/projects-data'
 
 export function ProjectCard({ project }: { project: Project }) {
   const ref = useRef<HTMLDivElement>(null)
+  const seed = useMemo(() => {
+    let s = 0
+    for (const c of project.id) s += c.charCodeAt(0)
+    return (s % 53) / 7 + 0.3
+  }, [project.id])
   const reduce = useReducedMotion()
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -52,7 +58,13 @@ export function ProjectCard({ project }: { project: Project }) {
               className="object-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.06]"
             />
           ) : (
-            <div className="absolute inset-0 bg-gradient-to-br from-neutral-800/50 via-neutral-900 to-neutral-950 transition-transform duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.06]" />
+            <div className="absolute inset-0 transition-transform duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.06]">
+              <ShaderGradient
+                seed={seed}
+                animate={false}
+                className="block h-full w-full"
+              />
+            </div>
           )}
         </motion.div>
 

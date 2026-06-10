@@ -11,12 +11,15 @@ export function Section({
   divider = false,
   band = false,
   width = 'normal',
+  backdrop,
 }: {
   children: ReactNode
   className?: string
   divider?: boolean
   band?: boolean
   width?: 'normal' | 'wide'
+  /** Full-bleed layer rendered behind the content column (e.g. a shader). */
+  backdrop?: ReactNode
 }) {
   return (
     <section
@@ -24,10 +27,13 @@ export function Section({
         band ? 'band' : ''
       } ${className}`}
     >
+      {backdrop && (
+        <div className="pointer-events-none absolute inset-0 z-0">{backdrop}</div>
+      )}
       <div
         className={`mx-auto w-full px-6 sm:px-8 ${
           width === 'wide' ? 'max-w-6xl' : 'max-w-content'
-        }`}
+        } ${backdrop ? 'relative z-10' : ''}`}
       >
         {children}
       </div>

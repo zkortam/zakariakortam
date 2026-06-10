@@ -7,6 +7,7 @@ import { ArrowLeft, ArrowRight, ArrowUpRight } from 'lucide-react'
 import { projects } from '@/lib/projects-data'
 import { Section } from '@/components/Section'
 import { Reveal, Stagger, StaggerItem } from '@/components/Reveal'
+import { HeroShader } from '@/components/HeroShader'
 
 export default function ProjectDetailPage({
   params,
@@ -37,7 +38,10 @@ export default function ProjectDetailPage({
   return (
     <main>
       {/* Hero header */}
-      <Section className="relative overflow-hidden pt-36 pb-20 sm:pt-44 sm:pb-24">
+      <Section
+        className="relative overflow-hidden pt-36 pb-20 sm:pt-44 sm:pb-24"
+        backdrop={<HeroShader seed={0.6} />}
+      >
         <div className="relative">
           <Reveal>
             <Link

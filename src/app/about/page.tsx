@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { Section } from '@/components/Section'
 import { Reveal, Stagger, StaggerItem } from '@/components/Reveal'
 import { MaskText } from '@/components/MaskText'
+import { HeroShader } from '@/components/HeroShader'
 import { ExperienceTimeline } from '@/components/ExperienceTimeline'
 
 const experience = [
@@ -57,7 +58,10 @@ export default function AboutPage() {
   return (
     <main>
       {/* Hero */}
-      <Section className="relative overflow-hidden pt-40 pb-24 sm:pt-48 sm:pb-32">
+      <Section
+        className="relative overflow-hidden pt-40 pb-24 sm:pt-48 sm:pb-32"
+        backdrop={<HeroShader seed={0.8} />}
+      >
         <div className="relative">
           <Reveal>
             <p className="eyebrow">About</p>
