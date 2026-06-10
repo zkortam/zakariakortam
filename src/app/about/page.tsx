@@ -5,7 +5,6 @@ import { Section } from '@/components/Section'
 import { Reveal, Stagger, StaggerItem } from '@/components/Reveal'
 import { MaskText } from '@/components/MaskText'
 import { HeroShader } from '@/components/HeroShader'
-import { Counter } from '@/components/Counter'
 import { ExperienceTimeline } from '@/components/ExperienceTimeline'
 
 const experience = [
@@ -38,13 +37,6 @@ const experience = [
       'Defined activation, completion, and engagement KPIs; reprioritized the backlog from signals',
     ],
   },
-]
-
-const impact = [
-  { to: 1350, suffix: '+', label: 'Computers donated' },
-  { to: 285, prefix: '$', suffix: 'K', label: 'Raised for access' },
-  { to: 12, label: 'Computer labs built' },
-  { to: 185, label: 'Volunteers led' },
 ]
 
 const skills: [string, string][] = [
@@ -110,34 +102,6 @@ export default function AboutPage() {
           />
         </Reveal>
         <ExperienceTimeline items={experience} />
-      </Section>
-
-      {/* By the numbers */}
-      <Section divider className="py-24 sm:py-32">
-        <Reveal>
-          <p className="eyebrow">Impact</p>
-          <MaskText
-            as="h2"
-            className="mt-3 text-headline"
-            lines={['By the numbers']}
-          />
-          <p className="mt-5 max-w-xl text-foreground-muted">
-            As COO of a multinational 501(c)(3) expanding technology access
-            across 20+ branches.
-          </p>
-        </Reveal>
-        <div className="mt-16 grid grid-cols-2 gap-x-8 gap-y-12 lg:grid-cols-4">
-          {impact.map((s) => (
-            <Reveal key={s.label}>
-              <div className="font-display text-5xl tabular-nums text-accent sm:text-6xl">
-                <Counter to={s.to} prefix={s.prefix} suffix={s.suffix} />
-              </div>
-              <div className="mt-3 text-sm leading-relaxed text-foreground-muted">
-                {s.label}
-              </div>
-            </Reveal>
-          ))}
-        </div>
       </Section>
 
       {/* Skills */}

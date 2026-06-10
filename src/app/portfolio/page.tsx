@@ -2,17 +2,10 @@ import { Section } from '@/components/Section'
 import { WorkIndex } from '@/components/WorkIndex'
 import { ProjectGrid } from '@/components/ProjectGrid'
 import { FeatureRow } from '@/components/FeatureRow'
-import { Counter } from '@/components/Counter'
 import { Reveal } from '@/components/Reveal'
 import { MaskText } from '@/components/MaskText'
 import { HeroShader } from '@/components/HeroShader'
 import { projects, isWorkProject } from '@/lib/projects-data'
-
-const stats = [
-  { to: 10, suffix: '+', label: 'Projects shipped' },
-  { to: 3, label: 'Hackathon podiums' },
-  { to: 3, label: 'Industry roles' },
-]
 
 export default function PortfolioPage() {
   const work = projects.filter(isWorkProject)
@@ -42,21 +35,6 @@ export default function PortfolioPage() {
               Shipped products, research, and the systems behind them, from a
               founding AI role to hackathon wins.
             </p>
-          </Reveal>
-
-          <Reveal delay={0.2}>
-            <div className="mt-14 grid max-w-2xl grid-cols-3 gap-6 border-t border-white/10 pt-8 sm:gap-10">
-              {stats.map((s) => (
-                <div key={s.label}>
-                  <div className="font-display text-4xl text-accent sm:text-5xl">
-                    <Counter to={s.to} suffix={s.suffix} />
-                  </div>
-                  <div className="mt-2 text-sm text-foreground-muted">
-                    {s.label}
-                  </div>
-                </div>
-              ))}
-            </div>
           </Reveal>
         </div>
       </Section>
