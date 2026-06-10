@@ -28,15 +28,6 @@ const experience = [
     ],
   },
   {
-    role: 'Technical Intern',
-    org: 'Adobe',
-    when: 'Jun 2023 to Aug 2023',
-    points: [
-      'Built a Slack-native GenAI app (Node.js, Slack Bolt) integrating RAG with RBAC and audit logging',
-      'Implemented vector search over Slack data with natural-language Q&A and thread summarization',
-    ],
-  },
-  {
     role: 'Product Intern',
     org: 'Inqueue',
     when: 'Jun 2023 to Oct 2023',

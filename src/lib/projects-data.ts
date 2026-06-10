@@ -101,32 +101,6 @@ export const projects: Project[] = [
     links: { live: 'https://incorta.com' },
   },
   {
-    id: 'adobe',
-    title: 'Adobe',
-    description:
-      'Built a Slack-native generative AI app with RAG, RBAC, and audit logging for semantic search over workspace data.',
-    category: 'AI/ML',
-    tags: ['Node.js', 'Slack Bolt', 'RAG', 'Vector Search'],
-    image: roleTile("adobe"),
-    featured: false,
-    year: '2023',
-    role: 'Technical Intern',
-    timeline: 'Jun 2023 to Aug 2023',
-    team: 'Adobe, San Jose',
-    overview:
-      'Technical Intern at Adobe. Built a Slack-native generative AI app on Node.js and Slack Bolt that brings retrieval-augmented answers into the workspace with enterprise controls.',
-    challenge:
-      'Knowledge inside a large Slack workspace is scattered and unsearchable, and any AI layer over it has to respect role-based access and leave an audit trail.',
-    solution:
-      'Implemented a vector store for semantic search over Slack data with natural-language Q&A and thread summarization, wrapped in RBAC and audit logging.',
-    impact: [
-      'Slack-native GenAI app with RAG over workspace data',
-      'RBAC and audit logging for enterprise use',
-      'Natural-language Q&A and thread summarization',
-    ],
-    technologies: ['Node.js', 'Slack Bolt', 'RAG', 'Vector Search', 'OpenAI'],
-  },
-  {
     id: 'inqueue',
     title: 'Inqueue',
     description:
@@ -480,7 +454,6 @@ export const categories = [
 export const WORK_IDS = [
   'facilis-ai',
   'incorta-dashboards',
-  'adobe',
   'inqueue',
 ] as const
 

@@ -72,7 +72,6 @@ function WorkShowcasePinned({ items }: { items: Project[] }) {
     offset: ['start start', 'end end'],
   })
   const x = useTransform(scrollYProgress, [0, 1], ['0vw', `${endX}vw`])
-  const railScale = useTransform(scrollYProgress, [0, 1], [0, 1])
 
   const maskFade = {
     maskImage: 'linear-gradient(to right, transparent, #000 42%)',
@@ -184,17 +183,6 @@ function WorkShowcasePinned({ items }: { items: Project[] }) {
             </Link>
           </div>
         </motion.div>
-
-        {/* Horizontal progress rail */}
-        <div
-          className="absolute bottom-10 h-px bg-white/10"
-          style={{ left: GUTTER, right: GUTTER }}
-        >
-          <motion.div
-            style={{ scaleX: railScale }}
-            className="h-full w-full origin-left bg-accent"
-          />
-        </div>
       </div>
     </section>
   )

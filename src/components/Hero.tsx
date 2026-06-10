@@ -99,7 +99,7 @@ export function Hero() {
               Founding AI Engineer at{' '}
               <span className="text-accent">FacilisAI</span>, building agentic
               systems for industrial enterprise. Previously product engineering
-              at Incorta and Adobe. EE at UC San Diego.
+              at Incorta. EE at UC San Diego.
             </motion.p>
 
             <motion.div {...fade(0.62)} className="mt-11 flex flex-wrap gap-3">
