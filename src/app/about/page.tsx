@@ -5,6 +5,7 @@ import { Section } from '@/components/Section'
 import { Reveal, Stagger, StaggerItem } from '@/components/Reveal'
 import { MaskText } from '@/components/MaskText'
 import { HeroShader } from '@/components/HeroShader'
+import { Counter } from '@/components/Counter'
 import { ExperienceTimeline } from '@/components/ExperienceTimeline'
 
 const experience = [
@@ -39,12 +40,11 @@ const experience = [
   },
 ]
 
-const education = [
-  {
-    school: 'University of California, San Diego',
-    detail: 'B.S. Electrical Engineering, Computer System Design Depth',
-    when: 'Expected Jun 2026',
-  },
+const impact = [
+  { to: 1350, suffix: '+', label: 'Computers donated' },
+  { to: 285, prefix: '$', suffix: 'K', label: 'Raised for access' },
+  { to: 12, label: 'Computer labs built' },
+  { to: 185, label: 'Volunteers led' },
 ]
 
 const skills: [string, string][] = [
@@ -74,12 +74,29 @@ export default function AboutPage() {
           />
           <Reveal delay={0.12}>
             <p className="mt-8 max-w-2xl text-lg leading-relaxed text-foreground-muted text-pretty sm:text-xl">
-              I build products end to end: engineering, design, and product.
+              I build products end to end — engineering, design, and product.
               Founding AI Engineer at FacilisAI, finishing a B.S. in Electrical
-              Engineering at UC San Diego.
+              Engineering at UC San Diego. Based in San Jose.
             </p>
           </Reveal>
         </div>
+      </Section>
+
+      {/* Approach — large statement */}
+      <Section divider className="py-24 sm:py-36">
+        <Reveal>
+          <p className="eyebrow">Approach</p>
+        </Reveal>
+        <Reveal delay={0.08}>
+          <p className="mt-8 max-w-5xl text-[clamp(1.5rem,3.4vw,2.6rem)] font-medium leading-[1.28] tracking-tight text-pretty">
+            I work at the seam between{' '}
+            <span className="text-accent">hardware and intelligence</span> —
+            agentic systems for industrial plants, a SPICE-class circuit
+            simulator written from scratch, computer-vision pipelines shipped
+            solo. From PRD to PID loop,{' '}
+            <span className="text-accent">owned end to end</span>.
+          </p>
+        </Reveal>
       </Section>
 
       {/* Experience */}
@@ -94,35 +111,46 @@ export default function AboutPage() {
         </div>
       </Section>
 
-      {/* Education */}
+      {/* By the numbers */}
       <Section divider className="py-24 sm:py-32">
-        <Reveal className="grid gap-x-16 gap-y-12 lg:grid-cols-[0.55fr_1.45fr]">
-          <p className="eyebrow">Education</p>
-          <div className="space-y-10">
-            {education.map((e) => (
-              <div key={e.school}>
-                <div className="flex flex-wrap items-baseline justify-between gap-2">
-                  <h3 className="text-xl font-semibold">{e.school}</h3>
-                  <span className="text-sm text-foreground-subtle">
-                    {e.when}
-                  </span>
-                </div>
-                <p className="mt-2 text-foreground-muted">{e.detail}</p>
-              </div>
-            ))}
-          </div>
+        <Reveal>
+          <p className="eyebrow">Impact</p>
+          <MaskText
+            as="h2"
+            className="mt-3 text-headline"
+            lines={['By the numbers']}
+          />
+          <p className="mt-5 max-w-xl text-foreground-muted">
+            As COO of a multinational 501(c)(3) expanding technology access
+            across 20+ branches.
+          </p>
         </Reveal>
+        <div className="mt-16 grid grid-cols-2 gap-x-8 gap-y-12 lg:grid-cols-4">
+          {impact.map((s) => (
+            <Reveal key={s.label}>
+              <div className="font-display text-5xl tabular-nums text-accent sm:text-6xl">
+                <Counter to={s.to} prefix={s.prefix} suffix={s.suffix} />
+              </div>
+              <div className="mt-3 text-sm leading-relaxed text-foreground-muted">
+                {s.label}
+              </div>
+            </Reveal>
+          ))}
+        </div>
       </Section>
 
       {/* Skills */}
       <Section divider band className="py-24 sm:py-32">
         <div className="grid gap-x-16 gap-y-12 lg:grid-cols-[0.55fr_1.45fr]">
           <Reveal>
-            <p className="eyebrow">Skills</p>
+            <p className="eyebrow lg:sticky lg:top-28 lg:self-start">Skills</p>
           </Reveal>
           <Stagger className="grid gap-px overflow-hidden rounded-3xl border border-white/[0.07] sm:grid-cols-2">
             {skills.map(([title, body]) => (
-              <StaggerItem key={title} className="bg-white/[0.015] p-8">
+              <StaggerItem
+                key={title}
+                className="bg-white/[0.015] p-8 transition-colors duration-500 hover:bg-white/[0.03]"
+              >
                 <h3 className="font-semibold">{title}</h3>
                 <p className="mt-3 text-sm leading-relaxed text-foreground-muted">
                   {body}
@@ -131,6 +159,24 @@ export default function AboutPage() {
             ))}
           </Stagger>
         </div>
+      </Section>
+
+      {/* Education */}
+      <Section divider className="py-20 sm:py-24">
+        <Reveal className="flex flex-wrap items-baseline justify-between gap-x-8 gap-y-2">
+          <div>
+            <p className="eyebrow">Education</p>
+            <h3 className="mt-3 text-xl font-semibold sm:text-2xl">
+              University of California, San Diego
+            </h3>
+            <p className="mt-1 text-foreground-muted">
+              B.S. Electrical Engineering, Computer System Design Depth
+            </p>
+          </div>
+          <span className="text-sm text-foreground-subtle">
+            Expected Jun 2026
+          </span>
+        </Reveal>
       </Section>
 
       {/* CTA */}
