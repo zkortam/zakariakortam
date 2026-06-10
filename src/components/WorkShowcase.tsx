@@ -16,8 +16,14 @@ import { MaskText } from './MaskText'
 import { ShaderGradient } from './ShaderGradient'
 import { type Project } from '@/lib/projects-data'
 
-const GUTTER = 'max(2rem,calc((100vw-80rem)/2+2rem))'
-const PANEL = 80 // vw per panel slot
+// The reading-column gutter — keeps the fixed header aligned to the site grid.
+// (calc requires spaces around + and -.)
+const GUTTER = 'max(2rem, calc((100vw - 80rem) / 2 + 2rem))'
+
+const maskFade = {
+  maskImage: 'linear-gradient(to right, transparent, #000 42%)',
+  WebkitMaskImage: 'linear-gradient(to right, transparent, #000 42%)',
+}
 
 export function WorkShowcase({ items }: { items: Project[] }) {
   const reduce = useReducedMotion()
@@ -63,69 +69,67 @@ function WorkShowcaseStatic({ items }: { items: Project[] }) {
 
 function WorkShowcasePinned({ items }: { items: Project[] }) {
   const ref = useRef<HTMLDivElement>(null)
-  const panelCount = items.length + 2 // intro + roles + outro
-  const endX = -((panelCount - 1) * PANEL)
+  const trackRef = useRef<HTMLDivElement>(null)
+  const [maxScroll, setMaxScroll] = useState(0)
 
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ['start start', 'end end'],
   })
-  const x = useTransform(scrollYProgress, [0, 1], ['0vw', `${endX}vw`])
-  const railScale = useTransform(scrollYProgress, [0, 1], [0, 1])
 
-  const maskFade = {
-    maskImage: 'linear-gradient(to right, transparent, #000 42%)',
-    WebkitMaskImage: 'linear-gradient(to right, transparent, #000 42%)',
-  }
+  // Measure the real horizontal overflow so the travel is pixel-accurate.
+  useEffect(() => {
+    const track = trackRef.current
+    if (!track) return
+    const measure = () => {
+      const parent = track.parentElement
+      if (!parent) return
+      setMaxScroll(Math.max(0, track.offsetWidth - parent.clientWidth))
+    }
+    measure()
+    const ro = new ResizeObserver(measure)
+    ro.observe(track)
+    return () => ro.disconnect()
+  }, [items.length])
+
+  const x = useTransform(scrollYProgress, [0, 1], [0, -maxScroll])
+  const railScale = useTransform(scrollYProgress, [0, 1], [0, 1])
 
   return (
     <section
-      id="work"
       ref={ref}
       className="hairline band relative"
-      style={{ height: `${panelCount * 60}vh` }}
+      style={{ height: `${(items.length + 1) * 72}vh` }}
     >
-      <div className="sticky top-0 flex h-screen flex-col justify-center overflow-hidden">
-        <motion.div style={{ x }} className="flex items-center will-change-transform">
-          {/* Intro panel */}
-          <div
-            className="relative flex h-[66vh] shrink-0 flex-col justify-center pr-[6vw]"
-            style={{ width: `${PANEL}vw`, paddingLeft: GUTTER }}
-          >
-            <div
-              className="pointer-events-none absolute inset-y-6 right-[3vw] w-[40%] overflow-hidden rounded-[1.75rem]"
-              style={maskFade}
-            >
-              <ShaderGradient seed={0.15} className="block h-full w-full" />
-            </div>
-            <div className="relative z-10">
-              <p className="eyebrow">Work</p>
-              <h2 className="mt-4 text-display leading-[0.9]">Roles</h2>
-              <p className="mt-6 max-w-sm text-lg text-foreground-muted">
-                Four roles, founding AI engineer to product intern.
-              </p>
-              <div className="mt-9 flex items-center gap-3 text-foreground-subtle">
-                <span className="text-xs uppercase tracking-[0.16em]">
-                  Scroll
-                </span>
-                <span className="h-px w-12 bg-foreground-subtle/50" />
-                <ArrowRight className="h-4 w-4" />
-              </div>
-            </div>
+      <div className="sticky top-0 flex h-screen flex-col overflow-hidden">
+        {/* Fixed header — aligned to the grid, never scrolls into the bezel */}
+        <div
+          className="flex items-end justify-between gap-8 pb-8 pt-28 sm:pt-32"
+          style={{ paddingLeft: GUTTER, paddingRight: GUTTER }}
+        >
+          <div>
+            <p className="eyebrow">Work</p>
+            <h2 className="mt-3 text-headline">Roles</h2>
           </div>
+          <p className="hidden max-w-xs pb-2 text-base text-foreground-muted md:block">
+            Founding AI engineer to product intern — four roles, end to end.
+          </p>
+        </div>
 
-          {/* Role panels */}
-          {items.map((p, i) => (
-            <div
-              key={p.id}
-              className="flex h-[66vh] shrink-0 items-stretch px-[2.5vw]"
-              style={{ width: `${PANEL}vw` }}
-            >
+        {/* Horizontal track — only the cards travel */}
+        <div className="relative min-h-0 flex-1">
+          <motion.div
+            ref={trackRef}
+            style={{ x, paddingLeft: GUTTER }}
+            className="absolute left-0 top-0 flex h-full w-max items-center gap-[2vw] pr-[6vw] will-change-transform"
+          >
+            {items.map((p, i) => (
               <Link
+                key={p.id}
                 href={`/portfolio/${p.id}`}
-                className="focus-ring group block w-full"
+                className="focus-ring group block h-[62vh] w-[clamp(22rem,52vw,44rem)] shrink-0"
               >
-                <div className="glass relative flex h-full w-full overflow-hidden rounded-[2rem] p-10 transition-colors duration-500 group-hover:border-accent/25 sm:p-14">
+                <div className="glass relative flex h-full w-full overflow-hidden rounded-[2rem] p-10 transition-colors duration-500 group-hover:border-accent/25 sm:p-12">
                   {/* Shader graphic — right side, fading into the type */}
                   <div
                     className="pointer-events-none absolute inset-y-0 right-0 w-[56%]"
@@ -145,8 +149,8 @@ function WorkShowcasePinned({ items }: { items: Project[] }) {
                       <ArrowUpRight className="h-7 w-7 text-foreground-subtle transition-all duration-500 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-accent" />
                     </div>
 
-                    <div className="max-w-[62%]">
-                      <h3 className="text-[clamp(2.25rem,5vw,4.5rem)] font-semibold leading-[0.95] tracking-tight">
+                    <div className="max-w-[64%]">
+                      <h3 className="text-[clamp(2rem,4vw,3.5rem)] font-semibold leading-[0.98] tracking-tight">
                         {p.role ?? p.title}
                       </h3>
                       <p className="mt-4 text-lg text-foreground-muted">
@@ -154,7 +158,7 @@ function WorkShowcasePinned({ items }: { items: Project[] }) {
                         {p.year ? ` · ${p.year}` : ''}
                       </p>
                       {p.tags && p.tags.length > 0 && (
-                        <div className="mt-7 flex flex-wrap gap-2">
+                        <div className="mt-6 flex flex-wrap gap-2">
                           {p.tags.slice(0, 4).map((t) => (
                             <span
                               key={t}
@@ -169,31 +173,28 @@ function WorkShowcasePinned({ items }: { items: Project[] }) {
                   </div>
                 </div>
               </Link>
+            ))}
+
+            {/* Outro */}
+            <div className="flex h-[62vh] w-[clamp(18rem,30vw,28rem)] shrink-0 items-center">
+              <Link href="/portfolio" className="focus-ring group">
+                <p className="eyebrow">Keep going</p>
+                <h3 className="mt-4 text-[clamp(1.75rem,3vw,2.75rem)] font-semibold leading-tight">
+                  Work &amp; projects
+                </h3>
+                <span className="mt-6 inline-flex items-center gap-2 text-base text-accent">
+                  Explore everything
+                  <ArrowRight className="h-5 w-5 transition-transform duration-500 group-hover:translate-x-1.5" />
+                </span>
+              </Link>
             </div>
-          ))}
+          </motion.div>
+        </div>
 
-          {/* Outro panel */}
-          <div
-            className="flex h-[66vh] shrink-0 items-center justify-center px-[3vw]"
-            style={{ width: `${PANEL}vw` }}
-          >
-            <Link href="/portfolio" className="focus-ring group text-center">
-              <p className="eyebrow">Keep going</p>
-              <h3 className="mt-5 text-[clamp(2.5rem,5vw,4.5rem)] font-semibold leading-tight">
-                Work &amp; projects
-              </h3>
-              <span className="mt-7 inline-flex items-center gap-2 text-base text-accent">
-                Explore everything
-                <ArrowRight className="h-5 w-5 transition-transform duration-500 group-hover:translate-x-1.5" />
-              </span>
-            </Link>
-          </div>
-        </motion.div>
-
-        {/* Horizontal progress rail */}
+        {/* Progress rail */}
         <div
-          className="absolute bottom-10 h-px bg-white/10"
-          style={{ left: GUTTER, right: GUTTER }}
+          className="mb-10 mt-6 h-px bg-white/10"
+          style={{ marginLeft: GUTTER, marginRight: GUTTER }}
         >
           <motion.div
             style={{ scaleX: railScale }}
