@@ -36,12 +36,17 @@ export function FocusScroll({ items }: { items: Focus[] }) {
     offset: ['start start', 'end end'],
   })
 
+  // Advance through all items over the first 88% of the pin, then hold the
+  // last one until the section releases — so no item gets squeezed at the
+  // unpin boundary and skipped.
+  const ACTIVE_SPAN = 0.88
   useMotionValueEvent(scrollYProgress, 'change', (v) => {
-    const idx = Math.min(items.length - 1, Math.floor(v * items.length * 0.999))
-    setActive(idx < 0 ? 0 : idx)
+    const ratio = Math.min(0.999, Math.max(0, v / ACTIVE_SPAN))
+    const idx = Math.min(items.length - 1, Math.floor(ratio * items.length))
+    setActive(idx)
   })
 
-  const railScale = useTransform(scrollYProgress, [0, 1], [0, 1])
+  const railScale = useTransform(scrollYProgress, [0, ACTIVE_SPAN], [0, 1])
 
   // Static grid — mobile and reduced-motion.
   if (!enhanced) {
@@ -69,7 +74,11 @@ export function FocusScroll({ items }: { items: Focus[] }) {
   }
 
   return (
-    <section ref={ref} className="hairline relative" style={{ height: '300vh' }}>
+    <section
+      ref={ref}
+      className="hairline relative"
+      style={{ height: `${items.length * 95}vh` }}
+    >
       <div className="sticky top-0 flex h-screen items-center overflow-hidden">
         <div className="mx-auto grid w-full max-w-content gap-x-16 gap-y-12 px-6 sm:px-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
           {/* Left: heading + big changing index */}
