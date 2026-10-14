@@ -23,7 +23,9 @@ const config: Config = {
       },
       fontSize: {
         giant: ["clamp(3.75rem, 12vw, 10.5rem)", { lineHeight: "0.9", letterSpacing: "-0.04em", fontWeight: "400" }],
-        title: ["clamp(3rem, 7vw, 6rem)", { lineHeight: "0.95", letterSpacing: "-0.035em", fontWeight: "400" }],
+        title: ["clamp(3.25rem, 8vw, 7.5rem)", { lineHeight: "0.92", letterSpacing: "-0.04em", fontWeight: "400" }],
+        statement: ["clamp(1.6rem, 2.7vw, 2.6rem)", { lineHeight: "1.14", letterSpacing: "-0.03em", fontWeight: "400" }],
+        prose: ["clamp(1.2rem, 1.6vw, 1.5rem)", { lineHeight: "1.4", letterSpacing: "-0.02em" }],
       },
       maxWidth: {
         content: "96rem",

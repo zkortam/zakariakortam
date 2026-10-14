@@ -5,7 +5,7 @@ import { type ReactNode } from 'react'
 
 export const EASE = [0.22, 1, 0.36, 1] as const
 
-/** The one entrance on the site: a short, soft fade up. */
+/** NDS fade-blur: a short lift out of a soft blur. */
 export function Fade({
   children,
   delay = 0,
@@ -18,13 +18,14 @@ export function Fade({
   /** Play on load instead of on scroll. */
   now?: boolean
 }) {
+  const shown = { opacity: 1, y: 0, filter: 'blur(0px)' }
   const trigger = now
-    ? { animate: { opacity: 1, y: 0 } }
-    : { whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: '0px 0px -10% 0px' } }
+    ? { animate: shown }
+    : { whileInView: shown, viewport: { once: true, margin: '0px 0px -8% 0px' } }
   return (
     <motion.div
       className={className}
-      initial={{ opacity: 0, y: 12 }}
+      initial={{ opacity: 0, y: 10, filter: 'blur(6px)' }}
       {...trigger}
       transition={{ duration: 0.9, delay, ease: EASE }}
     >
@@ -33,9 +34,29 @@ export function Fade({
   )
 }
 
-/** Section label: plain text over a hairline. */
-export function Label({ children }: { children: ReactNode }) {
+/** Hairline that draws in from the left. */
+export function Rule({ className = '', delay = 0 }: { className?: string; delay?: number }) {
   return (
-    <div className="border-t pt-4 text-sm text-foreground-muted">{children}</div>
+    <motion.div
+      aria-hidden="true"
+      className={`h-px origin-left bg-white/[0.14] ${className}`}
+      initial={{ scaleX: 0 }}
+      whileInView={{ scaleX: 1 }}
+      viewport={{ once: true }}
+      transition={{ duration: 1.2, delay, ease: EASE }}
+    />
+  )
+}
+
+/** Section head: numeral at column 1, name at column 7, over a rule. */
+export function SectionHead({ n, children }: { n: string; children: ReactNode }) {
+  return (
+    <div className="lg:col-span-12">
+      <Rule />
+      <Fade className="grid grid-cols-[3rem_1fr] pt-4 text-[15px] lg:grid-cols-12 lg:gap-x-5">
+        <span className="text-foreground-subtle lg:col-span-6">{n}</span>
+        <span className="lg:col-span-6">{children}</span>
+      </Fade>
+    </div>
   )
 }

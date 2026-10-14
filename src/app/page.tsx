@@ -1,36 +1,45 @@
 import { Hero } from '@/components/Hero'
-import { Container } from '@/components/Container'
-import { Fade, Label } from '@/components/Motion'
-import { Rows, Shot } from '@/components/Work'
+import { PortraitBand } from '@/components/PortraitBand'
+import { Grid } from '@/components/Container'
+import { Fade, SectionHead } from '@/components/Motion'
+import { Rail, Rows, Shot } from '@/components/Work'
 import { work, featuredProjects, earlierProjects } from '@/lib/projects-data'
 
 export default function HomePage() {
+  const [first, second, ...rest] = featuredProjects
+
   return (
     <main>
       <Hero />
+      <PortraitBand />
 
-      <Container className="mt-32 sm:mt-48">
-        <Label>Projects</Label>
-        <div className="mt-10 grid gap-x-6 gap-y-16 sm:grid-cols-2">
-          {featuredProjects.map((p, i) => (
-            <Shot key={p.id} p={p} wide={i === 0} />
-          ))}
-        </div>
-      </Container>
-
-      <Container className="mt-32 sm:mt-48">
-        <Label>Work</Label>
-        <Fade className="mt-4">
-          <Rows items={work} left={(p) => p.org ?? p.title} mid={(p) => p.role} />
+      {/* Short statement, NDS manifesto layout: label left, text right */}
+      <Grid className="mt-32 gap-y-6 sm:mt-48">
+        <Fade className="text-[15px] text-foreground-muted lg:col-span-6">Now</Fade>
+        <Fade delay={0.08} className="text-statement text-pretty lg:col-span-5 lg:col-start-7">
+          I work on new products at DigiCert. On my own time I build Helio, a tutor that talks and
+          draws, and Surf, a social network that is on its fourth version.
         </Fade>
-      </Container>
+      </Grid>
 
-      <Container className="mt-32 sm:mt-48">
-        <Label>Other projects</Label>
-        <Fade className="mt-4">
-          <Rows items={earlierProjects} left={(p) => p.title} mid={(p) => p.line} />
-        </Fade>
-      </Container>
+      <Grid className="mt-32 gap-y-14 sm:mt-48">
+        <SectionHead n="I">Selected projects</SectionHead>
+        <Shot p={first} ratio="aspect-[4/3]" className="lg:col-span-6" />
+        <Shot p={second} ratio="aspect-[4/3]" className="lg:col-span-6" delay={0.08} />
+        {rest.map((p, i) => (
+          <Shot key={p.id} p={p} className="lg:col-span-4" delay={i * 0.08} />
+        ))}
+      </Grid>
+
+      <Grid className="mt-32 sm:mt-48">
+        <SectionHead n="II">Experience</SectionHead>
+        <Rail items={work} />
+      </Grid>
+
+      <Grid className="mt-32 sm:mt-48">
+        <SectionHead n="III">Other projects</SectionHead>
+        <Rows items={earlierProjects} />
+      </Grid>
     </main>
   )
 }

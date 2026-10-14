@@ -1,57 +1,44 @@
 'use client'
 
-import Image from 'next/image'
 import { motion } from 'framer-motion'
-import { Container } from './Container'
+import { Grid } from './Container'
 import { EASE } from './Motion'
 
+/**
+ * NDS hero: a plain statement in the right half, the name set large along
+ * the floor of the first screen.
+ */
 export function Hero() {
   return (
-    <section className="relative h-[100svh] min-h-[600px] overflow-hidden">
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1.6, delay: 0.2, ease: EASE }}
-        className="absolute bottom-0 right-[-20%] h-[62%] w-[120%] sm:right-0 sm:h-[86%] sm:w-[52%]"
-      >
-        <Image
-          src="/zakaria.png"
-          alt="Zakaria Kortam"
-          fill
-          priority
-          sizes="(min-width: 640px) 52vw, 120vw"
-          className="object-contain object-bottom grayscale"
-          style={{
-            maskImage: 'linear-gradient(to top, transparent 0%, #000 30%)',
-            WebkitMaskImage: 'linear-gradient(to top, transparent 0%, #000 30%)',
-          }}
-        />
-      </motion.div>
-
-      <Container className="relative flex h-full flex-col justify-end pb-12 sm:pb-16">
-        <h1 className="font-display text-giant">
-          {['Zakaria', 'Kortam'].map((w, i) => (
-            <span key={w} className="block overflow-hidden pb-[0.04em]">
-              <motion.span
-                className="block"
-                initial={{ y: '100%' }}
-                animate={{ y: '0%' }}
-                transition={{ duration: 1.2, delay: 0.1 + i * 0.1, ease: EASE }}
-              >
-                {w}
-              </motion.span>
-            </span>
-          ))}
-        </h1>
+    <section className="flex min-h-[100svh] flex-col justify-between pb-10 pt-32 sm:pb-14 lg:pt-[22vh]">
+      <Grid>
         <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 0.7 }}
-          className="mt-6 max-w-[30rem] text-lg text-foreground-muted sm:mt-8"
+          initial={{ opacity: 0, y: 10, filter: 'blur(6px)' }}
+          animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+          transition={{ duration: 1.1, delay: 0.5, ease: EASE }}
+          className="text-statement text-balance lg:col-span-5 lg:col-start-7"
         >
-          Associate Product Manager, Innovation at DigiCert.
+          Associate Product Manager on the Innovation team at DigiCert. Before that, founding AI
+          engineer at FacilisAI.
         </motion.p>
-      </Container>
+      </Grid>
+
+      <Grid className="mt-24">
+        {/* Sized so the name runs the full width of the column */}
+        <h1 className="font-display text-[calc((100vw-2.5rem)/3.2)] leading-[0.88] tracking-[-0.045em] sm:text-[min(calc((100vw-5rem)/5.55),calc((96rem-5rem)/5.55))] lg:col-span-12">
+          <span className="block overflow-hidden pb-[0.06em]">
+            <motion.span
+              className="block"
+              initial={{ y: '102%' }}
+              animate={{ y: '0%' }}
+              transition={{ duration: 1.3, delay: 0.1, ease: EASE }}
+            >
+              Zakaria <br className="sm:hidden" />
+              Kortam
+            </motion.span>
+          </span>
+        </h1>
+      </Grid>
     </section>
   )
 }

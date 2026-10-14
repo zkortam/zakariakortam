@@ -1,7 +1,8 @@
 import type { Metadata } from 'next'
-import { Container } from '@/components/Container'
-import { Fade, Label } from '@/components/Motion'
-import { Rows, Shot } from '@/components/Work'
+import { Grid } from '@/components/Container'
+import { PageHead } from '@/components/PageHead'
+import { SectionHead } from '@/components/Motion'
+import { Rail, Rows, Shot } from '@/components/Work'
 import { work, featuredProjects, earlierProjects } from '@/lib/projects-data'
 
 export const metadata: Metadata = {
@@ -12,34 +13,24 @@ export const metadata: Metadata = {
 export default function WorkPage() {
   return (
     <main>
-      <Container className="pt-40 sm:pt-52">
-        <Fade now>
-          <h1 className="font-display text-title">Work</h1>
-        </Fade>
-      </Container>
+      <PageHead title="Work" statement="Four roles in product and engineering, and the products I build on my own." />
 
-      <Container className="mt-24 sm:mt-32">
-        <Label>Roles</Label>
-        <Fade className="mt-4">
-          <Rows items={work} left={(p) => p.org ?? p.title} mid={(p) => p.role} />
-        </Fade>
-      </Container>
+      <Grid className="mt-32 sm:mt-44">
+        <SectionHead n="I">Experience</SectionHead>
+        <Rail items={work} />
+      </Grid>
 
-      <Container className="mt-32 sm:mt-48">
-        <Label>Projects</Label>
-        <div className="mt-10 grid gap-x-6 gap-y-16 sm:grid-cols-2">
-          {featuredProjects.map((p, i) => (
-            <Shot key={p.id} p={p} wide={i === 0} />
-          ))}
-        </div>
-      </Container>
+      <Grid className="mt-32 gap-y-14 sm:mt-48">
+        <SectionHead n="II">Projects</SectionHead>
+        {featuredProjects.map((p, i) => (
+          <Shot key={p.id} p={p} ratio="aspect-[4/3]" className="lg:col-span-6" delay={(i % 2) * 0.08} />
+        ))}
+      </Grid>
 
-      <Container className="mt-32 sm:mt-48">
-        <Label>Other projects</Label>
-        <Fade className="mt-4">
-          <Rows items={earlierProjects} left={(p) => p.title} mid={(p) => p.line} />
-        </Fade>
-      </Container>
+      <Grid className="mt-32 sm:mt-48">
+        <SectionHead n="III">Other projects</SectionHead>
+        <Rows items={earlierProjects} />
+      </Grid>
     </main>
   )
 }

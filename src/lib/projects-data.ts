@@ -4,7 +4,7 @@ export interface Project {
   /** One plain sentence. Shown on cards and lists. */
   line: string
   kind: 'work' | 'project'
-  /** Featured projects get an illustration card; the rest go in a plain list. */
+  /** Featured projects get a screenshot tile; the rest go in a plain list. */
   featured: boolean
   year: string
   role: string
