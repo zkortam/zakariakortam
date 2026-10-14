@@ -23,11 +23,13 @@ const config: Config = {
       },
       fontSize: {
         // Fluid display scale — optical serif, tuned for large sizes
-        display: ["clamp(2.75rem, 8vw, 6rem)", { lineHeight: "0.96", letterSpacing: "-0.022em", fontWeight: "560" }],
-        headline: ["clamp(2rem, 5.5vw, 3.5rem)", { lineHeight: "1", letterSpacing: "-0.018em", fontWeight: "560" }],
+        giant: ["clamp(3.5rem, 13vw, 11.5rem)", { lineHeight: "0.88", letterSpacing: "-0.035em", fontWeight: "400" }],
+        display: ["clamp(2.75rem, 7.5vw, 6.25rem)", { lineHeight: "0.95", letterSpacing: "-0.03em", fontWeight: "400" }],
+        headline: ["clamp(2rem, 4.6vw, 3.75rem)", { lineHeight: "1.02", letterSpacing: "-0.025em", fontWeight: "400" }],
+        lede: ["clamp(1.35rem, 2.3vw, 2rem)", { lineHeight: "1.22", letterSpacing: "-0.022em" }],
       },
       maxWidth: {
-        content: "80rem", // 1280px — the one width everything aligns to
+        content: "96rem",
       },
       borderRadius: {
         xl: "0.875rem",

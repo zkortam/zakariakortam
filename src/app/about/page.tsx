@@ -1,182 +1,126 @@
-'use client'
-
+import type { Metadata } from 'next'
+import Image from 'next/image'
 import Link from 'next/link'
-import { Section } from '@/components/Section'
-import { Reveal, Stagger, StaggerItem } from '@/components/Reveal'
-import { MaskText } from '@/components/MaskText'
-import { HeroShader } from '@/components/HeroShader'
-import { ExperienceTimeline } from '@/components/ExperienceTimeline'
+import { Container } from '@/components/Container'
+import { PageHead } from '@/components/PageHead'
+import { BlurIn, ClipReveal, Rule, SectionHead } from '@/components/Motion'
+import { work } from '@/lib/projects-data'
 
-const experience = [
-  {
-    role: 'Associate Product Manager, Innovation',
-    org: 'DigiCert',
-    when: '2026 to Present',
-    points: [
-      'Product on the Innovation team, working on new products in digital trust',
-      'Customer discovery, problem framing, and fast prototypes to test ideas before they scale',
-    ],
-  },
-  {
-    role: 'Founding AI Engineer',
-    org: 'FacilisAI',
-    when: 'Apr 2025 to 2026',
-    points: [
-      'Architected and launched the flagship agentic platform connecting plant systems (PLCs, MES, SCADA) to specialized AI agents',
-      'Led 0-to-1 discovery with 15+ customer interviews; owned ICP, roadmap, demos, and enterprise sales',
-      'Deployed to 20 enterprise testers; converted demos into provisional contracts',
-    ],
-  },
-  {
-    role: 'Product Engineering Intern',
-    org: 'Incorta',
-    when: 'Jul 2024 to Mar 2025',
-    points: [
-      'Built TypeScript schema interpreters powering the AI Copilot dashboard, JSON spec to streamed charts',
-      'Shipped 5+ features end to end: PRDs, design reviews, QA, and rollout',
-      'Built a GitHub Actions CI pipeline (Jest, shell) at 90%+ coverage',
-    ],
-  },
-  {
-    role: 'Product Intern',
-    org: 'Inqueue',
-    when: 'Jun 2023 to Oct 2023',
-    points: [
-      'Owned MVP discovery to launch: market research, core journeys, and a shipped Flutter app',
-      'Defined activation, completion, and engagement KPIs; reprioritized the backlog from signals',
-    ],
-  },
+export const metadata: Metadata = {
+  title: 'About',
+  description: 'Zakaria Kortam is an Associate Product Manager on the Innovation team at DigiCert, based in San Jose.',
+}
+
+const tools: [string, string][] = [
+  ['Product', 'Roadmaps, PRDs, KPIs, user research, A/B tests'],
+  ['Code', 'TypeScript, Python, Rust, Go, C/C++, SQL'],
+  ['AI', 'Claude, OpenAI, MCP, RAG, vector databases'],
+  ['Infrastructure', 'Supabase, Postgres, Docker, Kubernetes, AWS, Azure, GCP'],
 ]
 
-const skills: [string, string][] = [
-  ['Languages', 'C/C++, Python, Go, Rust, Java, TypeScript, Shell, SQL'],
-  ['AI', 'MCP, LangChain, RAG, vector databases, Claude, OpenAI, Codex'],
-  ['Infrastructure', 'Docker, Kubernetes, AWS, Azure, GCP, PostgreSQL, Firebase'],
-  ['Product', 'Roadmapping, PRDs, KPIs, user research, A/B testing, Agile'],
-]
+const P = 'text-[clamp(1.25rem,1.9vw,1.65rem)] leading-[1.32] tracking-[-0.02em] text-pretty'
 
 export default function AboutPage() {
   return (
     <main>
-      {/* Hero */}
-      <Section
-        className="relative overflow-hidden pt-40 pb-24 sm:pt-48 sm:pb-32"
-        backdrop={<HeroShader seed={0.8} />}
-      >
-        <div className="relative">
-          <Reveal>
-            <p className="eyebrow">About</p>
-          </Reveal>
-          <MaskText
-            as="h1"
-            inView={false}
-            className="mt-4 max-w-4xl text-display text-balance"
-            lines={['Product manager', 'who ships.']}
-          />
-          <Reveal delay={0.12}>
-            <p className="mt-8 max-w-2xl text-lg leading-relaxed text-foreground-muted text-pretty sm:text-xl">
-              I build products across engineering, design, and product.
-              Associate Product Manager, Innovation at DigiCert, previously
-              founding AI engineer at FacilisAI. Electrical Engineering at UC
-              San Diego. Based in San Jose.
-            </p>
-          </Reveal>
-        </div>
-      </Section>
+      <PageHead
+        title="About"
+        statement="I’m a product manager in San Jose. I studied electrical engineering at UC San Diego."
+      />
 
-      {/* Approach — large statement */}
-      <Section divider className="py-24 sm:py-36">
-        <Reveal>
-          <p className="eyebrow">Approach</p>
-        </Reveal>
-        <Reveal delay={0.08}>
-          <p className="mt-8 max-w-5xl text-[clamp(1.5rem,3.4vw,2.6rem)] font-medium leading-[1.28] tracking-tight text-pretty">
-            I work at the seam between{' '}
-            <span className="text-accent">product and engineering</span>. A
-            voice-first AI tutor, a social platform and its messenger, a
-            SPICE-class circuit simulator written from scratch, a flight search.
-            From PRD to production,{' '}
-            <span className="text-accent">owned end to end</span>.
-          </p>
-        </Reveal>
-      </Section>
+      {/* Portrait and story */}
+      <Container className="pt-24 sm:pt-32">
+        <div className="grid gap-12 lg:grid-cols-2 lg:gap-5">
+          <ClipReveal className="lg:sticky lg:top-28 lg:self-start">
+            <div className="glass relative aspect-[4/5] max-w-[34rem] overflow-hidden rounded-[32px]">
+              <div
+                className="absolute inset-0"
+                style={{ background: 'radial-gradient(80% 60% at 60% 30%, rgba(122,26,40,0.55), transparent 75%)' }}
+              />
+              <Image
+                src="/zakaria.png"
+                alt="Zakaria Kortam"
+                fill
+                sizes="(min-width: 1024px) 34rem, 100vw"
+                className="object-cover object-top mix-blend-lighten"
+              />
+            </div>
+          </ClipReveal>
 
-      {/* Experience */}
-      <Section divider band className="py-24 sm:py-32">
-        <Reveal>
-          <p className="eyebrow">Career</p>
-          <MaskText
-            as="h2"
-            className="mt-3 text-headline"
-            lines={['Experience']}
-          />
-        </Reveal>
-        <ExperienceTimeline items={experience} />
-      </Section>
-
-      {/* Skills */}
-      <Section divider band className="py-24 sm:py-32">
-        <div className="grid gap-x-16 gap-y-12 lg:grid-cols-[0.55fr_1.45fr]">
-          <Reveal>
-            <p className="eyebrow lg:sticky lg:top-28 lg:self-start">Skills</p>
-          </Reveal>
-          <Stagger className="grid gap-px overflow-hidden rounded-3xl border border-white/[0.07] sm:grid-cols-2">
-            {skills.map(([title, body]) => (
-              <StaggerItem
-                key={title}
-                className="bg-white/[0.015] p-8 transition-colors duration-500 hover:bg-white/[0.03]"
-              >
-                <h3 className="font-semibold">{title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-foreground-muted">
-                  {body}
-                </p>
-              </StaggerItem>
-            ))}
-          </Stagger>
-        </div>
-      </Section>
-
-      {/* Education */}
-      <Section divider className="py-20 sm:py-24">
-        <Reveal className="flex flex-wrap items-baseline justify-between gap-x-8 gap-y-2">
-          <div>
-            <p className="eyebrow">Education</p>
-            <h3 className="mt-3 text-xl font-semibold sm:text-2xl">
-              University of California, San Diego
-            </h3>
-            <p className="mt-1 text-foreground-muted">
-              B.S. Electrical Engineering, Computer System Design Depth
-            </p>
+          <div className="max-w-[36rem] space-y-8">
+            <BlurIn as="p" className={P}>
+              Most of what I know about product came from shipping my own things. Surf started in 2022 and
+              is on its fourth version. Helio, SPICE++, and AiroFind came after it.
+            </BlurIn>
+            <BlurIn as="p" className={P}>
+              Before DigiCert I was the founding AI engineer at FacilisAI, building agents that work with
+              factory systems. Before that I did product work at Incorta and Inqueue.
+            </BlurIn>
+            <BlurIn as="p" className={P}>
+              I was also COO of ClosingTheDivide, a nonprofit that has donated more than 1,350 computers
+              and set up 12 computer labs.
+            </BlurIn>
+            <BlurIn>
+              <Link href="/contact" className="group inline-flex items-center gap-2 text-[0.95rem] font-medium">
+                Get in touch
+                <span className="transition-transform duration-500 group-hover:translate-x-1">→</span>
+              </Link>
+            </BlurIn>
           </div>
-          <span className="text-sm text-foreground-subtle">
-            Expected Jun 2026
-          </span>
-        </Reveal>
-      </Section>
-
-      {/* CTA */}
-      <Section divider className="relative overflow-hidden py-32 sm:py-40">
-        <div className="relative text-center">
-          <MaskText
-            as="h2"
-            stagger={0.1}
-            className="mx-auto max-w-3xl text-display text-balance"
-            lines={[
-              <span key="cta">
-                Let&apos;s work <span className="text-accent">together.</span>
-              </span>,
-            ]}
-          />
-          <Reveal delay={0.1} className="mt-10 flex flex-wrap justify-center gap-3">
-            <Link href="/portfolio" className="btn-primary focus-ring">
-              View Work
-            </Link>
-            <Link href="/contact" className="btn-secondary focus-ring">
-              Get in Touch
-            </Link>
-          </Reveal>
         </div>
-      </Section>
+      </Container>
+
+      {/* I. Experience */}
+      <Container className="pt-36 sm:pt-48">
+        <SectionHead n="I" label="Experience" />
+        {work.map((w, i) => (
+          <div key={w.id}>
+            <Link
+              href={`/portfolio/${w.id}`}
+              className="group grid grid-cols-[1fr_auto] items-baseline gap-x-6 gap-y-1 py-6 sm:grid-cols-[14rem_1fr_auto] sm:py-8"
+            >
+              <BlurIn as="span" delay={i * 0.05} className="text-foreground-muted">
+                {w.org}
+              </BlurIn>
+              <BlurIn
+                as="span"
+                delay={i * 0.05 + 0.05}
+                className="col-span-2 row-start-2 text-[clamp(1.35rem,2.2vw,1.9rem)] leading-tight tracking-[-0.025em] transition-transform duration-500 group-hover:translate-x-1 sm:col-span-1 sm:row-start-auto"
+              >
+                {w.role}
+              </BlurIn>
+              <BlurIn as="span" delay={i * 0.05 + 0.1} className="text-sm tabular-nums text-foreground-subtle">
+                {w.year}
+              </BlurIn>
+            </Link>
+            <Rule delay={i * 0.05} />
+          </div>
+        ))}
+      </Container>
+
+      {/* II. Tools */}
+      <Container className="pt-36 sm:pt-48">
+        <SectionHead n="II" label="Tools" />
+        <div className="grid gap-x-5 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+          {tools.map(([k, v], i) => (
+            <BlurIn key={k} delay={i * 0.06}>
+              <p className="text-sm text-foreground-subtle">{k}</p>
+              <p className="mt-2 text-[1.1rem] leading-snug tracking-[-0.015em]">{v}</p>
+            </BlurIn>
+          ))}
+        </div>
+      </Container>
+
+      {/* III. School */}
+      <Container className="pt-36 sm:pt-48">
+        <SectionHead n="III" label="School" />
+        <div className="grid gap-4 lg:grid-cols-2">
+          <BlurIn className="text-foreground-muted">University of California, San Diego</BlurIn>
+          <BlurIn as="p" delay={0.08} className={P}>
+            B.S. Electrical Engineering, with a depth in computer system design. Class of 2026.
+          </BlurIn>
+        </div>
+      </Container>
     </main>
   )
 }

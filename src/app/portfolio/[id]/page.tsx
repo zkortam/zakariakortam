@@ -1,173 +1,146 @@
-'use client'
-
-import { notFound } from 'next/navigation'
-import { use } from 'react'
+import type { Metadata } from 'next'
 import Link from 'next/link'
-import { ArrowLeft, ArrowRight, ArrowUpRight } from 'lucide-react'
+import { notFound } from 'next/navigation'
 import { projects } from '@/lib/projects-data'
-import { Section } from '@/components/Section'
-import { Reveal, Stagger, StaggerItem } from '@/components/Reveal'
-import { HeroShader } from '@/components/HeroShader'
+import { Container } from '@/components/Container'
+import { ProjectArt } from '@/components/ProjectArt'
+import { BlurIn, ClipReveal, Rule, Words } from '@/components/Motion'
+import { DetailTitle } from '@/components/DetailTitle'
+import { Sheen } from '@/components/Sheen'
 
-export default function ProjectDetailPage({
-  params,
-}: {
-  params: Promise<{ id: string }>
-}) {
-  const { id } = use(params)
-  const project = projects.find((p) => p.id === id)
-  if (!project) notFound()
+type Params = { params: Promise<{ id: string }> }
 
+export function generateStaticParams() {
+  return projects.map((p) => ({ id: p.id }))
+}
+
+export async function generateMetadata({ params }: Params): Promise<Metadata> {
+  const { id } = await params
+  const p = projects.find((x) => x.id === id)
+  if (!p) return {}
+  return { title: p.title, description: p.line }
+}
+
+export default async function ProjectPage({ params }: Params) {
+  const { id } = await params
   const idx = projects.findIndex((p) => p.id === id)
-  const prev = idx > 0 ? projects[idx - 1] : null
-  const next = idx < projects.length - 1 ? projects[idx + 1] : null
+  if (idx < 0) notFound()
+  const p = projects[idx]
+  const next = projects[(idx + 1) % projects.length]
 
-  const meta = [
-    ['Role', project.role],
-    ['Timeline', project.timeline],
-    ['Team', project.team],
-    ['Year', project.year],
-  ].filter(([, v]) => v) as [string, string][]
+  const host = (u: string) => u.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')
+  const meta: [string, React.ReactNode][] = [
+    ['Role', p.role],
+    ['When', p.year],
+    [p.kind === 'work' ? 'Company' : 'Type', p.org ?? 'Independent'],
+    [
+      'Links',
+      p.links ? (
+        <span className="flex flex-col">
+          {p.links.live && (
+            <a href={p.links.live} target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-accent">
+              {host(p.links.live)} ↗
+            </a>
+          )}
+          {p.links.github && (
+            <a href={p.links.github} target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-accent">
+              GitHub ↗
+            </a>
+          )}
+        </span>
+      ) : (
+        <span className="text-foreground-subtle">None public</span>
+      ),
+    ],
+  ]
 
-  const sections = [
-    ['Overview', project.overview],
-    ['Challenge', project.challenge],
-    ['Solution', project.solution],
+  const rows = [
+    ['Overview', p.overview],
+    ['Problem', p.problem],
+    ['Approach', p.approach],
   ].filter(([, v]) => v) as [string, string][]
 
   return (
     <main>
-      {/* Hero header */}
-      <Section
-        className="relative overflow-hidden pt-36 pb-20 sm:pt-44 sm:pb-24"
-        backdrop={<HeroShader seed={0.6} />}
-      >
-        <div className="relative">
-          <Reveal>
-            <Link
-              href="/portfolio"
-              className="focus-ring group inline-flex items-center gap-2 text-sm text-foreground-muted transition-colors hover:text-accent"
-            >
-              <ArrowLeft className="h-4 w-4 transition-transform duration-300 group-hover:-translate-x-1" />
-              All work
-            </Link>
-          </Reveal>
+      <Container className="pt-32 sm:pt-40">
+        <BlurIn>
+          <Link href="/portfolio" className="group inline-flex items-center gap-2 text-sm text-foreground-muted transition-colors hover:text-foreground">
+            <span className="transition-transform duration-500 group-hover:-translate-x-1">←</span> Work
+          </Link>
+        </BlurIn>
 
-          <Reveal delay={0.06} className="mt-12">
-            <p className="eyebrow">
-              {project.category} · {project.year}
-            </p>
-            <h1 className="mt-4 max-w-4xl text-display text-balance">
-              {project.title}
-            </h1>
-            <p className="mt-7 max-w-2xl text-lg leading-relaxed text-foreground-muted text-pretty sm:text-xl">
-              {project.description}
-            </p>
+        <DetailTitle title={p.title} />
+        <Words as="p" onMount delay={0.35} stagger={0.03} className="mt-6 max-w-[40rem] text-lede text-foreground-muted" text={p.line} />
 
-            <dl className="mt-12 grid grid-cols-2 gap-x-8 gap-y-8 border-t border-white/[0.08] pt-10 sm:grid-cols-4">
-              {meta.map(([k, v]) => (
-                <div key={k}>
-                  <dt className="eyebrow">{k}</dt>
-                  <dd className="mt-2 text-sm font-medium">{v}</dd>
-                </div>
+        <dl className="mt-16 grid grid-cols-2 gap-x-5 gap-y-8 sm:mt-20 lg:grid-cols-4">
+          {meta.map(([k, v], i) => (
+            <BlurIn key={k} delay={0.5 + i * 0.06}>
+              <Rule className="mb-4" delay={0.4 + i * 0.06} />
+              <dt className="text-sm text-foreground-subtle">{k}</dt>
+              <dd className="mt-1.5 text-[0.95rem]">{v}</dd>
+            </BlurIn>
+          ))}
+        </dl>
+      </Container>
+
+      <div className="px-2 pt-16 sm:px-3 sm:pt-24">
+        <ClipReveal>
+          <Sheen className="glass relative aspect-[4/3] overflow-hidden rounded-[36px] sm:aspect-[16/9] lg:aspect-[21/9]">
+            <ProjectArt id={p.id} seed={idx * 0.29} className="absolute inset-0" />
+          </Sheen>
+        </ClipReveal>
+      </div>
+
+      <Container className="pt-24 sm:pt-36">
+        {rows.map(([label, text]) => (
+          <div key={label} className="grid gap-4 pb-16 sm:pb-24 lg:grid-cols-2">
+            <BlurIn className="text-foreground-muted">{label}</BlurIn>
+            <BlurIn as="p" delay={0.08} className="max-w-[36rem] text-[clamp(1.25rem,1.9vw,1.65rem)] leading-[1.32] tracking-[-0.02em] text-pretty">
+              {text}
+            </BlurIn>
+          </div>
+        ))}
+
+        {p.results && (
+          <div className="grid gap-4 pb-16 sm:pb-24 lg:grid-cols-2">
+            <BlurIn className="text-foreground-muted">Results</BlurIn>
+            <ol className="max-w-[36rem]">
+              {p.results.map((r, i) => (
+                <li key={r}>
+                  <Rule delay={i * 0.08} />
+                  <BlurIn delay={i * 0.08} className="flex gap-6 py-5 text-[clamp(1.1rem,1.6vw,1.35rem)] tracking-[-0.015em]">
+                    <span className="w-5 shrink-0 tabular-nums text-accent">{i + 1}</span>
+                    {r}
+                  </BlurIn>
+                </li>
               ))}
-            </dl>
-          </Reveal>
+            </ol>
+          </div>
+        )}
+
+        <div className="grid gap-4 lg:grid-cols-2">
+          <BlurIn className="text-foreground-muted">Built with</BlurIn>
+          <BlurIn as="p" delay={0.08} className="max-w-[36rem] text-[clamp(1.1rem,1.6vw,1.35rem)] tracking-[-0.015em]">
+            {p.stack.join(', ')}
+          </BlurIn>
         </div>
-      </Section>
+      </Container>
 
-      {/* Body */}
-      <Section divider band className="py-20 sm:py-28">
-        <div className="grid gap-16 lg:grid-cols-[1.5fr_0.5fr]">
-          <Stagger className="space-y-14">
-            {sections.map(([title, body]) => (
-              <StaggerItem key={title}>
-                <h2 className="eyebrow">{title}</h2>
-                <p className="mt-5 text-lg leading-relaxed text-foreground-muted text-pretty">
-                  {body}
-                </p>
-              </StaggerItem>
-            ))}
-
-            {project.impact && project.impact.length > 0 && (
-              <StaggerItem>
-                <h2 className="eyebrow">Impact</h2>
-                <ul className="mt-5 space-y-3">
-                  {project.impact.map((it) => (
-                    <li
-                      key={it}
-                      className="flex gap-3 leading-relaxed text-foreground-muted"
-                    >
-                      <span className="mt-2.5 h-1 w-1 shrink-0 rounded-full bg-foreground-subtle" />
-                      {it}
-                    </li>
-                  ))}
-                </ul>
-              </StaggerItem>
-            )}
-          </Stagger>
-
-          <Reveal delay={0.08} className="space-y-10 lg:sticky lg:top-28 lg:self-start">
-            <div>
-              <h2 className="eyebrow">Technologies</h2>
-              <div className="mt-5 flex flex-wrap gap-2">
-                {project.technologies.map((t) => (
-                  <span
-                    key={t}
-                    className="rounded-full border border-white/[0.06] bg-white/[0.03] px-3 py-1 text-xs text-foreground-muted"
-                  >
-                    {t}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            {project.links?.live && (
-              <a
-                href={project.links.live}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-primary focus-ring group"
-              >
-                Visit live
-                <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-              </a>
-            )}
-          </Reveal>
-        </div>
-      </Section>
-
-      {/* Prev / Next */}
-      <Section divider className="py-16 sm:py-20">
-        <div className="grid gap-5 sm:grid-cols-2">
-          {prev ? (
-            <Link
-              href={`/portfolio/${prev.id}`}
-              className="focus-ring group rounded-2xl border border-white/[0.06] bg-white/[0.02] p-8 transition-all duration-500 hover:-translate-y-1 hover:border-white/[0.12] hover:bg-white/[0.04]"
-            >
-              <div className="eyebrow flex items-center gap-2">
-                <ArrowLeft className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-x-1" />
-                Previous
-              </div>
-              <div className="mt-3 text-lg font-semibold">{prev.title}</div>
-            </Link>
-          ) : (
-            <div className="hidden sm:block" />
-          )}
-          {next && (
-            <Link
-              href={`/portfolio/${next.id}`}
-              className="focus-ring group rounded-2xl border border-white/[0.06] bg-white/[0.02] p-8 transition-all duration-500 hover:-translate-y-1 hover:border-white/[0.12] hover:bg-white/[0.04] sm:text-right"
-            >
-              <div className="eyebrow flex items-center gap-2 sm:justify-end">
-                Next
-                <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
-              </div>
-              <div className="mt-3 text-lg font-semibold">{next.title}</div>
-            </Link>
-          )}
-        </div>
-      </Section>
+      {/* Next */}
+      <Container className="pt-32 sm:pt-44">
+        <Rule />
+        <Link href={`/portfolio/${next.id}`} className="focus-ring group block rounded py-10">
+          <span className="text-sm text-foreground-muted">Next</span>
+          <span className="mt-3 flex items-end justify-between gap-6">
+            <span className="font-display text-display transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-3">
+              {next.title}
+            </span>
+            <span className="mb-4 flex h-14 w-14 shrink-0 items-center justify-center rounded-full border border-white/15 text-xl transition-all duration-500 group-hover:border-transparent group-hover:bg-white group-hover:text-black">
+              →
+            </span>
+          </span>
+        </Link>
+      </Container>
     </main>
   )
 }

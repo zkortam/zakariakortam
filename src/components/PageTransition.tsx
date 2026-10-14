@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { usePathname } from 'next/navigation'
 import { type ReactNode, useEffect, useState } from 'react'
 
-const EASE = [0.16, 1, 0.3, 1] as const
+const EASE = [0.22, 1, 0.36, 1] as const
 
 export function PageTransition({ children }: { children: ReactNode }) {
   const pathname = usePathname()
@@ -18,10 +18,10 @@ export function PageTransition({ children }: { children: ReactNode }) {
     <AnimatePresence mode="wait" initial={false}>
       <motion.div
         key={pathname}
-        initial={{ opacity: 0, y: 14, filter: 'blur(8px)' }}
+        initial={{ opacity: 0, y: 8, filter: 'blur(8px)' }}
         animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-        exit={{ opacity: 0, y: -10, filter: 'blur(8px)' }}
-        transition={{ duration: 0.5, ease: EASE }}
+        exit={{ opacity: 0, y: -4, filter: 'blur(6px)' }}
+        transition={{ duration: 0.55, ease: EASE }}
       >
         {children}
       </motion.div>

@@ -1,6 +1,6 @@
 import { type ReactNode } from 'react'
 
-/** The single content column. Everything aligns to these edges. */
+/** The page column. NDS-style wide gutters; everything aligns to these edges. */
 export function Container({
   children,
   className = '',
@@ -9,7 +9,7 @@ export function Container({
   className?: string
 }) {
   return (
-    <div className={`mx-auto w-full max-w-content px-6 sm:px-8 ${className}`}>
+    <div className={`mx-auto w-full max-w-content px-5 sm:px-10 ${className}`}>
       {children}
     </div>
   )

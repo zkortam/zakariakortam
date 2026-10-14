@@ -3,8 +3,8 @@ export function StructuredData() {
     "@context": "https://schema.org",
     "@type": "Person",
     "name": "Zakaria Kortam",
-    "url": "https://zakariakortam.com",
-    "image": "https://zakariakortam.com/og-image.png",
+    "url": "https://www.zakariakortam.com",
+    "image": "https://www.zakariakortam.com/zakaria.png",
     "sameAs": [
       "https://linkedin.com/in/zkortam",
       "https://x.com/zakariakortam",

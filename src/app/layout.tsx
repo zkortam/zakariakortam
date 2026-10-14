@@ -1,26 +1,25 @@
 import type { Metadata } from "next";
-import { Fraunces, Hanken_Grotesk } from "next/font/google";
+import { Fraunces, Inter_Tight } from "next/font/google";
 import "./globals.css";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
+import { Dock } from "@/components/Dock";
+import { Ambient } from "@/components/Ambient";
 import { PageTransition } from "@/components/PageTransition";
 import { StructuredData } from "@/components/StructuredData";
 import { MotionProvider } from "@/components/MotionProvider";
-import { ScrollProgress } from "@/components/ScrollProgress";
 
-// Body / UI: a clean, slightly warm grotesk (not Inter)
-const hanken = Hanken_Grotesk({
+const sans = Inter_Tight({
   subsets: ["latin"],
   variable: "--font-sans",
   display: "swap",
 });
 
-// Display: an optical serif for headline gravitas
 const fraunces = Fraunces({
   subsets: ["latin"],
   variable: "--font-display",
   display: "swap",
-  axes: ["opsz"],
+  axes: ["opsz", "SOFT", "WONK"],
 });
 
 export const metadata: Metadata = {
@@ -32,22 +31,23 @@ export const metadata: Metadata = {
   description: "Associate Product Manager, Innovation at DigiCert. Builder of Helio, Surf, Surf Messenger, SPICE++, and AiroFind. Previously founding AI engineer at FacilisAI and product engineering at Incorta. UC San Diego EE. Based in San Jose, CA.",
   keywords: [
     "Zakaria Kortam",
+    "Product Manager",
+    "DigiCert",
+    "Helio",
+    "Surf",
+    "SPICE++",
+    "AiroFind",
     "AI Engineer",
-    "Product Engineer",
     "Machine Learning",
     "Agentic AI",
     "MCP",
     "React",
     "TypeScript",
-    "DigiCert",
     "Facilis",
     "UC San Diego",
     "San Jose",
     "Silicon Valley",
     "LLM",
-    "GPT-4",
-    "Full Stack",
-    "Flutter",
   ],
   authors: [{ name: "Zakaria Kortam", url: "https://zakariakortam.com" }],
   creator: "Zakaria Kortam",
@@ -64,14 +64,6 @@ export const metadata: Metadata = {
     title: "Zakaria Kortam | Product Manager & Builder",
     description: "Associate Product Manager, Innovation at DigiCert. Builder of Helio, Surf, SPICE++, and AiroFind.",
     siteName: "Zakaria Kortam",
-    images: [
-      {
-        url: "/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "Zakaria Kortam - Product Manager & Builder",
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
@@ -79,7 +71,6 @@ export const metadata: Metadata = {
     description: "Associate Product Manager, Innovation at DigiCert. UC San Diego EE.",
     creator: "@zakariakortam",
     site: "@zakariakortam",
-    images: ["/og-image.png"],
   },
   robots: {
     index: true,
@@ -92,17 +83,6 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  icons: {
-    icon: [
-      { url: '/favicon.ico', sizes: 'any' },
-      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
-      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
-    ],
-    apple: [
-      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
-    ],
-  },
-  manifest: '/site.webmanifest',
 };
 
 export default function RootLayout({
@@ -111,24 +91,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${hanken.variable} ${fraunces.variable}`}>
+    <html lang="en" className={`${sans.variable} ${fraunces.variable}`}>
       <head>
-        <link rel="icon" href="/favicon.ico" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-        <link rel="manifest" href="/site.webmanifest" />
-        <meta name="theme-color" content="#000000" />
+        <meta name="theme-color" content="#040304" />
       </head>
-      <body className="font-sans antialiased">
+      <body className="grain font-sans antialiased">
         <StructuredData />
         <MotionProvider>
-          <ScrollProgress />
+          <Ambient />
           <Navigation />
           <PageTransition>
             {children}
           </PageTransition>
           <Footer />
+          <Dock />
         </MotionProvider>
       </body>
     </html>

@@ -1,81 +1,71 @@
 import Link from 'next/link'
 import { Hero } from '@/components/Hero'
-import { Section } from '@/components/Section'
-import { WorkShowcase } from '@/components/WorkShowcase'
-import { Reveal } from '@/components/Reveal'
-import { MaskText } from '@/components/MaskText'
-import { FocusScroll, type Focus } from '@/components/FocusScroll'
-import { projects, isWorkProject } from '@/lib/projects-data'
-
-const focus: Focus[] = [
-  {
-    area: 'Agentic AI',
-    desc: 'Model Context Protocol, tool-using agents, and orchestration for enterprise systems.',
-  },
-  {
-    area: 'Product Engineering',
-    desc: 'React, TypeScript, and Node.js. Shipping interfaces people actually use.',
-  },
-  {
-    area: 'Applied ML',
-    desc: 'LLMs, vector search, and computer vision wired into real products.',
-  },
-  {
-    area: 'Cross-Platform',
-    desc: 'Flutter and Dart for native iOS, Android, and the web from one codebase.',
-  },
-]
+import { Container } from '@/components/Container'
+import { Chip } from '@/components/Chip'
+import { ScrollFill, SectionHead } from '@/components/Motion'
+import { ProjectTile, RoleColumns, PlainList } from '@/components/Tiles'
+import { work, featuredProjects, earlierProjects } from '@/lib/projects-data'
 
 export default function HomePage() {
-  const featured = projects.filter(isWorkProject)
-
   return (
     <main>
       <Hero />
 
-      {/* What I work on — pinned, scrubbed */}
-      <FocusScroll items={focus} />
+      {/* Statement */}
+      <Container className="pb-32 pt-28 sm:pb-40 sm:pt-44">
+        <ScrollFill
+          className="mx-auto max-w-[68rem] text-center font-display text-[clamp(2.1rem,4.6vw,4.4rem)] leading-[1.1] tracking-[-0.03em]"
+          parts={[
+            'I’m a product manager at',
+            { node: <Chip glyph="lock" label="DigiCert" href="/portfolio/digicert" /> },
+            'who still writes the code. Right now that means',
+            { node: <Chip glyph="helio" label="Helio," href="/portfolio/helio" /> },
+            'a tutor that talks and draws,',
+            { node: <Chip glyph="surf" label="Surf" href="/portfolio/surf" /> },
+            'and',
+            { node: <Chip glyph="messenger" label="Surf Messenger," href="/portfolio/surf-messenger" /> },
+            { node: <Chip glyph="spice" label="SPICE++," href="/portfolio/spice-plus-plus" /> },
+            'and',
+            { node: <Chip glyph="plane" label="AiroFind." href="/portfolio/airofind" /> },
+          ]}
+        />
+      </Container>
 
-      {/* Work: horizontal scroll showcase */}
-      <WorkShowcase items={featured} />
-
-      {/* CTA */}
-      <Section divider className="relative overflow-hidden py-32 sm:py-40">
-        <div className="relative text-center">
-          <Reveal>
-            <p className="eyebrow">Get in touch</p>
-          </Reveal>
-          <MaskText
-            as="h2"
-            stagger={0.1}
-            className="mx-auto mt-5 max-w-3xl text-display text-balance"
-            lines={[
-              <span key="cta">
-                Let&apos;s build <span className="text-accent">something.</span>
-              </span>,
-            ]}
-          />
-          <Reveal delay={0.1}>
-            <p className="mx-auto mt-7 max-w-md text-lg text-foreground-muted">
-              Open to product conversations and collaborations. I usually
-              reply within a day.
-            </p>
-            <div className="mt-10 flex flex-wrap justify-center gap-3">
-              <Link href="/contact" className="btn-primary focus-ring">
-                Contact
-              </Link>
-              <a
-                href="https://github.com/zkortam"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-secondary focus-ring"
-              >
-                GitHub
-              </a>
-            </div>
-          </Reveal>
+      {/* I. Projects */}
+      <Container>
+        <SectionHead
+          n="I"
+          label="Projects"
+          right={
+            <Link href="/portfolio" className="group text-foreground-muted transition-colors hover:text-foreground">
+              All work <span className="inline-block transition-transform duration-500 group-hover:translate-x-1">→</span>
+            </Link>
+          }
+        />
+        {/* 2, 3, 2: two large, three small, two large */}
+        <div className="grid gap-x-5 gap-y-14 sm:grid-cols-2 lg:grid-cols-6">
+          {featuredProjects.map((p, i) => (
+            <ProjectTile
+              key={p.id}
+              p={p}
+              i={i}
+              className={i >= 2 && i <= 4 ? 'lg:col-span-2' : 'lg:col-span-3'}
+            />
+          ))}
         </div>
-      </Section>
+      </Container>
+
+      {/* II. Work */}
+      <Container className="pt-36 sm:pt-48">
+        <SectionHead n="II" label="Work" />
+        <RoleColumns items={work} />
+      </Container>
+
+      {/* III. Earlier */}
+      <Container className="pt-36 sm:pt-48">
+        <SectionHead n="III" label="Earlier" />
+        <PlainList items={earlierProjects} />
+      </Container>
     </main>
   )
 }

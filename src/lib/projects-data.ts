@@ -1,589 +1,326 @@
 export interface Project {
   id: string
   title: string
-  description: string
-  category: 'AI/ML' | 'Product Engineering' | 'Research/Academic' | 'Tools'
-  tags: string[]
-  image: string
+  /** One plain sentence. Shown on cards and lists. */
+  line: string
+  kind: 'work' | 'project'
+  /** Featured projects get an illustration card; the rest go in a plain list. */
   featured: boolean
   year: string
-  role?: string
-  timeline?: string
-  team?: string
+  role: string
+  org?: string
   overview: string
-  challenge?: string
-  solution?: string
-  impact?: string[]
-  technologies: string[]
+  problem?: string
+  approach?: string
+  results?: string[]
+  stack: string[]
   links?: {
     live?: string
     github?: string
-    demo?: string
   }
 }
 
-const PLACEHOLDER = '/api/placeholder/400/300'
-
-/** Branded tile. Swap in a real logo by replacing public/roles/<id>.svg. */
-const roleTile = (id: string) => `/roles/${id}.svg`
-
 export const projects: Project[] = [
-  // ---------- WORK (resume experience) ----------
+  // Work
   {
     id: 'digicert',
     title: 'DigiCert',
-    description:
-      'Associate Product Manager on the Innovation team, shaping new products at the company behind much of the web’s digital trust.',
-    category: 'Product Engineering',
-    tags: ['Product Management', 'Innovation', 'Digital Trust', 'PKI'],
-    image: roleTile("digicert"),
+    line: 'New products in digital trust: certificates, PKI, and identity.',
+    kind: 'work',
     featured: true,
-    year: '2026',
+    year: '2026 to now',
     role: 'Associate Product Manager, Innovation',
-    timeline: '2026 to Present',
-    team: 'DigiCert, Innovation',
+    org: 'DigiCert',
     overview:
-      'Associate Product Manager on DigiCert’s Innovation team, working on new products in digital trust: certificates, PKI, and the identity layer that keeps the internet secure.',
-    challenge:
-      'Digital trust is shifting fast, from shorter certificate lifetimes to post-quantum cryptography and AI agents that need verifiable identities of their own.',
-    solution:
-      'Bring a builder’s background to product discovery: talk to customers, frame the problem, and prototype quickly so new ideas can be tested before they are scaled.',
-    technologies: [
-      'Product Management',
-      'Customer Discovery',
-      'PKI',
-      'Prototyping',
-    ],
+      'I work on new products at DigiCert, the certificate authority behind a large share of the web’s TLS, code signing, and PKI.',
+    problem:
+      'Trust on the internet is changing quickly. Certificate lifetimes are getting shorter, post-quantum cryptography is coming, and AI agents need identities you can verify.',
+    approach:
+      'Talk to customers, frame the problem, and prototype early so ideas get tested before they get scaled.',
+    stack: ['Product management', 'Customer discovery', 'PKI', 'Prototyping'],
     links: { live: 'https://www.digicert.com' },
   },
   {
     id: 'facilis-ai',
     title: 'FacilisAI',
-    description:
-      'Founding engineer building the agentic platform that connects plant systems (PLCs, MES, SCADA) to specialized AI agents.',
-    category: 'AI/ML',
-    tags: ['AI Agents', 'MCP', 'TypeScript', 'Node.js', 'Edge SLMs'],
-    image: roleTile("facilis-ai"),
+    line: 'Agents that work with factory systems: PLCs, MES, and SCADA.',
+    kind: 'work',
     featured: true,
-    year: '2025',
+    year: '2025 to 2026',
     role: 'Founding AI Engineer',
-    timeline: 'Apr 2025 to 2026',
-    team: 'FacilisAI, San Jose',
+    org: 'FacilisAI',
     overview:
-      'Founding AI Engineer at FacilisAI. Architected and built the flagship agentic platform that connects plant systems (PLCs, MES, SCADA) to specialized AI agents, turning month-long operational work into hours through chat and scheduled background tasks.',
-    challenge:
-      'Industrial operators run critical workflows across air-gapped, OT-constrained systems that generic cloud AI cannot reach. The work is slow, manual, and locked behind legacy interfaces.',
-    solution:
-      'Owned the agent architecture and integrations end to end, then led 0-to-1 discovery across 15+ customer interviews to shape the ICP, roadmap, and positioning. Shipped on-prem and air-gapped deployments with edge-SLM packaging for OT environments, and ran demos and enterprise sales.',
-    impact: [
-      'Deployed to 20 enterprise demo testers',
-      'Converted demos into provisional contracts with ~100% retention',
-      'Cut month-long operational tasks down to hours',
-      'Shipped on-prem, air-gapped, edge-SLM deployment',
+      'I built FacilisAI’s main product, a platform that connects plant systems (PLCs, MES, SCADA) to AI agents. Operators use it through chat and scheduled background tasks.',
+    problem:
+      'Plant software is air-gapped and old. Work that touches it is slow and manual, and cloud AI can’t reach it.',
+    approach:
+      'I owned the agent architecture and the integrations. I ran 15+ customer interviews to set the ICP and roadmap, shipped on-prem and air-gapped installs with small edge models, and ran demos and sales calls.',
+    results: [
+      '20 enterprise demo testers',
+      'Demos converted into provisional contracts',
+      'Tasks that took a month now take hours',
     ],
-    technologies: [
-      'AI Agents',
-      'MCP',
-      'TypeScript',
-      'Node.js',
-      'React',
-      'Edge SLMs',
-      'PLC / MES / SCADA',
-    ],
+    stack: ['TypeScript', 'Node.js', 'React', 'MCP', 'Edge SLMs'],
     links: { live: 'https://facilis.ai' },
   },
   {
     id: 'incorta-dashboards',
     title: 'Incorta',
-    description:
-      'Built the schema interpreters and charting library behind Incorta’s AI Copilot dashboards, and shipped 5+ features end to end.',
-    category: 'Product Engineering',
-    tags: ['TypeScript', 'React', 'SQL', 'Jest', 'GitHub Actions'],
-    image: roleTile("incorta-dashboards"),
+    line: 'Charts and schema interpreters behind the AI Copilot dashboard.',
+    kind: 'work',
     featured: true,
-    year: '2024-2025',
+    year: '2024 to 2025',
     role: 'Product Engineering Intern',
-    timeline: 'Jul 2024 to Mar 2025',
-    team: 'Incorta, San Mateo',
+    org: 'Incorta',
     overview:
-      'Product Engineering Intern at Incorta. Built TypeScript schema interpreters that turn JSON specs into streamed visualizations for the AI Copilot dashboard, plus a dynamic charting library on SQL and schema data.',
-    challenge:
-      'The AI Copilot had to render trustworthy, fast visualizations from model-generated specs over enterprise data, with the access controls and reliability enterprise customers require.',
-    solution:
-      'Shipped 5+ features end to end: PRDs, design reviews in Figma, QA, and rollout. Built a GitHub Actions CI pipeline (Jest, shell) at 90%+ coverage, defined adoption, completion, and latency metrics, and embedded RBAC, audit logging, and accessibility into release readiness.',
-    impact: [
-      'Powered the AI Copilot dashboard from JSON spec to streamed charts',
-      'Shipped a charting library: tables, sparklines, time-series',
-      '90%+ test coverage via GitHub Actions CI',
-      'Defined adoption, completion, and latency metrics',
+      'I built the TypeScript interpreters that turn model-generated JSON specs into streamed charts for Incorta’s AI Copilot, and the charting library underneath them.',
+    problem:
+      'The Copilot had to draw fast, correct charts from model output over enterprise data, with the access controls enterprise customers expect.',
+    approach:
+      'Shipped 5+ features from PRD through design review, QA, and rollout. Set up CI on GitHub Actions and defined adoption, completion, and latency metrics.',
+    results: [
+      'Tables, sparklines, and time series from one spec format',
+      '90%+ test coverage in CI',
+      'RBAC, audit logging, and accessibility in the release checklist',
     ],
-    technologies: [
-      'TypeScript',
-      'React',
-      'SQL',
-      'Jest',
-      'GitHub Actions',
-      'Figma',
-    ],
+    stack: ['TypeScript', 'React', 'SQL', 'Jest', 'GitHub Actions', 'Figma'],
     links: { live: 'https://incorta.com' },
   },
   {
     id: 'inqueue',
     title: 'Inqueue',
-    description:
-      'Owned a mobile queuing app from discovery to launch: market research, core journeys, and a shipped Flutter MVP.',
-    category: 'Product Engineering',
-    tags: ['Flutter', 'Product', 'KPIs', 'User Research'],
-    image: roleTile("inqueue"),
-    featured: false,
+    line: 'Took a queuing app from research to a shipped Flutter MVP.',
+    kind: 'work',
+    featured: true,
     year: '2023',
     role: 'Product Intern',
-    timeline: 'Jun 2023 to Oct 2023',
-    team: 'Inqueue',
+    org: 'Inqueue',
     overview:
-      'Product Intern at Inqueue. Owned MVP discovery through launch for a mobile queuing app, from market research and core user journeys to a shipped Flutter build.',
-    challenge:
-      'A new queuing product needed a focused MVP and a real way to tell whether the core flow worked for users.',
-    solution:
-      'Defined KPIs for activation, core-flow completion, and notification engagement, and reprioritized the backlog from interviews and signals. Partnered with design to validate assumptions and embedded trust/safety and accessibility into PRDs and acceptance criteria.',
-    impact: [
-      'Shipped a Flutter queuing app MVP',
-      'Defined activation, completion, and engagement KPIs',
-      'Embedded trust/safety and accessibility into the spec',
-    ],
-    technologies: [
-      'Flutter',
-      'Product Management',
-      'User Research',
-      'A/B Testing',
-    ],
+      'I owned the MVP for a mobile queuing app: market research, the core user flows, and a shipped Flutter build.',
+    approach:
+      'Set KPIs for activation, flow completion, and notification engagement, then reordered the backlog based on interviews and usage.',
+    stack: ['Flutter', 'User research', 'KPIs'],
   },
 
-  // ---------- PROJECTS ----------
+  // Projects
   {
     id: 'helio',
     title: 'Helio',
-    description:
-      'A real-time, voice-first AI tutor for math and science that teaches out loud while it writes and draws on a live whiteboard.',
-    category: 'AI/ML',
-    tags: ['Rust', 'WebAssembly', 'Voice AI', 'TypeScript', 'EdTech'],
-    image: PLACEHOLDER,
+    line: 'A voice AI tutor that teaches math and science on a live whiteboard.',
+    kind: 'project',
     featured: true,
     year: '2026',
     role: 'Founder',
-    timeline: '2026 to Present',
-    team: 'Solo',
     overview:
-      'Helio replaces the static lesson video with a live tutor. A student talks naturally and interrupts freely while the tutor explains, writing, drawing, highlighting, and animating on an unlimited whiteboard, with speech and visuals synchronized to the word.',
-    challenge:
-      'A tutor that talks and draws at once has to keep voice, ink, and reasoning in lockstep under a tight latency budget, never say anything wrong, and be safe for minors.',
-    solution:
-      'A shared deterministic core in Rust, compiled to WebAssembly, drives the board, layout, and handwriting engines. Every claim is verified before it is spoken, and a provider-neutral layer routes between model and voice vendors. The design came out of a founding blueprint backed by 18 research reports and seven adversarial reviews.',
-    impact: [
-      'Voice-first tutoring with speech and ink synchronized to the word',
-      'Verify-on-emit: claims checked before they are spoken',
-      'Rust core shared across client and server via WebAssembly',
-      'Built for students, parents, teachers, and districts',
+      'Helio is a live tutor in place of a lesson video. Students talk to it and interrupt whenever they want. It explains out loud while it writes, draws, and animates on an unlimited whiteboard, with the voice and the ink in sync.',
+    problem:
+      'A tutor that talks and draws at the same time has to keep voice, ink, and reasoning in step without lag. It can’t say anything wrong, and it has to be safe for kids.',
+    approach:
+      'A Rust core compiled to WebAssembly runs the board, layout, and handwriting. Every claim gets checked before it is spoken. A provider layer lets me swap model and voice vendors. The design came from 18 research reports and seven rounds of review.',
+    results: [
+      'Speech and handwriting synced word by word',
+      'Claims checked before they are spoken',
+      'Accounts for students, parents, teachers, and districts',
     ],
-    technologies: [
-      'Rust',
-      'WebAssembly',
-      'TypeScript',
-      'Vite',
-      'Cloudflare',
-      'Supabase',
-      'Voice AI',
-    ],
+    stack: ['Rust', 'WebAssembly', 'TypeScript', 'Cloudflare', 'Supabase'],
     links: { live: 'https://helio.education' },
   },
   {
     id: 'surf',
     title: 'Surf',
-    description:
-      'A full-stack social platform: feeds, shorts and a browser video editor, messaging and calls, live streaming, creator tools, and family controls.',
-    category: 'Product Engineering',
-    tags: ['Next.js', 'React', 'TypeScript', 'Supabase', 'Capacitor'],
-    image: PLACEHOLDER,
+    line: 'A social platform I have been building since 2022.',
+    kind: 'project',
     featured: true,
-    year: '2022-2026',
+    year: '2022 to now',
     role: 'Founder',
-    timeline: '2022 to Present',
-    team: 'Solo',
     overview:
-      'Surf is the social platform I have been building since 2022, now in its fourth generation. One Next.js codebase serves the web, an installable app, and native iOS and Android shells, with 150+ routes across feeds, posts, shorts, messaging, live, and creator analytics.',
-    challenge:
-      'Building a complete social product alone means owning design, engineering, AI, safety, and infrastructure, with no team to absorb the surface area.',
-    solution:
-      'Rebuilt on Next.js, React, and Supabase with row-level security tested against a live database, a browser video editor, subscriptions, moderation, and family controls. A strict quality gate (type checks, lint, unit, RLS, and end-to-end suites) guards every release.',
-    impact: [
-      '150+ routes across web, iOS, and Android from one codebase',
-      'Shorts with an in-browser video editor, live streaming, and calls',
-      'Subscriptions, moderation, and family controls built in',
-      'Four generations of iteration since 2022',
+      'Surf has feeds, posts, shorts with a video editor in the browser, messaging and calls, live streaming, creator analytics, subscriptions, and family controls. One Next.js codebase runs the web app and the iOS and Android apps.',
+    problem:
+      'A whole social product built by one person. Design, engineering, safety, and infrastructure all land on me.',
+    approach:
+      'This is the fourth version, rebuilt on Next.js and Supabase. Database access rules are tested against a live database. Every release has to pass type checks, lint, unit tests, and end-to-end tests.',
+    results: [
+      '150+ routes on web, iOS, and Android',
+      'Shorts, live streaming, and calls',
+      'Moderation and family controls built in',
     ],
-    technologies: [
-      'Next.js',
-      'React',
-      'TypeScript',
-      'Supabase',
-      'PostgreSQL',
-      'Capacitor',
-      'Vercel',
-    ],
+    stack: ['Next.js', 'React', 'TypeScript', 'Supabase', 'Capacitor'],
     links: { live: 'https://surfsocial.org' },
   },
   {
     id: 'surf-messenger',
     title: 'Surf Messenger',
-    description:
-      'Surf’s standalone messenger, with desktop apps for macOS and Windows alongside the mobile shells.',
-    category: 'Product Engineering',
-    tags: ['Electron', 'Capacitor', 'Messaging', 'Desktop'],
-    image: PLACEHOLDER,
+    line: 'Surf’s messaging as its own app, on Mac, Windows, and phones.',
+    kind: 'project',
     featured: true,
     year: '2026',
     role: 'Founder',
-    timeline: '2026',
-    team: 'Solo',
     overview:
-      'A focused messaging app built on Surf’s messaging and calling stack. It ships as native desktop apps for macOS and Windows and as a mobile app, all sharing the same backend as Surf.',
-    challenge:
-      'People want a messenger that stays fast and simple, without opening a full social app every time they want to talk.',
-    solution:
-      'Split messaging into its own product and packaged it for every platform: Electron builds for macOS and Windows and Capacitor shells on mobile, all loading the same origin so features ship everywhere at once.',
-    impact: [
-      'Native desktop apps for macOS and Windows',
-      'One backend shared with Surf',
-    ],
-    technologies: ['Electron', 'Capacitor', 'Next.js', 'Supabase'],
+      'Surf Messenger takes Surf’s messaging and calls and makes them a separate app. It runs on macOS and Windows and on phones, on the same backend as Surf.',
+    approach:
+      'Electron for the desktop builds and Capacitor on mobile. Every version loads the same web app, so a change ships to all of them at once.',
+    stack: ['Electron', 'Capacitor', 'Next.js', 'Supabase'],
     links: {
       live: 'https://surfmessenger.com',
       github: 'https://github.com/zkortam/SurfMessengerDesktop',
     },
   },
   {
+    id: 'spice-plus-plus',
+    title: 'SPICE++',
+    line: 'A circuit simulator in the browser, written from scratch.',
+    kind: 'project',
+    featured: true,
+    year: '2025 to now',
+    role: 'Creator',
+    overview:
+      'SPICE++ is an LTspice replacement that runs in the browser. It has a schematic editor, a waveform viewer, and a simulation engine I wrote myself in TypeScript.',
+    problem:
+      'A real SPICE engine is hard numerical work. It also has to open the files engineers already use.',
+    approach:
+      'A modified nodal analysis solver with operating point, DC sweep, transient, and AC analysis, plus diode, MOSFET, and op-amp models. An AI assistant can place parts, wire them, run the simulation, and debug the circuit. It imports and exports SPICE, LTspice, KiCad, and Verilog.',
+    results: [
+      '.op, .dc, .tran, and .ac analysis',
+      'AI assistant with 15+ circuit tools',
+      'Checked against UCSD ECE coursework',
+    ],
+    stack: ['TypeScript', 'Azure OpenAI', 'Supabase', 'Stripe'],
+    links: { live: 'https://www.spicepp.com' },
+  },
+  {
     id: 'airofind',
     title: 'AiroFind',
-    description:
-      'A clean, fast flight search with a self-hosted fare scraper behind it.',
-    category: 'Product Engineering',
-    tags: ['Next.js', 'Three.js', 'Scraping', 'Azure'],
-    image: PLACEHOLDER,
+    line: 'A fast, quiet flight search.',
+    kind: 'project',
     featured: true,
     year: '2026',
     role: 'Creator',
-    timeline: '2026',
-    team: 'Solo',
     overview:
-      'AiroFind is a flight search built around a minimal, motion-first interface: pure black, big type, and nothing in the way of the results.',
-    challenge:
-      'Flight search sites are cluttered and slow. The goal was a search that feels calm and instant without giving up real fare data.',
-    solution:
-      'A Next.js front end with Three.js visuals on Vercel, backed by a scraper service that runs on its own Azure VM.',
-    impact: [
-      'Live at airofind.com',
-      'Self-hosted fare scraping on Azure',
-      'Minimal, motion-first interface',
-    ],
-    technologies: [
-      'Next.js',
-      'React',
-      'Three.js',
-      'Framer Motion',
-      'Firebase',
-      'Azure',
-      'Vercel',
-    ],
+      'AiroFind is a flight search with a plain black interface that keeps out of the way of the results.',
+    problem: 'Most flight search sites are slow and crowded with clutter.',
+    approach:
+      'A Next.js front end on Vercel, with a fare scraper running on its own Azure VM.',
+    stack: ['Next.js', 'Three.js', 'Framer Motion', 'Azure'],
     links: { live: 'https://airofind.com' },
-  },
-  {
-    id: 'spice-plus-plus',
-    title: 'SPICE++',
-    description:
-      'A browser-based SPICE-class circuit simulator built from scratch, with an AI assistant that places, wires, runs, and debugs circuits from natural language.',
-    category: 'Tools',
-    tags: ['TypeScript', 'Simulation', 'Azure OpenAI', 'Supabase'],
-    image: PLACEHOLDER,
-    featured: true,
-    year: '2025-2026',
-    role: 'Creator',
-    timeline: '2025 to Present',
-    team: 'Solo',
-    overview:
-      'An LTspice and PSpice replacement that runs in the browser, with schematic capture, a waveform viewer, and an engine built from scratch: a TypeScript MNA solver with .op, .dc, .tran, and .ac analyses, Newton-Raphson with junction limiting, and MOSFET, diode, and op-amp models.',
-    challenge:
-      'A real SPICE engine plus an AI layer that can reason about circuits is a deep numerical and tooling problem, and it had to interoperate with the formats engineers actually use.',
-    solution:
-      'Shipped an OpenAI tool-calling agent with 15+ circuit actions so agents place, wire, run, and debug circuits from natural-language prompts. Implemented round-trip import and export across SPICE, LTspice, KiCad 6+, and Verilog with 40+ tests.',
-    impact: [
-      'Full MNA solver: .op/.dc/.tran/.ac, Newton-Raphson, device models',
-      'OpenAI agent with 15+ circuit actions',
-      'Round-trip SPICE / LTspice / KiCad / Verilog, 40+ tests',
-      'Verified against UCSD ECE 35/45/65/100/101/102 coursework',
-    ],
-    technologies: [
-      'TypeScript',
-      'Azure OpenAI',
-      'Supabase',
-      'Stripe',
-      'Vercel',
-      'Numerical Methods',
-    ],
-    links: { live: 'https://www.spicepp.com' },
   },
   {
     id: 'documap-ai',
     title: 'Documap',
-    description:
-      'AI contract analyzer (clauses, defined terms, version diffs) that won the SAG-AFTRA Challenge and placed Top 5 at the 2025 Stanford Law LLM Hackathon.',
-    category: 'AI/ML',
-    tags: ['Claude', 'LangChain', 'RAG', 'FastAPI'],
-    image: PLACEHOLDER,
+    line: 'Contract analysis. Won the SAG-AFTRA Challenge at Stanford Law.',
+    kind: 'project',
     featured: true,
     year: '2025',
     role: 'Creator',
-    timeline: '2025',
-    team: 'Hackathon team',
     overview:
-      'An AI contract analyzer that surfaces clauses, defined terms, and version diffs using Claude with LangChain RAG. Owned the MVP from ideation to demo.',
-    challenge:
-      'Contract review is slow and error-prone, and the real value is catching what changed and what terms actually mean across versions.',
-    solution:
-      'Built the analyzer on Python and FastAPI with ChromaDB and a Next.js front end, and defined accuracy and reviewer-agreement metrics to evaluate it.',
-    impact: [
+      'Documap reads contracts and pulls out clauses, defined terms, and what changed between versions. I owned it from the first idea to the demo.',
+    approach:
+      'Claude with LangChain retrieval over ChromaDB, a FastAPI backend, and a Next.js front end. I measured it on accuracy and on how often reviewers agreed with it.',
+    results: [
       'Won the SAG-AFTRA Challenge',
-      'Top 5 at the 2025 Stanford Law School LLM Hackathon',
-      'Drew acquisition interest from Davis Wright Tremaine LLP',
+      'Top 5 at the 2025 Stanford Law LLM Hackathon',
+      'Acquisition interest from Davis Wright Tremaine',
     ],
-    technologies: [
-      'Python',
-      'FastAPI',
-      'ChromaDB',
-      'LangChain',
-      'Claude',
-      'Next.js',
-    ],
+    stack: ['Python', 'FastAPI', 'LangChain', 'ChromaDB', 'Next.js'],
     links: { live: 'https://documap.ai' },
-  },
-  {
-    id: 'nexus-robot',
-    title: 'Nexus',
-    description:
-      'Autonomous Arduino path-following robot using RGB image processing, audio I/O, and PID control.',
-    category: 'Research/Academic',
-    tags: ['Arduino', 'C/C++', 'PID Control', 'MATLAB'],
-    image: PLACEHOLDER,
-    featured: false,
-    year: '2025',
-    role: 'Creator',
-    timeline: '2025',
-    team: 'UC San Diego, ECE 5',
-    overview:
-      'An autonomous path-following robot built on Arduino with RGB image processing, audio I/O, PID control, and photoresistor and IR sensing.',
-    challenge:
-      'Reliable autonomous path following on constrained Arduino hardware requires tight sensing and control loops.',
-    solution:
-      'Implemented the vision, sensing, and PID control stack in C/C++ and tuned it with MATLAB.',
-    impact: [
-      'Autonomous path following on Arduino',
-      'RGB vision with IR and photoresistor sensing',
-      'PID control tuned in MATLAB',
-    ],
-    technologies: [
-      'Arduino',
-      'C/C++',
-      'PID Control',
-      'MATLAB',
-      'Embedded Systems',
-    ],
-    links: { live: 'https://nexusrobot.org' },
   },
   {
     id: 'closingthedivide',
     title: 'ClosingTheDivide',
-    description:
-      'Multinational 501(c)(3) expanding tech access: 1,350+ computers donated, $285K raised, 12 international computer labs.',
-    category: 'Product Engineering',
-    tags: ['Nonprofit', 'Leadership', 'Education', 'C++'],
-    image: PLACEHOLDER,
-    featured: false,
-    year: '2021-2025',
+    line: 'A nonprofit putting computers in classrooms. I was COO.',
+    kind: 'project',
+    featured: true,
+    year: '2021 to 2025',
     role: 'Chief Operating Officer',
-    timeline: '2021 to 2025',
-    team: '185 volunteers, 20+ branches',
     overview:
-      'A multinational 501(c)(3) nonprofit expanding technological access. As COO I ran international operations across 20+ branches and 185 volunteers.',
-    challenge:
-      'Closing the digital divide means coordinating donations, logistics, fundraising, and curriculum across countries.',
-    solution:
-      'Scaled donation and lab programs, raised funds from government and philanthropic donors, and built a C++ curriculum deployed in Morocco.',
-    impact: [
+      'ClosingTheDivide is a 501(c)(3) that gets computers to students who don’t have them. As COO I ran operations across 20+ branches and 185 volunteers.',
+    results: [
       '1,350+ computers donated',
       '$285K raised',
-      '12 international computer labs',
-      '20+ branches and 185 volunteers',
+      '12 computer labs in other countries',
     ],
-    technologies: ['C++', 'Java', 'Project Management', 'Operations'],
+    stack: ['Operations', 'Fundraising', 'Curriculum'],
     links: { live: 'https://closingthedivide.foundation' },
   },
   {
     id: 'alex-ai',
     title: 'Alex AI',
-    description:
-      'Won the 2023 TedAI & Microsoft Hackathon: an AI tool that picks a business structure and auto-fills and submits formation documents.',
-    category: 'AI/ML',
-    tags: ['GPT-4', 'Automation', 'Documents'],
-    image: PLACEHOLDER,
+    line: 'Picks a business structure and files the paperwork. 1st at TedAI × Microsoft.',
+    kind: 'project',
     featured: false,
     year: '2023',
     role: 'Lead Developer',
-    timeline: 'Oct 2023',
-    team: '2 members',
     overview:
-      'An AI tool that recommends an optimal business structure, then generates, fills, and submits the formation documents for it.',
-    challenge:
-      'Business formation is full of structural decisions and paperwork that block first-time founders.',
-    solution:
-      'Built a GPT-4 assistant that recommends an entity structure from the founder’s goals and auto-generates jurisdiction-specific documents.',
-    impact: [
-      '1st place, 2023 TedAI & Microsoft Hackathon, San Francisco',
-      'Reduced formation from weeks to hours',
-      'Automated legal document generation and submission',
-    ],
-    technologies: ['GPT-4', 'Python', 'Document Generation', 'NLP'],
+      'Alex recommends a business structure from a founder’s goals, then fills out and submits the formation documents.',
+    results: ['1st place, 2023 TedAI × Microsoft Hackathon, San Francisco'],
+    stack: ['GPT-4', 'Python'],
+  },
+  {
+    id: 'nexus-robot',
+    title: 'Nexus',
+    line: 'A path-following robot on Arduino with vision and PID control.',
+    kind: 'project',
+    featured: false,
+    year: '2025',
+    role: 'Creator',
+    overview:
+      'An Arduino robot that follows a path using RGB sensing, IR and light sensors, and a PID controller I tuned in MATLAB.',
+    stack: ['Arduino', 'C/C++', 'MATLAB'],
+    links: { live: 'https://nexusrobot.org' },
+  },
+  {
+    id: 'risk-factors-viz',
+    title: 'Risk Factors',
+    line: 'Pulls risk factors out of SEC filings and graphs how they connect.',
+    kind: 'project',
+    featured: false,
+    year: '2024',
+    role: 'Developer',
+    overview:
+      'Extracts and sorts risk factors from 10-K and 10-Q filings, then draws the links between them as an interactive graph. Built at a Stanford Law hackathon.',
+    stack: ['Python', 'LangChain', 'Streamlit', 'NetworkX'],
   },
   {
     id: 'legiscan',
     title: 'Legiscan',
-    description:
-      'Stanford Law / CODEX hackathon tool that compares proposed legislation to current law and scores its complexity.',
-    category: 'AI/ML',
-    tags: ['GPT-3.5', 'Legal Tech', 'NLP'],
-    image: PLACEHOLDER,
+    line: 'Compares a bill to current law and scores how complex it is.',
+    kind: 'project',
     featured: false,
     year: '2023',
     role: 'Developer',
-    timeline: 'Sep 2023',
-    team: 'Solo',
     overview:
-      'A tool that compares proposed legislation against the status quo, returning a plain-language net-change summary and a complexity score.',
-    challenge:
-      'Bills are long and dense, and the real question is how they differ from existing law.',
-    solution:
-      'Used GPT-3.5 to summarize and diff legislative text and compute a readability and complexity index. Built for the Stanford Law / CODEX LLM hackathon.',
-    impact: [
-      'Net-change summaries of proposed bills',
-      'Objective complexity scoring',
-      'Built at the Stanford Law / CODEX LLM hackathon',
-    ],
-    technologies: ['Python', 'GPT-3.5', 'NLP', 'LangChain'],
-  },
-  {
-    id: 'risk-factors-viz',
-    title: 'Risk Factors Visualization',
-    description:
-      'Stanford Law hackathon tool that extracts SEC 10-K/10-Q risk factors and maps their relationships as an interactive graph.',
-    category: 'AI/ML',
-    tags: ['LangChain', 'GPT-3.5', 'Streamlit', 'NetworkX'],
-    image: PLACEHOLDER,
-    featured: false,
-    year: '2024',
-    role: 'Developer',
-    timeline: 'Apr 2024',
-    team: 'Stanford Law hackathon',
-    overview:
-      'Automates risk-factor analysis in SEC filings (10-K, 10-Q): extraction, categorization, and an interactive relationship graph.',
-    challenge:
-      'Risk disclosures are buried across hundreds of pages and hard to compare across companies.',
-    solution:
-      'Used LangChain and GPT-3.5 to extract and categorize risk factors from EDGAR filings and rendered the relationships with NetworkX and PyVis in a Streamlit app.',
-    impact: [
-      'Automated SEC risk-factor extraction',
-      'Interactive risk relationship graphs',
-      'Comparative analysis across companies',
-    ],
-    technologies: [
-      'Python',
-      'LangChain',
-      'GPT-3.5',
-      'Streamlit',
-      'NetworkX',
-      'PyVis',
-    ],
+      'Summarizes what a proposed bill would change compared to current law, with a complexity score. Built at the Stanford Law CodeX hackathon.',
+    stack: ['Python', 'GPT-3.5'],
   },
   {
     id: 'clippy-2',
     title: 'Clippy 2.0',
-    description:
-      'A GPT-3.5 chatbot reviving Microsoft’s Clippy that reached 1,200+ active users before shutting down.',
-    category: 'Tools',
-    tags: ['GPT-3.5', 'Chatbot', 'JavaScript'],
-    image: PLACEHOLDER,
+    line: 'Clippy, brought back as a chatbot. 1,200+ users.',
+    kind: 'project',
     featured: false,
     year: '2023',
     role: 'Creator',
-    timeline: 'Apr 2023 to Aug 2023',
-    team: 'Solo',
     overview:
-      'A chatbot that brought Clippy back with a GPT-3.5 personality and a nostalgic Windows interface.',
-    challenge:
-      'Capture Clippy’s character while being genuinely useful and shareable.',
-    solution:
-      'Built carefully prompted GPT-3.5 with conversation memory and a retro web UI.',
-    impact: [
-      '1,200+ active users at peak',
-      'Spread across social media',
-      'Closed August 2023',
-    ],
-    technologies: ['JavaScript', 'GPT-3.5', 'Node.js', 'OpenAI API'],
+      'A GPT-3.5 chatbot with Clippy’s personality and an old Windows look. It peaked at 1,200+ active users and closed in August 2023.',
+    stack: ['JavaScript', 'GPT-3.5'],
   },
   {
     id: 'hypersonic-sprinkler',
     title: 'Hypersonic Sprinkler',
-    description:
-      'A two-year mechanical design project: a water-efficient sprinkler that uses oscillators to improve distribution.',
-    category: 'Research/Academic',
-    tags: ['Mechanical Design', 'Sustainability', 'Prototyping'],
-    image: PLACEHOLDER,
+    line: 'A sprinkler that uses oscillators to spread water more evenly.',
+    kind: 'project',
     featured: false,
-    year: '2020-2022',
+    year: '2020 to 2022',
     role: 'Lead Designer',
-    timeline: '2020 to 2022',
-    team: 'High school project',
     overview:
-      'An environmentally focused sprinkler system using oscillators to improve water distribution efficiency, prototyped and refined over two years.',
-    challenge:
-      'Conventional sprinklers waste water through evaporation and poor coverage.',
-    solution:
-      'Designed and iteratively tested an oscillator-based distribution mechanism for efficient coverage.',
-    impact: [
-      'Two-year design and testing cycle',
-      'Improved distribution efficiency',
-      'Sustainability-focused mechanical design',
-    ],
-    technologies: ['Mechanical Engineering', 'Oscillators', 'Prototyping'],
+      'A two-year high school design project. I prototyped and tested a sprinkler that uses oscillators to cover ground more evenly and waste less water.',
+    stack: ['Mechanical design', 'Prototyping'],
   },
 ]
 
-export const categories = [
-  'All',
-  'AI/ML',
-  'Product Engineering',
-  'Research/Academic',
-  'Tools',
-] as const
-
-/**
- * Work = professional roles from the resume (employment only). Surf and
- * ClosingTheDivide are projects, not jobs. Single source of truth for the
- * Work / Projects split.
- */
-export const WORK_IDS = [
-  'digicert',
-  'facilis-ai',
-  'incorta-dashboards',
-  'inqueue',
-] as const
-
-export const isWorkProject = (p: Project): boolean =>
-  (WORK_IDS as readonly string[]).includes(p.id)
+export const work = projects.filter((p) => p.kind === 'work')
+export const featuredProjects = projects.filter(
+  (p) => p.kind === 'project' && p.featured,
+)
+export const earlierProjects = projects.filter(
+  (p) => p.kind === 'project' && !p.featured,
+)

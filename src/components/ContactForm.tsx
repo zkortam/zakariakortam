@@ -11,7 +11,7 @@ interface FormData {
 type FormErrors = Partial<Record<keyof FormData, string>>
 
 const field =
-  'w-full rounded-2xl border bg-white/[0.03] px-4 py-3 text-sm outline-none transition-colors duration-200 placeholder:text-foreground-subtle focus:border-accent/60'
+  'w-full rounded-2xl border bg-white/[0.03] px-5 py-4 text-[1rem] outline-none backdrop-blur-xl transition-[border-color,background-color] duration-300 placeholder:text-foreground-subtle focus:border-accent/60 focus:bg-white/[0.05]'
 
 export function ContactForm() {
   const [data, setData] = useState<FormData>({ name: '', email: '', message: '' })
@@ -59,10 +59,10 @@ export function ContactForm() {
 
   if (sent) {
     return (
-      <div className="flex items-center gap-3 rounded-2xl border border-white/8 bg-white/[0.03] p-6 text-sm">
+      <div className="flex items-center gap-3 glass rounded-2xl p-6 text-sm">
         <Check className="h-5 w-5 shrink-0" />
         <span className="text-foreground-muted">
-          Your mail client should have opened. I will get back to you shortly.
+          Your mail app should be open with the message ready to send.
         </span>
       </div>
     )
@@ -72,10 +72,10 @@ export function ContactForm() {
     errors[k] ? 'border-red-400/50' : 'border-white/10'
 
   return (
-    <form onSubmit={submit} className="max-w-xl space-y-5">
+    <form onSubmit={submit} className="max-w-[36rem] space-y-5">
       <div className="grid gap-5 sm:grid-cols-2">
         <div className="space-y-2">
-          <label htmlFor="name" className="text-sm font-medium">
+          <label htmlFor="name" className="text-sm text-foreground-muted">
             Name
           </label>
           <input
@@ -91,7 +91,7 @@ export function ContactForm() {
           )}
         </div>
         <div className="space-y-2">
-          <label htmlFor="email" className="text-sm font-medium">
+          <label htmlFor="email" className="text-sm text-foreground-muted">
             Email
           </label>
           <input
@@ -109,7 +109,7 @@ export function ContactForm() {
         </div>
       </div>
       <div className="space-y-2">
-        <label htmlFor="message" className="text-sm font-medium">
+        <label htmlFor="message" className="text-sm text-foreground-muted">
           Message
         </label>
         <textarea
@@ -130,7 +130,7 @@ export function ContactForm() {
         disabled={sending}
         className="btn-primary focus-ring disabled:opacity-50"
       >
-        {sending ? 'Sending' : 'Send Message'}
+        {sending ? 'Opening mail' : 'Send'}
       </button>
     </form>
   )
