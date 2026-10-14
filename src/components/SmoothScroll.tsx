@@ -33,18 +33,25 @@ export function SmoothScroll() {
     let last = 0
     let frames: number[] = []
 
+    // Single long frames are loading hitches (image decode, route render), not a slow machine: they are
+    // skipped, and a step down needs two slow windows in a row, so one bad moment never costs the session.
+    let strikes = 0
     const tick = (t: number) => {
       if (last) {
         const dt = t - last
-        if (dt < 250) frames.push(dt)
+        if (dt < 100 && performance.now() - t0 > 1200) frames.push(dt)
       }
       last = t
       if (frames.length >= 60) {
         const mean = frames.reduce((a, b) => a + b, 0) / frames.length
         frames = []
-        if (html.classList.contains('lite')) {
-          if (mean > 28) html.classList.add('lite-2')
-        } else if (mean > 22) {
+        const limit = html.classList.contains('lite') ? 28 : 22
+        strikes = mean > limit ? strikes + 1 : 0
+        if (strikes >= 2 && html.classList.contains('lite')) {
+          strikes = 0
+          html.classList.add('lite-2')
+        } else if (strikes >= 2) {
+          strikes = 0
           html.classList.add('lite')
           if (lenis) {
             lenis.destroy()

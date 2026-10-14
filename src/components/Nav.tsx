@@ -51,7 +51,21 @@ export function Nav() {
       { rootMargin: '0px 0px -94% 0px', threshold: 0 },
     )
     document.querySelectorAll('#page [data-tone]').forEach((el) => io.observe(el))
-    return () => io.disconnect()
+    // On a route commit, settle the tone in the same frame instead of waiting for the observer.
+    const now = () => {
+      const edge = window.innerHeight * 0.06
+      let tone = 'dark'
+      document.querySelectorAll<HTMLElement>('#page [data-tone]').forEach((el) => {
+        const r = el.getBoundingClientRect()
+        if (r.top <= edge && r.bottom > 0) tone = el.dataset.tone || tone
+      })
+      nav.dataset.tone = tone
+    }
+    window.addEventListener('zk:route', now)
+    return () => {
+      io.disconnect()
+      window.removeEventListener('zk:route', now)
+    }
   }, [pathname])
 
   // Hide on scroll down, show on scroll up; glass only once content is under the bar.
@@ -95,11 +109,19 @@ export function Nav() {
         if (near) nav.classList.remove('hide')
       }
     }
+    const onRoute = () => {
+      lastY = window.scrollY
+      down = up = 0
+      nav.classList.toggle('glassy', lastY >= 80)
+      nav.classList.remove('hide')
+    }
     apply()
+    window.addEventListener('zk:route', onRoute)
     window.addEventListener('scroll', onScroll, { passive: true })
     window.addEventListener('pointermove', onMove, { passive: true })
     return () => {
       cancelAnimationFrame(raf)
+      window.removeEventListener('zk:route', onRoute)
       window.removeEventListener('scroll', onScroll)
       window.removeEventListener('pointermove', onMove)
     }

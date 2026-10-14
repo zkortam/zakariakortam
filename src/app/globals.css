@@ -344,7 +344,7 @@ html[data-route] .nav.glassy .gl.glass-dark { opacity: 1; }
 .nav a, .nav button { position: relative; }
 .nav-nojs { display: none; }
 html:not(.js) .nav-menu-btn { display: none; }
-html:not(.js) .nav-nojs { display: flex; }
+@media (max-width: 767px) { html:not(.js) .nav-nojs { display: flex; } }
 
 /* Skip link */
 .skip { position: fixed; top: 12px; left: var(--m); z-index: 60; padding: 10px 16px; border-radius: 999px; font-size: 16px; font-weight: 500; line-height: 1.45;
@@ -375,11 +375,12 @@ html:not(.js) .nav-nojs { display: flex; }
 .fit-email { font-size: calc(100cqw / 12.8); font-weight: 600; letter-spacing: -0.04em; line-height: 1; white-space: nowrap; }
 
 /* ---------- Motion (all hidden states need html.js and motion allowed) ---------- */
-@keyframes gate { from { clip-path: inset(50% 0 50% 0); } to { clip-path: inset(0 0 0 0); } }
+@keyframes gateTop { from { transform: none; } to { transform: translate3d(0, -101%, 0); } }
+@keyframes gateBot { from { transform: none; } to { transform: translate3d(0, 101%, 0); } }
 @keyframes portraitIn { from { opacity: 0; transform: translateY(8%) scale(1.04); } to { opacity: 1; transform: none; } }
-@keyframes bloomIn { from { opacity: 0; transform: scale(.55); } to { opacity: 1; transform: none; } }
-@keyframes partL { from { transform: translateX(20%); } to { transform: none; } }
-@keyframes partR { from { transform: translateX(-20%); } to { transform: none; } }
+@keyframes bloomIn { from { opacity: .35; transform: scale(.55); } to { opacity: 1; transform: none; } }
+@keyframes partL { from { transform: translateX(5%); } to { transform: none; } }
+@keyframes partR { from { transform: translateX(-5%); } to { transform: none; } }
 @keyframes partLm { from { transform: translateX(10%); } to { transform: none; } }
 @keyframes partRm { from { transform: translateX(-10%); } to { transform: none; } }
 @keyframes rise { from { transform: translateY(105%); } to { transform: none; } }
@@ -388,9 +389,17 @@ html:not(.js) .nav-nojs { display: flex; }
 
 @media (prefers-reduced-motion: no-preference) {
   /* M1: opening titles (first load in a session) */
-  html[data-intro="play"] .hero { animation: gate 1100ms var(--e-expo) both; }
+  /* The gate: two oxblood leaves part from the center line. Transform only, so it stays on the compositor
+     and holds 60fps while the page hydrates underneath. */
+  html[data-intro="play"] .hero::before, html[data-intro="play"] .hero::after {
+    content: ""; position: absolute; left: 0; right: 0; height: 50.5%; z-index: 10; background: var(--ox); pointer-events: none; }
+  html[data-intro="play"] .hero::before { top: 0; animation: gateTop 1100ms var(--e-expo) both; }
+  html[data-intro="play"] .hero::after { bottom: 0; animation: gateBot 1100ms var(--e-expo) both; }
+  /* Hold every opening animation on its first frame until the head script says the portrait is ready. */
+  html[data-intro="play"]:not(.go) .hero::before, html[data-intro="play"]:not(.go) .hero::after,
+  html[data-intro="play"]:not(.go) .hero *, html[data-intro="play"]:not(.go) .nav { animation-play-state: paused !important; }
   html[data-intro="play"] .hero .portrait-in { animation: portraitIn 1600ms var(--e-expo) 100ms both; }
-  html[data-intro="play"] .hero .bloom-in { animation: bloomIn 2400ms var(--e-expo) 150ms both; }
+  html[data-intro="play"] .hero .bloom-in { animation: bloomIn 2400ms var(--e-expo) both; }
   html[data-intro="play"] .hero .wm-line .wm-z { animation: partL 1400ms var(--e-quint) 380ms both; }
   html[data-intro="play"] .hero .wm-line .wm-k { animation: partR 1400ms var(--e-quint) 440ms both; }
   html[data-intro="play"] .hero .wm-stack .wm-z { animation: partLm 1400ms var(--e-quint) 380ms both; }
@@ -414,8 +423,8 @@ html:not(.js) .nav-nojs { display: flex; }
   html.js .wm-foot .wm-rise { transition: transform 1100ms var(--e-expo); }
   html.js .wm-foot .wm-part { transition: transform 1100ms var(--e-quint); }
   html.js .wm-foot:not(.in) .wm-rise { transform: translateY(105%); }
-  html.js .wm-foot:not(.in) .wm-line .wm-z { transform: translateX(12%); }
-  html.js .wm-foot:not(.in) .wm-line .wm-k { transform: translateX(-12%); }
+  html.js .wm-foot:not(.in) .wm-line .wm-z { transform: translateX(5%); }
+  html.js .wm-foot:not(.in) .wm-line .wm-k { transform: translateX(-5%); }
   html.js .wm-foot:not(.in) .wm-stack .wm-z { transform: translateX(6%); }
   html.js .wm-foot:not(.in) .wm-stack .wm-k { transform: translateX(-6%); }
 

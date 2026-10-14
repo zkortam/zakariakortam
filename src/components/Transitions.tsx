@@ -78,10 +78,23 @@ function makeFlip(req: FlipRequest): FlipState | undefined {
     clone.querySelectorAll<HTMLElement>('[data-flip-strip], .plate-link').forEach((n) => (n.style.visibility = 'hidden'))
   }
   clone.querySelectorAll('img').forEach((img) => {
+    // The clone keeps the candidate already decoded on screen, so its first frame paints instantly.
     img.decoding = 'sync'
     img.loading = 'eager'
     const heroSizes = img.getAttribute('data-hero-sizes')
-    if (heroSizes) img.sizes = heroSizes
+    if (!heroSizes || !img.srcset) return
+    // Fetch and decode the sharper hero candidate off screen, then swap it in mid-flight (no blank, no stall).
+    const pre = new Image()
+    pre.sizes = heroSizes
+    pre.srcset = img.srcset
+    pre
+      .decode()
+      .then(() => {
+        if (!img.isConnected) return
+        img.decoding = 'async'
+        img.sizes = heroSizes
+      })
+      .catch(() => undefined)
   })
   Object.assign(clone.style, {
     position: 'absolute',
@@ -132,23 +145,26 @@ function teardown(f: FlipState) {
   f.source.style.visibility = ''
 }
 
-async function commitFlip(f: FlipState) {
+/** Position the clone over the new page (still hidden) and return the function that plays the slide. */
+function prepareFlip(f: FlipState): (() => void) | undefined {
   const target = document.querySelector<HTMLElement>(`[data-flip-target="${f.id}"]`)
   if (!target) {
     teardown(f)
-    return
+    return undefined
   }
   // Destination entrances are already "played" in the clone: land them instantly.
   target.querySelectorAll<HTMLElement>('[data-open],[data-enter]').forEach((n) => n.classList.add('in', 'now'))
   const hide: HTMLElement[] = []
-  let anim: Animation
+  let frames: Keyframe[]
+  let duration: number
+  let hoverEls: HTMLElement[] = []
 
   if (f.kind === 'plate') {
     const media = target.querySelector<HTMLElement>('[data-plate-media]')
     const dstEl = f.wide ? media : target
     if (!media || !dstEl) {
       teardown(f)
-      return
+      return undefined
     }
     hide.push(media)
     if (!f.wide) {
@@ -165,25 +181,16 @@ async function commitFlip(f: FlipState) {
       start = `translate3d(${f.src.left - d.left}px,${f.src.top}px,0) scale(${f.src.width / d.width},${f.src.height / d.height})`
     }
     f.host.style.left = `${d.left}px`
-    const hoverEls = Array.from(f.host.querySelectorAll<HTMLElement>('.obj-hover'))
-    hoverEls.forEach((n) =>
-      n.animate([{ transform: n.style.transform || 'none' }, { transform: 'none' }], {
-        duration: 700,
-        easing: EASE_QUINT,
-        fill: 'forwards',
-      }),
-    )
-    anim = f.host.animate([{ transform: start }, { transform: `translate3d(0,${d.top}px,0)` }], {
-      duration: 700,
-      easing: EASE_QUINT,
-      fill: 'forwards',
-    })
+    f.host.style.transform = start
+    hoverEls = Array.from(f.host.querySelectorAll<HTMLElement>('.obj-hover'))
+    frames = [{ transform: start }, { transform: `translate3d(0,${d.top}px,0)` }]
+    duration = 700
   } else {
     const candidates = Array.from(target.querySelectorAll<HTMLElement>('[data-flip-img]'))
     const dst = candidates.find((n) => n.getBoundingClientRect().width > 0)
     if (!dst) {
       teardown(f)
-      return
+      return undefined
     }
     hide.push(dst)
     dst.style.visibility = 'hidden'
@@ -218,31 +225,77 @@ async function commitFlip(f: FlipState) {
         clipPath: `inset(${vTop / s}px 0px ${Math.max(0, d.height - vBottom / s)}px 0px)`,
       }
     }
+    // Move to the destination box and apply the inverse in the same frame: nothing visibly moves yet.
     Object.assign(f.host.style, {
       left: `${d.left}px`,
       top: `${d.top}px`,
       width: `${d.width}px`,
       height: `${d.height}px`,
-      clipPath: '',
+      transform: String(from.transform),
+      clipPath: String(from.clipPath),
     })
-    anim = f.host.animate([from, { transform: 'none', clipPath: endInset }], {
-      duration: 800,
-      easing: EASE_QUINT,
-      fill: 'forwards',
-    })
+    frames = [from, { transform: 'none', clipPath: endInset }]
+    duration = 800
   }
 
-  try {
-    await anim.finished
-  } catch {
-    /* cancelled */
+  // Start the destination's own image decodes now, while the clone covers them.
+  const decoded = decodeAll(target, 1200)
+
+  // When the picture fills the plate (plate cut, full-bleed board), slide it in *under* the new page so the
+  // title and line rise over it, as they sit in the finished composition. The plate's own ground is lifted
+  // onto a fixed layer under the clone and fades in with the page.
+  const below = f.kind === 'plate' || f.fit === 'cover'
+  const page = document.getElementById('page')
+  const media = target.querySelector<HTMLElement>('[data-plate-media]')
+  let ground: HTMLDivElement | undefined
+  if (below && page) {
+    const tr = target.getBoundingClientRect()
+    const cs = getComputedStyle(target)
+    ground = document.createElement('div')
+    ground.setAttribute('aria-hidden', 'true')
+    ground.style.cssText = `position:fixed;left:${tr.left}px;top:${Math.max(0, tr.top)}px;width:${tr.width}px;height:${Math.min(tr.bottom, window.innerHeight) - Math.max(0, tr.top)}px;z-index:1;pointer-events:none;opacity:0`
+    ground.style.backgroundColor = cs.backgroundColor
+    ground.style.backgroundImage = cs.backgroundImage
+    target.style.background = 'transparent'
+    if (media) media.style.background = 'transparent'
+    document.body.insertBefore(ground, page)
+    document.body.insertBefore(f.host, page)
+    f.host.style.zIndex = '1'
   }
-  await decodeAll(target, 400)
-  hide.forEach((n) => (n.style.visibility = ''))
-  requestAnimationFrame(() => {
-    f.host.remove()
-    target.querySelectorAll('.now').forEach((n) => n.classList.remove('now'))
-  })
+  const restore = () => {
+    target.style.background = ''
+    if (media) media.style.background = ''
+  }
+
+  return () => {
+    hoverEls.forEach((n) =>
+      n.animate([{ transform: n.style.transform || 'none' }, { transform: 'none' }], {
+        duration,
+        easing: EASE_QUINT,
+        fill: 'forwards',
+      }),
+    )
+    const anim = f.host.animate(frames, { duration, easing: EASE_QUINT, fill: 'forwards' })
+    ground?.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 320, easing: EASE_QUINT, fill: 'forwards' })
+    void (async () => {
+      try {
+        await anim.finished
+      } catch {
+        /* cancelled */
+      }
+      await Promise.race([decoded, wait(400)])
+      hide.forEach((n) => (n.style.visibility = ''))
+      restore()
+      // Two frames: the real media paints under the clone before the clone goes, so there is no gap.
+      requestAnimationFrame(() =>
+        requestAnimationFrame(() => {
+          f.host.remove()
+          ground?.remove()
+          target.querySelectorAll('.now').forEach((n) => n.classList.remove('now'))
+        }),
+      )
+    })()
+  }
 }
 
 export function Transitions({ children }: { children: ReactNode }) {
@@ -311,19 +364,23 @@ export function Transitions({ children }: { children: ReactNode }) {
     pending.current = null
     if (p.safety) clearTimeout(p.safety)
     scrollTop()
+    window.dispatchEvent(new Event('zk:route'))
     if (p.instant) {
       focusMain()
       return
     }
     html.dataset.route = 'entering'
-    if (p.flip) void commitFlip(p.flip)
+    const play = p.flip ? prepareFlip(p.flip) : undefined
+    focusMain()
+    getLenis()?.resize()
+    // Let the new page produce its first (hidden) frame, so its raster cost never lands inside the motion;
+    // then the fade-in and the slide start on the same frame.
     requestAnimationFrame(() =>
       requestAnimationFrame(() => {
         delete html.dataset.route
+        play?.()
       }),
     )
-    focusMain()
-    getLenis()?.resize()
   }, [pathname])
 
   const value = useMemo(() => ({ go }), [go])

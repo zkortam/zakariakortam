@@ -14,8 +14,10 @@ const geist = Geist({
   display: "swap",
 });
 
+// Sets html.js and the intro mode before first paint. The opening titles are CSS; they hold on the closed
+// gate until the portrait has decoded (900ms cap), so the first frames of the film are never lost to loading.
 const HEAD_SCRIPT =
-  "(function(){var d=document.documentElement;d.classList.add('js');try{if(location.pathname==='/'&&!sessionStorage.getItem('zk-intro')){d.dataset.intro='play';sessionStorage.setItem('zk-intro','1')}else{d.dataset.intro='done'}}catch(e){d.dataset.intro='done'}})();";
+  "(function(){var d=document.documentElement;d.classList.add('js');try{if(location.pathname==='/'&&!sessionStorage.getItem('zk-intro')){d.dataset.intro='play';sessionStorage.setItem('zk-intro','1');var on=0,go=function(){if(on)return;on=1;requestAnimationFrame(function(){requestAnimationFrame(function(){d.classList.add('go')})})};setTimeout(go,900);var w=function(){var i=document.querySelector('.hero-portrait img');if(!i)return go();var f=function(){i.decode?i.decode().then(go,go):go()};if(i.complete)f();else{i.addEventListener('load',f);i.addEventListener('error',go)}};document.readyState==='loading'?document.addEventListener('DOMContentLoaded',w):w()}else{d.dataset.intro='done'}}catch(e){d.dataset.intro='done'}})();";
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://zakariakortam.com'),

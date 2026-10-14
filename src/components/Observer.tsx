@@ -102,9 +102,19 @@ export function Observer() {
   // Intro handoff: the opening titles are CSS; JS only retires them once everything has settled.
   useEffect(() => {
     const html = document.documentElement
-    if (html.dataset.intro === 'play') {
-      const t = setTimeout(() => (html.dataset.intro = 'done'), 2600)
-      return () => clearTimeout(t)
+    if (html.dataset.intro !== 'play') return
+    // Retire once the light has settled (the bloom is the last thing to land), with a ceiling for safety.
+    const finish = () => {
+      if (html.dataset.intro === 'play') html.dataset.intro = 'done'
+    }
+    const onEnd = (e: AnimationEvent) => {
+      if (e.animationName === 'bloomIn') finish()
+    }
+    document.addEventListener('animationend', onEnd)
+    const t = setTimeout(finish, 4200)
+    return () => {
+      clearTimeout(t)
+      document.removeEventListener('animationend', onEnd)
     }
   }, [])
 
@@ -118,7 +128,12 @@ export function Observer() {
     const timers: number[] = []
     const scanAt = performance.now()
     const entering = !!html.dataset.route
-    const base = () => (entering && performance.now() - scanAt < 700 ? 120 : 0)
+    const cut = !!document.getElementById('flip')
+    // After a route change the above-fold titles lead and the reading text follows. Under the cut the title
+    // waits for the picture to be mostly home.
+    const early = () => entering && performance.now() - scanAt < 700
+    const base = () => (early() ? 260 : 0)
+    const riseBase = () => (early() ? (cut ? 300 : 120) : 0)
     const io = (cb: IntersectionObserverCallback, rootMargin: string) => {
       const o = new IntersectionObserver(cb, { rootMargin, threshold: 0 })
       observers.push(o)
@@ -159,8 +174,8 @@ export function Observer() {
         if (!e.isIntersecting) continue
         const el = e.target as HTMLElement
         obs.unobserve(el)
-        const b = base()
-        if (b) el.style.setProperty('--d', `${b + 180}ms`)
+        const b = riseBase()
+        if (b) el.style.setProperty('--d', `${b}ms`)
         el.classList.add('in')
       }
     }, '0px 0px -12% 0px')
