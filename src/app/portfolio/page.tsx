@@ -23,7 +23,12 @@ export default function WorkPage() {
       <Grid className="mt-32 gap-y-14 sm:mt-48">
         <SectionHead n="II">Projects</SectionHead>
         {featuredProjects.map((p, i) => (
-          <Shot key={p.id} p={p} ratio="aspect-[4/3]" className="lg:col-span-6" delay={(i % 2) * 0.08} />
+          <Shot
+            key={p.id}
+            p={p}
+            className={i < 2 ? 'lg:col-span-6' : 'lg:col-span-4'}
+            delay={(i < 2 ? i : i - 2) * 0.08}
+          />
         ))}
       </Grid>
 

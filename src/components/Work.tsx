@@ -6,14 +6,6 @@ import { motion } from 'framer-motion'
 import { type Project } from '@/lib/projects-data'
 import { EASE, Fade, Rule } from './Motion'
 
-/** Each tile gets a quiet backdrop from the same family. */
-const BACKDROPS: Record<string, string> = {
-  helio: 'linear-gradient(160deg, #2b0c13 0%, #160609 100%)',
-  surf: 'linear-gradient(160deg, #1b1b1d 0%, #0d0d0e 100%)',
-  'surf-messenger': 'linear-gradient(160deg, #3d111b 0%, #1c070c 100%)',
-  'spice-plus-plus': 'linear-gradient(160deg, #1d1c1b 0%, #0e0d0d 100%)',
-  airofind: 'linear-gradient(160deg, #331019 0%, #170609 100%)',
-}
 
 /**
  * NDS project tile: name and year above, a backdrop with the product's real
@@ -21,7 +13,7 @@ const BACKDROPS: Record<string, string> = {
  */
 export function Shot({
   p,
-  ratio = 'aspect-[4/5]',
+  ratio = 'aspect-[4/3]',
   className = '',
   delay = 0,
 }: {
@@ -48,13 +40,13 @@ export function Shot({
 export function Backdrop({ p, ratio, priority = false }: { p: Project; ratio: string; priority?: boolean }) {
   return (
     <div
-      className={`relative overflow-hidden rounded-[6px] ${ratio}`}
-      style={{ background: BACKDROPS[p.id] ?? BACKDROPS.surf }}
+      className={`relative flex items-center justify-center overflow-hidden rounded-[6px] bg-[#0f0f0f] ${ratio}`}
+      style={{ backgroundImage: 'linear-gradient(180deg, #161616 0%, #0b0b0b 100%)' }}
     >
       {p.image && (
         <motion.div
-          className="absolute left-[9%] top-[14%] w-[118%] overflow-hidden rounded-[10px] shadow-[0_40px_80px_-20px_rgba(0,0,0,0.75)] ring-1 ring-white/10 transition-transform duration-[1.1s] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-2"
-          initial={{ y: 40, opacity: 0 }}
+          className="relative w-[84%] overflow-hidden rounded-[8px] shadow-[0_30px_60px_-24px_rgba(0,0,0,0.9)] ring-1 ring-white/[0.08] transition-transform duration-[1.1s] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-1.5"
+          initial={{ y: 24, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
           viewport={{ once: true, margin: '0px 0px -10% 0px' }}
           transition={{ duration: 1.3, ease: EASE }}
@@ -86,12 +78,12 @@ export function Rail({ items }: { items: Project[] }) {
         >
           <Link
             href={`/portfolio/${p.id}`}
-            className="group flex min-h-[11rem] flex-col justify-between gap-10 py-6 sm:min-h-[19rem] sm:px-5 lg:first:pl-0"
+            className="group flex min-h-[10rem] flex-col justify-between gap-10 py-6 sm:min-h-[15rem] sm:px-5 lg:first:pl-0"
           >
             <span className="text-sm text-foreground-subtle">{p.year}</span>
             <span>
               <span className="block text-[15px] text-foreground-muted">{p.org}</span>
-              <span className="mt-1 block text-[1.5rem] leading-[1.12] tracking-[-0.025em] transition-colors duration-300 group-hover:text-foreground-muted">
+              <span className="mt-1 block text-[1.65rem] leading-[1.1] tracking-[-0.025em] transition-colors duration-300 group-hover:text-foreground-muted">
                 {p.role}
               </span>
             </span>

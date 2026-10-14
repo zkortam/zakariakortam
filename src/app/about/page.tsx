@@ -25,7 +25,7 @@ export default function AboutPage() {
 
       <Grid className="mt-24 gap-y-12 sm:mt-36">
         <Fade className="lg:col-span-5">
-          <div className="relative aspect-[4/5] overflow-hidden rounded-[6px]" style={{ background: 'linear-gradient(180deg, #4a1320 0%, #2a0a12 100%)' }}>
+          <div className="relative aspect-[4/5] overflow-hidden rounded-[6px]" style={{ background: 'radial-gradient(ellipse 90% 80% at 55% 30%, #5c1828 0%, #33101a 50%, #160609 100%)' }}>
             <Image src="/zakaria.png" alt="Zakaria Kortam" fill sizes="(min-width: 1024px) 40vw, 100vw" className="object-cover object-top grayscale" />
           </div>
         </Fade>
