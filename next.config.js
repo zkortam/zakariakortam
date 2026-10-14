@@ -1,40 +1,10 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  allowedDevOrigins: ["*.preview.same-app.com"],
+module.exports = {
   images: {
-    unoptimized: true,
-    dangerouslyAllowSVG: true,
-    contentDispositionType: "attachment",
-    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
-    domains: [
-      "source.unsplash.com",
-      "images.unsplash.com",
-      "ext.same-assets.com",
-      "ugc.same-assets.com",
-    ],
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "source.unsplash.com",
-        pathname: "/**",
-      },
-      {
-        protocol: "https",
-        hostname: "images.unsplash.com",
-        pathname: "/**",
-      },
-      {
-        protocol: "https",
-        hostname: "ext.same-assets.com",
-        pathname: "/**",
-      },
-      {
-        protocol: "https",
-        hostname: "ugc.same-assets.com",
-        pathname: "/**",
-      },
-    ],
+    formats: ['image/avif', 'image/webp'],
+    deviceSizes: [640, 828, 1080, 1280, 1600, 1920, 2560, 2880, 3200],
+    imageSizes: [256, 384, 512, 768],
+    qualities: [75, 82, 90],
+    minimumCacheTTL: 31536000,
   },
-};
-
-module.exports = nextConfig;
+}

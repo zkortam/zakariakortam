@@ -1,24 +1,21 @@
 import type { Metadata } from "next";
-import { Fraunces, Inter_Tight } from "next/font/google";
+import { Geist } from "next/font/google";
 import "./globals.css";
-import { Navigation } from "@/components/Navigation";
-import { Footer } from "@/components/Footer";
-import { PageTransition } from "@/components/PageTransition";
 import { StructuredData } from "@/components/StructuredData";
-import { MotionProvider } from "@/components/MotionProvider";
+import { Room } from "@/components/Room";
+import { Transitions } from "@/components/Transitions";
+import { SmoothScroll } from "@/components/SmoothScroll";
+import { Observer } from "@/components/Observer";
+import { Nav } from "@/components/Nav";
 
-const sans = Inter_Tight({
+const geist = Geist({
   subsets: ["latin"],
   variable: "--font-sans",
   display: "swap",
 });
 
-const fraunces = Fraunces({
-  subsets: ["latin"],
-  variable: "--font-display",
-  display: "swap",
-  axes: ["opsz", "SOFT", "WONK"],
-});
+const HEAD_SCRIPT =
+  "(function(){var d=document.documentElement;d.classList.add('js');try{if(location.pathname==='/'&&!sessionStorage.getItem('zk-intro')){d.dataset.intro='play';sessionStorage.setItem('zk-intro','1')}else{d.dataset.intro='done'}}catch(e){d.dataset.intro='done'}})();";
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://zakariakortam.com'),
@@ -89,19 +86,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${sans.variable} ${fraunces.variable}`}>
+    <html lang="en" className={geist.variable} data-tone-top="dark" suppressHydrationWarning>
       <head>
-        <meta name="theme-color" content="#000000" />
+        <script dangerouslySetInnerHTML={{ __html: HEAD_SCRIPT }} />
+        <meta name="theme-color" content="#14060A" />
       </head>
-      <body className="font-sans antialiased">
+      <body>
+        <a href="#main" className="skip">
+          Skip to content
+        </a>
         <StructuredData />
-        <MotionProvider>
-          <Navigation />
-          <PageTransition>
-            {children}
-          </PageTransition>
-          <Footer />
-        </MotionProvider>
+        <Room />
+        <Transitions>
+          <SmoothScroll />
+          <Observer />
+          <Nav />
+          <div id="page">{children}</div>
+        </Transitions>
       </body>
     </html>
   );

@@ -1,10 +1,15 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { projects } from '@/lib/projects-data'
-import { Grid } from '@/components/Container'
-import { Fade, Rule, SectionHead } from '@/components/Motion'
-import { Backdrop } from '@/components/Work'
+import { earlierProjects, featuredProjects, projects, work, type Project } from '@/lib/projects-data'
+import { PLATES } from '@/lib/media'
+import { Plate } from '@/components/Plate'
+import { Stills } from '@/components/Stills'
+import { Footer } from '@/components/Footer'
+import { ULink } from '@/components/ULink'
+import { LivePill } from '@/components/LivePill'
+import { Rule } from '@/components/Rule'
+import { NextRow } from '@/components/IndexRows'
+import { domainOf, noWidow } from '@/lib/site'
 
 type Params = { params: Promise<{ id: string }> }
 
@@ -18,114 +23,158 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   return p ? { title: p.title, description: p.line } : {}
 }
 
-const host = (u: string) => u.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')
-const linkCls = 'underline decoration-white/25 underline-offset-4 transition-colors hover:decoration-white'
+function nextIn(list: Project[], id: string) {
+  const i = list.findIndex((p) => p.id === id)
+  return list[(i + 1) % list.length]
+}
 
-export default async function ProjectPage({ params }: Params) {
-  const { id } = await params
-  const idx = projects.findIndex((p) => p.id === id)
-  if (idx < 0) notFound()
-  const p = projects[idx]
-  const next = projects[(idx + 1) % projects.length]
-
-  const meta: [string, React.ReactNode][] = [
+function Overview({ p }: { p: Project }) {
+  const rows: [string, React.ReactNode][] = [
     ['Role', p.role],
     ['When', p.year],
-    [p.kind === 'work' ? 'Company' : 'Type', p.org ?? 'Independent'],
-    [
-      'Links',
-      p.links?.live || p.links?.github ? (
-        <span className="flex flex-col">
-          {p.links?.live && (
-            <a href={p.links.live} target="_blank" rel="noopener noreferrer" className={linkCls}>
-              {host(p.links.live)}
-            </a>
-          )}
-          {p.links?.github && (
-            <a href={p.links.github} target="_blank" rel="noopener noreferrer" className={linkCls}>
-              GitHub
-            </a>
-          )}
-        </span>
-      ) : (
-        <span className="text-foreground-subtle">None</span>
-      ),
-    ],
+    ['Stack', noWidow(p.stack.join(', '))],
   ]
-
-  const sections = [
-    ['Overview', p.overview],
-    ['Problem', p.problem],
-    ['Approach', p.approach],
-  ].filter(([, v]) => v) as [string, string][]
-
+  if (p.links?.live || p.links?.github) {
+    rows.push([
+      'Links',
+      <span key="l" className="flex flex-wrap gap-x-[16px]">
+        {p.links?.live && <ULink href={p.links.live} label={domainOf(p.links.live)}>{domainOf(p.links.live)}</ULink>}
+        {p.links?.github && <ULink href={p.links.github} label="GitHub">GitHub</ULink>}
+      </span>,
+    ])
+  }
   return (
-    <main>
-      <Grid className="gap-y-10 pt-36 sm:pt-48">
-        <Fade now className="lg:col-span-6">
-          <h1 className="font-display text-title">{p.title}</h1>
-        </Fade>
-        <Fade now delay={0.15} className="text-statement text-balance lg:col-span-5 lg:col-start-7 lg:pt-3">
-          {p.line}
-        </Fade>
-      </Grid>
-
-      <Grid className="mt-20 gap-y-8 sm:mt-28">
-        {meta.map(([k, v], i) => (
-          <Fade key={k} now delay={0.25 + i * 0.05} className="text-[15px] lg:col-span-3">
-            <Rule className="mb-4" delay={0.2 + i * 0.05} />
-            <div className="text-foreground-subtle">{k}</div>
-            <div className="mt-1">{v}</div>
-          </Fade>
+    <div className="grid-main">
+      <p className="col-span-4 text-read md:col-span-5 md:col-start-7 md:row-start-1" data-reveal="">
+        {noWidow(p.overview)}
+      </p>
+      <dl className="col-span-4 mt-[48px] grid grid-cols-subgrid gap-y-[12px] text-body md:col-span-5 md:col-start-1 md:row-start-1 md:mt-0" data-reveal="">
+        {rows.map(([k, v]) => (
+          <div key={k} className="col-span-full grid grid-cols-subgrid">
+            <dt className="c3 col-span-4 md:col-span-2">{k}</dt>
+            <dd className="col-span-4 md:col-span-3">{v}</dd>
+          </div>
         ))}
-      </Grid>
-
-      {p.image && (
-        <Grid className="mt-16 sm:mt-24">
-          <Fade className="lg:col-span-12">
-            <Backdrop p={p} ratio="aspect-[4/3] sm:aspect-[16/9]" priority />
-          </Fade>
-        </Grid>
-      )}
-
-      <Grid className="mt-28 gap-y-16 sm:mt-40 sm:gap-y-24">
-        {sections.map(([label, text]) => (
-          <Row key={label} label={label}>
-            {text}
-          </Row>
-        ))}
-        {p.results && (
-          <Row label="Results">
-            <ul>
-              {p.results.map((r) => (
-                <li key={r} className="border-b border-white/[0.12] py-3 first:pt-0">
-                  {r}
-                </li>
-              ))}
-            </ul>
-          </Row>
-        )}
-        <Row label="Built with">{p.stack.join(', ')}</Row>
-      </Grid>
-
-      <Grid className="mt-36 sm:mt-52">
-        <SectionHead n="Next">{next.kind === 'work' ? 'Role' : 'Project'}</SectionHead>
-        <Link href={`/portfolio/${next.id}`} className="group mt-8 block lg:col-span-12">
-          <span className="font-display text-title transition-colors duration-500 group-hover:text-foreground-muted">
-            {next.title}
-          </span>
-        </Link>
-      </Grid>
-    </main>
+      </dl>
+    </div>
   )
 }
 
-/** Label at column 1, text at column 7. */
-function Row({ label, children }: { label: string; children: React.ReactNode }) {
+function Block({ title, children, first = false }: { title: string; children: React.ReactNode; first?: boolean }) {
   return (
-    <Fade className="grid gap-3 lg:col-span-12 lg:grid-cols-12 lg:gap-x-5">
-      <h2 className="text-[15px] text-foreground-muted lg:col-span-6">{label}</h2>
-      <div className="text-prose text-pretty lg:col-span-5 lg:col-start-7">{children}</div>
-    </Fade>
+    <div className={`grid-main ${first ? '' : 'mt-sec'}`}>
+      <Rule className="col-span-full" />
+      <h2 className="oc col-span-4 pt-row text-statement md:col-span-5" data-rise="">
+        {title}
+      </h2>
+      <div className="col-span-4 mt-[24px] md:col-span-5 md:col-start-7 md:mt-0 md:pt-row">{children}</div>
+    </div>
+  )
+}
+
+function Narrative({ p }: { p: Project }) {
+  return (
+    <>
+      {p.problem && (
+        <Block title="The problem">
+          <p className="text-read" data-reveal="">
+            {noWidow(p.problem)}
+          </p>
+        </Block>
+      )}
+      {p.approach && (
+        <Block title="The approach">
+          <p className="text-read" data-reveal="">
+            {noWidow(p.approach)}
+          </p>
+        </Block>
+      )}
+    </>
+  )
+}
+
+function Results({ p, first = false }: { p: Project; first?: boolean }) {
+  if (!p.results?.length) return null
+  return (
+    <Block title="Results" first={first}>
+      <ul className="text-read">
+        {p.results.map((r) => (
+          <li key={r} className="relative py-[16px] md:py-[20px]" data-reveal="">
+            <span aria-hidden="true" className="rule absolute left-0 right-0 top-0" />
+            {noWidow(r)}
+          </li>
+        ))}
+      </ul>
+    </Block>
+  )
+}
+
+export default async function ProjectPage({ params }: Params) {
+  const { id } = await params
+  const p = projects.find((x) => x.id === id)
+  if (!p) notFound()
+  const spec = PLATES[p.id]
+
+  if (spec) {
+    const next = nextIn(featuredProjects, p.id)
+    const nextSpec = PLATES[next.id]
+    return (
+      <>
+        <main id="main" tabIndex={-1}>
+          <Plate project={p} spec={spec} heading="h1" link={false} flipTarget showGithub />
+          <section className="paper pt-sec" data-tone="light">
+            <Overview p={p} />
+            <Narrative p={p} />
+            <div className="mt-stills" />
+          </section>
+          <Stills spec={spec} />
+          {p.results?.length ? (
+            <section className="paper pb-sec" data-tone="light">
+              <Results p={p} first />
+            </section>
+          ) : null}
+          {nextSpec && <Plate project={next} spec={nextSpec} line="Next project →" />}
+        </main>
+        <Footer />
+      </>
+    )
+  }
+
+  const next = p.kind === 'work' ? nextIn(work, p.id) : nextIn(earlierProjects, p.id)
+  return (
+    <>
+      <main id="main" tabIndex={-1}>
+        <section className="role-hero" data-tone="dark">
+          <div aria-hidden="true" className="light light-rose" style={{ width: '100vmax', height: '100vmax', left: '70%', top: '30%', opacity: 0.8 }} />
+          <div className="grid-main relative">
+            <h1 className="oc col-span-4 text-display md:col-span-12 lg:col-span-6" data-rise="">
+              {p.title}
+            </h1>
+            <p className="plate-line col-span-4 mt-[16px] text-read md:col-span-10 lg:col-span-5 lg:col-start-7 lg:mt-0" style={{ color: 'var(--bone-92)' }} data-reveal="">
+              {noWidow(p.line)}
+            </p>
+          </div>
+          <div className="plate-foot grid-main relative mt-[48px]">
+            <p className="text-body" style={{ color: 'var(--bone-64)' }} data-reveal="">
+              {p.role}, {p.year}
+            </p>
+            {p.links?.live && (
+              <div className="pills" data-reveal="" data-align="end">
+                <LivePill href={p.links.live} />
+              </div>
+            )}
+          </div>
+        </section>
+        <section className="paper pt-sec pb-sec" data-tone="light">
+          <Overview p={p} />
+          <Narrative p={p} />
+          <Results p={p} />
+          <div className="grid-main mt-sec">
+            <NextRow href={`/portfolio/${next.id}`} title={next.title} />
+          </div>
+        </section>
+      </main>
+      <Footer />
+    </>
   )
 }

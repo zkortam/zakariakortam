@@ -1,61 +1,53 @@
-import Link from 'next/link'
-import { Grid } from './Container'
+import { FooterLight } from './FooterLight'
+import { Wordmark } from './Wordmark'
+import { ULink } from './ULink'
+import { TLink } from './TLink'
+import { COPY, EMAIL, LOCATION, NAV, SOCIALS, YEAR } from '@/lib/site'
 
-const elsewhere = [
-  { name: 'LinkedIn', href: 'https://linkedin.com/in/zkortam' },
-  { name: 'GitHub', href: 'https://github.com/zkortam' },
-  { name: 'X', href: 'https://x.com/zakariakortam' },
-  { name: 'Instagram', href: 'https://instagram.com/zkortam' },
-]
-
-const pages = [
-  { name: 'Work', href: '/portfolio' },
-  { name: 'About', href: '/about' },
-  { name: 'Contact', href: '/contact' },
-]
-
-/** NDS footer: the name large on the left, three short columns on the right. */
+/** End credits. */
 export function Footer() {
   return (
-    <footer className="mt-40 sm:mt-56">
-      <Grid className="gap-y-12 border-t pb-10 pt-10 text-[15px]">
-        <p className="font-display text-[clamp(3rem,7vw,6.5rem)] leading-[0.9] tracking-[-0.04em] lg:col-span-6">
-          Zakaria
-          <br />
-          Kortam
-        </p>
-        <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:col-span-6">
-          <div className="text-foreground-muted">
-            San Jose,
-            <br />
-            California
+    <footer className="footer relative overflow-hidden" data-tone="dark">
+      <FooterLight />
+      <div className="footer-inner relative">
+        <div>
+          <div className="grid-main items-baseline">
+            <p className="c1 oc col-span-4 text-statement md:col-span-6" data-rise="">
+              {COPY.footerHead}
+            </p>
+            <p className="c1 col-span-4 mt-[24px] text-read md:col-span-6 md:col-start-7 md:mt-0" data-reveal="">
+              <ULink href={`mailto:${EMAIL}`}>{EMAIL}</ULink>
+            </p>
           </div>
-          <ul className="space-y-1">
-            {pages.map((l) => (
-              <li key={l.name}>
-                <Link href={l.href} className="text-foreground-muted transition-colors hover:text-foreground">
-                  {l.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
-          <ul className="space-y-1">
-            {elsewhere.map((l) => (
-              <li key={l.name}>
-                <a href={l.href} target="_blank" rel="noopener noreferrer" className="text-foreground-muted transition-colors hover:text-foreground">
-                  {l.name}
-                </a>
-              </li>
-            ))}
-          </ul>
+          <div className="grid-main footer-row2 text-body">
+            <ul className="col-span-2 flex flex-col gap-[4px] md:col-start-7" data-reveal="">
+              {NAV.map((l) => (
+                <li key={l.href}>
+                  <TLink href={l.href} className="flink">
+                    {l.label}
+                  </TLink>
+                </li>
+              ))}
+            </ul>
+            <ul className="col-span-2 flex flex-col gap-[4px] md:col-start-9" data-reveal="">
+              {SOCIALS.map((s) => (
+                <li key={s.label}>
+                  <a href={s.href} target="_blank" rel="noopener noreferrer" aria-label={`${s.label}, opens in a new tab`} className="flink">
+                    {s.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <div className="c3 col-span-4 mt-[32px] flex flex-col gap-[4px] md:col-span-2 md:col-start-11 md:mt-0 md:text-right" data-reveal="" data-align="end">
+              <span>{LOCATION}</span>
+              <span className="tnum">© {YEAR}</span>
+            </div>
+          </div>
         </div>
-        <div className="flex justify-between text-sm text-foreground-subtle lg:col-span-12">
-          <a href="mailto:zakaria@zakariakortam.com" className="transition-colors hover:text-foreground">
-            zakaria@zakariakortam.com
-          </a>
-          <span>© {new Date().getFullYear()}</span>
+        <div className="grid-main footer-wm">
+          <Wordmark as="p" className="wm-foot col-span-4 md:col-span-12" />
         </div>
-      </Grid>
+      </div>
     </footer>
   )
 }

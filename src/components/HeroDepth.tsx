@@ -1,0 +1,133 @@
+'use client'
+
+import { createContext, useContext, useEffect, useRef, type ReactNode } from 'react'
+import { LazyMotion, domAnimation, m, useMotionValue, useScroll, useSpring, useTransform, type MotionValue } from 'framer-motion'
+
+type Values = {
+  portraitY: MotionValue<string>
+  wordmarkY: MotionValue<string>
+  statementO: MotionValue<number>
+  wx: MotionValue<number>
+  wy: MotionValue<number>
+  px: MotionValue<number>
+  py: MotionValue<number>
+  bx: MotionValue<number>
+  by: MotionValue<number>
+}
+
+const Ctx = createContext<Values | null>(null)
+
+function lite(level: 1 | 2) {
+  if (typeof document === 'undefined') return false
+  return document.documentElement.classList.contains(level === 1 ? 'lite' : 'lite-2')
+}
+
+/** The opening plate: scroll-out separation of layers and a quiet pointer depth (desktop only). */
+export function HeroDepth({ children }: { children: ReactNode }) {
+  const ref = useRef<HTMLElement>(null)
+  const { scrollYProgress: p } = useScroll({ target: ref, offset: ['start start', 'end start'] })
+  const reduced = useRef(false)
+
+  const portraitY = useTransform(p, (v) => (reduced.current || lite(2) ? '0%' : `${v * 18}%`))
+  const wordmarkY = useTransform(p, (v) => (reduced.current || lite(2) ? '0%' : `${v * -8}%`))
+  const statementO = useTransform(p, (v) => (reduced.current || lite(2) ? 1 : Math.max(0, 1 - v / 0.35)))
+
+  const nx = useMotionValue(0)
+  const ny = useMotionValue(0)
+  const firm = { stiffness: 60, damping: 20, mass: 1 }
+  const soft = { stiffness: 22, damping: 18, mass: 1.4 }
+  const sx = useSpring(nx, firm)
+  const sy = useSpring(ny, firm)
+  const wx = useTransform(sx, (v) => -8 * v)
+  const wy = useTransform(sy, (v) => -4 * v)
+  const px = useTransform(sx, (v) => -4 * v)
+  const py = useTransform(sy, (v) => -2 * v)
+  const bsx = useSpring(nx, soft)
+  const bsy = useSpring(ny, soft)
+  const bx = useTransform(bsx, (v) => 48 * v)
+  const by = useTransform(bsy, (v) => 32 * v)
+
+  useEffect(() => {
+    reduced.current = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const el = ref.current
+    if (!el) return
+    const capable =
+      window.matchMedia('(hover: hover) and (pointer: fine)').matches &&
+      !reduced.current
+    if (!capable) return
+    const html = document.documentElement
+    const ready = () => html.dataset.intro !== 'play'
+    const reset = () => {
+      nx.set(0)
+      ny.set(0)
+    }
+    const onMove = (e: PointerEvent) => {
+      if (!ready() || lite(1) || e.pointerType !== 'mouse') return
+      const r = el.getBoundingClientRect()
+      if (window.scrollY > 0.3 * r.height) return reset()
+      nx.set(Math.max(-1, Math.min(1, ((e.clientX - r.left) / r.width) * 2 - 1)))
+      ny.set(Math.max(-1, Math.min(1, ((e.clientY - r.top) / r.height) * 2 - 1)))
+    }
+    const onScroll = () => {
+      if (window.scrollY > 0.3 * el.offsetHeight) reset()
+    }
+    el.addEventListener('pointermove', onMove, { passive: true })
+    el.addEventListener('pointerleave', reset)
+    window.addEventListener('blur', reset)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => {
+      el.removeEventListener('pointermove', onMove)
+      el.removeEventListener('pointerleave', reset)
+      window.removeEventListener('blur', reset)
+      window.removeEventListener('scroll', onScroll)
+    }
+  }, [nx, ny])
+
+  return (
+    <LazyMotion features={domAnimation} strict>
+      <Ctx.Provider value={{ portraitY, wordmarkY, statementO, wx, wy, px, py, bx, by }}>
+        <section ref={ref} className="hero" data-tone="dark">
+          {children}
+        </section>
+      </Ctx.Provider>
+    </LazyMotion>
+  )
+}
+
+/** outer (scroll-out) > middle (pointer depth) > children (M1 keyframes) */
+export function HeroLayer({
+  kind,
+  className = '',
+  children,
+}: {
+  kind: 'bloom' | 'portrait' | 'statement' | 'wordmark'
+  className?: string
+  children: ReactNode
+}) {
+  const v = useContext(Ctx)
+  if (!v) return <div className={className}>{children}</div>
+  if (kind === 'bloom') {
+    return (
+      <m.div className={className} style={{ x: v.bx, y: v.by }}>
+        {children}
+      </m.div>
+    )
+  }
+  if (kind === 'statement') {
+    return (
+      <m.div className={className} style={{ opacity: v.statementO }}>
+        {children}
+      </m.div>
+    )
+  }
+  const outerY = kind === 'portrait' ? v.portraitY : v.wordmarkY
+  const x = kind === 'portrait' ? v.px : v.wx
+  const y = kind === 'portrait' ? v.py : v.wy
+  return (
+    <m.div className={className} style={{ y: outerY }}>
+      <m.div className="fillw" style={{ x, y }}>
+        {children}
+      </m.div>
+    </m.div>
+  )
+}
