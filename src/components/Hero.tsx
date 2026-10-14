@@ -81,7 +81,7 @@ export function Hero() {
               {...fade(0)}
               className="text-sm font-medium tracking-wide text-foreground-muted"
             >
-              AI Engineer · San Jose, CA
+              Product Manager · San Jose, CA
             </motion.p>
 
             <MaskText
@@ -96,10 +96,10 @@ export function Hero() {
               {...fade(0.5)}
               className="mt-8 max-w-md text-lg leading-relaxed text-foreground-muted text-pretty sm:text-xl"
             >
-              Founding AI Engineer at{' '}
-              <span className="text-accent">FacilisAI</span>, building agentic
-              systems for industrial enterprise. Previously product engineering
-              at Incorta. EE at UC San Diego.
+              Associate Product Manager, Innovation at{' '}
+              <span className="text-accent">DigiCert</span>. Building Helio,
+              Surf, and SPICE++ on the side. Previously founding AI engineer at
+              FacilisAI. EE at UC San Diego.
             </motion.p>
 
             <motion.div {...fade(0.62)} className="mt-11 flex flex-wrap gap-3">

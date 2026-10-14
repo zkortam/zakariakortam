@@ -21,7 +21,7 @@ export function Footer() {
               Zakaria Kortam
             </Link>
             <p className="mt-1.5 text-sm text-foreground-subtle">
-              AI Engineer · San Jose, California
+              Product Manager · San Jose, California
             </p>
           </div>
 

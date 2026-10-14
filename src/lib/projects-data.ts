@@ -30,6 +30,33 @@ const roleTile = (id: string) => `/roles/${id}.svg`
 export const projects: Project[] = [
   // ---------- WORK (resume experience) ----------
   {
+    id: 'digicert',
+    title: 'DigiCert',
+    description:
+      'Associate Product Manager on the Innovation team, shaping new products at the company behind much of the web’s digital trust.',
+    category: 'Product Engineering',
+    tags: ['Product Management', 'Innovation', 'Digital Trust', 'PKI'],
+    image: roleTile("digicert"),
+    featured: true,
+    year: '2026',
+    role: 'Associate Product Manager, Innovation',
+    timeline: '2026 to Present',
+    team: 'DigiCert, Innovation',
+    overview:
+      'Associate Product Manager on DigiCert’s Innovation team, working on new products in digital trust: certificates, PKI, and the identity layer that keeps the internet secure.',
+    challenge:
+      'Digital trust is shifting fast, from shorter certificate lifetimes to post-quantum cryptography and AI agents that need verifiable identities of their own.',
+    solution:
+      'Bring a builder’s background to product discovery: talk to customers, frame the problem, and prototype quickly so new ideas can be tested before they are scaled.',
+    technologies: [
+      'Product Management',
+      'Customer Discovery',
+      'PKI',
+      'Prototyping',
+    ],
+    links: { live: 'https://www.digicert.com' },
+  },
+  {
     id: 'facilis-ai',
     title: 'FacilisAI',
     description:
@@ -40,7 +67,7 @@ export const projects: Project[] = [
     featured: true,
     year: '2025',
     role: 'Founding AI Engineer',
-    timeline: 'Apr 2025 to Present',
+    timeline: 'Apr 2025 to 2026',
     team: 'FacilisAI, San Jose',
     overview:
       'Founding AI Engineer at FacilisAI. Architected and built the flagship agentic platform that connects plant systems (PLCs, MES, SCADA) to specialized AI agents, turning month-long operational work into hours through chat and scheduled background tasks.',
@@ -134,58 +161,156 @@ export const projects: Project[] = [
 
   // ---------- PROJECTS ----------
   {
+    id: 'helio',
+    title: 'Helio',
+    description:
+      'A real-time, voice-first AI tutor for math and science that teaches out loud while it writes and draws on a live whiteboard.',
+    category: 'AI/ML',
+    tags: ['Rust', 'WebAssembly', 'Voice AI', 'TypeScript', 'EdTech'],
+    image: PLACEHOLDER,
+    featured: true,
+    year: '2026',
+    role: 'Founder',
+    timeline: '2026 to Present',
+    team: 'Solo',
+    overview:
+      'Helio replaces the static lesson video with a live tutor. A student talks naturally and interrupts freely while the tutor explains, writing, drawing, highlighting, and animating on an unlimited whiteboard, with speech and visuals synchronized to the word.',
+    challenge:
+      'A tutor that talks and draws at once has to keep voice, ink, and reasoning in lockstep under a tight latency budget, never say anything wrong, and be safe for minors.',
+    solution:
+      'A shared deterministic core in Rust, compiled to WebAssembly, drives the board, layout, and handwriting engines. Every claim is verified before it is spoken, and a provider-neutral layer routes between model and voice vendors. The design came out of a founding blueprint backed by 18 research reports and seven adversarial reviews.',
+    impact: [
+      'Voice-first tutoring with speech and ink synchronized to the word',
+      'Verify-on-emit: claims checked before they are spoken',
+      'Rust core shared across client and server via WebAssembly',
+      'Built for students, parents, teachers, and districts',
+    ],
+    technologies: [
+      'Rust',
+      'WebAssembly',
+      'TypeScript',
+      'Vite',
+      'Cloudflare',
+      'Supabase',
+      'Voice AI',
+    ],
+    links: { live: 'https://helio.education' },
+  },
+  {
     id: 'surf',
     title: 'Surf',
     description:
-      'Founder-built AI social platform: 60+ pages in React/TypeScript with a YOLOv8 vision pipeline and Claude RAG recommendations.',
+      'A full-stack social platform: feeds, shorts and a browser video editor, messaging and calls, live streaming, creator tools, and family controls.',
     category: 'Product Engineering',
-    tags: ['React', 'TypeScript', 'Flutter', 'YOLOv8', 'Supabase'],
+    tags: ['Next.js', 'React', 'TypeScript', 'Supabase', 'Capacitor'],
     image: PLACEHOLDER,
     featured: true,
-    year: '2022-2025',
+    year: '2022-2026',
     role: 'Founder',
-    timeline: '2022 to 2025',
-    team: 'Solo, built with Codex',
+    timeline: '2022 to Present',
+    team: 'Solo',
     overview:
-      'An AI-enhanced social platform I designed and shipped solo: 60+ pages and 50+ components in React and TypeScript on Node.js and PostgreSQL, iterated from a Flutter prototype to React for production.',
+      'Surf is the social platform I have been building since 2022, now in its fourth generation. One Next.js codebase serves the web, an installable app, and native iOS and Android shells, with 150+ routes across feeds, posts, shorts, messaging, live, and creator analytics.',
     challenge:
-      'Building a complete social product alone means owning design, engineering, AI, and infrastructure with no team to absorb the surface area.',
+      'Building a complete social product alone means owning design, engineering, AI, safety, and infrastructure, with no team to absorb the surface area.',
     solution:
-      'Built a YOLOv8 computer-vision pipeline for image processing and RNNoise audio noise suppression, shipped Claude-powered RAG recommendations on a Supabase vector DB, and ran user research, usability studies, and A/B testing to set unified UX standards. CI/CD via Vercel.',
+      'Rebuilt on Next.js, React, and Supabase with row-level security tested against a live database, a browser video editor, subscriptions, moderation, and family controls. A strict quality gate (type checks, lint, unit, RLS, and end-to-end suites) guards every release.',
     impact: [
-      '60+ pages and 50+ components, shipped solo',
-      'YOLOv8 vision and RNNoise audio AI features',
-      'Claude RAG recommendations on a Supabase vector DB',
-      '2.5+ years of iteration',
+      '150+ routes across web, iOS, and Android from one codebase',
+      'Shorts with an in-browser video editor, live streaming, and calls',
+      'Subscriptions, moderation, and family controls built in',
+      'Four generations of iteration since 2022',
     ],
     technologies: [
+      'Next.js',
       'React',
       'TypeScript',
-      'Flutter',
-      'Node.js',
-      'PostgreSQL',
       'Supabase',
-      'YOLOv8',
-      'Claude',
+      'PostgreSQL',
+      'Capacitor',
       'Vercel',
     ],
     links: { live: 'https://surfsocial.org' },
   },
   {
+    id: 'surf-messenger',
+    title: 'Surf Messenger',
+    description:
+      'Surf’s standalone messenger, with desktop apps for macOS and Windows alongside the mobile shells.',
+    category: 'Product Engineering',
+    tags: ['Electron', 'Capacitor', 'Messaging', 'Desktop'],
+    image: PLACEHOLDER,
+    featured: true,
+    year: '2026',
+    role: 'Founder',
+    timeline: '2026',
+    team: 'Solo',
+    overview:
+      'A focused messaging app built on Surf’s messaging and calling stack. It ships as native desktop apps for macOS and Windows and as a mobile app, all sharing the same backend as Surf.',
+    challenge:
+      'People want a messenger that stays fast and simple, without opening a full social app every time they want to talk.',
+    solution:
+      'Split messaging into its own product and packaged it for every platform: Electron builds for macOS and Windows and Capacitor shells on mobile, all loading the same origin so features ship everywhere at once.',
+    impact: [
+      'Native desktop apps for macOS and Windows',
+      'One backend shared with Surf',
+    ],
+    technologies: ['Electron', 'Capacitor', 'Next.js', 'Supabase'],
+    links: {
+      live: 'https://surfmessenger.com',
+      github: 'https://github.com/zkortam/SurfMessengerDesktop',
+    },
+  },
+  {
+    id: 'airofind',
+    title: 'AiroFind',
+    description:
+      'A clean, fast flight search with a self-hosted fare scraper behind it.',
+    category: 'Product Engineering',
+    tags: ['Next.js', 'Three.js', 'Scraping', 'Azure'],
+    image: PLACEHOLDER,
+    featured: true,
+    year: '2026',
+    role: 'Creator',
+    timeline: '2026',
+    team: 'Solo',
+    overview:
+      'AiroFind is a flight search built around a minimal, motion-first interface: pure black, big type, and nothing in the way of the results.',
+    challenge:
+      'Flight search sites are cluttered and slow. The goal was a search that feels calm and instant without giving up real fare data.',
+    solution:
+      'A Next.js front end with Three.js visuals on Vercel, backed by a scraper service that runs on its own Azure VM.',
+    impact: [
+      'Live at airofind.com',
+      'Self-hosted fare scraping on Azure',
+      'Minimal, motion-first interface',
+    ],
+    technologies: [
+      'Next.js',
+      'React',
+      'Three.js',
+      'Framer Motion',
+      'Firebase',
+      'Azure',
+      'Vercel',
+    ],
+    links: { live: 'https://airofind.com' },
+  },
+  {
     id: 'spice-plus-plus',
     title: 'SPICE++',
     description:
-      'A SPICE-class circuit simulator built from scratch in TypeScript, with an OpenAI agent that places, wires, runs, and debugs circuits from natural language.',
+      'A browser-based SPICE-class circuit simulator built from scratch, with an AI assistant that places, wires, runs, and debugs circuits from natural language.',
     category: 'Tools',
-    tags: ['Next.js', 'TypeScript', 'OpenAI', 'Simulation'],
+    tags: ['TypeScript', 'Simulation', 'Azure OpenAI', 'Supabase'],
     image: PLACEHOLDER,
     featured: true,
-    year: '2025',
+    year: '2025-2026',
     role: 'Creator',
-    timeline: '2025',
+    timeline: '2025 to Present',
     team: 'Solo',
     overview:
-      'A SPICE-class circuit simulator built from scratch: a TypeScript MNA solver with .op, .dc, .tran, and .ac analyses, Newton-Raphson with junction limiting, and MOSFET, diode, and op-amp models.',
+      'An LTspice and PSpice replacement that runs in the browser, with schematic capture, a waveform viewer, and an engine built from scratch: a TypeScript MNA solver with .op, .dc, .tran, and .ac analyses, Newton-Raphson with junction limiting, and MOSFET, diode, and op-amp models.',
     challenge:
       'A real SPICE engine plus an AI layer that can reason about circuits is a deep numerical and tooling problem, and it had to interoperate with the formats engineers actually use.',
     solution:
@@ -197,12 +322,14 @@ export const projects: Project[] = [
       'Verified against UCSD ECE 35/45/65/100/101/102 coursework',
     ],
     technologies: [
-      'Next.js',
       'TypeScript',
-      'OpenAI',
-      'Firebase',
+      'Azure OpenAI',
+      'Supabase',
+      'Stripe',
+      'Vercel',
       'Numerical Methods',
     ],
+    links: { live: 'https://www.spicepp.com' },
   },
   {
     id: 'documap-ai',
@@ -452,6 +579,7 @@ export const categories = [
  * Work / Projects split.
  */
 export const WORK_IDS = [
+  'digicert',
   'facilis-ai',
   'incorta-dashboards',
   'inqueue',

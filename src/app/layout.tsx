@@ -26,10 +26,10 @@ const fraunces = Fraunces({
 export const metadata: Metadata = {
   metadataBase: new URL('https://zakariakortam.com'),
   title: {
-    default: "Zakaria Kortam | AI Engineer & Product Engineer",
+    default: "Zakaria Kortam | Product Manager & Builder",
     template: "%s | Zakaria Kortam"
   },
-  description: "AI Engineer at Facilis building agentic tools for enterprise. UC San Diego EE student specializing in Machine Learning & Controls. Previously at Incorta. Based in San Jose, CA.",
+  description: "Associate Product Manager, Innovation at DigiCert. Builder of Helio, Surf, Surf Messenger, SPICE++, and AiroFind. Previously founding AI engineer at FacilisAI and product engineering at Incorta. UC San Diego EE. Based in San Jose, CA.",
   keywords: [
     "Zakaria Kortam",
     "AI Engineer",
@@ -39,6 +39,7 @@ export const metadata: Metadata = {
     "MCP",
     "React",
     "TypeScript",
+    "DigiCert",
     "Facilis",
     "UC San Diego",
     "San Jose",
@@ -60,22 +61,22 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://zakariakortam.com",
-    title: "Zakaria Kortam | AI Engineer & Product Engineer",
-    description: "AI Engineer at Facilis building agentic tools for enterprise. UC San Diego EE student specializing in Machine Learning & Controls.",
+    title: "Zakaria Kortam | Product Manager & Builder",
+    description: "Associate Product Manager, Innovation at DigiCert. Builder of Helio, Surf, SPICE++, and AiroFind.",
     siteName: "Zakaria Kortam",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Zakaria Kortam - AI Engineer & Product Engineer",
+        alt: "Zakaria Kortam - Product Manager & Builder",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Zakaria Kortam | AI Engineer & Product Engineer",
-    description: "AI Engineer at Facilis building agentic tools for enterprise. UC San Diego EE student.",
+    title: "Zakaria Kortam | Product Manager & Builder",
+    description: "Associate Product Manager, Innovation at DigiCert. UC San Diego EE.",
     creator: "@zakariakortam",
     site: "@zakariakortam",
     images: ["/og-image.png"],

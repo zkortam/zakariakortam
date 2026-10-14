@@ -57,7 +57,7 @@ export default function HomePage() {
           />
           <Reveal delay={0.1}>
             <p className="mx-auto mt-7 max-w-md text-lg text-foreground-muted">
-              Open to AI engineering work and product collaborations. I usually
+              Open to product conversations and collaborations. I usually
               reply within a day.
             </p>
             <div className="mt-10 flex flex-wrap justify-center gap-3">

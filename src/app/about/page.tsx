@@ -9,9 +9,18 @@ import { ExperienceTimeline } from '@/components/ExperienceTimeline'
 
 const experience = [
   {
+    role: 'Associate Product Manager, Innovation',
+    org: 'DigiCert',
+    when: '2026 to Present',
+    points: [
+      'Product on the Innovation team, working on new products in digital trust',
+      'Customer discovery, problem framing, and fast prototypes to test ideas before they scale',
+    ],
+  },
+  {
     role: 'Founding AI Engineer',
     org: 'FacilisAI',
-    when: 'Apr 2025 to Present',
+    when: 'Apr 2025 to 2026',
     points: [
       'Architected and launched the flagship agentic platform connecting plant systems (PLCs, MES, SCADA) to specialized AI agents',
       'Led 0-to-1 discovery with 15+ customer interviews; owned ICP, roadmap, demos, and enterprise sales',
@@ -62,13 +71,14 @@ export default function AboutPage() {
             as="h1"
             inView={false}
             className="mt-4 max-w-4xl text-display text-balance"
-            lines={['AI engineer building', 'production systems.']}
+            lines={['Product manager', 'who ships.']}
           />
           <Reveal delay={0.12}>
             <p className="mt-8 max-w-2xl text-lg leading-relaxed text-foreground-muted text-pretty sm:text-xl">
               I build products across engineering, design, and product.
-              Founding AI Engineer at FacilisAI, finishing a B.S. in Electrical
-              Engineering at UC San Diego. Based in San Jose.
+              Associate Product Manager, Innovation at DigiCert, previously
+              founding AI engineer at FacilisAI. Electrical Engineering at UC
+              San Diego. Based in San Jose.
             </p>
           </Reveal>
         </div>
@@ -82,10 +92,10 @@ export default function AboutPage() {
         <Reveal delay={0.08}>
           <p className="mt-8 max-w-5xl text-[clamp(1.5rem,3.4vw,2.6rem)] font-medium leading-[1.28] tracking-tight text-pretty">
             I work at the seam between{' '}
-            <span className="text-accent">hardware and intelligence</span>.
-            Agentic systems for industrial plants, a SPICE-class circuit
-            simulator written from scratch, computer-vision pipelines shipped
-            solo. From PRD to PID loop,{' '}
+            <span className="text-accent">product and engineering</span>. A
+            voice-first AI tutor, a social platform and its messenger, a
+            SPICE-class circuit simulator written from scratch, a flight search.
+            From PRD to production,{' '}
             <span className="text-accent">owned end to end</span>.
           </p>
         </Reveal>

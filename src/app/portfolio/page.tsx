@@ -32,8 +32,8 @@ export default function PortfolioPage() {
           />
           <Reveal delay={0.12}>
             <p className="mt-7 max-w-xl text-lg text-foreground-muted sm:text-xl">
-              Shipped products, research, and the systems behind them, from a
-              founding AI role to hackathon wins.
+              Shipped products, research, and the systems behind them, from
+              product at DigiCert to hackathon wins.
             </p>
           </Reveal>
         </div>

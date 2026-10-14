@@ -10,10 +10,10 @@ export function StructuredData() {
       "https://x.com/zakariakortam",
       "https://github.com/zkortam"
     ],
-    "jobTitle": "Founding AI Engineer",
+    "jobTitle": "Associate Product Manager, Innovation",
     "worksFor": {
       "@type": "Organization",
-      "name": "FacilisAI"
+      "name": "DigiCert"
     },
     "alumniOf": {
       "@type": "CollegeOrUniversity",
@@ -23,6 +23,7 @@ export function StructuredData() {
     "knowsAbout": [
       "Artificial Intelligence",
       "Machine Learning",
+      "Product Management",
       "Product Engineering",
       "Agentic AI",
       "Full Stack Development",

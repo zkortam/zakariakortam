@@ -45,7 +45,7 @@ export default function ContactPage() {
           />
           <Reveal delay={0.12}>
             <p className="mt-7 max-w-xl text-lg text-foreground-muted sm:text-xl">
-              AI engineering, product work, or collaboration. I usually reply
+              Product, AI, or collaboration. I usually reply
               within a day.
             </p>
           </Reveal>
