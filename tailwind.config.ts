@@ -22,11 +22,8 @@ const config: Config = {
         sans: ["var(--font-sans)", "ui-sans-serif", "system-ui", "sans-serif"],
       },
       fontSize: {
-        // Fluid display scale — optical serif, tuned for large sizes
-        giant: ["clamp(3.5rem, 13vw, 11.5rem)", { lineHeight: "0.88", letterSpacing: "-0.035em", fontWeight: "400" }],
-        display: ["clamp(2.75rem, 7.5vw, 6.25rem)", { lineHeight: "0.95", letterSpacing: "-0.03em", fontWeight: "400" }],
-        headline: ["clamp(2rem, 4.6vw, 3.75rem)", { lineHeight: "1.02", letterSpacing: "-0.025em", fontWeight: "400" }],
-        lede: ["clamp(1.35rem, 2.3vw, 2rem)", { lineHeight: "1.22", letterSpacing: "-0.022em" }],
+        giant: ["clamp(3.75rem, 12vw, 10.5rem)", { lineHeight: "0.9", letterSpacing: "-0.04em", fontWeight: "400" }],
+        title: ["clamp(3rem, 7vw, 6rem)", { lineHeight: "0.95", letterSpacing: "-0.035em", fontWeight: "400" }],
       },
       maxWidth: {
         content: "96rem",

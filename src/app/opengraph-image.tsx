@@ -16,8 +16,7 @@ export default function OpengraphImage() {
           justifyContent: 'flex-end',
           padding: 80,
           color: '#f6f4f1',
-          background:
-            'radial-gradient(90% 120% at 85% 10%, #7a1a28 0%, #2a0a10 45%, #040304 80%)',
+          background: '#000',
         }}
       >
         <div style={{ fontSize: 120, fontFamily: 'Georgia, serif', letterSpacing: -4, lineHeight: 1 }}>

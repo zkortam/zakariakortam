@@ -14,6 +14,8 @@ export interface Project {
   approach?: string
   results?: string[]
   stack: string[]
+  /** Screenshot in public/work, if there is one. */
+  image?: string
   links?: {
     live?: string
     github?: string
@@ -105,6 +107,7 @@ export const projects: Project[] = [
   // Projects
   {
     id: 'helio',
+    image: '/work/helio.webp',
     title: 'Helio',
     line: 'A voice AI tutor that teaches math and science on a live whiteboard.',
     kind: 'project',
@@ -127,6 +130,7 @@ export const projects: Project[] = [
   },
   {
     id: 'surf',
+    image: '/work/surf.webp',
     title: 'Surf',
     line: 'A social platform I have been building since 2022.',
     kind: 'project',
@@ -149,6 +153,7 @@ export const projects: Project[] = [
   },
   {
     id: 'surf-messenger',
+    image: '/work/surf-messenger.webp',
     title: 'Surf Messenger',
     line: 'Surf’s messaging as its own app, on Mac, Windows, and phones.',
     kind: 'project',
@@ -167,6 +172,7 @@ export const projects: Project[] = [
   },
   {
     id: 'spice-plus-plus',
+    image: '/work/spice-plus-plus.webp',
     title: 'SPICE++',
     line: 'A circuit simulator in the browser, written from scratch.',
     kind: 'project',
@@ -189,6 +195,7 @@ export const projects: Project[] = [
   },
   {
     id: 'airofind',
+    image: '/work/airofind.webp',
     title: 'AiroFind',
     line: 'A fast, quiet flight search.',
     kind: 'project',
@@ -208,7 +215,7 @@ export const projects: Project[] = [
     title: 'Documap',
     line: 'Contract analysis. Won the SAG-AFTRA Challenge at Stanford Law.',
     kind: 'project',
-    featured: true,
+    featured: false,
     year: '2025',
     role: 'Creator',
     overview:
@@ -228,7 +235,7 @@ export const projects: Project[] = [
     title: 'ClosingTheDivide',
     line: 'A nonprofit putting computers in classrooms. I was COO.',
     kind: 'project',
-    featured: true,
+    featured: false,
     year: '2021 to 2025',
     role: 'Chief Operating Officer',
     overview:

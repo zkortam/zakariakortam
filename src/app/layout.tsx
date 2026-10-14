@@ -3,8 +3,6 @@ import { Fraunces, Inter_Tight } from "next/font/google";
 import "./globals.css";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
-import { Dock } from "@/components/Dock";
-import { Ambient } from "@/components/Ambient";
 import { PageTransition } from "@/components/PageTransition";
 import { StructuredData } from "@/components/StructuredData";
 import { MotionProvider } from "@/components/MotionProvider";
@@ -93,18 +91,16 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${sans.variable} ${fraunces.variable}`}>
       <head>
-        <meta name="theme-color" content="#040304" />
+        <meta name="theme-color" content="#000000" />
       </head>
-      <body className="grain font-sans antialiased">
+      <body className="font-sans antialiased">
         <StructuredData />
         <MotionProvider>
-          <Ambient />
           <Navigation />
           <PageTransition>
             {children}
           </PageTransition>
           <Footer />
-          <Dock />
         </MotionProvider>
       </body>
     </html>
