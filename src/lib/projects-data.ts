@@ -228,7 +228,6 @@ export const projects: Project[] = [
       'Acquisition interest from Davis Wright Tremaine',
     ],
     stack: ['Python', 'FastAPI', 'LangChain', 'ChromaDB', 'Next.js'],
-    links: { live: 'https://documap.ai' },
   },
   {
     id: 'closingthedivide',
