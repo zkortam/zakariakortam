@@ -2,6 +2,7 @@ import Image from 'next/image'
 import { HeroDepth, HeroLayer } from './HeroDepth'
 import { Wordmark } from './Wordmark'
 import { PortraitLight } from './PortraitLight'
+import { HeroBeam } from './HeroBeam'
 import { COPY } from '@/lib/site'
 
 /** The opening plate: letterbox gate, light gathering behind the portrait, the name rising and parting. */
@@ -12,6 +13,7 @@ export function HomeHero() {
         <HeroLayer kind="bloom" className="hero-bloom">
           <div className="fill bloom-in" />
         </HeroLayer>
+        <HeroBeam />
       </div>
 
       <div className="hero-portrait">
@@ -39,13 +41,8 @@ export function HomeHero() {
       <div className="hero-statement">
         <HeroLayer kind="statement">
           <div className="grid-main">
-            <p className="hs-p text-read col-span-4 md:col-span-5 md:col-start-7" style={{ color: 'var(--bone-92)' }}>
-              {COPY.heroLines.map((l, i) => (
-                <span key={i} className="hs-l" style={{ ['--i' as string]: i }}>
-                  {l}
-                  {i < COPY.heroLines.length - 1 ? ' ' : ''}
-                </span>
-              ))}
+            <p className="hero-title col-span-full">
+              <span className="hs-l">{COPY.heroTitle}</span>
             </p>
           </div>
         </HeroLayer>

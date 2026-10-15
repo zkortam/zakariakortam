@@ -289,24 +289,8 @@ export function Assistant() {
     let raf = 0
     let aside = false
     let asideTimer = 0
-    // Tucked away only while actively scrolling down; back on scroll up or once scrolling stops.
-    let lastY = window.scrollY
-    let reading = false
-    let settle = 0
-    const onScrollDir = () => {
-      const y = window.scrollY
-      if (Math.abs(y - lastY) > 6) {
-        reading = y > lastY
-        lastY = y
-        // Back as soon as scrolling settles.
-        clearTimeout(settle)
-        settle = window.setTimeout(() => {
-          reading = false
-          schedule()
-        }, 450)
-      }
-      schedule()
-    }
+    // Steady once shown: no hiding and popping back with scroll direction.
+    const onScrollDir = () => schedule()
     const measure = () => {
       raf = 0
       const vh = window.innerHeight
@@ -314,7 +298,7 @@ export function Assistant() {
       const past = hero ? hero.getBoundingClientRect().bottom < vh * 0.5 : window.scrollY > vh * 0.5
       const footer = document.querySelector<HTMLElement>('#page footer')
       const nearFooter = footer ? footer.getBoundingClientRect().top < vh - 40 : false
-      setInView(past && !nearFooter && !aside && !reading)
+      setInView(past && !nearFooter && !aside)
     }
     const schedule = () => {
       if (!raf) raf = requestAnimationFrame(measure)
@@ -350,7 +334,6 @@ export function Assistant() {
       cancelAnimationFrame(raf)
       clearTimeout(asideTimer)
       window.removeEventListener('scroll', onScrollDir)
-      clearTimeout(settle)
       window.removeEventListener('resize', schedule)
       window.removeEventListener('zk:route', schedule)
       document.removeEventListener('pointerover', onOver)

@@ -26,9 +26,9 @@
   --e-media: cubic-bezier(.25, .46, .45, .94);
   --e-roll: cubic-bezier(.33, 1, .68, 1);
 
-  --display: clamp(56px, 7.5vw, 144px);
-  --statement: clamp(34px, 4.44vw, 72px);
-  --read: clamp(22px, 2.08vw, 32px);
+  --display: clamp(56px, 6vw, 112px);
+  --statement: clamp(34px, 3.4vw, 56px);
+  --read: clamp(21px, 1.6vw, 26px);
 
   --m: 20px;
   --g: 12px;
@@ -317,15 +317,20 @@ html[data-route="entering"] #page { opacity: 0; transition: none; }
 .hero-layer { position: absolute; inset: 0; pointer-events: none; }
 .hero-bloom { position: absolute; width: 120vmax; height: 120vmax; left: 50%; top: 46%; margin-left: -60vmax; margin-top: -60vmax; }
 .hero-bloom .fill { position: absolute; inset: 0; background: url(/light/bloom.webp) center / 100% 100% no-repeat; }
-.hero-portrait { position: absolute; bottom: 0; left: 0; right: 0; margin-inline: auto; aspect-ratio: 1;
-  height: min(64svh, 560px, calc(100svh - 268px)); }
-@media (min-width: 768px) { .hero-portrait { height: min(72svh, 640px, calc(100svh - 252px)); } }
+.hero { --ph: min(64svh, 560px, calc(100svh - 268px)); }
+@media (min-width: 768px) { .hero { --ph: min(72svh, 640px, calc(100svh - 252px)); } }
+.hero-portrait { position: absolute; bottom: 0; left: 0; right: 0; margin-inline: auto; aspect-ratio: 1; height: var(--ph); }
 .hero-portrait .mask { position: absolute; inset: 0;
   -webkit-mask-image: radial-gradient(ellipse 50% 62% at 50% 38%, #000 72%, transparent 100%);
   mask-image: radial-gradient(ellipse 50% 62% at 50% 38%, #000 72%, transparent 100%); }
 .hero-portrait img { width: 100%; height: 100%; display: block; }
+.hero-beam { position: absolute; inset: 0; width: 100%; height: 100%; display: block; mix-blend-mode: screen; opacity: 0; transition: opacity 1800ms var(--e-std); }
+.hero-beam[data-on] { opacity: 1; }
+html[data-quality="low"] .hero-beam { display: none; }
 .hero-vignette { position: absolute; left: 0; right: 0; bottom: 0; height: 34%; background: linear-gradient(transparent, #0B0306 85%); pointer-events: none; }
-.hero-statement { position: absolute; left: 0; right: 0; top: var(--plate-top); z-index: 3; }
+/* The title is centred in the space between the bar and the top of the portrait. */
+.hero-statement { position: absolute; left: 0; right: 0; top: var(--nav-h); bottom: var(--ph); z-index: 3; display: grid; align-items: center; }
+.hero-title { margin: 0; text-align: center; font-size: clamp(36px, 3.6vw, 64px); line-height: 1; font-weight: 500; letter-spacing: -0.035em; color: var(--bone); }
 .hero-wm { position: absolute; left: 0; right: 0; bottom: var(--plate-bottom); z-index: 3; }
 .fillw { width: 100%; height: 100%; }
 .hs-l { display: block; }
@@ -878,12 +883,12 @@ html:not(.js) .nav-menu-btn { display: none; }
   .ss-core { text-align: center; min-width: 44%; }
   .ss-nums { justify-content: center; }
 }
-.stat-v { font-size: clamp(44px, 5.6vw, 96px); line-height: .92; letter-spacing: -0.05em; font-weight: 600; }
+.stat-v { font-size: clamp(44px, 4.4vw, 80px); line-height: .92; letter-spacing: -0.05em; font-weight: 600; }
 .stat-l { margin-top: 10px; font-size: 16px; line-height: 1.35; color: var(--ink-60); max-width: 22ch; }
 [data-tone="dark"] .stat-l { color: var(--bone-64); }
 .stat-v.long { font-size: clamp(30px, 3.1vw, 52px); line-height: 1.05; letter-spacing: -0.035em; }
 .bow { padding-top: var(--row); }
-.bow-v { font-size: clamp(64px, 8.4vw, 160px); line-height: .9; letter-spacing: -0.055em; font-weight: 600; }
+.bow-v { font-size: clamp(64px, 6.4vw, 128px); line-height: .9; letter-spacing: -0.055em; font-weight: 600; }
 .bow-l { margin-top: 12px; font-size: clamp(17px, 1.4vw, 22px); line-height: 1.3; color: var(--ink-60); }
 .rtl-wave svg { display: block; height: auto; }
 
@@ -1101,8 +1106,8 @@ html[data-quality="low"] .idle-light > i { animation: none; will-change: auto; }
 }
 /* Large monitors: the hero portrait and reading size grow with the screen. */
 @media (min-width: 1680px) {
-  :root { --read: clamp(22px, 1.6vw, 40px); }
-  .hero-portrait { height: min(76svh, 960px, calc(100svh - 252px)); }
+  :root { --read: clamp(22px, 1.4vw, 32px); }
+  .hero { --ph: min(76svh, 960px, calc(100svh - 252px)); }
 }
 /* iPad portrait: less empty space between the plate copy and its object. */
 @media (min-width: 768px) and (max-width: 1023px) {
@@ -1277,7 +1282,7 @@ html.swipe-nav { touch-action: pan-y pinch-zoom; }
 
   /* Chrome, motion and media that mean nothing on paper */
   #room, .nav, .menu, .cmdk, .skip, .footer, .swipe-hint, .row-preview, .haptic, #flip, video, audio, iframe, canvas,
-  .hero-layer, .hero-vignette, .hero-portrait, .hero-wm, .demo, .pills, .cmd-hint, .amb, .scrim, [data-ambient], .light,
+  .hero-layer, .hero-beam, .hero-vignette, .hero-portrait, .hero-wm, .demo, .pills, .cmd-hint, .amb, .scrim, [data-ambient], .light,
   .plate-link, .u-line, .rows-solo, .rows:has(.arrow-shift), .rows:has(.arrow-shift) + .rule-end,
   .grid-main:has(> .col-span-full > .demo), .plate-stage, .pm-desk, [data-plate-media],
   main:has([data-flip-target]) > .plate:not([data-flip-target]),
@@ -1401,7 +1406,7 @@ html.swipe-nav { touch-action: pan-y pinch-zoom; }
    The grid already caps at 2160px. Here the opening portrait and the product plates grow with the screen
    instead of stopping at laptop sizes, so a 2560 or 3840 wide window still reads as one composed frame. */
 @media (min-width: 2400px) and (min-height: 1300px) {
-  .hero-portrait { height: min(70svh, 1200px, calc(100svh - 300px)); }
+  .hero { --ph: min(70svh, 1200px, calc(100svh - 300px)); }
   .plate.reel { max-height: none; }
 }
 /* Large monitors: chrome text scales with the page. */
