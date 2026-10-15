@@ -185,7 +185,7 @@ def home_card():
     fade[..., 3] = (np.clip((np.arange(H)[:, None] - (H - 120)) / 120, 0, 1) * 200).astype('uint8')
     im.alpha_composite(Image.fromarray(fade, 'RGBA'))
     header(im, 'dark')
-    title_block(im, 'dark', 'Zakaria Kortam', 'Associate Product Manager at DigiCert. I build products from zero to one.', 560)
+    title_block(im, 'dark', 'Zakaria Kortam', 'Product Manager at DigiCert. I build products from zero to one.', 560)
     save(im, 'home.png')
 
 

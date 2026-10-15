@@ -1,7 +1,7 @@
 import { readFile } from 'node:fs/promises'
 import { join } from 'node:path'
 
-export const alt = 'Zakaria Kortam, Associate Product Manager at DigiCert'
+export const alt = 'Zakaria Kortam, Product Manager at DigiCert'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
