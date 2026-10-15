@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import { Footer } from '@/components/Footer'
-import { Principles } from '@/components/Principles'
 import { TLink } from '@/components/TLink'
 import { NOW, NOW_UPDATED } from '@/lib/voice'
 import { pageMeta } from '@/lib/seo'
@@ -50,12 +49,6 @@ export default function NowPage() {
             </ul>
           </div>
 
-          <div className="grid-main mt-big">
-            <h2 className="oc col-span-4 text-display md:col-span-12" data-rise="">
-              Principles
-            </h2>
-            <Principles />
-          </div>
         </section>
       </main>
       <Footer />

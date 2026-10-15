@@ -230,7 +230,7 @@ export const projects: Project[] = [
     stack: ['TypeScript', 'Azure OpenAI', 'Supabase', 'Stripe'],
     links: { live: 'https://www.spicepp.com' },
     stats: [
-      { value: '195k', label: 'lines of TypeScript' },
+      { value: '145k', label: 'lines of TypeScript' },
       { value: '21', label: 'device types' },
       { value: '5', label: 'analysis types' },
       { value: '4', label: 'file formats in and out' },
@@ -371,7 +371,8 @@ export const projects: Project[] = [
     role: 'Developer',
     overview:
       'DealFlow researches market data for an offer, a software quote, or a lease, writes the counter-offer and the email, and lets you rehearse the conversation by voice.',
-    stack: ['TypeScript', 'Toolhouse', 'LLM tools'],
+    stack: ['Python', 'FastAPI', 'Claude', 'Toolhouse', 'ElevenLabs', 'Next.js'],
+    links: { github: 'https://github.com/zkortam/dealflow' },
   },
   {
     id: 'sentiment-analysis',
@@ -405,15 +406,16 @@ export const projects: Project[] = [
     id: 'nexus-robot',
     tags: ['Hardware'],
     title: 'Nexus',
-    line: 'A path-following robot on Arduino with vision and PID control.',
+    line: 'A line-following robot on Arduino, steered by light sensors and PID. 2nd of 8 on competition day.',
     kind: 'project',
     featured: false,
     year: '2025',
-    role: 'Product, design, and engineering',
+    role: 'Team of four',
     overview:
-      'An Arduino robot that follows a path using RGB sensing, IR and light sensors, and a PID controller I tuned in MATLAB.',
-    stack: ['Arduino', 'C/C++', 'MATLAB'],
-    links: { live: 'https://nexusrobot.org' },
+      'An Arduino robot that follows a track with photoresistors and a PID controller, in a 3D-printed body designed in Onshape. Built as Team 35 with Nicholas Normart, Osezele Omoko, and Abdulrahman Alghamdi.',
+    results: ['2nd of 8 on competition day'],
+    stack: ['Arduino', 'C++', 'Onshape'],
+    links: { live: 'https://nexusrobot.org', github: 'https://github.com/zkortam/Nexus' },
   },
   {
     id: 'risk-factors-viz',
@@ -439,7 +441,8 @@ export const projects: Project[] = [
     role: 'Developer',
     overview:
       'Summarizes what a proposed bill would change compared to current law, with a complexity score. Built at the Stanford Law CodeX hackathon.',
-    stack: ['Python', 'GPT-3.5'],
+    stack: ['Flutter', 'FlutterFlow', 'OpenAI'],
+    links: { github: 'https://github.com/zkortam/Legiscan' },
   },
   {
     id: 'clippy-2',
