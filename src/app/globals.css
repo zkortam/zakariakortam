@@ -1138,9 +1138,10 @@ html[data-quality="low"] .idle-light > i { animation: none; will-change: auto; }
 .plate { overflow: clip; }
 @keyframes flRose { from { transform: translateY(10%); } to { transform: none; } }
 @keyframes flAmber { 0%, 20% { opacity: 0; } 90%, 100% { opacity: 1; } }
-@keyframes hdPortrait { from { transform: none; } to { transform: translateY(18%); } }
-@keyframes hdWordmark { from { transform: none; } to { transform: translateY(-8%); } }
-@keyframes hdStatement { 0% { opacity: 1; } 35%, 100% { opacity: 0; } }
+@keyframes hdPortrait { from { transform: none; } to { transform: translateY(36%) scale(.94); } }
+@keyframes hdWordmark { from { transform: none; } to { transform: translateY(-26%); } }
+@keyframes hdStatement { 0% { opacity: 1; transform: none; } 45%, 100% { opacity: 0; transform: translateY(-60%); } }
+@keyframes hdGlass { from { transform: none; } to { transform: translateY(22%) scale(1.06); } }
 @keyframes pxY { from { transform: translateY(4%); } to { transform: translateY(-4%); } }
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
@@ -1155,7 +1156,8 @@ html[data-quality="low"] .idle-light > i { animation: none; will-change: auto; }
     .hd-portrait { animation-name: hdPortrait; }
     .hd-wordmark { animation-name: hdWordmark; }
     .hd-statement { animation-name: hdStatement; }
-    html.lite-2 .hd-portrait, html.lite-2 .hd-wordmark, html.lite-2 .hd-statement { animation: none; }
+    .hero-glass { animation: hdGlass linear both; animation-timeline: --hero; animation-range: exit-crossing 0% exit-crossing 100%; }
+    html.lite-2 .hd-portrait, html.lite-2 .hd-wordmark, html.lite-2 .hd-statement, html.lite-2 .hero-glass { animation: none; }
   }
   @media (prefers-reduced-motion: no-preference) and (min-width: 768px) {
     .px-sd { animation: pxY linear both; animation-timeline: view(); animation-range: cover 0% cover 100%; }

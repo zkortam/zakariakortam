@@ -44,14 +44,14 @@ export function HeroDepth({ children }: { children: ReactNode }) {
   const soft = { stiffness: 22, damping: 18, mass: 1.4 }
   const sx = useSpring(nx, firm)
   const sy = useSpring(ny, firm)
-  const wx = useTransform(sx, (v) => -8 * v)
-  const wy = useTransform(sy, (v) => -4 * v)
-  const px = useTransform(sx, (v) => -4 * v)
-  const py = useTransform(sy, (v) => -2 * v)
+  const wx = useTransform(sx, (v) => -20 * v)
+  const wy = useTransform(sy, (v) => -10 * v)
+  const px = useTransform(sx, (v) => -12 * v)
+  const py = useTransform(sy, (v) => -6 * v)
   const bsx = useSpring(nx, soft)
   const bsy = useSpring(ny, soft)
-  const bx = useTransform(bsx, (v) => 48 * v)
-  const by = useTransform(bsy, (v) => 32 * v)
+  const bx = useTransform(bsx, (v) => 80 * v)
+  const by = useTransform(bsy, (v) => 52 * v)
 
   useEffect(() => {
     reduced.current = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -118,9 +118,9 @@ function ScrollDriver({
   useEffect(() => {
     const apply = (v: number) => {
       const off = reduced.current || lite(2)
-      portraitY.set(off ? '0%' : `${v * 18}%`)
-      wordmarkY.set(off ? '0%' : `${v * -8}%`)
-      statementO.set(off ? 1 : Math.max(0, 1 - v / 0.35))
+      portraitY.set(off ? '0%' : `${v * 36}%`)
+      wordmarkY.set(off ? '0%' : `${v * -26}%`)
+      statementO.set(off ? 1 : Math.max(0, 1 - v / 0.45))
     }
     apply(p.get())
     return p.on('change', apply)
