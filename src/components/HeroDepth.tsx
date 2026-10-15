@@ -46,14 +46,14 @@ export function HeroDepth({ children }: { children: ReactNode }) {
   const soft = { stiffness: 22, damping: 18, mass: 1.4 }
   const sx = useSpring(nx, firm)
   const sy = useSpring(ny, firm)
-  const wx = useTransform(sx, (v) => -20 * v)
-  const wy = useTransform(sy, (v) => -10 * v)
-  const px = useTransform(sx, (v) => -12 * v)
-  const py = useTransform(sy, (v) => -6 * v)
+  const wx = useTransform(sx, (v) => -36 * v)
+  const wy = useTransform(sy, (v) => -18 * v)
+  const px = useTransform(sx, (v) => -24 * v)
+  const py = useTransform(sy, (v) => -12 * v)
   const bsx = useSpring(nx, soft)
   const bsy = useSpring(ny, soft)
-  const bx = useTransform(bsx, (v) => 80 * v)
-  const by = useTransform(bsy, (v) => 52 * v)
+  const bx = useTransform(bsx, (v) => 120 * v)
+  const by = useTransform(bsy, (v) => 80 * v)
 
   useEffect(() => {
     reduced.current = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -125,8 +125,8 @@ function ScrollDriver({
     const apply = (v: number) => {
       // Only reduced motion turns this off: dropping it mid-scroll on a slow frame made the hero snap.
       const off = reduced.current
-      portraitY.set(off ? '0%' : `${v * 36}%`)
-      wordmarkY.set(off ? '0%' : `${v * -26}%`)
+      portraitY.set(off ? '0%' : `${v * 64}%`)
+      wordmarkY.set(off ? '0%' : `${v * -64}%`)
       statementO.set(off ? 1 : Math.max(0, 1 - v / 0.45))
       // The same shrink into a rounded card as the CSS path (exit 0% to 90%).
       const k = off ? 0 : Math.min(1, v / 0.9)

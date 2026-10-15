@@ -7,7 +7,7 @@ import { Icon } from '@/components/Icon'
 import { NextRow } from '@/components/IndexRows'
 import { POSTS } from '@/content/blog/posts.generated'
 import { formatDate } from '@/content/blog/types'
-import { pageMeta } from '@/lib/seo'
+import { SITE_NAME, SITE_URL, pageMeta } from '@/lib/seo'
 
 type Params = { params: Promise<{ slug: string }> }
 
@@ -21,14 +21,20 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { slug } = await params
   const p = POSTS.find((x) => x.slug === slug)
   if (!p) return {}
-  return pageMeta({
+  const meta = pageMeta({
     path: `/blog/${p.slug}`,
     title: p.title,
     ogTitle: `${p.title}, by Zakaria Kortam`,
     description: p.summary || p.title,
     type: 'article',
-    ...(p.cover ? { image: p.cover, imageAlt: p.title } : {}),
+    image: `/blog/${p.slug}/opengraph-image`,
+    imageAlt: p.title,
   })
+  return {
+    ...meta,
+    authors: [{ name: SITE_NAME, url: SITE_URL }],
+    openGraph: { ...meta.openGraph, type: 'article', publishedTime: p.date, authors: [SITE_URL], tags: p.tags },
+  }
 }
 
 export default async function PostPage({ params }: Params) {

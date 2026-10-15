@@ -298,8 +298,20 @@ export function Assistant() {
     let raf = 0
     let aside = false
     let asideTimer = 0
-    // Steady once shown: no hiding and popping back with scroll direction.
-    const onScrollDir = () => schedule()
+    // Steady once shown, except on a blog post: it steps aside while reading down and returns on the way up.
+    const post = /^\/blog\/[^/]+/.test(pathname)
+    let lastY = window.scrollY
+    let reading = false
+    const onScrollDir = () => {
+      if (post) {
+        const y = window.scrollY
+        if (Math.abs(y - lastY) > 8) {
+          reading = y > lastY
+          lastY = y
+        }
+      }
+      schedule()
+    }
     const measure = () => {
       raf = 0
       const vh = window.innerHeight
@@ -307,7 +319,7 @@ export function Assistant() {
       const past = hero ? hero.getBoundingClientRect().bottom < vh * 0.5 : window.scrollY > vh * 0.5
       const footer = document.querySelector<HTMLElement>('#page footer')
       const nearFooter = footer ? footer.getBoundingClientRect().top < vh - 40 : false
-      setInView(past && !nearFooter && !aside)
+      setInView(past && !nearFooter && !aside && !reading)
     }
     const schedule = () => {
       if (!raf) raf = requestAnimationFrame(measure)

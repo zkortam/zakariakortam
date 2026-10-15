@@ -11,7 +11,7 @@ export function ExperienceList({ items = work }: { items?: Project[] }) {
         {items.map((p) => (
           <li key={p.id} className="row col-span-full grid grid-cols-subgrid" data-preview={previewOf(p)}>
             <TLink href={`/portfolio/${p.id}`} className="u-group col-span-full grid grid-cols-subgrid items-baseline py-[20px] md:py-[28px]">
-              <span className="col-span-4 text-read md:col-span-6" data-reveal="">
+              <span className="col-span-2 text-read md:col-span-6" data-reveal="">
                 <span className="u-box">
                   {p.org ?? p.title}
                   <span aria-hidden="true" className="u-line" />
@@ -19,9 +19,8 @@ export function ExperienceList({ items = work }: { items?: Project[] }) {
               </span>
               <span className="c3 col-span-4 mt-[6px] text-body md:col-span-5 md:col-start-7 md:mt-0 md:text-read" data-reveal="">
                 {p.role}
-                <span className="mt-[4px] block tnum md:hidden">{p.year}</span>
               </span>
-              <span className="c3 tnum hidden whitespace-nowrap text-right text-body md:col-start-12 md:block" data-reveal="" data-align="end">
+              <span className="c3 tnum col-span-2 col-start-3 row-start-1 whitespace-nowrap text-right text-body md:col-span-1 md:col-start-12 md:row-start-auto" data-reveal="" data-align="end">
                 {p.year}
               </span>
             </TLink>

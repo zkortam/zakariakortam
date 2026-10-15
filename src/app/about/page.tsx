@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
-import { Great_Vibes } from 'next/font/google'
 import { ExperienceList } from '@/components/ExperienceList'
 import { Footer } from '@/components/Footer'
 import { COPY, noWidow } from '@/lib/site'
@@ -14,8 +13,6 @@ export const metadata: Metadata = pageMeta({
   description:
     'Zakaria Kortam is an Associate Innovation Product Manager at DigiCert who takes products from zero to one, end to end. UC San Diego EE, based in San Jose.',
 })
-
-const sign = Great_Vibes({ subsets: ['latin'], weight: '400', display: 'swap' })
 
 /** Photos from Wikimedia Commons, credited as their licenses ask. */
 const SAN_JOSE = {
@@ -47,10 +44,10 @@ function Rows({ items }: { items: readonly { label: string; value: string }[] })
       <ul className="rows col-span-full grid grid-cols-subgrid">
         {items.map((t) => (
           <li key={t.label} className="row col-span-full grid grid-cols-subgrid items-baseline py-[20px] md:py-[28px]">
-            <span className="col-span-4 text-read md:col-span-6" data-reveal="">
+            <span className="col-span-4 text-body font-semibold md:col-span-6 md:text-read md:font-[450]" data-reveal="">
               {t.label}
             </span>
-            <span className="c3 col-span-4 mt-[4px] text-read md:col-span-5 md:col-start-7 md:mt-0" data-reveal="">
+            <span className="c3 ab-val col-span-4 mt-[6px] text-read md:col-span-5 md:col-start-7 md:mt-0" data-reveal="">
               {noWidow(t.value)}
             </span>
           </li>
@@ -64,7 +61,7 @@ export default function AboutPage() {
   return (
     <>
       <main id="main" tabIndex={-1}>
-        <section className="paper pt-page pb-sec" data-tone="light">
+        <section className="about paper pt-page pb-sec" data-tone="light">
           <div className="grid-main">
             <h1 className="oc col-span-4 text-statement md:col-span-10" data-rise="">
               {COPY.aboutHead}
@@ -84,18 +81,14 @@ export default function AboutPage() {
                 className="block aspect-square h-auto w-full object-contain"
               />
             </div>
-            <div className="col-span-4 mt-[48px] flex flex-col gap-[32px] text-read md:col-span-5 md:col-start-7 md:mt-0">
+            <div className="ab-story col-span-4 mt-[48px] flex flex-col gap-[32px] text-read md:col-span-5 md:col-start-7 md:mt-0">
               {COPY.aboutStory.map((s) => (
                 <p key={s} className="ab-line">
                   {noWidow(s)}
                 </p>
               ))}
-              <p className={`about-sign ${sign.className}`} aria-label="Signed, Zakaria Kortam">
-                <span aria-hidden="true">Zakaria Kortam</span>
-              </p>
             </div>
           </div>
-
 
           <div className="mt-big">
             <figure className="ph-wide ab-open">

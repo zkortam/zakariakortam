@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Wordmark } from './Wordmark'
 import { LocalTime } from './LocalTime'
+import { IdleClock } from './IdleClock'
 import { LOCATION } from '@/lib/site'
 
 const DEFAULT_S = 60
@@ -41,7 +42,7 @@ function busy(lastTarget: Element | null): boolean {
 
 /**
  * After a minute untouched, the page eases into the lit room: drifting oxblood light, the wordmark, and the
- * time in San Jose. Any input brings the page straight back, exactly where it was.
+ * time in San Jose on an analog face. Any input brings the page straight back, exactly where it was.
  */
 export function IdleMode() {
   const [phase, setPhase] = useState<Phase>('off')
@@ -177,6 +178,9 @@ export function IdleMode() {
       <div className="idle-light">
         <i className="idle-pool" />
         <i className="idle-bloom" />
+      </div>
+      <div className="idle-face">
+        <IdleClock />
       </div>
       <div className="idle-time grid-main">
         <p className="col-span-4 flex flex-col gap-[4px] text-body md:col-span-6">

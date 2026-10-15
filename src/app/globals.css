@@ -208,7 +208,9 @@ html[data-route="entering"] #page { opacity: 0; transition: none; }
 }
 
 /* ---------- Line splitting for title rises ---------- */
-.ln { display: block; overflow: hidden; padding-bottom: .08em; margin-bottom: -.08em; }
+/* Display type sets at .88, so each mask reaches past the line box for accents, ascenders and descenders.
+   A clip-path does it without touching layout. */
+.ln { display: block; clip-path: inset(-0.16em -0.2em -0.24em -0.2em); }
 .lni { display: block; }
 
 /* ---------- Plates ---------- */
@@ -453,7 +455,7 @@ html:not(.js) .nav-menu-btn { display: none; }
   /* M2: title rise */
   html.js [data-rise]:not(.split) { visibility: hidden; }
   html.js [data-rise] .lni { transition: transform 900ms var(--e-expo); transition-delay: calc(var(--i, 0) * 90ms + var(--d, 0ms)); }
-  html.js [data-rise]:not(.in) .lni { transform: translateY(105%); }
+  html.js [data-rise]:not(.in) .lni { transform: translateY(140%); }
 
   /* Footer wordmark: rise with a softer parting */
   html.js .wm-foot .wm-rise { transition: transform 1100ms var(--e-expo); }
@@ -781,6 +783,21 @@ html[data-quality="low"] .amb > i { animation: none; }
 .idle .wordmark .wm-k { color: inherit; margin: 0; } /* the Wingman demo's .wm-k label rule leaks onto the wordmark */
 .idle .wm-rise { transform: translateY(105%); transition: transform 1600ms var(--e-expo) 500ms; }
 .idle.on .wm-rise, .idle.out .wm-rise { transform: none; }
+/* The clock: thin minute ticks, heavier hour ticks, hands with a fine stem and a thick rounded blade, a rose second hand. */
+.idle-face { position: absolute; left: 50%; top: 44%; width: min(62vw, 46svh, 440px); aspect-ratio: 1; translate: -50% -50%;
+  opacity: 0; scale: .92; transition: opacity 1400ms var(--e-std) 300ms, scale 1800ms var(--e-expo) 300ms; }
+.idle.on .idle-face { opacity: 1; scale: 1; }
+.idle.out .idle-face { opacity: 1; scale: 1; }
+.idle-clock { display: block; width: 100%; height: 100%; overflow: visible; stroke-linecap: round; fill: none; }
+.ic-ticks line { stroke: rgba(243, 237, 232, .28); stroke-width: 1; }
+.ic-ticks .ic-hour { stroke: rgba(243, 237, 232, .82); stroke-width: 2.6; }
+.ic-stem { stroke: var(--bone); stroke-width: 2.2; }
+.ic-hand { stroke: var(--bone); stroke-width: 6.5; }
+.ic-cap { fill: var(--bone); }
+.ic-sec line { stroke: #F08A9B; stroke-width: 1.4; }
+.ic-sec circle { fill: #F08A9B; }
+.ic-pin { fill: #2A0B12; }
+@media (max-width: 767px) { .idle-face { top: 46%; } }
 .idle.paused .idle-light > i { animation-play-state: paused; }
 html[data-quality="low"] .idle-light > i { animation: none; will-change: auto; }
 @media (prefers-reduced-motion: reduce) {
@@ -934,10 +951,10 @@ html[data-quality="low"] .idle-light > i { animation: none; will-change: auto; }
 .plate { overflow: clip; }
 @keyframes flRose { from { transform: translateY(10%); } to { transform: none; } }
 @keyframes flAmber { 0%, 20% { opacity: 0; } 90%, 100% { opacity: 1; } }
-@keyframes hdPortrait { from { transform: none; } to { transform: translateY(36%) scale(.94); } }
-@keyframes hdWordmark { from { transform: none; } to { transform: translateY(-26%); } }
+@keyframes hdPortrait { from { transform: none; } to { transform: translateY(64%) scale(.88); } }
+@keyframes hdWordmark { from { transform: none; } to { transform: translateY(-64%); } }
 @keyframes hdStatement { 0% { opacity: 1; transform: none; } 45%, 100% { opacity: 0; transform: translateY(-60%); } }
-@keyframes hdGlass { from { transform: none; } to { transform: translateY(22%) scale(1.06); } }
+@keyframes hdGlass { from { transform: none; } to { transform: translateY(40%) scale(1.12); } }
 @keyframes pxY { from { transform: translateY(4%); } to { transform: translateY(-4%); } }
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
@@ -959,12 +976,6 @@ html[data-quality="low"] .idle-light > i { animation: none; will-change: auto; }
     html.lite .px-sd { animation: none; }
   }
 }
-
-/* ---------- Motion fixes ----------
-   Plate titles sit in an inline-block (.title-u), where the .ln padding/negative-margin pair does not cancel:
-   splitting a title for its rise grew it by .08em and nudged everything under it (CLS .004 on phones).
-   A clip-path gives the same mask, descender room included, without touching layout. */
-.title-u .ln { overflow: visible; padding-bottom: 0; margin-bottom: 0; clip-path: inset(0 -0.2em -0.08em -0.2em); }
 
 /* ---------- Document view transitions (progressive; client navigations never start one) ---------- */
 @view-transition { navigation: auto; }
@@ -1514,10 +1525,24 @@ a, button { transition-property: color, background-color, border-color, opacity,
 @keyframes ctIn { from { opacity: 0; transform: translateY(6%); } }
 
 
-/* ---------- About: signature and scroll scenes ---------- */
-.about-sign { margin-top: 20px; font-size: clamp(54px, 5vw, 76px); line-height: 1; color: var(--ink); }
-.about-sign span { display: inline-block; padding: 0 .2em .1em 0; }
+/* ---------- About: scroll scenes ---------- */
 .ab-open { margin: 0 var(--m); }
+/* On a phone the page is laid out for the phone, not shrunk: the portrait and San Jose go edge to edge,
+   the story reads at a body size, and the schools stand tall. */
+@media (max-width: 767px) {
+  .about .ab-portrait { grid-column: 1 / -1; margin: -8px calc(-1 * var(--m)) 0;
+    -webkit-mask-image: linear-gradient(#000 72%, transparent); mask-image: linear-gradient(#000 72%, transparent); }
+  .about .ab-portrait img { width: 100%; }
+  .about .grid-main.mt-sec { margin-top: 40px; }
+  .about .ab-story { margin-top: -24px; position: relative; gap: 22px; font-size: 19px; line-height: 1.5; letter-spacing: -0.008em; }
+  .about .ab-story p:first-child { font-size: 23px; line-height: 1.35; letter-spacing: -0.015em; }
+  .about .ab-val { font-size: 18px; line-height: 1.45; }
+  .about .ph-wide img { aspect-ratio: 4 / 5; object-position: 58% 50%; }
+  .about .ph-wide figcaption { flex-direction: column; align-items: flex-start; padding: 96px 20px 18px; font-size: 20px; font-weight: 600; letter-spacing: -0.015em; }
+  .about .ph-wide figcaption a { font-weight: 400; letter-spacing: 0; }
+  .about .edu-card { aspect-ratio: 4 / 5; }
+  .about .edu-txt { padding: 22px; }
+}
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
     /* The portrait settles out of a slight zoom as it arrives, and drifts up as it leaves. */
@@ -1526,9 +1551,6 @@ a, button { transition-property: color, background-color, border-color, opacity,
     /* Each paragraph rises in, holds, and quiets as it passes. */
     .ab-line { animation: abLine linear both; animation-timeline: view(); animation-range: cover 0% cover 100%; }
     @keyframes abLine { 0% { opacity: 0; transform: translateY(32px); } 28% { opacity: 1; transform: none; } 78% { opacity: 1; transform: none; } 100% { opacity: .25; transform: translateY(-16px); } }
-    /* The signature writes itself left to right. */
-    .about-sign span { animation: abSign linear both; animation-timeline: view(); animation-range: entry 40% cover 45%; }
-    @keyframes abSign { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
     /* San Jose opens from a rounded card to the full width, the photo easing back as it does, then closes again. */
     .ab-open { margin: 0; animation: abOpen linear both; animation-timeline: view(); animation-range: cover 0% cover 100%; }
     .ab-open img { animation: abPhoto linear both; animation-timeline: view(); animation-range: cover 0% cover 100%; }
