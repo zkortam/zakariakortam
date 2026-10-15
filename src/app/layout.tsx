@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist } from "next/font/google";
 import "./globals.css";
 import { StructuredData } from "@/components/StructuredData";
@@ -25,6 +25,14 @@ const HEAD_SCRIPT =
 const HOME_TITLE = "Zakaria Kortam | Product Manager & Builder";
 const HOME_DESCRIPTION =
   "Zakaria Kortam, Associate Product Manager (Innovation) at DigiCert, builds products 0 to 1: Helio, Surf, Surf Messenger, SPICE++, RTL++, and AiroFind.";
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+  // Android Chrome: the page resizes above the keyboard, so the sheet needs no JS tracking.
+  interactiveWidget: 'resizes-content',
+}
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

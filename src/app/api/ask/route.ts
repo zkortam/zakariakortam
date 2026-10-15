@@ -20,7 +20,7 @@ const RATE_WINDOW_MS = 10 * 60 * 1000
 type Msg = { role: 'user' | 'assistant'; content: string }
 
 const REFUSAL =
-  'I can only answer questions about Zakaria’s work and projects. Try asking what he has built, or how one of his projects works.\n\n[All work](/portfolio) · [About](/about)'
+  'I can only answer questions about Zakaria’s work.'
 
 function parse(body: unknown): Msg[] | string {
   if (!body || typeof body !== 'object' || !Array.isArray((body as { messages?: unknown }).messages)) {

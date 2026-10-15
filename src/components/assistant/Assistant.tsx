@@ -230,18 +230,35 @@ export function Assistant() {
     }
   }, [open])
 
-  // Open and close: focus, scroll lock.
+  // Open and close: focus, a scroll lock that also holds on iOS, and a history entry so
+  // the back gesture closes the sheet instead of leaving the page.
+  const lockY = useRef(0)
+  const ownHistory = useRef(false)
   useEffect(() => {
     const lenis = getLenis()
+    const body = document.body
     if (open) {
       if (document.activeElement !== input.current) returnFocus.current = document.activeElement as HTMLElement | null
       lenis?.stop()
-      document.documentElement.style.overflow = 'hidden'
+      lockY.current = window.scrollY
+      Object.assign(body.style, { position: 'fixed', top: `-${lockY.current}px`, left: '0', right: '0', width: '100%' })
+      if (!ownHistory.current) {
+        history.pushState({ ...(history.state || {}), zkAsk: true }, '')
+        ownHistory.current = true
+      }
       requestAnimationFrame(() => input.current?.focus({ preventScroll: true }))
     } else {
       speech.stop()
+      if (body.style.position === 'fixed') {
+        Object.assign(body.style, { position: '', top: '', left: '', right: '', width: '' })
+        window.scrollTo(0, lockY.current)
+        lenis?.scrollTo(lockY.current, { immediate: true, force: true })
+      }
       lenis?.start()
-      document.documentElement.style.overflow = ''
+      if (ownHistory.current) {
+        ownHistory.current = false
+        if (history.state?.zkAsk) history.back()
+      }
       const r = returnFocus.current
       returnFocus.current = null
       if (r && r !== document.body) r.focus?.({ preventScroll: true })
@@ -250,6 +267,17 @@ export function Assistant() {
     // speech.stop is stable
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open])
+
+  useEffect(() => {
+    const onPop = () => {
+      if (ownHistory.current) {
+        ownHistory.current = false
+        setOpen(false)
+      }
+    }
+    window.addEventListener('popstate', onPop)
+    return () => window.removeEventListener('popstate', onPop)
+  }, [])
 
   useEffect(() => () => abort.current?.abort(), [])
   useEffect(() => setOpen(false), [pathname])
@@ -350,7 +378,14 @@ export function Assistant() {
   }, [lastTurn?.a, lastTurn?.id, open, turns.length])
 
   useEffect(() => {
-    if (active >= 0) body.current?.querySelector<HTMLElement>(`[data-i="${active}"]`)?.scrollIntoView({ block: 'nearest' })
+    // Keep the active row visible by scrolling the panel only, never the page.
+    const box = body.current
+    const row = active >= 0 ? box?.querySelector<HTMLElement>(`[data-i="${active}"]`) : null
+    if (box && row) {
+      const top = row.offsetTop - box.offsetTop
+      if (top < box.scrollTop) box.scrollTop = top
+      else if (top + row.offsetHeight > box.scrollTop + box.clientHeight) box.scrollTop = top + row.offsetHeight - box.clientHeight
+    }
   }, [active])
 
   const onInputKey = (e: React.KeyboardEvent) => {
@@ -403,7 +438,6 @@ export function Assistant() {
   }
 
   const shownPill = open || inView
-  const orb = speech.listening ? 'listening' : streaming ? 'thinking' : open ? 'awake' : 'idle'
   const chips = !listMode && t ? matches.filter((m) => m.group === 'Projects' || m.group === 'Roles' || m.group === 'Pages').slice(0, 3) : []
   let lastGroup = ''
 
@@ -523,9 +557,6 @@ export function Assistant() {
               if (!open && e.target === e.currentTarget) setOpen(true)
             }}
           >
-            <span className={`orb is-${orb}`} aria-hidden="true">
-              <span />
-            </span>
             <div className="asst-field">
               <input
                 ref={input}

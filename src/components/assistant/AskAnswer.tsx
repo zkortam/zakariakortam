@@ -35,6 +35,8 @@ function mail(s: string, key: string): ReactNode[] {
  */
 export function AskAnswer({ text, onNavigate }: { text: string; onNavigate: (href: string) => void }) {
   const blocks = text
+    // A bare [/path] from the model becomes a proper link with the page's name.
+    .replace(/\[(\/[a-z0-9/-]*)\](?!\()/g, (_, p: string) => `[${projectFor(p)?.title ?? 'Open'}](${p})`)
     .replace(/\*\*(.+?)\*\*/g, '$1')
     .replace(/^#+\s*/gm, '')
     .split(/\n{2,}/)
