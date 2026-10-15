@@ -64,9 +64,3 @@
 @media (hover: hover) { .show-cap:hover { transform: scale(1.03); } }
 @media (prefers-reduced-motion: reduce) { .show-frame { clip-path: none; } .show-img, .show-slide.on .show-img { transform: none; transition: none; } .show-slide { transition: none; } }
 @media (max-width: 1023px) { .show-bar { top: 16px; bottom: auto; transform: translateY(calc((1 - var(--p)) * -24px)); } }
-
-/* ---------- Hero: moving light, centered line ---------- */
-.hero-light { position: absolute; inset: 0; width: 100%; height: 100%; display: block; transition: opacity 1600ms var(--e-std); }
-.hero .hs-l { display: block; }
-.hero .hs-dim { color: var(--bone-64); }
-.hero-portrait { left: 50%; right: auto; margin-inline: 0; translate: -50% 0; }
