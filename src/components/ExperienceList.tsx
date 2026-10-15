@@ -1,6 +1,8 @@
 import { TLink } from './TLink'
 import { Rule } from './Rule'
 import { work } from '@/lib/projects-data'
+import { previewOf } from '@/lib/preview'
+import { RowPreview } from './RowPreview'
 
 /** Four role rows on a subgrid: org, role, years. */
 export function ExperienceList() {
@@ -8,7 +10,7 @@ export function ExperienceList() {
     <>
       <ul className="rows col-span-full grid grid-cols-subgrid">
         {work.map((p) => (
-          <li key={p.id} className="row col-span-full grid grid-cols-subgrid">
+          <li key={p.id} className="row col-span-full grid grid-cols-subgrid" data-preview={previewOf(p)}>
             <Rule className="rule-top" />
             <TLink href={`/portfolio/${p.id}`} className="u-group col-span-full grid grid-cols-subgrid items-baseline py-row">
               <span className="col-span-4 text-statement md:col-span-6 md:row-span-2 lg:row-span-1" data-reveal="">
@@ -32,6 +34,7 @@ export function ExperienceList() {
         ))}
       </ul>
       <Rule className="rule-end col-span-full" />
+      {work.some(previewOf) && <RowPreview />}
     </>
   )
 }

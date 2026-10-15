@@ -47,7 +47,7 @@ export function BodyOfWork() {
     <div ref={ref} className="col-span-full grid grid-cols-1 gap-y-[40px] md:grid-cols-3 md:gap-x-[var(--g)]">
       {FIGURES.map((f) => (
         <div key={f.label} className="bow">
-          <p className="bow-v tnum" aria-label={`${f.fmt(f.to)} ${f.label}`}>
+          <p className="bow-v tnum" aria-label={`${f.fmt(f.to)} ${f.label}`} data-final={f.fmt(f.to)}>
             {f.fmt(f.to * p)}
           </p>
           <p className="bow-l">{f.label}</p>

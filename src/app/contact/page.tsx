@@ -65,7 +65,7 @@ export default function ContactPage() {
           <div className="grid-main contact-foot text-body" style={{ color: 'var(--bone-64)' }}>
             <span className="col-span-2 md:col-span-6">{LOCATION}</span>
             <span className="tnum col-span-2 text-right md:col-span-6" data-align="end">
-              © {YEAR}
+              ©{'\u00a0'}{YEAR}
             </span>
           </div>
         </div>

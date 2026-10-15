@@ -2,9 +2,13 @@
 
 import { useEffect } from 'react'
 import { useTransitionNav } from './Transitions'
+import { ProjectSwipe } from './ProjectSwipe'
 
-/** ← and → step through projects; nothing on screen, just faster for anyone who tries it. */
-export function ProjectKeys({ prev, next }: { prev: string; next: string }) {
+/**
+ * ← and → step through projects; nothing on screen, just faster for anyone who tries it.
+ * On touch screens a sideways swipe does the same (ProjectSwipe).
+ */
+export function ProjectKeys({ prev, next, prevTitle, nextTitle }: { prev: string; next: string; prevTitle: string; nextTitle: string }) {
   const { go } = useTransitionNav()
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -18,5 +22,5 @@ export function ProjectKeys({ prev, next }: { prev: string; next: string }) {
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [go, prev, next])
-  return null
+  return <ProjectSwipe prev={prev} next={next} prevTitle={prevTitle} nextTitle={nextTitle} />
 }

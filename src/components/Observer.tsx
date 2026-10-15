@@ -89,7 +89,9 @@ function idle(fn: () => void) {
 }
 
 function decodeAll(root: Element, cap: number) {
-  const imgs = Array.from(root.querySelectorAll('img'))
+  // Only pictures that are actually laid out: the other breakpoint's composition is display:none and
+  // lazy, so its decode() would never settle and every entrance would wait out the full cap.
+  const imgs = Array.from(root.querySelectorAll('img')).filter((i) => i.getClientRects().length > 0)
   return Promise.race([
     Promise.all(imgs.map((i) => i.decode().catch(() => undefined))),
     new Promise<void>((r) => setTimeout(r, cap)),

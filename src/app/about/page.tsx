@@ -54,6 +54,7 @@ export default function AboutPage() {
                 width={1485}
                 height={1485}
                 quality={90}
+                priority
                 sizes="(min-width:1024px) 31vw, (min-width:768px) 40vw, 75vw"
                 alt="Zakaria Kortam"
                 className="block aspect-square h-auto w-full object-contain"

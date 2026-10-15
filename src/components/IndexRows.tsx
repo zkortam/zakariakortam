@@ -2,6 +2,8 @@ import { TLink } from './TLink'
 import { Rule } from './Rule'
 import type { Project } from '@/lib/projects-data'
 import { noWidow } from '@/lib/site'
+import { previewOf } from '@/lib/preview'
+import { RowPreview } from './RowPreview'
 
 /** Earlier projects: title, line, year. */
 export function IndexRows({ items }: { items: Project[] }) {
@@ -9,7 +11,7 @@ export function IndexRows({ items }: { items: Project[] }) {
     <>
       <ul className="rows col-span-full grid grid-cols-subgrid">
         {items.map((p) => (
-          <li key={p.id} className="row col-span-full grid grid-cols-subgrid">
+          <li key={p.id} className="row col-span-full grid grid-cols-subgrid" data-preview={previewOf(p)}>
             <Rule className="rule-top" />
             <TLink href={`/portfolio/${p.id}`} className="u-group col-span-full grid grid-cols-subgrid items-baseline py-[20px] md:py-[28px]">
               <span className="col-span-4 text-read md:col-span-6" data-reveal="">
@@ -30,6 +32,7 @@ export function IndexRows({ items }: { items: Project[] }) {
         ))}
       </ul>
       <Rule className="rule-end col-span-full" />
+      {items.some(previewOf) && <RowPreview />}
     </>
   )
 }

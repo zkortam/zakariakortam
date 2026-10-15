@@ -1,9 +1,11 @@
 'use client'
 
-import { createContext, useContext, useEffect, useRef, type ReactNode } from 'react'
+import { createContext, useContext, useEffect, useRef, type ReactNode, type RefObject } from 'react'
 import { LazyMotion, domAnimation, m, useMotionValue, useScroll, useSpring, useTransform, type MotionValue } from 'framer-motion'
+import { useScrollFallback } from '@/lib/scroll-timeline'
 
 type Values = {
+  js: boolean
   portraitY: MotionValue<string>
   wordmarkY: MotionValue<string>
   statementO: MotionValue<number>
@@ -22,15 +24,19 @@ function lite(level: 1 | 2) {
   return document.documentElement.classList.contains(level === 1 ? 'lite' : 'lite-2')
 }
 
-/** The opening plate: scroll-out separation of layers and a quiet pointer depth (desktop only). */
+/**
+ * The opening plate: scroll-out separation of layers and a quiet pointer depth (desktop only).
+ * The scroll-out runs as a CSS scroll-driven animation on the hero's view timeline ("hd-" in globals.css);
+ * the framer driver only mounts in browsers without animation-timeline, with the same curves.
+ */
 export function HeroDepth({ children }: { children: ReactNode }) {
   const ref = useRef<HTMLElement>(null)
-  const { scrollYProgress: p } = useScroll({ target: ref, offset: ['start start', 'end start'] })
   const reduced = useRef(false)
+  const js = useScrollFallback()
 
-  const portraitY = useTransform(p, (v) => (reduced.current || lite(2) ? '0%' : `${v * 18}%`))
-  const wordmarkY = useTransform(p, (v) => (reduced.current || lite(2) ? '0%' : `${v * -8}%`))
-  const statementO = useTransform(p, (v) => (reduced.current || lite(2) ? 1 : Math.max(0, 1 - v / 0.35)))
+  const portraitY = useMotionValue('0%')
+  const wordmarkY = useMotionValue('0%')
+  const statementO = useMotionValue(1)
 
   const nx = useMotionValue(0)
   const ny = useMotionValue(0)
@@ -85,13 +91,41 @@ export function HeroDepth({ children }: { children: ReactNode }) {
 
   return (
     <LazyMotion features={domAnimation} strict>
-      <Ctx.Provider value={{ portraitY, wordmarkY, statementO, wx, wy, px, py, bx, by }}>
+      {js && <ScrollDriver target={ref} reduced={reduced} portraitY={portraitY} wordmarkY={wordmarkY} statementO={statementO} />}
+      <Ctx.Provider value={{ js, portraitY, wordmarkY, statementO, wx, wy, px, py, bx, by }}>
         <section ref={ref} className="hero" data-tone="dark">
           {children}
         </section>
       </Ctx.Provider>
     </LazyMotion>
   )
+}
+
+function ScrollDriver({
+  target,
+  reduced,
+  portraitY,
+  wordmarkY,
+  statementO,
+}: {
+  target: RefObject<HTMLElement | null>
+  reduced: RefObject<boolean>
+  portraitY: MotionValue<string>
+  wordmarkY: MotionValue<string>
+  statementO: MotionValue<number>
+}) {
+  const { scrollYProgress: p } = useScroll({ target, offset: ['start start', 'end start'] })
+  useEffect(() => {
+    const apply = (v: number) => {
+      const off = reduced.current || lite(2)
+      portraitY.set(off ? '0%' : `${v * 18}%`)
+      wordmarkY.set(off ? '0%' : `${v * -8}%`)
+      statementO.set(off ? 1 : Math.max(0, 1 - v / 0.35))
+    }
+    apply(p.get())
+    return p.on('change', apply)
+  }, [p, reduced, portraitY, wordmarkY, statementO])
+  return null
 }
 
 /** outer (scroll-out) > middle (pointer depth) > children (M1 keyframes) */
@@ -115,7 +149,7 @@ export function HeroLayer({
   }
   if (kind === 'statement') {
     return (
-      <m.div className={className} style={{ opacity: v.statementO }}>
+      <m.div className={`hd-statement ${className}`} style={v.js ? { opacity: v.statementO } : undefined}>
         {children}
       </m.div>
     )
@@ -124,7 +158,7 @@ export function HeroLayer({
   const x = kind === 'portrait' ? v.px : v.wx
   const y = kind === 'portrait' ? v.py : v.wy
   return (
-    <m.div className={className} style={{ y: outerY }}>
+    <m.div className={`${kind === 'portrait' ? 'hd-portrait' : 'hd-wordmark'} ${className}`} style={v.js ? { y: outerY } : undefined}>
       <m.div className="fillw" style={{ x, y }}>
         {children}
       </m.div>

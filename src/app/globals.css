@@ -725,3 +725,252 @@ html:not(.js) .nav-menu-btn { display: none; }
 .bow-v { font-size: clamp(64px, 8.4vw, 160px); line-height: .9; letter-spacing: -0.055em; font-weight: 600; }
 .bow-l { margin-top: 12px; font-size: clamp(17px, 1.4vw, 22px); line-height: 1.3; color: var(--ink-60); }
 .rtl-wave svg { display: block; height: auto; }
+
+/* =====================================================================================================
+   Craft pass (2026-10): time-of-day light, scroll-driven motion, document view transitions, book
+   typography, project swipe, row previews, print. Additive only; everything above stays as designed.
+   ===================================================================================================== */
+
+/* ---------- Light that follows the time in San Jose (values from src/lib/tod.ts) ----------
+   Only opacity mixes of the existing pre-dithered textures: no gradients, no banding, compositor-only.
+   Midday is --tod-warm 0 and --tod-night 0, which is exactly the room above. */
+#room::before { content: ""; position: absolute; width: 110vmax; height: 110vmax; left: 50%; top: 42%; transform: translate(-50%, -50%);
+  background: url(/light/pool-amber.webp) center / 100% 100% no-repeat; opacity: calc(var(--tod-warm, 0) * .2); transition: opacity 8s linear; }
+#room > i { opacity: calc(.45 - var(--tod-night, 0) * .1); transition: opacity 8s linear; }
+.hero-layer { opacity: calc(1 - var(--tod-night, 0) * .14); transition: opacity 8s linear; }
+.hero-bloom .fill::after { content: ""; position: absolute; inset: 0; background: url(/light/pool-amber.webp) center / 100% 100% no-repeat;
+  opacity: calc(var(--tod-warm, 0) * .24); transition: opacity 8s linear; }
+.fl-rose > .light { opacity: calc(1 - var(--tod-night, 0) * .16); transition: opacity 8s linear; }
+.fl-amber > .light { opacity: calc(1 - var(--tod-night, 0) * .22); transition: opacity 8s linear; }
+/* Morning: a second pass of the same amber texture, so the footer warms instead of dimming. */
+.fl-amber > .light::after { content: ""; position: absolute; inset: 0; background: inherit; opacity: calc(var(--tod-warm, 0) * .35); transition: opacity 8s linear; }
+@media (prefers-reduced-motion: reduce) {
+  #room::before, #room > i, .hero-layer, .hero-bloom .fill::after, .fl-rose > .light, .fl-amber > .light, .fl-amber > .light::after { transition: none; }
+}
+
+/* ---------- Scroll-driven motion on the compositor ----------
+   Same curves as the framer fallbacks in FooterLight, Parallax and HeroDepth, which only mount where
+   animation-timeline is missing. Base states use transform so the fallback's inline transform replaces them. */
+.fl-rose { transform: translateY(10%); }
+.fl-amber { opacity: 0; }
+@media (prefers-reduced-motion: reduce) { .fl-rose { transform: none; } .fl-amber { opacity: .6; } }
+/* Plates clip their media. overflow:clip clips exactly like hidden but is not a scroll container, so the
+   parallax inside measures its view against the page (and focus can never scroll a plate sideways). */
+.plate { overflow: clip; }
+@keyframes flRose { from { transform: translateY(10%); } to { transform: none; } }
+@keyframes flAmber { 0%, 20% { opacity: 0; } 90%, 100% { opacity: 1; } }
+@keyframes hdPortrait { from { transform: none; } to { transform: translateY(18%); } }
+@keyframes hdWordmark { from { transform: none; } to { transform: translateY(-8%); } }
+@keyframes hdStatement { 0% { opacity: 1; } 35%, 100% { opacity: 0; } }
+@keyframes pxY { from { transform: translateY(4%); } to { transform: translateY(-4%); } }
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* On the footer itself: a view timeline belongs to the nearest scroll container, and the footer's
+       overflow:hidden makes it one for everything inside. */
+    .footer { view-timeline: --fl block; }
+    .fl-rose, .fl-amber { animation-timing-function: linear; animation-fill-mode: both; animation-timeline: --fl; animation-range: entry-crossing 0% entry-crossing 100%; }
+    .fl-rose { animation-name: flRose; }
+    .fl-amber { animation-name: flAmber; }
+    .hero { view-timeline: --hero block; }
+    .hd-portrait, .hd-wordmark, .hd-statement { animation-timing-function: linear; animation-fill-mode: both; animation-timeline: --hero; animation-range: exit-crossing 0% exit-crossing 100%; }
+    .hd-portrait { animation-name: hdPortrait; }
+    .hd-wordmark { animation-name: hdWordmark; }
+    .hd-statement { animation-name: hdStatement; }
+    html.lite-2 .hd-portrait, html.lite-2 .hd-wordmark, html.lite-2 .hd-statement { animation: none; }
+  }
+  @media (prefers-reduced-motion: no-preference) and (min-width: 768px) {
+    .px-sd { animation: pxY linear both; animation-timeline: view(); animation-range: cover 0% cover 100%; }
+    html.lite .px-sd { animation: none; }
+  }
+}
+
+/* ---------- Motion fixes ----------
+   Plate titles sit in an inline-block (.title-u), where the .ln padding/negative-margin pair does not cancel:
+   splitting a title for its rise grew it by .08em and nudged everything under it (CLS .004 on phones).
+   A clip-path gives the same mask, descender room included, without touching layout. */
+.title-u .ln { overflow: visible; padding-bottom: 0; margin-bottom: 0; clip-path: inset(0 -0.2em -0.08em -0.2em); }
+
+/* ---------- Document view transitions (progressive; client navigations never start one) ---------- */
+@view-transition { navigation: auto; }
+@keyframes vtOut { to { opacity: 0; } }
+@keyframes vtIn { from { opacity: 0; } }
+::view-transition-old(root) { animation: 200ms cubic-bezier(.4, 0, 1, 1) both vtOut; }
+::view-transition-new(root) { animation: 320ms cubic-bezier(.22, 1, .36, 1) 120ms both vtIn; }
+::view-transition-group(zk-nav) { animation-duration: 320ms; animation-timing-function: cubic-bezier(.22, 1, .36, 1); }
+@media (prefers-reduced-motion: reduce) {
+  @view-transition { navigation: none; }
+}
+
+/* ---------- Book typography ---------- */
+html { hanging-punctuation: first allow-end last; font-variant-ligatures: common-ligatures contextual; }
+.text-read, .text-statement, .stat-l, .bow-l, .demo-cap, dd { text-wrap: pretty; }
+/* Figures that sit in columns or count: same width, lining. */
+.tnum, .stat-v, .bow-v, .plate-foot > p, time { font-variant-numeric: tabular-nums lining-nums; }
+/* Optical margin: large figures carry wide side bearings, so the column edge looks indented without this. */
+.stat-v, .bow-v { margin-left: -0.045em; }
+
+/* ---------- Project swipe (touch only) ---------- */
+html.swipe-nav { touch-action: pan-y pinch-zoom; }
+.swipe-hint { position: fixed; top: 50%; z-index: 44; display: none; align-items: center; gap: 6px; max-width: 46vw; padding: 9px 14px;
+  border-radius: 999px; font-size: 14px; line-height: 1.2; font-weight: 500; letter-spacing: -0.005em; white-space: nowrap; overflow: hidden;
+  text-overflow: ellipsis; color: var(--bone); background: rgba(20, 8, 11, .86);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08), 0 12px 30px -12px rgba(11, 3, 6, .55); opacity: 0; translate: 0 -50%; pointer-events: none; }
+.swipe-prev { left: 12px; }
+.swipe-next { right: 12px; }
+@media (hover: none) and (pointer: coarse) { .swipe-hint { display: inline-flex; } }
+.haptic { display: none; }
+
+/* ---------- Row preview (fine pointers, motion allowed) ---------- */
+.row-preview { position: fixed; left: 0; top: 0; z-index: 30; width: 280px; aspect-ratio: 16 / 10; border-radius: 12px; overflow: hidden;
+  background: var(--paper); pointer-events: none; opacity: 0; scale: .94; will-change: transform;
+  transition: opacity 260ms var(--e-quint), scale 520ms var(--e-expo);
+  box-shadow: 0 30px 60px -24px rgba(80, 50, 30, .38), 0 10px 20px -10px rgba(80, 50, 30, .22), 0 0 0 1px rgba(22, 12, 13, .06); }
+.row-preview.on { opacity: 1; scale: 1; }
+.row-preview img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 0; }
+@media not ((hover: hover) and (pointer: fine)) { .row-preview { display: none; } }
+@media (prefers-reduced-motion: reduce) { .row-preview { display: none; } }
+
+/* ---------- Print: a typeset document ---------- */
+.print-head { display: none; }
+@media print {
+  @page {
+    margin: 18mm 17mm 20mm;
+    @bottom-left { content: "zakariakortam.com"; font-size: 7.5pt; color: #7a7071; }
+    @bottom-right { content: counter(page) " of " counter(pages); font-size: 7.5pt; color: #7a7071; }
+  }
+  :root { --m: 0px; --g: 14px; --display: 30pt; --statement: 17pt; --read: 10.5pt; }
+  html, body { background: #fff !important; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body, body * { color: #160C0D !important; }
+  .c3, .c-ink50, .stat-l, .bow-l, dt, .plate-foot, .plate-foot * { color: #6e6465 !important; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+
+  /* Chrome, motion and media that mean nothing on paper */
+  #room, .nav, .menu, .cmdk, .skip, .footer, .swipe-hint, .row-preview, .haptic, #flip, video, audio, iframe, canvas,
+  .hero-layer, .hero-vignette, .hero-portrait, .hero-wm, .demo, .pills, .cmd-hint, .amb, .scrim, [data-ambient], .light,
+  .plate-link, .u-line, .rows-solo, .rows:has(.arrow-shift), .rows:has(.arrow-shift) + .rule-end,
+  .grid-main:has(> .col-span-full > .demo), .plate-stage, .pm-desk, [data-plate-media],
+  main:has([data-flip-target]) > .plate:not([data-flip-target]),
+  section.paper:has(> .grid-main.items-start > [data-media]) { display: none !important; }
+
+  /* Everything the reveal system holds back is simply there */
+  [data-reveal], [data-media], [data-enter], [data-open], [data-rise], [data-rule], .lni, .wm-rise, .wm-part, #page {
+    opacity: 1 !important; transform: none !important; translate: none !important; visibility: visible !important; clip-path: none !important; }
+  /* Title rises freeze screen line breaks; on paper the words reflow to the page measure. */
+  .ln, .lni { display: inline !important; overflow: visible !important; padding: 0 !important; margin: 0 !important; clip-path: none !important; }
+  .rows .whitespace-nowrap { white-space: normal !important; }
+
+  .print-head { display: block; width: 58mm; margin: 0 0 12mm; }
+  .print-head .wordmark .wm-line { display: block !important; }
+  .print-head .wordmark .wm-stack { display: none !important; }
+
+  /* Full-screen sections become plain flow */
+  .hero, .plate, .plate.reel, .role-hero, .contact, .nf, .paper {
+    display: block !important; height: auto !important; min-height: 0 !important; max-height: none !important; padding: 0 !important;
+    background: none !important; overflow: visible !important; }
+  .hero-statement, .hero-wm { position: static !important; }
+  .hero-statement p { font-size: 13pt !important; line-height: 1.3 !important; }
+  .hs-l { display: inline !important; }
+  .plate { margin-top: 9mm; break-inside: avoid; }
+  .plate .plate-head, .plate .plate-foot { display: grid !important; }
+  .plate .plate-line { margin-top: 2.5mm !important; padding-top: 0 !important; }
+  .plate .plate-foot { margin-top: 2mm !important; height: auto !important; }
+  .role-hero .plate-foot { margin-top: 3mm !important; }
+
+  /* The project hero keeps its picture, at a size that leaves room for the story */
+  .plate[data-flip-target] .plate-stage { display: block !important; margin: 6mm 0 0 !important; min-height: 0 !important; }
+  .plate[data-flip-target] .pm-flow { display: block !important; }
+  .plate[data-flip-target] .pm-flow > :not(.grid-main, .phone-box, .board-band) { display: none !important; }
+  .plate[data-flip-target] .pm-flow .grid-main, .plate[data-flip-target] .phone-box { display: block !important; height: auto !important; }
+  .plate[data-flip-target] .board-band { position: static !important; width: 100% !important; transform: none !important; -webkit-mask-image: none !important; mask-image: none !important; }
+  .plate[data-flip-target] .results { -webkit-mask-image: none !important; mask-image: none !important; }
+  .plate[data-flip-target] .card { box-shadow: none !important; border-radius: 3mm !important; border: .5pt solid rgba(22, 12, 13, .12); }
+  .plate[data-flip-target] .phone-shadow { filter: none !important; }
+  .plate[data-flip-target] .plate-stage img { display: block; width: auto !important; height: auto !important; max-width: 100% !important; max-height: 88mm !important; margin: 0 auto; }
+
+  /* Rhythm on paper */
+  .pt-page, .pt-statement, .contact { padding-top: 0 !important; }
+  .pb-sec, .pt-statement { padding-bottom: 0 !important; }
+  .pt-sec { padding-top: 10mm !important; }
+  .sec-pad { padding-block: 10mm 0 !important; }
+  .mt-sec, .contact-email, .contact-links, .contact-foot { margin-top: 9mm !important; }
+  .mt-big { margin-top: 12mm !important; }
+  .mt-head { margin-top: 4mm !important; }
+  .mt-stills { height: 0 !important; }
+  .pt-row { padding-top: 3mm !important; }
+  .py-row { padding-block: 3mm !important; }
+  .rows > li > a, .rows > li.row { padding-block: 2.5mm !important; }
+  .text-body { font-size: 8.5pt !important; }
+  .stat-v { font-size: 22pt !important; }
+  .stat-v.long { font-size: 13pt !important; }
+  .stat-l { font-size: 8pt !important; margin-top: 1mm; }
+  .bow { padding-top: 3mm; }
+  .bow-l { font-size: 8.5pt !important; }
+  .bow-v[data-final] { font-size: 0 !important; }
+  .bow-v[data-final]::before { content: attr(data-final); font-size: 26pt; }
+  .fit-email { font-size: 20pt !important; }
+  .rule, .tone-dark .rule, [data-tone="dark"] .rule { background: rgba(22, 12, 13, .22) !important; }
+  main [data-media] img { width: auto !important; max-width: 52mm !important; height: auto !important; }
+
+  /* Breaks */
+  h1, h2, h3, .plate-head { break-after: avoid; page-break-after: avoid; }
+  .rows > li, dl > div, .stat, .bow, figure, img, .plate[data-flip-target] .plate-stage { break-inside: avoid; page-break-inside: avoid; }
+  p, li { orphans: 3; widows: 3; }
+
+  /* Where links go, in small type after them */
+  main a[href^="http"]:not(.pill)::after { content: " " attr(href); font-size: 7pt; font-weight: 400; letter-spacing: 0; color: #7a7071 !important; word-break: break-all; }
+  main dd a[href^="http"]::after { display: block; }
+
+  /* Lists of work read as an index on paper: titles and years, no tiles */
+  .tile-media { display: none !important; }
+  .grid-main:has(> .tile) { row-gap: 2.5mm !important; }
+  .tile { padding-block: 2mm; border-top: .5pt solid rgba(22, 12, 13, .22); break-inside: avoid; }
+  .grid-main > h1, .grid-main > h2, .grid-main > p.text-statement, .hero-statement .grid-main > p { grid-column: 1 / -1 !important; }
+  .hero-statement { margin-bottom: 8mm; }
+  .plate .plate-foot { display: block !important; }
+  .grid-main:has(> h2.pt-row) { break-inside: avoid; }
+
+  /* Colophon */
+  #page::after { content: "Zakaria Kortam  ·  zakaria@zakariakortam.com  ·  zakariakortam.com"; display: block; margin-top: 8mm; padding-top: 3mm; break-before: avoid;
+    border-top: .5pt solid rgba(22, 12, 13, .22); font-size: 8pt; color: #6e6465 !important; }
+}
+
+/* ---------- Safe areas (viewport-fit=cover) ----------
+   Insets are 0 on desktops and most Android browsers, so these only move things where hardware is in the
+   way: the Dynamic Island and notches on top, the home indicator below, and the sides in landscape. */
+:root {
+  --sat: env(safe-area-inset-top, 0px);
+  --sab: env(safe-area-inset-bottom, 0px);
+  --sal: env(safe-area-inset-left, 0px);
+  --sar: env(safe-area-inset-right, 0px);
+  --plate-top: calc(96px + var(--sat));
+  --plate-bottom: calc(20px + var(--sab));
+}
+@media (min-width: 768px) { :root { --plate-top: calc(104px + var(--sat)); --plate-bottom: calc(24px + var(--sab)); } }
+@media (min-width: 1024px) { :root { --plate-top: calc(112px + var(--sat)); --plate-bottom: calc(40px + var(--sab)); } }
+.grid-main { padding-left: max(var(--m), var(--sal)); padding-right: max(var(--m), var(--sar)); }
+.nav { height: calc(var(--nav-h) + var(--sat)); padding-top: var(--sat); }
+.skip { top: calc(12px + var(--sat)); }
+.skip:not(:focus) { transform: translateY(calc(-100% - 16px - var(--sat))); }
+.menu > nav { padding-top: calc(128px + var(--sat)); }
+.menu > .grid-main.absolute { bottom: calc(20px + var(--sab)); }
+.pt-page { padding-top: calc(144px + var(--sat)); }
+@media (min-width: 768px) { .pt-page { padding-top: calc(168px + var(--sat)); } }
+@media (min-width: 1024px) { .pt-page { padding-top: calc(200px + var(--sat)); } }
+.contact { padding-top: calc(120px + var(--sat)); }
+@media (min-width: 768px) { .contact { padding-top: calc(136px + var(--sat)); } }
+@media (min-width: 1024px) { .contact { padding-top: calc(160px + var(--sat)); } }
+.nf { padding-bottom: calc(120px + var(--sab)); }
+@media (min-width: 768px) { .nf { padding-bottom: calc(136px + var(--sab)); } }
+@media (min-width: 1024px) { .nf { padding-bottom: calc(160px + var(--sab)); } }
+.swipe-prev { left: calc(12px + var(--sal)); }
+.swipe-next { right: calc(12px + var(--sar)); }
+.cmdk-panel { top: calc(min(18vh, 160px) + var(--sat)); }
+
+/* ---------- Very large monitors (QHD and 4K at 1x) ----------
+   The grid already caps at 2160px. Here the opening portrait and the product plates grow with the screen
+   instead of stopping at laptop sizes, so a 2560 or 3840 wide window still reads as one composed frame. */
+@media (min-width: 2400px) and (min-height: 1300px) {
+  .hero-portrait { height: min(70svh, 1200px, calc(100svh - 300px)); }
+  .plate.reel { max-height: none; }
+}
