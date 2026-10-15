@@ -34,22 +34,29 @@ export function Plate({
       data-plate={spec.id}
       data-comp={spec.composition}
       {...(flipTarget ? { 'data-flip-target': spec.id } : {})}
-      style={{ ['--ground' as string]: spec.ground, ['--title-lines' as string]: lines.length }}
+      style={{ ['--ground' as string]: spec.ground, ['--title-lines' as string]: 1 }}
     >
       <PlateMediaLayer spec={spec} />
 
       <div className="plate-head grid-main" data-flip-strip="">
-        <H className="c1 col-span-4 text-display md:col-span-12 lg:col-span-6">
+        <H className="c1 col-span-full text-display">
           <span className="title-u oc">
             <span className="block" data-rise="">
-              {lines.length > 1 ? lines.map((l) => <span key={l} className="block">{l}</span>) : lines[0]}
+              {lines.join(' ')}
             </span>
             {link && <span aria-hidden="true" className="u-line" />}
           </span>
         </H>
-        <p className="plate-line c2 col-span-4 text-read md:col-span-10 lg:col-span-5 lg:col-start-7" data-reveal="">
-          {line ?? noWidow(project.line)}
-        </p>
+        <div className="plate-sub col-span-4 md:col-span-8 lg:col-span-6">
+          <p className="plate-line c2 text-read" data-reveal="">
+            {line ?? noWidow(project.line)}
+          </p>
+          <div className="plate-meta" data-reveal="">
+            <span className="c3 text-body tnum">{project.year}</span>
+            {showGithub && project.links?.github && <LivePill href={project.links.github} label="GitHub" light={light} />}
+            {project.links?.live && <LivePill href={project.links.live} light={light} />}
+          </div>
+        </div>
       </div>
 
       {link && (
@@ -60,15 +67,6 @@ export function Plate({
         <PlateMediaFlow spec={spec} />
       </div>
 
-      <div className="plate-foot grid-main" data-flip-strip="">
-        <p className="c3 text-body" data-reveal="">
-          {project.year}
-        </p>
-        <div className="pills" data-reveal="" data-align="end">
-          {showGithub && project.links?.github && <LivePill href={project.links.github} label="GitHub" light={light} />}
-          {project.links?.live && <LivePill href={project.links.live} light={light} />}
-        </div>
-      </div>
     </section>
   )
 }

@@ -1,4 +1,5 @@
 import { domainOf } from '@/lib/site'
+import { Icon } from './Icon'
 
 export function LivePill({ href, label, light = false }: { href: string; label?: string; light?: boolean }) {
   const text = label ?? domainOf(href)
@@ -12,7 +13,7 @@ export function LivePill({ href, label, light = false }: { href: string; label?:
     >
       <span>{text}</span>
       <span aria-hidden="true" className="arr">
-        ↗
+        <Icon name="arrow-up-right" size="1em" strokeWidth={2.25} className="ar" />
       </span>
     </a>
   )

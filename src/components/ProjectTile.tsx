@@ -3,6 +3,7 @@ import { TLink } from './TLink'
 import { HERO_SIZES } from './PlateMedia'
 import type { Project } from '@/lib/projects-data'
 import { PHONE_SCREEN, PLATES } from '@/lib/media'
+import { Icon } from './Icon'
 
 const TILE_SIZES = '(min-width:1024px) 31vw, (min-width:768px) 48vw, 100vw'
 
@@ -33,7 +34,7 @@ export function ProjectTile({ project, index }: { project: Project; index: numbe
             <span aria-hidden="true" className="u-line" />
           </span>
           <span aria-hidden="true" className="tarr ml-[8px]">
-            ↗
+            <Icon name="arrow-up-right" size="1em" strokeWidth={2.25} className="ar" />
           </span>
         </span>
         <span className="c3 tnum whitespace-nowrap text-body" data-align="end">

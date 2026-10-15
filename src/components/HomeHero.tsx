@@ -38,19 +38,12 @@ export function HomeHero() {
 
       <div className="hero-vignette" aria-hidden="true" />
 
-      <div className="hero-statement">
-        <HeroLayer kind="statement">
-          <div className="grid-main">
-            <p className="hero-title col-span-full">
-              <span className="hs-l">{COPY.heroTitle}</span>
-            </p>
-          </div>
-        </HeroLayer>
-      </div>
-
       <div className="hero-wm">
         <HeroLayer kind="wordmark">
           <div className="grid-main">
+            <p className="hero-role col-span-4 md:col-span-12">
+              <span className="hs-l">{COPY.heroTitle}</span>
+            </p>
             <Wordmark as="h1" className="col-span-4 md:col-span-12" />
           </div>
         </HeroLayer>

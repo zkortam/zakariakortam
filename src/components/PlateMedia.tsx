@@ -29,7 +29,7 @@ const SCREEN_STYLE: CSSProperties = {
 
 /** A phone still with the product loop playing in its screen. The loop sits outside the drop-shadow filter (the
  *  still casts the shadow), so a playing video never re-runs the filter. */
-function PhoneWithLoop({ spec, desk }: { spec: PlateSpec; desk: boolean }) {
+export function PhoneWithLoop({ spec, desk }: { spec: PlateSpec; desk: boolean }) {
   const img = spec.primary
   const vid = spec.video
   return (

@@ -45,6 +45,9 @@ const PATHS = {
     </>
   ),
   up: <path d="M12 19V5M6 11l6-6 6 6" />,
+  'arrow-right': <path d="M5 12h14M13 6l6 6-6 6" />,
+  'arrow-left': <path d="M19 12H5M11 6l-6 6 6 6" />,
+  'arrow-up-right': <path d="M7 17 17 7M8.5 7H17v8.5" />,
   // Socials
   linkedin: (
     <>
@@ -78,7 +81,7 @@ const SURF_MARK = 'M153 73.5L163 73.5C163 73.5,171.05 75.15,174.25 76.25C177.05 
 
 export type IconName = keyof typeof PATHS | 'surf'
 
-export function Icon({ name, size = 20, strokeWidth = 2, ...rest }: { name: IconName; size?: number; strokeWidth?: number } & SVGProps<SVGSVGElement>) {
+export function Icon({ name, size = 20, strokeWidth = 2, ...rest }: { name: IconName; size?: number | string; strokeWidth?: number } & SVGProps<SVGSVGElement>) {
   if (name === 'surf')
     return (
       <svg aria-hidden="true" focusable="false" width={size} height={size} viewBox="38.75 42.25 176 176" fill="currentColor" {...rest}>

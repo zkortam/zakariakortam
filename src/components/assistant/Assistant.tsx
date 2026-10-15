@@ -545,7 +545,7 @@ export function Assistant() {
                 {chips.map((c) => (
                   <button key={c.id} type="button" className="ask-chip" onClick={c.run}>
                     Go to {c.label}
-                    <span aria-hidden="true">→</span>
+                    <span aria-hidden="true"><Icon name="arrow-right" size="1em" strokeWidth={2.25} className="ar" /></span>
                   </button>
                 ))}
               </div>

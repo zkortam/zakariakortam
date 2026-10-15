@@ -1,11 +1,9 @@
 import { HomeHero } from '@/components/HomeHero'
-import { Plate } from '@/components/Plate'
 import { Footer } from '@/components/Footer'
 import { TLink } from '@/components/TLink'
-import { BodyOfWork } from '@/components/BodyOfWork'
-import { featuredProjects } from '@/lib/projects-data'
-import { PLATES } from '@/lib/media'
+import { Bento } from '@/components/Bento'
 import { COPY } from '@/lib/site'
+import { Icon } from '@/components/Icon'
 
 export default function HomePage() {
   return (
@@ -24,14 +22,9 @@ export default function HomePage() {
 
         <section className="paper pb-sec" data-tone="light">
           <div className="grid-main">
-            <BodyOfWork />
+            <Bento />
           </div>
         </section>
-
-        {featuredProjects.map((p) => {
-          const spec = PLATES[p.id]
-          return spec ? <Plate key={p.id} project={p} spec={spec} /> : null
-        })}
 
         <section className="paper sec-pad" data-tone="light">
           <div className="grid-main">
@@ -45,7 +38,7 @@ export default function HomePage() {
                     </span>
                   </span>
                   <span className="text-statement" aria-hidden="true" data-reveal="" data-align="end">
-                    <span className="arrow-shift">→</span>
+                    <span className="arrow-shift"><Icon name="arrow-right" size="0.78em" strokeWidth={2.25} className="ar" /></span>
                   </span>
                 </span>
               </TLink>

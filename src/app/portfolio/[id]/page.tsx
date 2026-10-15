@@ -15,6 +15,7 @@ import { domainOf, noWidow } from '@/lib/site'
 import { pageMeta } from '@/lib/seo'
 import { ProjectStructuredData } from '@/components/StructuredData'
 import { HeroPreload } from '@/components/HeroPreload'
+import { Icon } from '@/components/Icon'
 
 type Params = { params: Promise<{ id: string }> }
 
@@ -186,7 +187,7 @@ export default async function ProjectPage({ params }: Params) {
             <div className="mt-stills" />
           </section>
           {!DEMOS[p.id] && <Stills spec={spec} />}
-          {nextSpec && <Plate project={next} spec={nextSpec} line="Next project →" />}
+          {nextSpec && <Plate project={next} spec={nextSpec} line={<>Next project <Icon name="arrow-right" size="0.9em" strokeWidth={2.25} className="ar" /></>} />}
         </main>
         <Footer />
       </>
@@ -204,23 +205,21 @@ export default async function ProjectPage({ params }: Params) {
         <section className="role-hero" data-tone="dark">
           <div aria-hidden="true" className="light light-rose" style={{ width: '100vmax', height: '100vmax', left: '70%', top: '30%', opacity: 0.8 }} />
           <div className="grid-main relative">
-            <h1 className="oc col-span-4 text-display md:col-span-12 lg:col-span-6" data-rise="">
+            <h1 className="oc col-span-full text-display" data-rise="">
               {p.title}
             </h1>
-            <p className="plate-line col-span-4 mt-[16px] text-read md:col-span-10 lg:col-span-5 lg:col-start-7 lg:mt-0" style={{ color: 'var(--bone-92)' }} data-reveal="">
-              {noWidow(p.line)}
-            </p>
-          </div>
-          <div className="plate-foot grid-main relative mt-[48px]">
-            <p className="text-body" style={{ color: 'var(--bone-64)' }} data-reveal="">
-              {p.role}, {p.year}
-            </p>
-            {(p.links?.live || p.links?.github) && (
-              <div className="pills" data-reveal="" data-align="end">
+            <div className="col-span-4 mt-[20px] md:col-span-8 lg:col-span-6">
+              <p className="plate-line text-read" style={{ color: 'var(--bone-92)' }} data-reveal="">
+                {noWidow(p.line)}
+              </p>
+              <div className="plate-meta" data-reveal="">
+                <span className="text-body" style={{ color: 'var(--bone-64)' }}>
+                  {p.role}, {p.year}
+                </span>
                 {p.links?.github && <LivePill href={p.links.github} label="GitHub" />}
                 {p.links?.live && <LivePill href={p.links.live} />}
               </div>
-            )}
+            </div>
           </div>
         </section>
         <section className="paper pt-sec pb-sec" data-tone="light">

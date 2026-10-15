@@ -3,6 +3,7 @@ import type { Project } from '@/lib/projects-data'
 import { noWidow } from '@/lib/site'
 import { previewOf } from '@/lib/preview'
 import { RowPreview } from './RowPreview'
+import { Icon } from './Icon'
 
 /** Earlier projects: title, line, year. */
 export function IndexRows({ items }: { items: Project[] }) {
@@ -48,7 +49,7 @@ export function NextRow({ href, title }: { href: string; title: string }) {
               </span>
             </span>
             <span className="col-span-1 text-right text-read md:col-span-2" data-reveal="" data-align="end" aria-hidden="true">
-              <span className="arrow-shift">→</span>
+              <span className="arrow-shift"><Icon name="arrow-right" size="0.78em" strokeWidth={2.25} className="ar" /></span>
             </span>
           </TLink>
         </li>

@@ -4,6 +4,7 @@ import { Fragment, type ReactNode } from 'react'
 import { isSitePath } from '@/lib/ask/links'
 import { EMAIL } from '@/lib/site'
 import { projects } from '@/lib/projects-data'
+import { Icon } from '../Icon'
 
 const PROJECT = /^\/portfolio\/([a-z0-9-]+)\/?$/
 const projectFor = (href: string) => {
@@ -200,7 +201,7 @@ function AskLink({
         }}
       >
         {label}
-        {chip && <span aria-hidden="true">→</span>}
+        {chip && <span aria-hidden="true"><Icon name="arrow-right" size="1em" strokeWidth={2.25} className="ar" /></span>}
       </a>
     )
   }
@@ -208,7 +209,7 @@ function AskLink({
     return (
       <a href={href} target="_blank" rel="noopener noreferrer" className={chip ? 'ask-chip' : 'ask-link'}>
         {label}
-        {chip && <span aria-hidden="true">↗</span>}
+        {chip && <span aria-hidden="true"><Icon name="arrow-up-right" size="1em" strokeWidth={2.25} className="ar" /></span>}
         <span className="sr-only">, opens in a new tab</span>
       </a>
     )

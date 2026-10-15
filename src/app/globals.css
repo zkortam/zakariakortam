@@ -231,7 +231,8 @@ html[data-route="entering"] #page { opacity: 0; transition: none; }
 
 /* Flow layout (< 1024) */
 .plate { min-height: 100svh; display: flex; flex-direction: column; padding: var(--plate-top) 0 0; }
-.plate .plate-line { margin-top: 16px; }
+.plate .plate-sub { margin-top: 16px; }
+.plate-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; margin-top: 24px; }
 .plate .plate-foot { order: 1; margin-top: 24px; }
 .plate .plate-stage { order: 2; margin-top: 40px; flex: 1 1 auto; min-height: 56svh; }
 .plate-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; row-gap: 12px; }
@@ -241,12 +242,12 @@ html[data-route="entering"] #page { opacity: 0; transition: none; }
 @media (min-width: 1024px) {
   .plate.reel {
     height: 100svh; min-height: 720px; max-height: 1200px;
-    display: grid; grid-template-rows: auto 1fr auto;
+    display: grid; grid-template-rows: auto 1fr;
     padding: var(--plate-top) 0 var(--plate-bottom);
-    --stage-top: calc(var(--plate-top) + var(--title-lines) * .88 * var(--display) + 64px);
-    --stage-bottom: calc(var(--plate-bottom) + 44px + 40px);
+    --stage-top: calc(var(--plate-top) + .88 * var(--display) + 16px + 2.8 * var(--read) + 24px + 44px + 48px);
+    --stage-bottom: calc(var(--plate-bottom) + 24px);
   }
-  .plate.reel .plate-line { margin-top: 0; }
+  .plate.reel .plate-sub { margin-top: 20px; }
   .plate.reel .plate-foot { order: 0; margin-top: 0; height: 44px; }
   .plate.reel .plate-stage { order: 0; margin-top: 0; min-height: 0; }
   .pm-grid { grid-template-rows: var(--stage-top) minmax(0, 1fr) var(--stage-bottom); }
@@ -328,9 +329,10 @@ html[data-route="entering"] #page { opacity: 0; transition: none; }
 .hero-glass[data-on] { opacity: 1; }
 html[data-quality="low"] .hero-glass { display: none; }
 .hero-vignette { position: absolute; left: 0; right: 0; bottom: 0; height: 34%; background: linear-gradient(transparent, #0B0306 85%); pointer-events: none; }
-/* The title is centred in the space between the bar and the top of the portrait. */
-.hero-statement { position: absolute; left: 0; right: 0; top: var(--nav-h); bottom: var(--ph); z-index: 3; display: grid; align-items: center; }
-.hero-title { margin: 0; text-align: center; font-size: clamp(36px, 3.6vw, 64px); line-height: 1; font-weight: 500; letter-spacing: -0.035em; color: var(--bone); }
+/* The role sits on the name, as one unit with it. */
+/* Phones: the portrait stands a little higher so the role reads on the dark of the shirt, not the face. */
+@media (max-width: 767px) { .hero-portrait { bottom: 104px; } }
+.hero-role { margin: 0 0 clamp(4px, .6vw, 12px); font-size: clamp(20px, 1.9vw, 32px); line-height: 1.1; font-weight: 500; letter-spacing: -0.02em; color: var(--bone-92); }
 .hero-wm { position: absolute; left: 0; right: 0; bottom: var(--plate-bottom); z-index: 3; }
 .fillw { width: 100%; height: 100%; }
 .hs-l { display: block; }
@@ -512,7 +514,6 @@ html:not(.js) .nav-menu-btn { display: none; }
 .plate[data-comp="results"] .plate-stage { min-height: 64svh; }
 .card picture, .card img { display: block; width: 100%; height: auto; }
 @media (min-width: 1024px) {
-  .plate.reel .plate-line { padding-top: calc(.085 * var(--display) - .245 * var(--read)); }
 }
 
 /* Footer */
@@ -541,10 +542,9 @@ html:not(.js) .nav-menu-btn { display: none; }
 @media (min-width: 1024px) { .mt-stills { height: 200px; } }
 
 /* Role and earlier-project heroes */
-.role-hero { position: relative; overflow: hidden; background: var(--ox); color: var(--bone); min-height: 560px; padding: var(--plate-top) 0 var(--plate-bottom); display: flex; flex-direction: column; justify-content: space-between; }
+.role-hero { position: relative; overflow: hidden; background: var(--ox); color: var(--bone); padding: var(--plate-top) 0 var(--sec); }
 @media (min-width: 1024px) {
   .role-hero { height: 72svh; }
-  .role-hero .plate-line { padding-top: calc(.085 * var(--display) - .245 * var(--read)); }
 }
 
 /* Contact */
@@ -718,8 +718,6 @@ html:not(.js) .nav-menu-btn { display: none; }
 [data-tone="dark"] .stat-l { color: var(--bone-64); }
 .stat-v.long { font-size: clamp(30px, 3.1vw, 52px); line-height: 1.05; letter-spacing: -0.035em; }
 .bow { padding-top: var(--row); }
-.bow-v { font-size: clamp(64px, 6.4vw, 128px); line-height: .9; letter-spacing: -0.055em; font-weight: 600; }
-.bow-l { margin-top: 12px; font-size: clamp(17px, 1.4vw, 22px); line-height: 1.3; color: var(--ink-60); }
 
 /* ---------- Work index: search and categories ---------- */
 .wi-search { position: relative; display: flex; align-items: center; gap: 12px; height: 56px; padding: 0 18px; border-radius: 999px; background: rgba(22, 12, 13, .055); transition: background-color 200ms var(--e-std); }
@@ -978,9 +976,9 @@ html[data-quality="low"] .idle-light > i { animation: none; will-change: auto; }
 
 /* ---------- Book typography ---------- */
 html { hanging-punctuation: first allow-end last; font-variant-ligatures: common-ligatures contextual; }
-.text-read, .text-statement, .stat-l, .bow-l, .demo-cap, dd { text-wrap: pretty; }
+.text-read, .text-statement, .stat-l, .demo-cap, dd { text-wrap: pretty; }
 /* Figures that sit in columns or count: same width, lining. */
-.tnum, .stat-v, .bow-v, .plate-foot > p, time { font-variant-numeric: tabular-nums lining-nums; }
+.tnum, .stat-v, .plate-foot > p, time { font-variant-numeric: tabular-nums lining-nums; }
 /* Optical margin: large figures carry wide side bearings, so the column edge looks indented without this. */
 .stat-v, .bow-v { margin-left: -0.045em; }
 
@@ -1017,7 +1015,7 @@ html.swipe-nav { touch-action: pan-y pinch-zoom; }
   html, body { background: #fff !important; }
   html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   body, body * { color: #160C0D !important; }
-  .c3, .c-ink50, .stat-l, .bow-l, dt, .plate-foot, .plate-foot * { color: #6e6465 !important; }
+  .c3, .c-ink50, .stat-l, dt, .plate-foot, .plate-foot * { color: #6e6465 !important; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
 
   /* Chrome, motion and media that mean nothing on paper */
@@ -1221,3 +1219,58 @@ a, button { transition-property: color, background-color, border-color, opacity,
   .hx-caption { max-width: 100%; font-size: 16px; }
   .hx-controls { justify-content: center; }
 }
+
+/* ---------- Home: bento index of the work ---------- */
+.bento { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
+@media (min-width: 768px) { .bento { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; } }
+@media (min-width: 1024px) { .bento { grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 20px; } }
+.bt { position: relative; display: flex; flex-direction: column; overflow: hidden; isolation: isolate; border-radius: 24px; background: var(--ground, var(--ox)); color: var(--ink); min-height: 480px; }
+.bt[data-tone="dark"] { color: var(--bone); }
+@media (min-width: 1024px) { .bt { border-radius: 28px; min-height: 0; } }
+.bt-head { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 8px; padding: 28px 28px 0; }
+@media (min-width: 1024px) { .bt-head { padding: 36px 40px 0; } }
+.bt-title { font-size: 28px; line-height: 1.1; font-weight: 600; letter-spacing: -0.025em; }
+@media (min-width: 1024px) { .bt-title { font-size: 34px; } }
+.bt-line { max-width: 34ch; font-size: 17px; line-height: 1.4; opacity: .64; }
+.bt-media { position: relative; flex: 1 1 auto; display: flex; align-items: flex-start; justify-content: center; min-height: 0; padding: 28px 28px 0; }
+.bt-media > * { transition: transform 900ms var(--e-expo); will-change: transform; }
+@media (hover: hover) { .bt:hover .bt-media > * { transform: translateY(-8px); } }
+.bt:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+/* Screens: the capture rises from the bottom edge. */
+.bt-shot .bt-media img { width: 100%; height: auto; border-radius: 14px 14px 0 0; box-shadow: 0 0 0 1px rgba(255,255,255,.06), 0 -20px 60px -20px rgba(0,0,0,.45); }
+.bt-shot[data-tone="light"] .bt-media img { box-shadow: 0 0 0 1px rgba(22,12,13,.06), 0 -20px 60px -24px rgba(22,12,13,.25); }
+.bt-helio .bt-card { display: block; width: 100%; overflow: hidden; border-radius: 18px 18px 0 0; box-shadow: 0 -20px 60px -24px rgba(22,12,13,.22); }
+.bt-helio .bt-card video, .bt-helio .bt-card img { display: block; width: 100%; height: auto; }
+/* Phones: half a phone, cut by the tile's bottom edge. */
+.bt-phone .bt-media { align-items: flex-start; padding-top: 32px; }
+.bt-phone .bt-media > * { flex: none; width: min(280px, 64%); }
+.bt-phone .phone-shadow, .bt-phone .phone-shadow img { width: 100% !important; height: auto !important; max-width: none !important; margin: 0 !important; }
+.bt-airo .bt-media { padding-top: 32px; }
+.bt-airo .bt-media img { width: min(380px, 78%); height: auto; border-radius: 22px 22px 0 0; box-shadow: 0 0 0 1px rgba(255,255,255,.08); }
+.bt-stats { justify-content: center; gap: 28px; padding: 36px 28px; background: #FBF9F6; color: var(--ink); min-height: 0; box-shadow: inset 0 0 0 1px rgba(22,12,13,.05); }
+@media (min-width: 1024px) { .bt-stats { padding: 40px; } }
+.bt-stats p { display: flex; flex-direction: column; gap: 4px; }
+.bt-num { font-size: clamp(44px, 4.4vw, 68px); line-height: .95; letter-spacing: -0.05em; font-weight: 600; }
+.bt-lab { font-size: 16px; line-height: 1.35; color: var(--ink-60); }
+@media (min-width: 768px) and (max-width: 1023px) {
+  .bt-helio, .bt-spice, .bt-rtl { grid-column: span 2; }
+  .bt { min-height: 520px; }
+  .bt-stats { min-height: 0; }
+}
+@media (min-width: 1024px) {
+  .bt-helio { grid-column: span 8; height: 620px; }
+  .bt-surf { grid-column: span 4; height: 620px; }
+  .bt-stats { grid-column: span 4; height: 540px; }
+  .bt-spice { grid-column: span 8; height: 540px; }
+  .bt-messenger { grid-column: span 4; height: 620px; }
+  .bt-rtl { grid-column: span 8; height: 620px; }
+  .bt-airo { grid-column: span 12; height: 560px; flex-direction: row; }
+  .bt-airo .bt-head { flex: 0 0 40%; padding-bottom: 40px; }
+  .bt-airo .bt-media { padding: 48px 40px 0; }
+  .bt-helio .bt-media, .bt-spice .bt-media, .bt-rtl .bt-media { padding: 36px 56px 0; }
+}
+@media (prefers-reduced-motion: reduce) { .bt-media > * { transition: none; } }
+
+/* Arrows: the icon set's thick rounded arrow, sitting on the text's baseline. */
+.ar { display: inline-block; vertical-align: -0.12em; flex: none; }
+@media (max-width: 767px) { .plate-meta > span:first-child { flex-basis: 100%; } }

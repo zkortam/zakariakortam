@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { useTransitionNav } from './Transitions'
+import { Icon } from './Icon'
 
 /** Gestures that start here belong to the element, never to page navigation. */
 const IGNORE =
@@ -178,10 +179,10 @@ export function ProjectSwipe({ prev, next, prevTitle, nextTitle }: { prev: strin
   return createPortal(
     <>
       <div ref={prevHint} className="swipe-hint swipe-prev" aria-hidden="true">
-        <span>←</span> {prevTitle}
+        <span><Icon name="arrow-left" size="1em" strokeWidth={2.25} className="ar" /></span> {prevTitle}
       </div>
       <div ref={nextHint} className="swipe-hint swipe-next" aria-hidden="true">
-        {nextTitle} <span>→</span>
+        {nextTitle} <span><Icon name="arrow-right" size="1em" strokeWidth={2.25} className="ar" /></span>
       </div>
       <label ref={tick} className="haptic" aria-hidden="true">
         <input type="checkbox" tabIndex={-1} {...{ switch: '' }} />
