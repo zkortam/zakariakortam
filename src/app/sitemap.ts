@@ -20,6 +20,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: absUrl('/'), lastModified, changeFrequency: 'monthly', priority: 1 },
     { url: absUrl('/portfolio'), lastModified, changeFrequency: 'monthly', priority: 0.9 },
     { url: absUrl('/about'), lastModified, changeFrequency: 'monthly', priority: 0.8 },
+    { url: absUrl('/now'), lastModified, changeFrequency: 'monthly', priority: 0.7 },
     { url: absUrl('/contact'), lastModified, changeFrequency: 'yearly', priority: 0.6 },
   ]
   // Featured projects lead; roles and earlier projects follow.

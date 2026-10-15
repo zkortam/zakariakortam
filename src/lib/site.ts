@@ -3,6 +3,7 @@ export const EMAIL = 'zakaria@zakariakortam.com'
 export const NAV = [
   { href: '/portfolio', label: 'Work' },
   { href: '/about', label: 'About' },
+  { href: '/now', label: 'Now' },
   { href: '/contact', label: 'Contact' },
 ] as const
 
