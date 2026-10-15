@@ -36,7 +36,7 @@ export function MobileMenu({
     html.style.overflow = 'hidden'
     getLenis()?.stop()
     const el = ref.current
-    const first = el?.querySelector<HTMLElement>('a')
+    const first = el?.querySelector<HTMLElement>('a, button')
     first?.focus({ preventScroll: true })
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
@@ -45,7 +45,7 @@ export function MobileMenu({
         return
       }
       if (e.key !== 'Tab' || !el) return
-      const nodes = [returnTo.current, ...Array.from(el.querySelectorAll<HTMLElement>('a'))].filter(Boolean) as HTMLElement[]
+      const nodes = [returnTo.current, ...Array.from(el.querySelectorAll<HTMLElement>('a, button'))].filter(Boolean) as HTMLElement[]
       const i = nodes.indexOf(document.activeElement as HTMLElement)
       e.preventDefault()
       const next = e.shiftKey ? (i <= 0 ? nodes.length - 1 : i - 1) : i === nodes.length - 1 ? 0 : i + 1
@@ -83,6 +83,21 @@ export function MobileMenu({
               </span>
             </li>
           ))}
+          <li className="ln">
+            <span className="mi" style={{ ['--i' as string]: NAV.length }}>
+              <button
+                type="button"
+                className="oc block text-display text-left"
+                tabIndex={open ? 0 : -1}
+                onClick={() => {
+                  onClose()
+                  window.dispatchEvent(new Event('zk:ask'))
+                }}
+              >
+                Ask
+              </button>
+            </span>
+          </li>
         </ul>
       </nav>
       <div className="grid-main absolute bottom-[20px] left-0 right-0">

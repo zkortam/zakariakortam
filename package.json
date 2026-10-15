@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev -H 0.0.0.0 --turbopack",
+    "prebuild": "node scripts/build-knowledge.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "bunx tsc --noEmit && next lint",

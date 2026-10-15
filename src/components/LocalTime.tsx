@@ -28,7 +28,7 @@ export function LocalTime() {
 export function CommandHint() {
   return (
     <button type="button" className="cmd-hint flink" onClick={() => window.dispatchEvent(new Event('zk:command'))}>
-      <kbd>⌘K</kbd> to jump anywhere
+      <kbd>⌘K</kbd> to jump or ask
     </button>
   )
 }
