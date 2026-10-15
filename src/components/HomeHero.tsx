@@ -2,31 +2,7 @@ import Image from 'next/image'
 import { HeroDepth, HeroLayer } from './HeroDepth'
 import { Wordmark } from './Wordmark'
 import { PortraitLight } from './PortraitLight'
-import { TLink } from './TLink'
-import { HeroField } from './HeroField'
 import { COPY } from '@/lib/site'
-
-const NAMED: Record<string, string> = { Helio: 'helio', Surf: 'surf', 'SPICE++': 'spice-plus-plus', AiroFind: 'airofind' }
-
-/** A product named in the opening line: its picture, then its name, linking to its page. */
-function Named({ name }: { name: string }) {
-  const id = NAMED[name]
-  return (
-    <TLink href={`/portfolio/${id}`} className="hs-name u-group">
-      <span className="hs-thumb" aria-hidden="true">
-        <Image src={`/work/thumb/${id}.webp`} alt="" width={96} height={96} sizes="48px" quality={82} priority />
-      </span>
-      <span className="u-box">
-        {name}
-        <span aria-hidden="true" className="u-line" />
-      </span>
-    </TLink>
-  )
-}
-
-function withNames(line: string) {
-  return line.split(/(Helio|Surf|SPICE\+\+|AiroFind)/).map((part, i) => (NAMED[part] ? <Named key={i} name={part} /> : part))
-}
 
 /** The opening plate: letterbox gate, light gathering behind the portrait, the name rising and parting. */
 export function HomeHero() {
@@ -36,7 +12,6 @@ export function HomeHero() {
         <HeroLayer kind="bloom" className="hero-bloom">
           <div className="fill bloom-in" />
         </HeroLayer>
-        <HeroField />
       </div>
 
       <div className="hero-portrait">
@@ -64,10 +39,10 @@ export function HomeHero() {
       <div className="hero-statement">
         <HeroLayer kind="statement">
           <div className="grid-main">
-            <p className="hs-p text-read col-span-4 md:col-span-6 md:col-start-7" style={{ color: 'var(--bone-92)' }}>
+            <p className="hs-p text-read col-span-4 md:col-span-5 md:col-start-7" style={{ color: 'var(--bone-92)' }}>
               {COPY.heroLines.map((l, i) => (
                 <span key={i} className="hs-l" style={{ ['--i' as string]: i }}>
-                  {withNames(l)}
+                  {l}
                   {i < COPY.heroLines.length - 1 ? ' ' : ''}
                 </span>
               ))}

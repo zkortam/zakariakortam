@@ -21,7 +21,7 @@ function siteFacts(): string {
   lines.push('Education:')
   for (const e of COPY.education) lines.push(`- ${e.label}: ${e.value}`)
   lines.push(
-    'Measured across all of his repositories: 1.46 million lines of TypeScript, Rust, and Python; 28,295 tests; 8,687 commits in 2026.',
+    'Measured across all of his repositories: 1.46 million lines of TypeScript, Rust, and Python; 28,295 tests; 8,580 commits, all in 2026.',
   )
 
   const block = (kind: 'work' | 'project', heading: string) => {

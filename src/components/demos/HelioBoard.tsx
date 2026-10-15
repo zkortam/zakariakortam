@@ -17,8 +17,6 @@ const DEFAULT = '3(x − 2) = 2x + 5'
 const EXAMPLES = ['4(x + 3) = 2x − 6', 'x/2 + 1 = 5', '5 − 2x = 3(x + 5)']
 const BEAT = 3.2 // seconds per beat
 const CHECK = 0.16 // share of a beat spent verifying before anything is said
-const OPEN = BEAT * 0.8 // the board opens with the first line already written, never empty
-const REST = 5 // seconds the finished board holds before the example plays again
 
 export function HelioBoard() {
   const { ref, live, reduced } = useLive<HTMLDivElement>()
@@ -26,19 +24,11 @@ export function HelioBoard() {
   const [text, setText] = useState(DEFAULT)
   const [sol, setSol] = useState<Solution>(() => solve(DEFAULT))
   const [err, setErr] = useState<string | null>(null)
-  const [t, setT] = useState(OPEN)
-  const [own, setOwn] = useState(false)
+  const [t, setT] = useState(0)
 
   const n = sol.beats.length
   const end = BEAT * n
-  // The example replays after a rest; an equation the visitor typed stays on the board once it is solved.
-  const hold = own ? end + 1 : end + REST
-  useClock(live && !reduced && t < hold, (_, dt) =>
-    setT((v) => {
-      const next = v + dt
-      return next >= hold && !own ? OPEN : Math.min(hold, next)
-    }),
-  )
+  useClock(live && !reduced && t < end + 1, (_, dt) => setT((v) => Math.min(end + 1, v + dt)))
   const now = reduced || !Number.isFinite(t) ? end + 1 : Math.max(0, t)
 
   const submit = (value: string) => {
@@ -46,7 +36,6 @@ export function HelioBoard() {
       const s = solve(value)
       setSol(s)
       setErr(null)
-      setOwn(true)
       setT(0)
     } catch (e) {
       setErr(e instanceof AlgebraError ? e.message : 'That does not read as an equation yet.')

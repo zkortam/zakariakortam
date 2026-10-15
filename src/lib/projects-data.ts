@@ -27,10 +27,6 @@ export interface Project {
   tags?: Category[]
   /** Measured from the project's repository. */
   stats?: { value: string; label: string }[]
-  /** How it works, as four steps left to right. */
-  flow?: { t: string; d: string }[]
-  /** Roles: the one result a card leads with. */
-  highlight?: string
   /** The live demo section on the project page. */
   demo?: { title: string; line: string }
 }
@@ -42,13 +38,13 @@ export const projects: Project[] = [
     tags: ['Roles'],
     title: 'DigiCert',
     line: 'New products in digital trust: certificates, PKI, and identity.',
-    highlight: 'Customer discovery and early prototypes for what comes next in digital trust.',
     kind: 'work',
     featured: true,
     year: '2026 to now',
-    role: 'Product Manager, Innovation',
+    role: 'Associate Product Manager, Innovation',
     org: 'DigiCert',
-    overview: 'I work on new products at DigiCert, the certificate authority behind a large share of the web’s TLS, code signing, and PKI. It serves more than 125,000 customers, including most of the Fortune 500.',
+    overview:
+      'I work on new products at DigiCert, the certificate authority behind a large share of the web’s TLS, code signing, and PKI.',
     problem:
       'Trust on the internet is changing quickly. Certificate lifetimes are getting shorter, post-quantum cryptography is coming, and AI agents need identities you can verify.',
     approach:
@@ -59,15 +55,15 @@ export const projects: Project[] = [
   {
     id: 'facilis-ai',
     tags: ['Roles', 'AI'],
-    title: 'Facilis',
+    title: 'FacilisAI',
     line: 'Agents that work with factory systems: PLCs, MES, and SCADA.',
-    highlight: 'Plant tasks that took a month now take hours. 20 enterprise testers, provisional contracts.',
     kind: 'work',
     featured: true,
     year: '2025 to 2026',
     role: 'Founding AI Engineer',
-    org: 'Facilis',
-    overview: 'I built Facilis’s main product, a platform that connects plant systems (PLCs, MES, SCADA) to AI agents. Operators use it through chat and through scheduled background tasks.',
+    org: 'FacilisAI',
+    overview:
+      'I built FacilisAI’s main product, a platform that connects plant systems (PLCs, MES, SCADA) to AI agents. Operators use it through chat and scheduled background tasks.',
     problem:
       'Plant software is air-gapped and old. Work that touches it is slow and manual, and cloud AI can’t reach it.',
     approach:
@@ -85,22 +81,21 @@ export const projects: Project[] = [
     tags: ['Roles', 'AI'],
     title: 'Incorta',
     line: 'Charts and schema interpreters behind the AI Copilot dashboard.',
-    highlight: 'The chart engine behind Incorta’s AI Copilot, at 90%+ test coverage.',
     kind: 'work',
     featured: true,
     year: '2024 to 2025',
     role: 'Product Engineering Intern',
     org: 'Incorta',
-    overview: 'I built the TypeScript interpreters that turn model-generated JSON specs into streamed charts for Incorta’s AI Copilot, and the components underneath them on Incorta’s Component SDK.',
+    overview:
+      'I built the TypeScript interpreters that turn model-generated JSON specs into streamed charts for Incorta’s AI Copilot, and the charting library underneath them.',
     problem:
       'The Copilot had to draw fast, correct charts from model output over enterprise data, with the access controls enterprise customers expect.',
     approach:
       'Shipped 5+ features from PRD through design review, QA, and rollout. Set up CI on GitHub Actions and defined adoption, completion, and latency metrics.',
     results: [
       'Tables, sparklines, and time series from one spec format',
-      'Info cards, an advanced table, and a connected dot plot on the Component SDK',
-      'Presented at Incorta’s 2024 intern demo day',
       '90%+ test coverage in CI',
+      'RBAC, audit logging, and accessibility in the release checklist',
     ],
     stack: ['TypeScript', 'React', 'SQL', 'Jest', 'GitHub Actions', 'Figma'],
     links: { live: 'https://incorta.com' },
@@ -110,7 +105,6 @@ export const projects: Project[] = [
     tags: ['Roles', 'Consumer apps'],
     title: 'Inqueue',
     line: 'Took a queuing app from research to a shipped Flutter MVP.',
-    highlight: 'A queuing app taken from market research to a shipped Flutter MVP.',
     kind: 'work',
     featured: true,
     year: '2023',
@@ -142,9 +136,8 @@ export const projects: Project[] = [
       'A Rust core compiled to WebAssembly runs the board, layout, and handwriting. Every claim gets checked before it is spoken. A provider layer lets me swap model and voice vendors.',
     results: [
       'Speech and handwriting synced word by word',
-      'Every math step checked before it is spoken',
-      'Ages 8 to 18, in English, French, Spanish, and Arabic',
-      'Roster sync with Clever and ClassLink for schools',
+      'Claims checked before they are spoken',
+      'Accounts for students, parents, teachers, and districts',
     ],
     stack: ['Rust', 'WebAssembly', 'TypeScript', 'Cloudflare', 'Supabase'],
     links: { live: 'https://helio.education' },
@@ -155,12 +148,6 @@ export const projects: Project[] = [
       { value: '4', label: 'Rust crates, one core shared by client and server' },
     ],
     demo: { title: 'Give it an equation', line: 'Type any linear equation. Every step is checked before the tutor says it, then written on the board in sync with the words.' },
-    flow: [
-      { t: 'You talk', d: 'Ask out loud, and interrupt whenever you want.' },
-      { t: 'It plans', d: 'A model works out the next step. Model and voice vendors swap behind one layer.' },
-      { t: 'It checks', d: 'Every math step is verified before a word of it is spoken.' },
-      { t: 'It writes and speaks', d: 'A Rust core in WebAssembly writes the board in time with the voice.' },
-    ],
   },
   {
     id: 'surf',
@@ -170,7 +157,7 @@ export const projects: Project[] = [
     line: 'A social network with feeds, short video, messaging, and live, on web, iOS, and Android.',
     kind: 'project',
     featured: true,
-    year: '2021 to now',
+    year: '2022 to now',
     role: 'Product, design, and engineering',
     overview:
       'Surf has feeds, posts, shorts with a video editor in the browser, messaging and calls, live streaming, creator analytics, subscriptions, and family controls. One Next.js codebase runs the web app and the iOS and Android apps.',
@@ -182,7 +169,6 @@ export const projects: Project[] = [
       '150+ routes on web, iOS, and Android',
       'Shorts, live streaming, and calls',
       'Moderation and family controls built in',
-      'No ads on any plan',
     ],
     stack: ['Next.js', 'React', 'TypeScript', 'Supabase', 'Capacitor'],
     links: { live: 'https://surfsocial.org' },
@@ -191,12 +177,6 @@ export const projects: Project[] = [
       { value: '24,249', label: 'tests' },
       { value: '1,935', label: 'database migrations' },
       { value: '5,969', label: 'commits this year' },
-    ],
-    flow: [
-      { t: 'One codebase', d: 'Next.js and React for every screen.' },
-      { t: 'Three platforms', d: 'The same app on the web, iOS, and Android.' },
-      { t: 'One backend', d: 'Supabase Postgres, with access rules tested against a live database.' },
-      { t: 'Shipped through CI', d: 'Type checks, unit tests, and end-to-end tests on every change.' },
     ],
   },
   {
@@ -225,18 +205,6 @@ export const projects: Project[] = [
       { value: '4', label: 'platforms: Mac, Windows, iOS, Android' },
     ],
     demo: { title: 'Sealed before it leaves', line: 'Type a message and send it. It is encrypted in your browser right now, and the middle lane is everything a server ever sees.' },
-    results: [
-      'No phone number needed to sign up',
-      'Groups of up to 256, end to end encrypted',
-      'Peer-to-peer calls, up to 8 voice or 4 video',
-      'Search runs on your device',
-    ],
-    flow: [
-      { t: 'Key agreement', d: 'X3DH sets up a shared secret that no server ever holds.' },
-      { t: 'A key per message', d: 'The Double Ratchet moves to a new key after every message.' },
-      { t: 'Sealed in transit', d: 'Servers relay ciphertext and cannot read it.' },
-      { t: 'Every device', d: 'Mac, Windows, and phones run the same web app.' },
-    ],
   },
   {
     id: 'spice-plus-plus',
@@ -255,10 +223,9 @@ export const projects: Project[] = [
     approach:
       'A modified nodal analysis solver with operating point, DC sweep, transient, and AC analysis, plus diode, MOSFET, and op-amp models. An AI assistant can place parts, wire them, run the simulation, and debug the circuit. It imports and exports SPICE, LTspice, KiCad, and Verilog.',
     results: [
-      '.op, .dc, .tran, and .ac analysis, plus Monte Carlo',
-      'Matches ngspice on 13 of 14 reference circuits, published openly',
-      '4,169 checks passing across 9 test suites',
-      'An agent that places parts, wires them, and runs the simulation',
+      '.op, .dc, .tran, and .ac analysis',
+      'AI assistant with 15+ circuit tools',
+      'Checked against UCSD ECE coursework',
     ],
     stack: ['TypeScript', 'Azure OpenAI', 'Supabase', 'Stripe'],
     links: { live: 'https://www.spicepp.com' },
@@ -269,12 +236,6 @@ export const projects: Project[] = [
       { value: '4', label: 'file formats in and out' },
     ],
     demo: { title: 'Run the engine', line: 'This is the SPICE++ simulation engine, running in your browser. Pick a circuit, drag a value, and it solves again.' },
-    flow: [
-      { t: 'Draw or import', d: 'A schematic editor that opens SPICE, LTspice, KiCad, and Verilog.' },
-      { t: 'Build the matrix', d: 'Modified nodal analysis across 21 device types.' },
-      { t: 'Solve', d: 'Operating point, DC sweep, transient, AC, and Monte Carlo.' },
-      { t: 'Read it', d: 'Bode plots and scopes, with an agent that can run every step.' },
-    ],
   },
   {
     id: 'rtl-plus-plus',
@@ -293,10 +254,9 @@ export const projects: Project[] = [
     approach:
       'When a test fails, RTL++ traces the wrong value back through the waveform to the line of code that set it, and shows each step of that chain next to the source.',
     results: [
-      'Every test runs in Icarus Verilog and again on the Yosys netlist',
+      'Verilog and SystemVerilog, tested in two simulators',
       'Traces any value back to the line that made it',
-      'Builds for 11 iCE40 and ECP5 devices',
-      'An assistant with 18 tools that has to cite a run as evidence',
+      'Builds for iCE40 and ECP5 FPGAs',
     ],
     stack: ['TypeScript', 'Verilog', 'WebAssembly', 'FPGA toolchains'],
     links: { live: 'https://rtlpp.vercel.app' },
@@ -307,12 +267,6 @@ export const projects: Project[] = [
       { value: '93', label: 'commits in two days' },
     ],
     demo: { title: 'From failure to fix', line: 'A test fails, RTL++ walks the wrong value back to the line that caused it, and the fix passes. Then the counter is yours to edit and run.' },
-    flow: [
-      { t: 'Write', d: 'Verilog or SystemVerilog in the browser, nothing to install.' },
-      { t: 'Simulate twice', d: 'Icarus Verilog, then a replay of the Yosys netlist.' },
-      { t: 'Trace', d: 'A wrong value is walked back to the line that set it.' },
-      { t: 'Build', d: 'Bitstreams for 11 iCE40 and ECP5 devices.' },
-    ],
   },
   {
     id: 'airofind',
@@ -337,23 +291,12 @@ export const projects: Project[] = [
       { value: '1', label: 'scraper on its own Azure VM' },
     ],
     demo: { title: 'The whole window at once', line: 'AiroFind reads every departure and return pair around your dates in a few page loads, then picks the cheapest.' },
-    results: [
-      '1,500+ airports, all four cabin classes',
-      'Every date pair around your trip, priced at once',
-      'Free to use',
-    ],
-    flow: [
-      { t: 'Your trip', d: 'Origin, destination, and roughly when.' },
-      { t: 'Every date pair', d: 'A grid of departures and returns around those dates.' },
-      { t: 'Priced at once', d: 'A scraper on its own Azure VM reads 49 fares per grid.' },
-      { t: 'Cheapest first', d: 'Results on a plain black page, nothing in the way.' },
-    ],
   },
   {
     id: 'documap-ai',
     tags: ['AI', 'Hackathons'],
     title: 'Documap',
-    line: 'Contract analysis that pulls out clauses, defined terms, and what changed.',
+    line: 'Contract analysis. Won the SAG-AFTRA Challenge at Stanford Law.',
     kind: 'project',
     featured: false,
     year: '2025',
@@ -448,7 +391,7 @@ export const projects: Project[] = [
     id: 'alex-ai',
     tags: ['AI', 'Hackathons'],
     title: 'Alex AI',
-    line: 'Picks a business structure and files the formation paperwork.',
+    line: 'Picks a business structure and files the paperwork. 1st at TedAI × Microsoft.',
     kind: 'project',
     featured: false,
     year: '2023',
@@ -471,9 +414,6 @@ export const projects: Project[] = [
       'An Arduino robot that follows a path using RGB sensing, IR and light sensors, and a PID controller I tuned in MATLAB.',
     stack: ['Arduino', 'C/C++', 'MATLAB'],
     links: { live: 'https://nexusrobot.org' },
-    results: [
-      '2nd of 8 teams in two competition events',
-    ],
   },
   {
     id: 'risk-factors-viz',
@@ -505,7 +445,7 @@ export const projects: Project[] = [
     id: 'clippy-2',
     tags: ['AI', 'Consumer apps'],
     title: 'Clippy 2.0',
-    line: 'Clippy, brought back as a GPT-3.5 chatbot with an old Windows look.',
+    line: 'Clippy, brought back as a chatbot. 1,200+ users.',
     kind: 'project',
     featured: false,
     year: '2023',

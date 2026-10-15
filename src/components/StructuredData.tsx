@@ -25,7 +25,7 @@ export function StructuredData() {
             name: SITE_NAME,
             url: `${SITE_URL}/`,
             image: absUrl('/zakaria.png'),
-            jobTitle: 'Product Manager',
+            jobTitle: 'Associate Product Manager',
             worksFor: { '@type': 'Organization', name: 'DigiCert', url: 'https://www.digicert.com' },
             alumniOf: [
               { '@type': 'CollegeOrUniversity', name: 'UC San Diego', url: 'https://ucsd.edu' },

@@ -25,7 +25,7 @@ const EXAMPLES = [
   'How does AiroFind find cheap flights?',
   'Show me his AI projects',
   'What is Helio and how does it work?',
-  'What did he build at Facilis?',
+  'What did he build at FacilisAI?',
   'How does he use AI to build?',
 ]
 const MAX_CHARS = 1500

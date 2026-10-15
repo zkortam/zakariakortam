@@ -3,12 +3,7 @@ import { Plate } from '@/components/Plate'
 import { Footer } from '@/components/Footer'
 import { TLink } from '@/components/TLink'
 import { BodyOfWork } from '@/components/BodyOfWork'
-import { earlierProjects, featuredProjects } from '@/lib/projects-data'
-import { ExperienceList } from '@/components/ExperienceList'
-import { EarlierCards } from '@/components/EarlierCards'
-
-/** Three earlier projects for the home page: a win, a working robot, an open-source SDK. */
-const ALSO = ['documap-ai', 'robodog', 'wingman']
+import { featuredProjects } from '@/lib/projects-data'
 import { PLATES } from '@/lib/media'
 import { COPY } from '@/lib/site'
 
@@ -37,25 +32,6 @@ export default function HomePage() {
           const spec = PLATES[p.id]
           return spec ? <Plate key={p.id} project={p} spec={spec} /> : null
         })}
-
-        <section className="paper pt-sec" data-tone="light">
-          <div className="grid-main">
-            <h2 className="oc col-span-4 text-display md:col-span-12" data-rise="">
-              Roles
-            </h2>
-            <div className="mt-head col-span-full">
-              <ExperienceList />
-            </div>
-          </div>
-          <div className="grid-main mt-big">
-            <h2 className="oc col-span-4 text-statement md:col-span-12" data-rise="">
-              Also built
-            </h2>
-            <div className="mt-head col-span-full">
-              <EarlierCards items={ALSO.map((id) => earlierProjects.find((p) => p.id === id)!).filter(Boolean)} />
-            </div>
-          </div>
-        </section>
 
         <section className="paper sec-pad" data-tone="light">
           <div className="grid-main">

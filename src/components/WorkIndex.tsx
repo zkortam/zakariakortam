@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { ProjectTile } from './ProjectTile'
 import { ExperienceList } from './ExperienceList'
-import { EarlierCards } from './EarlierCards'
+import { IndexRows } from './IndexRows'
 import { projects, type Category, type Project } from '@/lib/projects-data'
 
 const FILTERS: [string, Category | 'All'][] = [
@@ -164,10 +164,9 @@ export function WorkIndex() {
         )}
 
         {featured.length > 0 && (
-          <div className="grid-main bento mt-sec gap-y-[56px] md:gap-y-[64px] lg:gap-y-[72px]">
+          <div className="grid-main mt-sec gap-y-[64px] md:gap-y-[80px] lg:gap-y-[96px]">
             {featured.map((p, i) => (
-              // Big and small alternate sides row by row: 7 + 5, then 5 + 7.
-              <ProjectTile key={p.id} project={p} index={i} big={featured.length > 2 && (i % 4 === 0 || i % 4 === 3)} />
+              <ProjectTile key={p.id} project={p} index={i} />
             ))}
           </div>
         )}
@@ -185,7 +184,7 @@ export function WorkIndex() {
           <div className="grid-main mt-sec">
             <h2 className="oc col-span-4 text-statement md:col-span-12">{touched ? 'More projects' : 'Earlier projects'}</h2>
             <div className="mt-head col-span-full grid grid-cols-subgrid">
-              <EarlierCards items={more} />
+              <IndexRows items={more} />
             </div>
           </div>
         )}

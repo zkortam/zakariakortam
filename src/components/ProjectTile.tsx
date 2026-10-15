@@ -3,19 +3,14 @@ import { TLink } from './TLink'
 import { HERO_SIZES } from './PlateMedia'
 import type { Project } from '@/lib/projects-data'
 import { PHONE_SCREEN, PLATES } from '@/lib/media'
-import { TileLoop } from './TileLoop'
-import { ACCENT } from '@/lib/accent'
-import { noWidow } from '@/lib/site'
 
 const TILE_SIZES = '(min-width:1024px) 31vw, (min-width:768px) 48vw, 100vw'
-const BIG_SIZES = '(min-width:1024px) 56vw, (min-width:768px) 48vw, 100vw'
 
-export function ProjectTile({ project, index, big = false }: { project: Project; index: number; big?: boolean }) {
+export function ProjectTile({ project, index }: { project: Project; index: number }) {
   const spec = PLATES[project.id]
   if (!spec) return null
   const img = spec.primary
   const hero = HERO_SIZES[project.id]
-  const sizes = big ? BIG_SIZES : TILE_SIZES
   const c = spec.composition
   // Tiles stay still, but they show the loop's first frame: a tile opening into its plate lands on the same picture.
   const vid = spec.video
@@ -27,13 +22,12 @@ export function ProjectTile({ project, index, big = false }: { project: Project;
       href={`/portfolio/${project.id}`}
       flip="tile"
       flipId={project.id}
-      className={`tile u-group col-span-4 md:col-span-6 ${big ? 'lg:col-span-7 tile-big' : 'lg:col-span-5'}`}
+      className="tile u-group col-span-4 block md:col-span-6 lg:col-span-4"
       data-media=""
       style={{ ['--d' as string]: `${(index % 3) * 80}ms` }}
     >
       <span className="flex items-baseline justify-between gap-[12px]">
         <span className="text-read">
-          <i className="tile-dot" style={{ background: ACCENT[project.id] }} aria-hidden="true" />
           <span className="u-box">
             {project.title}
             <span aria-hidden="true" className="u-line" />
@@ -50,8 +44,7 @@ export function ProjectTile({ project, index, big = false }: { project: Project;
         {c === 'card' && (
           <span className="absolute inset-0 flex items-center justify-center">
             <span className={`card tile-card block ${project.id === 'helio' ? '' : 'card-plain'}`} style={{ width: project.id === 'helio' ? '92%' : '84%' }} data-flip-img="" data-flip-fit="width">
-              <Image src={card.src} alt={card.alt} width={card.w} height={card.h} sizes={sizes} quality={82} data-hero-sizes={hero} {...load} />
-              {vid && <TileLoop clip={vid} />}
+              <Image src={card.src} alt={card.alt} width={card.w} height={card.h} sizes={TILE_SIZES} quality={82} data-hero-sizes={hero} {...load} />
             </span>
           </span>
         )}
@@ -65,7 +58,7 @@ export function ProjectTile({ project, index, big = false }: { project: Project;
             <span className="absolute left-0 right-0 top-[8%] mx-auto block h-[96%]" style={{ aspectRatio: `${img.w} / ${img.h}` }}>
               <span className="relative block" data-flip-img="" data-flip-fit="width">
                 <span className="phone-shadow block">
-                  <Image src={img.src} alt={img.alt} width={img.w} height={img.h} sizes={sizes} quality={82} className="block h-auto w-full" data-hero-sizes={hero} {...load} />
+                  <Image src={img.src} alt={img.alt} width={img.w} height={img.h} sizes={TILE_SIZES} quality={82} className="block h-auto w-full" data-hero-sizes={hero} {...load} />
                 </span>
                 {vid && (
                   <span
@@ -79,8 +72,7 @@ export function ProjectTile({ project, index, big = false }: { project: Project;
                       borderRadius: `${PHONE_SCREEN.rx * 100}% / ${PHONE_SCREEN.ry * 100}%`,
                     }}
                   >
-                    <Image src={vid.poster} alt="" fill sizes={sizes} quality={82} className="object-cover" data-hero-sizes={hero} />
-                    <TileLoop clip={vid} />
+                    <Image src={vid.poster} alt="" fill sizes={TILE_SIZES} quality={82} className="object-cover" data-hero-sizes={hero} />
                   </span>
                 )}
               </span>
@@ -89,18 +81,17 @@ export function ProjectTile({ project, index, big = false }: { project: Project;
         )}
         {c === 'bleed' && (
           <span className="absolute inset-0 block" data-flip-img="" data-flip-fit="cover">
-            <Image src={img.src} alt={img.alt} fill sizes={sizes} quality={75} className="object-cover" style={{ objectPosition: '58% 50%' }} data-hero-sizes={hero} {...load} />
+            <Image src={img.src} alt={img.alt} fill sizes={TILE_SIZES} quality={75} className="object-cover" style={{ objectPosition: '58% 50%' }} data-hero-sizes={hero} {...load} />
           </span>
         )}
         {c === 'results' && (
-          <span className="tile-results-box absolute left-0 right-0 top-[6%] mx-auto block">
+          <span className="absolute left-0 right-0 top-[6%] block">
             <span className="tile-results block" data-flip-img="" data-flip-fit="width">
-              <Image src={img.src} alt={img.alt} width={img.w} height={img.h} sizes={sizes} quality={82} className="block h-auto w-full" data-hero-sizes={hero} {...load} />
+              <Image src={img.src} alt={img.alt} width={img.w} height={img.h} sizes={TILE_SIZES} quality={82} className="block h-auto w-full" data-hero-sizes={hero} {...load} />
             </span>
           </span>
         )}
       </span>
-      <span className="tile-line c3 mt-[14px] block text-body">{noWidow(project.line)}</span>
     </TLink>
   )
 }

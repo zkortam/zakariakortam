@@ -31,8 +31,6 @@ export interface PlateSpec {
   tone: 'dark' | 'light'
   titleLines: string[]
   composition: Composition
-  /** Which side a card composition hangs from on wide screens. Defaults to the right. */
-  align?: 'left' | 'right'
   ambient?: { src: string; dur: number }
   primary: Img
   /** Art-directed crop for phones (< 768). */
@@ -141,22 +139,18 @@ export const PLATES: Record<string, PlateSpec> = {
     ground: '#07090F',
     tone: 'dark',
     titleLines: ['SPICE++'],
-    composition: 'bleed',
+    composition: 'card',
     primary: {
-      src: '/work/derived/spice-board.webp',
+      src: '/work/hd/spice-plus-plus-app.webp',
       w: 3200,
-      h: 1690,
-      alt: 'SPICE++ in its 3D breadboard view, with an inverting amplifier wired across the board',
+      h: 2000,
+      alt: 'SPICE++ designing a Sallen-Key low-pass filter: the schematic, its Bode plot, and the agent verifying the 2 kHz cutoff',
     },
+    mobile: { src: '/work/derived/spice-bode-m.webp', w: 1560, h: 890, alt: 'SPICE++ Bode plot of a Sallen-Key low-pass filter' },
     stills: {
       a: { src: '/work/hd/spice-plus-plus-desktop.webp', w: 2880, h: 1800, alt: "SPICE++'s home page, The engineering agent for analog circuits" },
       b1: { src: '/work/hd/spice-plus-plus-mobile.webp', w: 1170, h: 2532, alt: 'SPICE++ home page on a phone' },
-      b2: {
-        src: '/work/hd/spice-plus-plus-app.webp',
-        w: 3200,
-        h: 2000,
-        alt: 'SPICE++ designing a Sallen-Key low-pass filter: the schematic, its Bode plot, and the agent verifying the 2 kHz cutoff',
-      },
+      b2: { src: '/work/hd/spice-plus-plus-sim.webp', w: 3200, h: 2000, alt: 'SPICE++ editor with an RC circuit and an AC sweep' },
     },
   },
   'rtl-plus-plus': {
@@ -165,7 +159,6 @@ export const PLATES: Record<string, PlateSpec> = {
     tone: 'light',
     titleLines: ['RTL++'],
     composition: 'card',
-    align: 'left',
     primary: {
       src: '/work/hd/rtlpp-app.webp',
       w: 2304,
