@@ -725,3 +725,79 @@ html:not(.js) .nav-menu-btn { display: none; }
 .bow-v { font-size: clamp(64px, 8.4vw, 160px); line-height: .9; letter-spacing: -0.055em; font-weight: 600; }
 .bow-l { margin-top: 12px; font-size: clamp(17px, 1.4vw, 22px); line-height: 1.3; color: var(--ink-60); }
 .rtl-wave svg { display: block; height: auto; }
+
+/* ==========================================================================
+   Quiet layer: device quality, idle mode, links to any sentence
+   (QualityLevel.tsx, IdleMode.tsx, SentenceLinks.tsx; lib/quality.ts)
+   ========================================================================== */
+
+/* Quality. html[data-quality] is high | medium | low; absent means high. Low drops blur, filters and
+   ambient loops; medium softens them. Canvas and WebGL components read useQuality() / getQuality(). */
+html[data-quality="medium"] .glass-dark { -webkit-backdrop-filter: blur(12px) saturate(1.1); backdrop-filter: blur(12px) saturate(1.1); }
+html[data-quality="medium"] .glass-light { -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
+html[data-quality="low"] .glass-dark { background: #1E0D12; -webkit-backdrop-filter: none; backdrop-filter: none; }
+html[data-quality="low"] .glass-light { background: #E6E1DA; -webkit-backdrop-filter: none; backdrop-filter: none; }
+html[data-quality="low"] .amb > i { animation: none; }
+
+/* Idle: the lit room, the wordmark, the time in San Jose. */
+.idle { position: fixed; inset: 0; z-index: 95; overflow: hidden; background: var(--ox); color: var(--bone);
+  opacity: 0; transition: opacity 1800ms var(--e-std); touch-action: none; -webkit-user-select: none; user-select: none; }
+.idle.on { opacity: 1; cursor: none; }
+.idle.out { opacity: 0; transition: opacity 480ms var(--e-quint); }
+.idle-light { position: absolute; inset: 0; pointer-events: none; }
+.idle-light > i { position: absolute; left: 50%; background-position: center; background-size: 100% 100%; background-repeat: no-repeat; will-change: transform, opacity; }
+.idle-pool { width: 130vmax; height: 130vmax; top: 44%; opacity: .55; background-image: url(/light/pool-rose.webp);
+  transform: translate(-50%, -50%); animation: idleDrift 58s ease-in-out infinite alternate; }
+.idle-bloom { width: 96vmax; height: 96vmax; top: 60%; opacity: .45; background-image: url(/light/bloom.webp);
+  transform: translate(-50%, -50%); animation: idleDrift2 73s ease-in-out infinite alternate; }
+@keyframes idleDrift {
+  from { transform: translate(-50%, -50%) translate(-7vmax, -3vmax) scale(1); }
+  to { transform: translate(-50%, -50%) translate(6vmax, 4vmax) scale(1.1); }
+}
+@keyframes idleDrift2 {
+  from { transform: translate(-50%, -50%) translate(6vmax, 3vmax) scale(1.04); opacity: .3; }
+  to { transform: translate(-50%, -50%) translate(-6vmax, -4vmax) scale(.94); opacity: .55; }
+}
+.idle-time { position: absolute; left: 0; right: 0; top: var(--plate-top); color: var(--bone-64); opacity: 0; transition: opacity 1400ms var(--e-std) 900ms; }
+.idle.on .idle-time { opacity: 1; }
+.idle-wm { position: absolute; left: 0; right: 0; bottom: var(--plate-bottom); }
+.idle .wordmark .wm-k { color: inherit; margin: 0; } /* the Wingman demo's .wm-k label rule leaks onto the wordmark */
+.idle .wm-rise { transform: translateY(105%); transition: transform 1600ms var(--e-expo) 500ms; }
+.idle.on .wm-rise, .idle.out .wm-rise { transform: none; }
+.idle.paused .idle-light > i { animation-play-state: paused; }
+html[data-quality="low"] .idle-light > i { animation: none; will-change: auto; }
+@media (prefers-reduced-motion: reduce) {
+  .idle-light > i { animation: none; }
+  .idle .wm-rise { transform: none; transition: none; }
+}
+
+/* Link to any sentence: a margin mark on fine pointers, a pill under a touch selection, a calm toast. */
+.cite-mark { position: fixed; left: 0; top: 0; z-index: 45; width: 24px; height: 24px; display: grid; place-items: center;
+  padding: 0; border: 0; border-radius: 6px; background: transparent; cursor: pointer; opacity: 0; pointer-events: none;
+  transition: opacity 180ms var(--e-std); }
+.cite-mark.on { opacity: .32; pointer-events: auto; transition: opacity 260ms var(--e-std) 140ms; }
+.cite-mark.on:hover { opacity: .9; transition-delay: 0ms; }
+.cite-mark svg { fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+@media (hover: none), (pointer: coarse) { .cite-mark { display: none; } }
+.cite-pill, .cite-toast { position: fixed; display: inline-flex; align-items: center; height: 36px; padding: 0 16px; border-radius: 999px;
+  background: #1E0D12; color: var(--bone); font-size: 15px; font-weight: 500; letter-spacing: -0.005em; white-space: nowrap;
+  border: 1px solid rgba(255, 255, 255, .1); box-shadow: 0 12px 32px -12px rgba(11, 3, 6, .55); opacity: 0; pointer-events: none; }
+.cite-pill { left: 0; top: 0; z-index: 46; transition: opacity 200ms var(--e-std); -webkit-tap-highlight-color: transparent; }
+.cite-pill.on { opacity: 1; pointer-events: auto; }
+.cite-toast { left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); z-index: 80; transform: translate(-50%, 8px);
+  transition: opacity 240ms var(--e-quint), transform 500ms var(--e-expo); }
+.cite-toast.on { opacity: 1; transform: translate(-50%, 0); }
+@media (prefers-reduced-motion: reduce) { .cite-toast, .cite-toast.on { transform: translate(-50%, 0); } }
+
+::target-text { background-color: rgba(178, 62, 76, .24); color: inherit; }
+::highlight(zk-cite) { background-color: rgba(178, 62, 76, .26); }
+::highlight(zk-cite-1) { background-color: rgba(178, 62, 76, .2); }
+::highlight(zk-cite-2) { background-color: rgba(178, 62, 76, .15); }
+::highlight(zk-cite-3) { background-color: rgba(178, 62, 76, .1); }
+::highlight(zk-cite-4) { background-color: rgba(178, 62, 76, .06); }
+::highlight(zk-cite-5) { background-color: rgba(178, 62, 76, .03); }
+.cite-flash { border-radius: 4px; animation: citeFlash 3800ms var(--e-std) both; }
+@keyframes citeFlash {
+  0%, 70% { background-color: rgba(178, 62, 76, .16); box-shadow: 0 0 0 .25em rgba(178, 62, 76, .16); }
+  100% { background-color: rgba(178, 62, 76, 0); box-shadow: 0 0 0 .25em rgba(178, 62, 76, 0); }
+}

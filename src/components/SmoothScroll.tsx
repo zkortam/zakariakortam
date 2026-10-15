@@ -4,6 +4,7 @@ import { useEffect } from 'react'
 import Lenis from 'lenis'
 import 'lenis/dist/lenis.css'
 import { setLenis } from '@/lib/lenis'
+import { getQuality, onQuality } from '@/lib/quality'
 
 /** Lenis on fine pointers, plus a frame-time watchdog that steps quality down on weak machines. */
 export function SmoothScroll() {
@@ -14,13 +15,23 @@ export function SmoothScroll() {
     const fine = window.matchMedia('(pointer: fine)').matches
 
     let lenis: Lenis | null = null
-    if (motionOK && fine && !save && !html.classList.contains('lite')) {
+    const mount = () => {
+      if (lenis || !motionOK || !fine || save || html.classList.contains('lite') || getQuality() === 'low') return
       lenis = new Lenis({ lerp: 0.1, smoothWheel: true, syncTouch: false, autoRaf: true })
       setLenis(lenis)
     }
+    mount()
+    // data-quality="low" (see lib/quality) turns smooth scroll off; it comes back if the machine recovers.
+    const offQuality = onQuality((q) => {
+      if (q !== 'low') return mount()
+      lenis?.destroy()
+      lenis = null
+      setLenis(null)
+    })
 
     if (!motionOK) {
       return () => {
+        offQuality()
         lenis?.destroy()
         setLenis(null)
       }
@@ -84,6 +95,7 @@ export function SmoothScroll() {
     return () => {
       cancelAnimationFrame(raf)
       window.removeEventListener('scroll', onScroll)
+      offQuality()
       lenis?.destroy()
       setLenis(null)
     }

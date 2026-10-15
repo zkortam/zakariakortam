@@ -8,6 +8,7 @@ import { SmoothScroll } from "@/components/SmoothScroll";
 import { Observer } from "@/components/Observer";
 import { CommandMenu } from "@/components/CommandMenu";
 import { Nav } from "@/components/Nav";
+import { QuietLayer } from "@/components/QuietLayer";
 import { SITE_URL } from "@/lib/seo";
 
 const geist = Geist({
@@ -118,6 +119,7 @@ export default function RootLayout({
           <CommandMenu />
           <div id="page">{children}</div>
         </Transitions>
+        <QuietLayer />
       </body>
     </html>
   );
