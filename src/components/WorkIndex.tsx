@@ -71,12 +71,14 @@ export function WorkIndex() {
     const terms = norm(q).split(/\s+/).filter(Boolean)
     const inCat = projects.filter((p) => cat === 'All' || p.tags?.includes(cat))
     if (!terms.length) return inCat
+    // Semantic hits count when they are close to the best match for this query.
+    const top = semantic ? Math.max(0, ...Object.values(semantic)) : 0
+    const bar = Math.max(0.3, top - 0.05)
     const scored = inCat
       .map((p) => {
         const k = keywordScore(p, terms)
         const s = semantic?.[p.id] ?? 0
-        // Semantic hits above a confident threshold count even without a keyword match.
-        const score = k * 0.2 + (s > 0.35 ? s * 2 : 0)
+        const score = k * 0.2 + (s >= bar ? s * 2 : 0)
         return { p, score }
       })
       .filter((x) => x.score > 0)

@@ -1,15 +1,15 @@
 # Surf and Surf Messenger
 
 ## Surf
-Page: /portfolio/surf. Live site: https://surfsocial.org. Years: 2022 to now. Zakaria's role: product, design, and engineering. He builds it on his own.
+Page: /portfolio/surf. Live site: https://surfsocial.org. Years: 2022 to now. Zakaria's role: product, design, and engineering.
 
-Surf is a full social network built by one person, running on the web, iOS, and Android from one Next.js codebase. It has feeds, posts, shorts with a video editor in the browser, messaging and calls, live streaming, creator analytics, subscriptions, moderation, and family controls. Surf started in 2022 and the current version is the fourth, rebuilt on Next.js and Supabase.
+Surf is a social network running on the web, iOS, and Android from one Next.js codebase. It has feeds, posts, shorts with a video editor in the browser, messaging and calls, live streaming, creator analytics, subscriptions, moderation, and family controls. Surf started in 2022 and the current version is the fourth, rebuilt on Next.js and Supabase.
 
 How it is built:
 - A Next.js App Router app (React, TypeScript) backed by Supabase (Postgres, Auth, Realtime). Server code owns privileged work; Postgres functions and row-level security (RLS) own data authorization close to the data.
 - The iOS and Android apps are Capacitor shells that load the same web app. Native features go through one platform layer, so product code asks what the device can do instead of checking which platform it is on. A shell supplies capabilities, never screens.
 - Security rules: what the UI shows is not authorization. Every database function is treated as a public endpoint, so access is enforced in the database itself. A migration lint and a test suite fail the build if a function is left callable by anyone or writes without checking its caller.
-- Access rules are tested against a live database with real roles. Every release has to pass type checks, lint, unit tests, and end-to-end browser tests (Playwright).
+- Access rules are tested against a live database with real roles. CI runs type checks, lint, unit tests, and end-to-end browser tests (Playwright).
 - Media runs on Cloudflare R2 and Stream; payments on Stripe.
 
 Measured numbers: 823k lines of TypeScript, 24,249 tests, 1,935 database migrations, 5,969 commits this year, 150+ routes on web, iOS, and Android.

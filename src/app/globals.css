@@ -625,9 +625,9 @@ html:not(.js) .nav-menu-btn { display: none; }
 .ask-related { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
 .ask-chip { display: inline-flex; align-items: center; gap: 6px; min-height: 34px; padding: 0 14px; border-radius: 999px; font: inherit; font-size: 14px; color: var(--bone); background: transparent; border: 1px solid var(--bone-rule); cursor: pointer; transition: background-color 160ms var(--e-std), border-color 160ms var(--e-std); }
 @media (hover: hover) { .ask-chip:hover { background: rgba(255, 235, 238, .06); border-color: var(--bone-rule-strong); } }
-.ask-md .ask-cards { list-style: none; margin: 16px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
-.ask-card { display: flex; flex-direction: column; gap: 4px; height: 100%; padding: 12px 14px; border-radius: 14px; background: rgba(255, 235, 238, .045); border: 1px solid rgba(255, 235, 238, .08); transition: background-color 160ms var(--e-std), border-color 160ms var(--e-std); }
-@media (hover: hover) { .ask-card:hover { background: rgba(255, 235, 238, .08); border-color: rgba(255, 235, 238, .16); } }
+.ask-md .ask-cards { list-style: none; margin: 14px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px 24px; }
+.ask-card { display: flex; flex-direction: column; gap: 3px; height: 100%; padding: 2px 0; transition: opacity 160ms var(--e-std); }
+@media (hover: hover) { .ask-cards:hover .ask-card:not(:hover) { opacity: .55; } }
 .ask-card-t { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; font-size: 15px; color: var(--bone); letter-spacing: -0.01em; }
 .ask-card-y { font-size: 12px; color: var(--bone-64); white-space: nowrap; }
 .ask-card-l { font-size: 13px; line-height: 1.4; color: var(--bone-64); }
