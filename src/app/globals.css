@@ -590,6 +590,8 @@ html:not(.js) .nav-menu-btn { display: none; }
 @media (hover: none) { .asst-kbd { display: none; } }
 .asst-icon-btn { flex: none; display: inline-grid; place-items: center; width: 34px; height: 34px; border-radius: 999px; border: 0; background: transparent; color: var(--bone-64); cursor: pointer; transition: color 160ms var(--e-std), background-color 160ms var(--e-std); }
 .asst-mic.on { color: var(--bone); background: rgba(255, 235, 238, .12); }
+.asst-mic.on { box-shadow: 0 0 0 calc(var(--lvl, 0) * 6px) rgba(255, 235, 238, .14); transition: box-shadow 90ms linear; }
+.asst-mic:disabled { opacity: .45; cursor: default; }
 .asst-send { flex: none; display: inline-grid; place-items: center; width: 34px; height: 34px; border-radius: 999px; border: 0; background: var(--bone); color: var(--ox); cursor: pointer; transition: background-color 200ms var(--e-std), color 200ms var(--e-std), transform 200ms var(--e-std); }
 .asst-send:disabled { background: rgba(255, 235, 238, .1); color: var(--bone-64); cursor: default; }
 .asst-send:not(:disabled):active { transform: scale(.94); }

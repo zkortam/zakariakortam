@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
 import { usePathname } from 'next/navigation'
 import { useTransitionNav } from '../Transitions'
 import { AskAnswer } from './AskAnswer'
@@ -131,9 +131,18 @@ export function Assistant() {
     [streaming, turns],
   )
 
+  const [voiceMsg, setVoiceMsg] = useState('')
+  const voiceTimer = useRef(0)
   const speech = useSpeech(
-    (t) => setQ(t.slice(0, MAX_CHARS)),
-    (t) => ask(t),
+    (t) => {
+      setQ(t.slice(0, MAX_CHARS))
+      ask(t)
+    },
+    (msg) => {
+      setVoiceMsg(msg)
+      clearTimeout(voiceTimer.current)
+      voiceTimer.current = window.setTimeout(() => setVoiceMsg(''), 5000)
+    },
   )
 
   // Pages, projects, roles and links, for jumping by name.
@@ -249,7 +258,7 @@ export function Assistant() {
       }
       requestAnimationFrame(() => input.current?.focus({ preventScroll: true }))
     } else {
-      speech.stop()
+      speech.cancel()
       if (body.style.position === 'fixed') {
         Object.assign(body.style, { position: '', top: '', left: '', right: '', width: '' })
         window.scrollTo(0, lockY.current)
@@ -576,10 +585,14 @@ export function Assistant() {
               />
               {!q && (
                 <span className="asst-ph" aria-hidden="true">
-                  <span key={speech.listening ? 'l' : example} className="asst-ph-t">
+                  <span key={speech.state !== 'idle' ? speech.state : voiceMsg ? 'v' : example} className="asst-ph-t">
                     {speech.listening
-                      ? 'Listening'
-                      : open && turns.length
+                      ? 'Listening…'
+                      : speech.working
+                        ? 'Transcribing…'
+                        : voiceMsg
+                          ? voiceMsg
+                          : open && turns.length
                         ? 'Ask a follow-up'
                         : LABEL}
                   </span>
@@ -592,11 +605,14 @@ export function Assistant() {
                 className={`asst-icon-btn asst-mic ${speech.listening ? 'on' : ''}`}
                 onClick={() => {
                   setOpen(true)
+                  setVoiceMsg('')
                   if (speech.listening) speech.stop()
-                  else speech.start()
+                  else if (!speech.working) void speech.start()
                 }}
-                aria-label={speech.listening ? 'Stop voice input' : 'Ask with your voice'}
+                disabled={speech.working || streaming}
+                aria-label={speech.listening ? 'Stop and send' : 'Ask with your voice'}
                 aria-pressed={speech.listening}
+                style={speech.listening ? ({ ['--lvl' as string]: speech.level.toFixed(2) } as CSSProperties) : undefined}
               >
                 <Icon name="mic" size={18} />
               </button>
