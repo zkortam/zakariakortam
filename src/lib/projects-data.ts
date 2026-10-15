@@ -47,7 +47,7 @@ export const projects: Project[] = [
     role: 'Associate Innovation Product Manager',
     org: 'DigiCert',
     overview:
-      'I own product for AI agent trust: how an autonomous agent proves who it is, what it may do, and how its credentials are managed.',
+      'I work on product for AI agent trust: how an autonomous agent proves who it is, what it may do, and how its credentials are managed.',
     results: [
       'Defined a DNS-level verification product, so agents only reach approved destinations',
       'Built a Kubernetes Envoy sidecar that enforces each agent’s egress policy',

@@ -1379,3 +1379,21 @@ a, button { transition-property: color, background-color, border-color, opacity,
 @media (hover: hover) { .contact-row:hover .contact-ar { color: var(--bone); transform: translateX(4px); } }
 .contact-line .fit-email { font-size: clamp(20px, 5.6vw, 104px); }
 @media (min-width: 768px) { .contact-line .fit-email { font-size: clamp(30px, 6.4vw, 104px); } }
+
+/* ---------- Blog posts ---------- */
+.prose { font-size: 19px; line-height: 1.65; color: var(--ink); text-wrap: pretty; }
+@media (min-width: 1024px) { .prose { font-size: 20px; } }
+.prose > * + * { margin-top: 1.1em; }
+.prose h2 { margin-top: 2.2em; font-size: 1.5em; line-height: 1.2; font-weight: 600; letter-spacing: -0.02em; }
+.prose h3 { margin-top: 1.8em; font-size: 1.2em; line-height: 1.3; font-weight: 600; }
+.prose a { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .18em; }
+.prose ul, .prose ol { padding-left: 1.2em; }
+.prose ul { list-style: disc; }
+.prose ol { list-style: decimal; }
+.prose li + li { margin-top: .4em; }
+.prose blockquote { padding-left: 1em; border-left: 3px solid rgba(22, 12, 13, .14); color: var(--ink-60); }
+.prose code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .86em; padding: .1em .35em; border-radius: 6px; background: rgba(22, 12, 13, .06); }
+.prose pre { overflow-x: auto; padding: 18px 20px; border-radius: 16px; background: #16100F; color: #F3EDE8; font-size: 15px; line-height: 1.55; }
+.prose pre code { padding: 0; background: none; font-size: inherit; }
+.prose img { display: block; width: 100%; height: auto; border-radius: 20px; }
+.prose hr { border: 0; height: 1px; background: rgba(22, 12, 13, .12); margin: 2.4em 0; }

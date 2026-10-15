@@ -1,11 +1,14 @@
+import { published } from '@/content/blog/posts'
 export const EMAIL = 'zakaria@zakariakortam.com'
 
-export const NAV = [
+/** The Blog link shows only once a post is published. */
+export const NAV: readonly { href: string; label: string }[] = [
   { href: '/portfolio', label: 'Work' },
   { href: '/about', label: 'About' },
   { href: '/now', label: 'Now' },
+  ...(published.length ? [{ href: '/blog', label: 'Blog' }] : []),
   { href: '/contact', label: 'Contact' },
-] as const
+]
 
 export const SOCIALS = [
   { label: 'Surf', icon: 'surf', handle: '@zakaria', href: 'https://surfsocial.org/zakaria' },
