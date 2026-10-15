@@ -32,9 +32,9 @@ export const COPY = {
   workLine: '',
   aboutHead: 'I’m a product manager who builds. I take products from zero to one, end to end.',
   aboutStory: [
-    'I’m happiest at the very start of something, when there’s only an idea and a lot of questions. I like turning that into something real, and I like owning every part of it: listening to people, deciding what matters, designing it, and building it.',
-    'I care about craft. The details nobody asks for are usually the ones people feel, so those are the ones I spend the most time on.',
-    'I like bringing people together as much as building things. Give me a group with a shared idea and I’ll want to give it a home.',
+    'I’m happiest at the very start of something, when there’s only an idea and a lot of questions.',
+    'I obsess over the smallest things: the details most people won’t notice, and the ones nobody thinks to ask for.',
+    'Care enough about the little details and they stop being little. They become the reason people fall in love with what you’ve built.',
   ],
   tools: [
     { label: 'Product', value: 'Zero to one. Talking to customers, deciding what to build, roadmaps, PRDs, metrics, launch.' },
