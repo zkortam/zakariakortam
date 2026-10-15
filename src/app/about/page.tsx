@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 import { ExperienceList } from '@/components/ExperienceList'
 import { Footer } from '@/components/Footer'
+import { MadeStrip } from '@/components/MadeStrip'
 import { COPY, noWidow } from '@/lib/site'
 import { pageMeta } from '@/lib/seo'
 
@@ -90,7 +91,12 @@ export default function AboutPage() {
             </div>
           </div>
 
-          <div className="grid-main mt-big">
+        </section>
+        <section className="paper made-sec" data-tone="light">
+          <MadeStrip />
+        </section>
+        <section className="paper pb-sec" data-tone="light">
+          <div className="grid-main">
             <figure className="ph-wide col-span-full" data-reveal="">
               <Image src="/about/san-jose.webp" alt="Downtown San Jose at night" width={2400} height={1028} sizes="100vw" quality={82} />
               <figcaption>

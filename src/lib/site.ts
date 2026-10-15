@@ -27,7 +27,7 @@ export const COPY = {
   ],
   statementLead: 'True simplicity is derived from so much more than just the absence of clutter and ornamentation.',
   statementRest: 'It’s about bringing order to complexity.',
-  statementBy: 'Jony Ive',
+  statementBy: 'Sir Jony Ive',
   allWork: 'All work',
   workLine: '',
   aboutHead: 'I’m a product manager who builds. I take products from zero to one, end to end.',

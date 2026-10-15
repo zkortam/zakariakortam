@@ -1286,7 +1286,7 @@ a, button { transition-property: color, background-color, border-color, opacity,
   @media (prefers-reduced-motion: no-preference) {
     /* The statement holds the screen while it lights up word by word. */
     .sw-pin { height: 240svh; padding: 0; view-timeline: --sw block; }
-    .sw-stage { position: sticky; top: 0; height: 100svh; display: flex; flex-direction: column; justify-content: center; }
+    .sw-pin .sw-stage { position: sticky; top: 0; height: 100svh; display: flex; flex-direction: column; justify-content: center; }
     .sw { display: inline-block; animation: swIn linear both; animation-timeline: --sw;
       animation-range: contain calc(var(--k) * 72%) contain calc(var(--k) * 72% + 12%); }
     @keyframes swIn { from { opacity: .12; translate: 0 .2em; } to { opacity: 1; translate: 0 0; } }
@@ -1461,3 +1461,69 @@ a, button { transition-property: color, background-color, border-color, opacity,
 .bl-cover[data-tint="2"] { background: linear-gradient(135deg, #F1E3C8, #F0D0C4); }
 .sw-by { margin-top: 28px; }
 @supports (animation-timeline: view()) { @media (prefers-reduced-motion: no-preference) { .sw-by { animation: swIn linear both; animation-timeline: --sw; animation-range: contain 78% contain 90%; } } }
+
+/* Sir Jony Ive behind his words: he stands on the right, the quote passes in front of his shoulder. */
+.sw-pin { position: relative; overflow: clip; }
+.sw-stage { position: relative; }
+.sw-ive { position: absolute; z-index: 0; right: max(var(--m), 3vw); bottom: 0; width: min(40vw, 640px); margin: 0; pointer-events: none;
+  -webkit-mask-image: linear-gradient(180deg, #000 55%, transparent 96%); mask-image: linear-gradient(180deg, #000 55%, transparent 96%); }
+.sw-ive img { display: block; width: 100%; height: auto; }
+.sw-stage .grid-main { z-index: 1; }
+.sw-credit { position: absolute; z-index: 1; right: var(--m); bottom: 14px; font-size: 11px; color: var(--ink-50); }
+@media (max-width: 1023px) {
+  .sw-ive { top: 64px; bottom: auto; right: -4vw; width: min(64vw, 420px); -webkit-mask-image: linear-gradient(180deg, #000 35%, transparent 72%); mask-image: linear-gradient(180deg, #000 35%, transparent 72%); }
+  .sw-pin .sw-stage { justify-content: flex-end; padding-bottom: 96px; }
+  .sw-stage blockquote { font-size: clamp(26px, 6.6vw, 40px); }
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .sw-ive { animation: iveIn linear both; animation-timeline: --sw; animation-range: contain 0% contain 85%; will-change: transform, opacity; }
+    @keyframes iveIn { from { opacity: 0; transform: translateY(14%) scale(1.06); } 40% { opacity: 1; } to { opacity: 1; transform: none; } }
+  }
+}
+
+/* ---------- Contact: you, the light, and three ways to start ---------- */
+.contact { display: flex; flex-direction: column; min-height: 100svh; }
+.ct-portrait { position: absolute; z-index: 0; right: 0; bottom: 0; width: min(46vw, 760px); pointer-events: none;
+  -webkit-mask-image: linear-gradient(180deg, #000 60%, transparent 98%); mask-image: linear-gradient(180deg, #000 60%, transparent 98%); }
+.ct-portrait img { display: block; width: 100%; height: auto; }
+.ct-body { flex: 1 1 auto; align-content: center; z-index: 1; }
+.ct-email { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 20px; margin-top: 32px; font-size: clamp(22px, 2.4vw, 36px); line-height: 1.1; font-weight: 500; letter-spacing: -0.02em; }
+.ct-topics { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 40px; }
+.ct-topic { display: inline-flex; align-items: center; gap: 8px; height: 48px; padding: 0 20px; border-radius: 999px; font-size: 17px; font-weight: 500;
+  background: rgba(255, 245, 247, .07); box-shadow: inset 0 0 0 1px rgba(255, 245, 247, .12); transition: background-color 250ms var(--e-std), transform 250ms var(--e-std); }
+@media (hover: hover) { .ct-topic:hover { background: rgba(255, 245, 247, .14); } }
+.ct-topic:active { transform: scale(.97); }
+.ct-social { display: flex; gap: 8px; margin-top: 32px; }
+.ct-social a { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 999px; color: var(--bone-92);
+  background: rgba(255, 245, 247, .06); box-shadow: inset 0 0 0 1px rgba(255, 245, 247, .1); transition: background-color 250ms var(--e-std), color 250ms var(--e-std); }
+@media (hover: hover) { .ct-social a:hover { background: rgba(255, 245, 247, .14); color: var(--bone); } }
+.ct-foot { z-index: 1; margin-top: 48px; color: var(--bone-64); }
+@media (max-width: 1023px) {
+  .ct-portrait { position: relative; width: min(84vw, 460px); margin: -24px auto -48px; order: -1; }
+  .contact { padding-top: 88px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  html.js .ct-portrait { animation: ctIn 1400ms cubic-bezier(.19, 1, .22, 1) 120ms both; }
+}
+@keyframes ctIn { from { opacity: 0; transform: translateY(6%); } }
+
+/* ---------- About: the products, gliding past ---------- */
+.made-sec { padding: var(--sec) 0; overflow: clip; view-timeline: --made block; }
+.made { overflow-x: auto; scrollbar-width: none; }
+.made::-webkit-scrollbar { display: none; }
+.made-track { display: flex; gap: 20px; width: max-content; padding: 0 var(--m); }
+.made-item { display: flex; flex-direction: column; gap: 14px; width: min(78vw, 560px); }
+@media (min-width: 1024px) { .made-item { width: 34vw; } }
+.made-shot { position: relative; display: block; aspect-ratio: 16 / 10; overflow: hidden; border-radius: 22px; background: #111;
+  box-shadow: 0 0 0 1px rgba(22, 12, 13, .06), 0 30px 60px -30px rgba(22, 12, 13, .35); }
+.made-shot img { object-fit: cover; object-position: top; transition: transform 900ms var(--e-expo); }
+@media (hover: hover) { .made-item:hover .made-shot img { transform: scale(1.03); } }
+.made-name { font-size: 18px; font-weight: 500; }
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) and (min-width: 768px) {
+    .made { overflow: visible; }
+    .made-track { will-change: transform; animation: madeGlide linear both; animation-timeline: --made; animation-range: cover 0% cover 100%; }
+    @keyframes madeGlide { from { transform: translateX(8vw); } to { transform: translateX(calc(-100% + 92vw)); } }
+  }
+}

@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { HomeHero } from '@/components/HomeHero'
 import { Footer } from '@/components/Footer'
 import { TLink } from '@/components/TLink'
@@ -15,8 +16,14 @@ export default function HomePage() {
 
         <section className="paper sw-pin" data-tone="light">
           <div className="sw-stage">
-            <div className="grid-main">
-              <figure className="col-span-4 m-0 md:col-span-12 lg:col-span-11">
+            <figure className="sw-ive" aria-hidden="true">
+              <Image src="/about/ive.webp" alt="" width={1100} height={1650} sizes="(min-width:1024px) 34vw, 70vw" quality={90} />
+            </figure>
+            <a className="sw-credit" href="https://commons.wikimedia.org/wiki/File:Jonathan_Ive_2009.jpg" target="_blank" rel="noopener noreferrer">
+              Photo: Gary Cohen, CC BY-SA 2.0
+            </a>
+            <div className="grid-main relative">
+              <figure className="col-span-4 m-0 md:col-span-8 lg:col-span-7">
                 <blockquote className="text-statement">
                   <ScrollWords lead={COPY.statementLead} rest={COPY.statementRest} />
                 </blockquote>
