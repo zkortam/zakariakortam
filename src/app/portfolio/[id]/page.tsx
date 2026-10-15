@@ -42,7 +42,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     path,
     title: p.title,
     ogTitle: `${p.title}, by Zakaria Kortam`,
-    description: fit(`${p.line} ${p.title} by Zakaria Kortam, ${p.year}.`, p.line),
+    description: p.line,
     type: 'article',
   })
 }

@@ -45,6 +45,15 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
+  icons: {
+    icon: [
+      { url: '/brand/icon.svg', type: 'image/svg+xml' },
+      { url: '/brand/icon-32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/brand/icon-16.png', sizes: '16x16', type: 'image/png' },
+    ],
+    shortcut: '/favicon.ico',
+    apple: [{ url: '/brand/apple-touch-icon.png', sizes: '180x180' }],
+  },
   metadataBase: new URL(SITE_URL),
   title: {
     default: HOME_TITLE,

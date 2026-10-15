@@ -3,11 +3,16 @@ import type { MetadataRoute } from 'next'
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: 'Zakaria Kortam',
-    short_name: 'Kortam',
+    short_name: 'Zakaria',
     start_url: '/',
     display: 'standalone',
-    background_color: '#040304',
-    theme_color: '#040304',
-    icons: [{ src: '/icon', sizes: '64x64', type: 'image/png' }],
+    background_color: '#14060A',
+    theme_color: '#14060A',
+    icons: [
+      { src: '/brand/icon-192.png', sizes: '192x192', type: 'image/png' },
+      { src: '/brand/icon-512.png', sizes: '512x512', type: 'image/png' },
+      { src: '/brand/icon-maskable-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
+      { src: '/brand/icon.svg', sizes: 'any', type: 'image/svg+xml' },
+    ],
   }
 }
