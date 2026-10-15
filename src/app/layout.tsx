@@ -6,7 +6,7 @@ import { Room } from "@/components/Room";
 import { Transitions } from "@/components/Transitions";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { Observer } from "@/components/Observer";
-import { CommandMenu } from "@/components/CommandMenu";
+import { Assistant } from "@/components/assistant/Assistant";
 import { Nav } from "@/components/Nav";
 import { QuietLayer } from "@/components/QuietLayer";
 import { SITE_URL } from "@/lib/seo";
@@ -116,7 +116,7 @@ export default function RootLayout({
           <SmoothScroll />
           <Observer />
           <Nav />
-          <CommandMenu />
+          <Assistant />
           <div id="page">{children}</div>
         </Transitions>
         <QuietLayer />
