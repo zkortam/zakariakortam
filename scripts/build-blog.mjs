@@ -61,6 +61,7 @@ for (const file of files) {
     date: meta.date,
     summary: meta.summary ?? '',
     cover: meta.cover || null,
+    credit: meta.credit ? { text: meta.credit.split('|')[0].trim(), href: (meta.credit.split('|')[1] || '').trim() || null } : null,
     tags: (meta.tags ?? '').split(',').map((t) => t.trim()).filter(Boolean),
     draft,
     minutes: Math.max(1, Math.round(words / 230)),

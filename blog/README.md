@@ -22,6 +22,7 @@ Sections made with `##` show up in the contents list beside long posts.
 ```
 
 - **cover** (optional): put the image in `public/blog/` and give its path. Wide images (about 16:10) look best.
+- **credit** (optional): `Photo: Name, License | https://link-to-source` for photos that need credit.
 - **tags** (optional): comma separated. Tags become the filters on the blog page.
 - **draft: true** keeps a post off the site.
 - Images inside a post: put them in `public/blog/` too and use `![What it shows](/blog/picture.jpg)`.

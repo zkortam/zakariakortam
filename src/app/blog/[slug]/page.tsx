@@ -58,9 +58,20 @@ export default async function PostPage({ params }: Params) {
                 </p>
               )}
               <p className="post-meta c3 tnum text-body" data-reveal="">
-                {formatDate(p.date)}
-                <span>{p.minutes} min read</span>
-                {p.tags.length > 0 && <span>{p.tags.join(', ')}</span>}
+                <span>
+                  <Icon name="calendar" size={18} />
+                  {formatDate(p.date)}
+                </span>
+                <span>
+                  <Icon name="clock" size={18} />
+                  {p.minutes} min read
+                </span>
+                {p.tags.length > 0 && (
+                  <span>
+                    <Icon name="tag" size={18} />
+                    {p.tags.join(', ')}
+                  </span>
+                )}
               </p>
             </header>
           </div>
@@ -68,6 +79,14 @@ export default async function PostPage({ params }: Params) {
             <div className="grid-main mt-head">
               <figure className="post-cover col-span-full" data-reveal="">
                 <Image src={p.cover} alt="" fill sizes="100vw" quality={90} priority />
+                {p.credit &&
+                  (p.credit.href ? (
+                    <a className="post-credit" href={p.credit.href} target="_blank" rel="noopener noreferrer">
+                      {p.credit.text}
+                    </a>
+                  ) : (
+                    <span className="post-credit">{p.credit.text}</span>
+                  ))}
               </figure>
             </div>
           )}
@@ -75,7 +94,10 @@ export default async function PostPage({ params }: Params) {
             <div className={`prose col-span-4 md:col-span-8 ${toc ? 'lg:col-span-7' : 'lg:col-span-7 lg:col-start-3'}`} dangerouslySetInnerHTML={{ __html: p.html }} />
             {toc && (
               <nav className="post-toc hidden lg:col-span-3 lg:col-start-10 lg:block" aria-label="Contents">
-                <p className="c3 text-body">Contents</p>
+                <p className="post-toc-h c3 text-body">
+                  <Icon name="list" size={18} />
+                  Contents
+                </p>
                 <ol>
                   {p.headings.map((h) => (
                     <li key={h.id}>

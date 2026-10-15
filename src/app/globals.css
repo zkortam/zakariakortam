@@ -1546,3 +1546,26 @@ a, button { transition-property: color, background-color, border-color, opacity,
     @keyframes abPhoto2 { from { transform: scale(1.2); } to { transform: scale(1); } }
   }
 }
+
+/* ---------- Blog cards: a tall photo with a frosted panel inset on every side ---------- */
+.bc-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; }
+@media (min-width: 768px) { .bc-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; } }
+@media (min-width: 1280px) { .bc-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.bc { position: relative; isolation: isolate; display: flex; flex-direction: column; justify-content: flex-end; aspect-ratio: 4 / 5; padding: 12px; overflow: hidden; border-radius: 28px; background: #1A1416;
+  box-shadow: 0 30px 60px -34px rgba(22, 12, 13, .45); }
+.bc[data-tint="0"] { background: linear-gradient(160deg, #F3D9CC, #E3B5BF); }
+.bc[data-tint="1"] { background: linear-gradient(160deg, #D9DFF3, #D8BFD0); }
+.bc[data-tint="2"] { background: linear-gradient(160deg, #F1E3C8, #E8C0B2); }
+.bc-img { z-index: -1; object-fit: cover; transition: transform 1200ms var(--e-expo); }
+@media (hover: hover) { .bc:hover .bc-img { transform: scale(1.04); } }
+.bc-glass { display: flex; flex-direction: column; gap: 12px; padding: 20px 22px 18px; border-radius: 18px; color: #fff;
+  background: rgba(24, 16, 18, .38); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .16), inset 0 1px 0 rgba(255, 255, 255, .22);
+  -webkit-backdrop-filter: blur(22px) saturate(1.5); backdrop-filter: blur(22px) saturate(1.5); }
+html[data-quality="low"] .bc-glass { -webkit-backdrop-filter: none; backdrop-filter: none; background: rgba(24, 16, 18, .78); }
+.bc[data-tint] .bc-glass { color: var(--ink); background: rgba(255, 255, 255, .42); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .6); }
+.bc-title { font-size: 22px; line-height: 1.22; font-weight: 600; letter-spacing: -0.015em; text-wrap: balance; }
+@media (min-width: 1024px) { .bc-title { font-size: 24px; } }
+.bc-meta { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 14px; opacity: .78; }
+.bc-meta > span, .post-meta > span, .post-toc-h { display: inline-flex; align-items: center; gap: 7px; }
+.post-meta { gap: 8px 22px; }
+.post-cover .post-credit { position: absolute; right: 18px; bottom: 14px; font-size: 11px; color: rgba(255, 255, 255, .75); }

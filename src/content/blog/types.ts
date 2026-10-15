@@ -6,6 +6,8 @@ export interface Post {
   summary: string
   /** Path under /public, e.g. '/blog/cover.jpg'. */
   cover: string | null
+  /** Photo credit for the cover, as its license asks. */
+  credit: { text: string; href: string | null } | null
   tags: string[]
   draft: boolean
   minutes: number

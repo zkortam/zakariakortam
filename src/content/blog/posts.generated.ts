@@ -8,7 +8,11 @@ export const POSTS: Post[] = [
     "title": "The details nobody asks for",
     "date": "2026-10-15",
     "summary": "Why the smallest decisions in a product end up being the ones people remember.",
-    "cover": null,
+    "cover": "/blog/the-details-nobody-asks-for.webp",
+    "credit": {
+      "text": "Photo: Guy Sie, CC BY-SA 2.0",
+      "href": "https://commons.wikimedia.org/wiki/File:Asian_6497_macro_(3389999521).jpg"
+    },
     "tags": [
       "Design",
       "Product"

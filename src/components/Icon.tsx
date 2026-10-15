@@ -45,6 +45,25 @@ const PATHS = {
     </>
   ),
   up: <path d="M12 19V5M6 11l6-6 6 6" />,
+  clock: (
+    <>
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="M12 7.5V12l3 2" />
+    </>
+  ),
+  calendar: (
+    <>
+      <rect x="3.5" y="5" width="17" height="15.5" rx="4" />
+      <path d="M3.5 10h17M8 3v4M16 3v4" />
+    </>
+  ),
+  list: <path d="M9 7h11M9 12h11M9 17h11M4.5 7v.01M4.5 12v.01M4.5 17v.01" />,
+  tag: (
+    <>
+      <path d="M3.5 12.3V5.5a2 2 0 0 1 2-2h6.8a2 2 0 0 1 1.4.6l7.2 7.2a2 2 0 0 1 0 2.8l-6.8 6.8a2 2 0 0 1-2.8 0L4.1 13.7a2 2 0 0 1-.6-1.4Z" />
+      <path d="M8 8v.01" />
+    </>
+  ),
   'arrow-right': <path d="M5 12h14M13 6l6 6-6 6" />,
   'arrow-left': <path d="M19 12H5M11 6l-6 6 6 6" />,
   'arrow-up-right': <path d="M7 17 17 7M8.5 7H17v8.5" />,

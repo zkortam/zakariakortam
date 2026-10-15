@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
-import { Mrs_Saint_Delafield } from 'next/font/google'
+import { Great_Vibes } from 'next/font/google'
 import { ExperienceList } from '@/components/ExperienceList'
 import { Footer } from '@/components/Footer'
 import { COPY, noWidow } from '@/lib/site'
@@ -15,12 +15,12 @@ export const metadata: Metadata = pageMeta({
     'Zakaria Kortam is an Associate Innovation Product Manager at DigiCert who takes products from zero to one, end to end. UC San Diego EE, based in San Jose.',
 })
 
-const sign = Mrs_Saint_Delafield({ subsets: ['latin'], weight: '400', display: 'swap' })
+const sign = Great_Vibes({ subsets: ['latin'], weight: '400', display: 'swap' })
 
 /** Photos from Wikimedia Commons, credited as their licenses ask. */
 const SAN_JOSE = {
-  credit: 'Photo: Ben Loomis, CC BY 2.0',
-  href: 'https://commons.wikimedia.org/wiki/File:San_Jose_CA_skyline_at_night_2014.jpg',
+  credit: 'Photo: Anthonyavalos408, CC BY-SA 4.0',
+  href: 'https://commons.wikimedia.org/wiki/File:Summer_Solstice_Silicon_Valley_Panorama.jpg',
 }
 const SCHOOLS = [
   {
@@ -99,7 +99,7 @@ export default function AboutPage() {
 
           <div className="mt-big">
             <figure className="ph-wide ab-open">
-              <Image src="/about/san-jose.webp" alt="Downtown San Jose at night" width={2400} height={1028} sizes="100vw" quality={82} />
+              <Image src="/about/san-jose.webp" alt="Silicon Valley at dusk, seen from the hills above San Jose" width={3840} height={1548} sizes="100vw" quality={90} />
               <figcaption>
                 <span>San Jose, California</span>
                 <a href={SAN_JOSE.href} target="_blank" rel="noopener noreferrer">
