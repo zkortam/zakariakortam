@@ -26,8 +26,8 @@ export default function HomePage() {
                 </blockquote>
                 <figcaption className="sw-by text-read">{COPY.statementBy}</figcaption>
               </figure>
-              <a className="sw-credit" href="https://commons.wikimedia.org/wiki/File:Jonathan_Ive_2009.jpg" target="_blank" rel="noopener noreferrer">
-                Photo: Gary Cohen, CC BY-SA 2.0
+              <a className="sw-credit" href="https://commons.wikimedia.org/wiki/File:Jonathan_Ive_(OTRS).jpg" target="_blank" rel="noopener noreferrer">
+                Photo: Marcus Dawes, CC BY-SA 3.0
               </a>
             </div>
           </div>
