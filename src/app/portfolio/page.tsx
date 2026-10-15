@@ -5,11 +5,15 @@ import { IndexRows } from '@/components/IndexRows'
 import { Footer } from '@/components/Footer'
 import { earlierProjects, featuredProjects } from '@/lib/projects-data'
 import { COPY } from '@/lib/site'
+import { pageMeta } from '@/lib/seo'
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
+  path: '/portfolio',
   title: 'Work',
-  description: 'Roles and projects by Zakaria Kortam: DigiCert, FacilisAI, Incorta, Helio, Surf, SPICE++, AiroFind, and more.',
-}
+  ogTitle: 'Work by Zakaria Kortam',
+  description:
+    'Products Zakaria Kortam built end to end, including Helio, Surf, SPICE++, and AiroFind, plus his roles at DigiCert, FacilisAI, Incorta, and Inqueue.',
+})
 
 export default function WorkPage() {
   return (

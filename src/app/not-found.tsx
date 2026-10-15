@@ -1,5 +1,12 @@
+import type { Metadata } from 'next'
 import { ULink } from '@/components/ULink'
 import { COPY } from '@/lib/site'
+
+export const metadata: Metadata = {
+  title: 'Not found',
+  robots: { index: false, follow: true },
+  alternates: { canonical: null },
+}
 
 export default function NotFound() {
   return (

@@ -1,11 +1,14 @@
 import type { Metadata } from 'next'
 import { CopyPill } from '@/components/CopyPill'
 import { COPY, EMAIL, LOCATION, SOCIALS, YEAR } from '@/lib/site'
+import { pageMeta } from '@/lib/seo'
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
+  path: '/contact',
   title: 'Contact',
-  description: 'Get in touch with Zakaria Kortam.',
-}
+  ogTitle: 'Contact Zakaria Kortam',
+  description: `Contact Zakaria Kortam by email at ${EMAIL}, or find him on LinkedIn, GitHub, X, and Instagram.`,
+})
 
 export default function ContactPage() {
   return (

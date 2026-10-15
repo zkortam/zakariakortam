@@ -4,11 +4,16 @@ import { ExperienceList } from '@/components/ExperienceList'
 import { Footer } from '@/components/Footer'
 import { Rule } from '@/components/Rule'
 import { COPY, noWidow } from '@/lib/site'
+import { pageMeta } from '@/lib/seo'
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
+  path: '/about',
   title: 'About',
-  description: 'Zakaria Kortam is an Associate Product Manager on the Innovation team at DigiCert, based in San Jose.',
-}
+  ogTitle: 'About Zakaria Kortam',
+  type: 'profile',
+  description:
+    'Zakaria Kortam is an Associate Product Manager at DigiCert who takes products from zero to one, end to end. UC San Diego EE, based in San Jose.',
+})
 
 function Rows({ items }: { items: readonly { label: string; value: string }[] }) {
   return (

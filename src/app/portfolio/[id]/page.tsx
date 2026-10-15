@@ -12,6 +12,8 @@ import { LivePill } from '@/components/LivePill'
 import { Rule } from '@/components/Rule'
 import { NextRow } from '@/components/IndexRows'
 import { domainOf, noWidow } from '@/lib/site'
+import { pageMeta } from '@/lib/seo'
+import { ProjectStructuredData } from '@/components/StructuredData'
 
 type Params = { params: Promise<{ id: string }> }
 
@@ -22,7 +24,31 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { id } = await params
   const p = projects.find((x) => x.id === id)
-  return p ? { title: p.title, description: p.line } : {}
+  if (!p) return {}
+  const path = `/portfolio/${p.id}`
+  const share = { image: `${path}/opengraph-image`, imageAlt: `${p.title}, by Zakaria Kortam` }
+  if (p.kind === 'work') {
+    const org = p.org ?? p.title
+    return pageMeta({
+      ...share,
+      path,
+      title: `${p.role} at ${org}`,
+      description: fit(`${p.line} Zakaria Kortam, ${p.role} at ${org}, ${p.year}.`, p.line),
+    })
+  }
+  return pageMeta({
+    ...share,
+    path,
+    title: p.title,
+    ogTitle: `${p.title}, by Zakaria Kortam`,
+    description: fit(`${p.line} ${p.title} by Zakaria Kortam, ${p.year}.`, p.line),
+    type: 'article',
+  })
+}
+
+/** Search snippets cut off near 155 characters; fall back to the plain line when the full one runs long. */
+function fit(full: string, short: string) {
+  return full.length <= 155 ? full : short
 }
 
 function nextIn(list: Project[], id: string) {
@@ -168,6 +194,7 @@ export default async function ProjectPage({ params }: Params) {
     return (
       <>
         <ProjectKeys prev={prev.id} next={next.id} />
+        <ProjectStructuredData p={p} />
         <main id="main" tabIndex={-1}>
           <Plate project={p} spec={spec} heading="h1" link={false} flipTarget showGithub />
           <section className="paper pt-sec" data-tone="light">
@@ -196,6 +223,7 @@ export default async function ProjectPage({ params }: Params) {
   return (
     <>
       <ProjectKeys prev={prev.id} next={next.id} />
+      <ProjectStructuredData p={p} />
       <main id="main" tabIndex={-1}>
         <section className="role-hero" data-tone="dark">
           <div aria-hidden="true" className="light light-rose" style={{ width: '100vmax', height: '100vmax', left: '70%', top: '30%', opacity: 0.8 }} />

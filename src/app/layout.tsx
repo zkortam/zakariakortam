@@ -8,6 +8,7 @@ import { SmoothScroll } from "@/components/SmoothScroll";
 import { Observer } from "@/components/Observer";
 import { CommandMenu } from "@/components/CommandMenu";
 import { Nav } from "@/components/Nav";
+import { SITE_URL } from "@/lib/seo";
 
 const geist = Geist({
   subsets: ["latin"],
@@ -20,13 +21,18 @@ const geist = Geist({
 const HEAD_SCRIPT =
   "(function(){var d=document.documentElement;d.classList.add('js');try{if(location.pathname==='/'&&!sessionStorage.getItem('zk-intro')){d.dataset.intro='play';sessionStorage.setItem('zk-intro','1');var on=0,go=function(){if(on)return;on=1;requestAnimationFrame(function(){requestAnimationFrame(function(){d.classList.add('go')})})};setTimeout(go,900);var w=function(){var i=document.querySelector('.hero-portrait img');if(!i)return go();var f=function(){i.decode?i.decode().then(go,go):go()};if(i.complete)f();else{i.addEventListener('load',f);i.addEventListener('error',go)}};document.readyState==='loading'?document.addEventListener('DOMContentLoaded',w):w()}else{d.dataset.intro='done'}}catch(e){d.dataset.intro='done'}})();";
 
+const HOME_TITLE = "Zakaria Kortam | Product Manager & Builder";
+const HOME_DESCRIPTION =
+  "Zakaria Kortam, Associate Product Manager (Innovation) at DigiCert, builds products 0 to 1: Helio, Surf, Surf Messenger, SPICE++, RTL++, and AiroFind.";
+
 export const metadata: Metadata = {
-  metadataBase: new URL('https://zakariakortam.com'),
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: "Zakaria Kortam | Product Manager & Builder",
+    default: HOME_TITLE,
     template: "%s | Zakaria Kortam"
   },
-  description: "Associate Product Manager, Innovation at DigiCert. Builder of Helio, Surf, Surf Messenger, SPICE++, RTL++, and AiroFind. Previously founding AI engineer at FacilisAI and product engineering at Incorta. UC San Diego EE. Based in San Jose, CA.",
+  description: HOME_DESCRIPTION,
+  alternates: { canonical: "/" },
   keywords: [
     "Zakaria Kortam",
     "Product Manager",
@@ -34,20 +40,23 @@ export const metadata: Metadata = {
     "Helio",
     "Surf",
     "SPICE++",
+    "Surf Messenger",
+    "RTL++",
     "AiroFind",
+    "Product Design",
     "AI Engineer",
     "Machine Learning",
     "Agentic AI",
     "MCP",
     "React",
     "TypeScript",
-    "Facilis",
+    "FacilisAI",
     "UC San Diego",
     "San Jose",
     "Silicon Valley",
     "LLM",
   ],
-  authors: [{ name: "Zakaria Kortam", url: "https://zakariakortam.com" }],
+  authors: [{ name: "Zakaria Kortam", url: SITE_URL }],
   creator: "Zakaria Kortam",
   publisher: "Zakaria Kortam",
   formatDetection: {
@@ -56,17 +65,19 @@ export const metadata: Metadata = {
     telephone: false,
   },
   openGraph: {
-    type: "website",
+    type: "profile",
     locale: "en_US",
-    url: "https://zakariakortam.com",
-    title: "Zakaria Kortam | Product Manager & Builder",
-    description: "Associate Product Manager, Innovation at DigiCert. Builder of Helio, Surf, SPICE++, and AiroFind.",
+    url: "/",
+    title: HOME_TITLE,
+    description: HOME_DESCRIPTION,
     siteName: "Zakaria Kortam",
+    firstName: "Zakaria",
+    lastName: "Kortam",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Zakaria Kortam | Product Manager & Builder",
-    description: "Associate Product Manager, Innovation at DigiCert. UC San Diego EE.",
+    title: HOME_TITLE,
+    description: HOME_DESCRIPTION,
     creator: "@zakariakortam",
     site: "@zakariakortam",
   },

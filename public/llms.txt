@@ -1,0 +1,55 @@
+# Zakaria Kortam
+
+> Zakaria Kortam is an Associate Product Manager on the Innovation team at DigiCert, based in San Jose, California. He takes products from zero to one, end to end: talking to customers, deciding what to build, designing it, writing the code, and shipping it. On his own time he builds Helio, Surf, Surf Messenger, SPICE++, RTL++, and AiroFind.
+
+Site: https://www.zakariakortam.com
+
+- Role: Associate Product Manager, Innovation, at DigiCert (2026 to now). Before that, founding AI engineer at FacilisAI, product engineering intern at Incorta, and product intern at Inqueue.
+- Education: B.S. Electrical Engineering, UC San Diego (2026). A.S. Mathematics, A.S. Computer Science, and A.S. Physics, Evergreen Valley College.
+- Works across product (zero to one, customer discovery, roadmaps, PRDs, metrics, launch), product and interaction design, full stack engineering (TypeScript, React, Next.js, Rust, Python, Postgres, native apps), and AI (agents, MCP, retrieval, evals, voice).
+
+## Pages
+
+- [Home](https://www.zakariakortam.com/): Overview and featured products.
+- [Work](https://www.zakariakortam.com/portfolio): All roles and projects.
+- [About](https://www.zakariakortam.com/about): Background, skills, and education.
+- [Contact](https://www.zakariakortam.com/contact): Email and social links.
+
+## Products
+
+- [Helio](https://www.zakariakortam.com/portfolio/helio): A voice AI tutor that talks, listens, and teaches math and science on a live whiteboard. (live: https://helio.education)
+- [Surf](https://www.zakariakortam.com/portfolio/surf): A full social network built by one person, on web, iOS, and Android. (live: https://surfsocial.org)
+- [Surf Messenger](https://www.zakariakortam.com/portfolio/surf-messenger): Private messaging with end-to-end encryption, on Mac, Windows, and phones. (live: https://surfmessenger.com, code: https://github.com/zkortam/SurfMessengerDesktop)
+- [SPICE++](https://www.zakariakortam.com/portfolio/spice-plus-plus): A SPICE circuit simulator written from scratch, running in the browser, with an AI agent built in. (live: https://www.spicepp.com)
+- [RTL++](https://www.zakariakortam.com/portfolio/rtl-plus-plus): Verilog in the browser, two simulators, and a debugger that tells you why a test failed. (live: https://rtlpp.vercel.app)
+- [AiroFind](https://www.zakariakortam.com/portfolio/airofind): Flight search that prices every date pair around your trip and finds the cheapest. (live: https://airofind.com)
+
+## Experience
+
+- [Associate Product Manager, Innovation, DigiCert](https://www.zakariakortam.com/portfolio/digicert), 2026 to now: New products in digital trust: certificates, PKI, and identity. (https://www.digicert.com)
+- [Founding AI Engineer, FacilisAI](https://www.zakariakortam.com/portfolio/facilis-ai), 2025 to 2026: Agents that work with factory systems: PLCs, MES, and SCADA. (https://facilis.ai)
+- [Product Engineering Intern, Incorta](https://www.zakariakortam.com/portfolio/incorta-dashboards), 2024 to 2025: Charts and schema interpreters behind the AI Copilot dashboard. (https://incorta.com)
+- [Product Intern, Inqueue](https://www.zakariakortam.com/portfolio/inqueue), 2023: Took a queuing app from research to a shipped Flutter MVP.
+
+## Earlier projects
+
+- [Documap](https://www.zakariakortam.com/portfolio/documap-ai): Contract analysis. Won the SAG-AFTRA Challenge at Stanford Law.
+- [Wingman](https://www.zakariakortam.com/portfolio/wingman): Reviews what an AI agent is about to do before it does it. Co-created with Ali Alani. (code: https://github.com/zkortam/wingman)
+- [RoboDog](https://www.zakariakortam.com/portfolio/robodog): Voice and vision for a robot on an Arduino UNO Q, all running locally. (live: https://ece180robodog.vercel.app, code: https://github.com/zkortam/ece180robodog)
+- [Fridgit](https://www.zakariakortam.com/portfolio/fridgit): A shared fridge you keep track of by camera, voice, or receipt. (live: https://www.fridgit.org)
+- [DealFlow](https://www.zakariakortam.com/portfolio/dealflow): An AI agent that prepares you to negotiate salary, software, or rent.
+- [Sentiment Analysis](https://www.zakariakortam.com/portfolio/sentiment-analysis): A real-time sentiment model served on Kubernetes with GitOps. (code: https://github.com/zkortam/sentiment-analysis-v2)
+- [Alex AI](https://www.zakariakortam.com/portfolio/alex-ai): Picks a business structure and files the paperwork. 1st at TedAI × Microsoft.
+- [Nexus](https://www.zakariakortam.com/portfolio/nexus-robot): A path-following robot on Arduino with vision and PID control. (live: https://nexusrobot.org)
+- [Risk Factors](https://www.zakariakortam.com/portfolio/risk-factors-viz): Pulls risk factors out of SEC filings and graphs how they connect.
+- [Legiscan](https://www.zakariakortam.com/portfolio/legiscan): Compares a bill to current law and scores how complex it is.
+- [Clippy 2.0](https://www.zakariakortam.com/portfolio/clippy-2): Clippy, brought back as a chatbot. 1,200+ users.
+- [Hypersonic Sprinkler](https://www.zakariakortam.com/portfolio/hypersonic-sprinkler): A sprinkler that uses oscillators to spread water more evenly.
+
+## Contact
+
+- Email: zakaria@zakariakortam.com
+- LinkedIn: https://linkedin.com/in/zkortam
+- GitHub: https://github.com/zkortam
+- X: https://x.com/zakariakortam
+- Instagram: https://instagram.com/zkortam
