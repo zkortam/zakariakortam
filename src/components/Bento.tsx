@@ -22,7 +22,7 @@ function Tile({ id, className, children, media }: { id: string; className: strin
   const p = projects.find((x) => x.id === id)!
   const spec = PLATES[id]
   return (
-    <TLink href={`/portfolio/${id}`} className={`bt ${className}`} data-tone={spec.tone} style={{ ['--ground' as string]: spec.ground }} data-reveal="">
+    <TLink href={`/portfolio/${id}`} className={`bt ${className}`} data-tone={spec.tone} style={{ ['--ground' as string]: spec.ground }}>
       <span className="bt-head">
         <span className="bt-title">{p.title}</span>
         <span className="bt-line">{p.line}</span>
@@ -49,7 +49,7 @@ export function Bento() {
         }
       />
       <Tile id="surf" className="bt-surf bt-phone" media={<PhoneWithLoop spec={PLATES.surf} desk={false} />} />
-      <div className="bt bt-stats" data-tone="light" data-reveal="">
+      <div className="bt bt-stats" data-tone="light">
         {FIGURES.map((f) => (
           <p key={f.label}>
             <span className="bt-num tnum">{f.value}</span>

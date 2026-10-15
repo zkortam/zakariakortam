@@ -1274,3 +1274,32 @@ a, button { transition-property: color, background-color, border-color, opacity,
 /* Arrows: the icon set's thick rounded arrow, sitting on the text's baseline. */
 .ar { display: inline-block; vertical-align: -0.12em; flex: none; }
 @media (max-width: 767px) { .plate-meta > span:first-child { flex-basis: 100%; } }
+
+/* ---------- Scroll scenes (CSS scroll-driven, on the compositor; absent support or reduced motion: still) ---------- */
+.sw-pin { padding: 120px 0; }
+@media (min-width: 1024px) { .sw-pin { padding: 200px 0; } }
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* The statement holds the screen while it lights up word by word. */
+    .sw-pin { height: 240svh; padding: 0; view-timeline: --sw block; }
+    .sw-stage { position: sticky; top: 0; height: 100svh; display: flex; flex-direction: column; justify-content: center; }
+    .sw { display: inline-block; animation: swIn linear both; animation-timeline: --sw;
+      animation-range: contain calc(var(--k) * 72%) contain calc(var(--k) * 72% + 12%); }
+    @keyframes swIn { from { opacity: .12; translate: 0 .2em; } to { opacity: 1; translate: 0 0; } }
+
+    /* Leaving the hero, the whole opening shrinks into a rounded card on the paper. */
+    #main:has(> .hero) { background: var(--paper); }
+    .hero { transform-origin: 50% 100%; animation: heroCard linear both; animation-timeline: --hero; animation-range: exit 0% exit 90%; }
+    @keyframes heroCard { to { scale: .86; border-radius: 56px; } }
+    html.lite-2 .hero { animation: none; }
+
+    /* The next project arrives as a rounded card and opens to the full screen. */
+    main:has(> .plate:not(:first-child)) { background: var(--paper); }
+    main > .plate:not(:first-child) { animation: plateOpen linear both; animation-timeline: view(); animation-range: entry 0% cover 45%; }
+    @keyframes plateOpen { from { clip-path: inset(7% 5% 0 round 48px); } to { clip-path: inset(0 0 0 round 0); } }
+
+    /* Bento tiles rise and settle into the grid as they arrive. */
+    .bt { animation: btIn linear both; animation-timeline: view(); animation-range: entry 0% entry 85%; }
+    @keyframes btIn { from { opacity: 0; scale: .92; translate: 0 64px; } }
+  }
+}

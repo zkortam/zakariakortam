@@ -2,6 +2,7 @@ import { HomeHero } from '@/components/HomeHero'
 import { Footer } from '@/components/Footer'
 import { TLink } from '@/components/TLink'
 import { Bento } from '@/components/Bento'
+import { ScrollWords } from '@/components/ScrollWords'
 import { COPY } from '@/lib/site'
 import { Icon } from '@/components/Icon'
 
@@ -12,11 +13,13 @@ export default function HomePage() {
       <main id="main" tabIndex={-1}>
         <HomeHero />
 
-        <section className="paper pt-statement" data-tone="light">
-          <div className="grid-main">
-            <p className="oc col-span-4 text-statement md:col-span-12 lg:col-span-11" data-rise="">
-              {COPY.statementLead} <span className="c-ink50">{COPY.statementRest}</span>
-            </p>
+        <section className="paper sw-pin" data-tone="light">
+          <div className="sw-stage">
+            <div className="grid-main">
+              <p className="col-span-4 text-statement md:col-span-12 lg:col-span-11">
+                <ScrollWords lead={COPY.statementLead} rest={COPY.statementRest} />
+              </p>
+            </div>
           </div>
         </section>
 
