@@ -273,6 +273,15 @@ html[data-route="entering"] #page { opacity: 0; transition: none; }
 @media (min-width: 768px) { .phone-flow .phone-box { height: calc(var(--ph) * .86); } }
 .phone-flow img { display: block; height: var(--ph); width: auto; }
 
+/* Product loops: the poster (the loop's first frame) is a real picture under the video, so the box, the first paint,
+   reduced motion and a transition clone all show the same frame. The video stays transparent until it has one. */
+.loop { position: relative; display: block; }
+.loop .loop-poster { display: block; width: 100%; height: auto; }
+.loop-video { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; background: transparent; pointer-events: none; }
+.loop-fill { position: absolute; inset: 0; }
+.loop.loop-fill .loop-poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.phone-screen { overflow: hidden; background: #000; }
+
 /* Ambient light around phones */
 .amb { position: absolute; width: 90vmax; height: 90vmax; left: 50%; top: 55%; transform: translate(-50%, -50%); opacity: .30; pointer-events: none;
   -webkit-mask-image: radial-gradient(closest-side, #000 0%, rgba(0,0,0,.6) 45%, transparent 100%);

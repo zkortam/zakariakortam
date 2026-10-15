@@ -7,7 +7,13 @@ import { getLenis, scrollTop } from '@/lib/lenis'
 export type FlipKind = 'plate' | 'tile'
 type FlipRequest = { kind: FlipKind; el: HTMLElement; id: string }
 
+/** A loop carried across a transition: its clone, the frame it froze on (while `snap` is up), and its length. */
+type LoopHandoff = { id: string; clone: HTMLVideoElement; snap?: HTMLCanvasElement; t0: number; dur: number }
+
 type FlipState = {
+  loops: LoopHandoff[]
+  /** The tile's box at the click: by the time the new page lays out, the old tile is gone. */
+  tileBox?: DOMRect
   kind: FlipKind
   id: string
   host: HTMLDivElement
@@ -45,6 +51,131 @@ function wait(ms: number) {
   return new Promise<void>((r) => setTimeout(r, ms))
 }
 
+function shown(el: Element) {
+  return el.getClientRects().length > 0
+}
+
+/**
+ * The clone of a playing loop would restart from its first frame. Freeze the frame on screen into a canvas over it,
+ * start the clone from that same frame, and lift the canvas once the clone has painted it.
+ */
+function carryLoops(source: HTMLElement, clone: HTMLElement): LoopHandoff[] {
+  const src = Array.from(source.querySelectorAll<HTMLVideoElement>('video[data-loop]'))
+  const dst = Array.from(clone.querySelectorAll<HTMLVideoElement>('video[data-loop]'))
+  const out: LoopHandoff[] = []
+  dst.forEach((cv, i) => {
+    const sv = src[i]
+    cv.removeAttribute('data-hold')
+    cv.muted = true
+    if (!sv || !shown(sv) || sv.readyState < 2 || !sv.videoWidth) return
+    const t0 = sv.currentTime
+    const h: LoopHandoff = { id: sv.dataset.loop || '', clone: cv, t0, dur: sv.duration || 0 }
+    try {
+      const c = document.createElement('canvas')
+      c.width = sv.videoWidth
+      c.height = sv.videoHeight
+      c.getContext('2d')?.drawImage(sv, 0, 0, c.width, c.height)
+      c.className = 'loop-video'
+      c.setAttribute('aria-hidden', 'true')
+      cv.after(c)
+      h.snap = c
+    } catch {
+      /* a tainted or unready frame: the poster under it stands in */
+    }
+    if (sv.paused) {
+      out.push(h)
+      return
+    }
+    const lift = () => {
+      const r = (cv as HTMLVideoElement & { requestVideoFrameCallback?: (cb: () => void) => number }).requestVideoFrameCallback
+      if (r) r.call(cv, () => h.snap?.remove())
+      else requestAnimationFrame(() => requestAnimationFrame(() => h.snap?.remove()))
+    }
+    // Resume from the frozen frame itself: a brief hold reads as nothing, a jump forward would read as a cut.
+    cv.addEventListener(
+      'loadedmetadata',
+      () => {
+        cv.addEventListener('seeked', () => cv.play().then(lift).catch(() => undefined), { once: true })
+        cv.currentTime = t0
+      },
+      { once: true },
+    )
+    cv.preload = 'auto'
+    cv.load()
+    out.push(h)
+  })
+  return out
+}
+
+/** Where a carried loop is now: the clone's own playhead once it is live, else the frozen frame. */
+function loopTime(h: LoopHandoff) {
+  return h.snap?.isConnected ? h.t0 : h.clone.currentTime
+}
+
+/** Hold the destination's loops still (on the frame the clone shows) until the clone hands over. */
+function holdLoops(target: HTMLElement, loops: LoopHandoff[], ahead: number) {
+  const vids = Array.from(target.querySelectorAll<HTMLVideoElement>('video[data-loop]'))
+  vids.forEach((v) => {
+    v.dataset.hold = '1'
+    v.pause()
+    const h = loops.find((l) => l.id === v.dataset.loop)
+    if (!h && !shown(v)) return
+    v.preload = 'auto'
+    // Buffer the stretch the clone will be showing when it hands over.
+    if (h) {
+      try {
+        v.currentTime = h.dur ? (h.t0 + ahead) % h.dur : h.t0 + ahead
+      } catch {
+        /* no metadata yet: the handover seeks again */
+      }
+    }
+  })
+  return vids
+}
+
+function frame() {
+  return new Promise<void>((r) => requestAnimationFrame(() => r()))
+}
+
+function seekTo(v: HTMLVideoElement, t: number) {
+  return new Promise<void>((res) => {
+    if (Math.abs(v.currentTime - t) < 0.01 && v.readyState >= 2) return res()
+    v.addEventListener('seeked', () => res(), { once: true })
+    try {
+      v.currentTime = t
+    } catch {
+      res()
+    }
+  })
+}
+
+/**
+ * Seek each held loop a moment ahead of the clone, wait for that frame, and return once the still-playing clone has
+ * caught up to it: the swap then lands on the very frame on screen. The clone keeps moving while this waits.
+ */
+async function syncLoops(vids: HTMLVideoElement[], loops: LoopHandoff[]) {
+  await Promise.race([
+    Promise.all(
+      vids.map(async (v) => {
+        const h = loops.find((l) => l.id === v.dataset.loop)
+        if (!h) {
+          if (shown(v)) await seekTo(v, 0)
+          return
+        }
+        const live = !h.snap?.isConnected && !h.clone.paused
+        const t = live ? Math.min(h.clone.currentTime + 0.25, (h.dur || Infinity) - 0.05) : loopTime(h)
+        await seekTo(v, t)
+        while (live && h.clone.isConnected && !h.clone.paused && h.clone.currentTime < t && h.clone.currentTime > t - 1) await frame()
+      }),
+    ),
+    wait(1500),
+  ])
+}
+
+function releaseLoops(vids: HTMLVideoElement[]) {
+  vids.forEach((v) => v.removeAttribute('data-hold'))
+}
+
 function decodeAll(root: Element, cap: number) {
   const imgs = Array.from(root.querySelectorAll('img'))
   return Promise.race([Promise.all(imgs.map((i) => i.decode().catch(() => undefined))), wait(cap)])
@@ -71,6 +202,7 @@ function makeFlip(req: FlipRequest): FlipState | undefined {
     const val = cs.getPropertyValue(v)
     if (val) clone.style.setProperty(v, val)
   }
+  const loops = carryLoops(source, clone)
   clone.removeAttribute('data-flip-source')
   clone.removeAttribute('data-flip-target')
   clone.querySelectorAll('[id]').forEach((n) => n.removeAttribute('id'))
@@ -137,7 +269,8 @@ function makeFlip(req: FlipRequest): FlipState | undefined {
   host.appendChild(clone)
   document.body.appendChild(host)
   source.style.visibility = 'hidden'
-  return { kind: req.kind, id: req.id, host, source, src: r, wide, fit, hovered }
+  const tileBox = req.kind === 'tile' ? req.el.closest('.tile-media')?.getBoundingClientRect() : undefined
+  return { loops, tileBox, kind: req.kind, id: req.id, host, source, src: r, wide, fit, hovered }
 }
 
 function teardown(f: FlipState) {
@@ -216,7 +349,7 @@ function prepareFlip(f: FlipState): (() => void) | undefined {
       from = { transform: `translate(${tx}px,${ty}px) scale(${s})`, clipPath: `inset(${iy}px ${ix}px ${iy}px ${ix}px)` }
     } else {
       const s = s0.width / d.width
-      const tile = f.source.closest('.tile-media')?.getBoundingClientRect()
+      const tile = f.tileBox
       let vTop = 0
       let vBottom = s0.height
       if (tile) {
@@ -242,8 +375,9 @@ function prepareFlip(f: FlipState): (() => void) | undefined {
     duration = 800
   }
 
-  // Start the destination's own image decodes now, while the clone covers them.
+  // Start the destination's own image decodes now, while the clone covers them. Its loops wait, still, for the handover.
   const decoded = decodeAll(target, 1200)
+  const held = holdLoops(target, f.loops, (duration + 300) / 1000)
 
   // When the picture fills the plate (plate cut, full-bleed board), slide it in *under* the new page so the
   // title and line rise over it, as they sit in the finished composition. The plate's own ground is lifted
@@ -287,8 +421,10 @@ function prepareFlip(f: FlipState): (() => void) | undefined {
         /* cancelled */
       }
       await Promise.race([decoded, wait(400)])
+      await syncLoops(held, f.loops)
       hide.forEach((n) => (n.style.visibility = ''))
       restore()
+      releaseLoops(held)
       // Two frames: the real media paints under the clone before the clone goes, so there is no gap.
       requestAnimationFrame(() =>
         requestAnimationFrame(() => {
