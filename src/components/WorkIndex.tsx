@@ -5,6 +5,7 @@ import { ProjectTile } from './ProjectTile'
 import { ExperienceList } from './ExperienceList'
 import { IndexRows } from './IndexRows'
 import { projects, type Category, type Project } from '@/lib/projects-data'
+import { Icon } from './Icon'
 
 const FILTERS: [string, Category | 'All'][] = [
   ['All', 'All'],
@@ -115,10 +116,7 @@ export function WorkIndex() {
     <>
       <div className="grid-main mt-sec">
         <div className="wi-search col-span-4 md:col-span-6" data-reveal="">
-          <svg aria-hidden="true" viewBox="0 0 24 24" className="wi-glass">
-            <circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" strokeWidth="1.8" />
-            <path d="M15.5 15.5 L21 21" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-          </svg>
+          <Icon name="search" className="wi-glass" />
           <input
             type="search"
             value={q}
@@ -132,7 +130,7 @@ export function WorkIndex() {
           />
           {q && (
             <button type="button" className="wi-clear text-body" onClick={() => setQ('')} aria-label="Clear search">
-              Clear
+              <Icon name="close" size={18} />
             </button>
           )}
         </div>

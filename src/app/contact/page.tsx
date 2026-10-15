@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { CopyPill } from '@/components/CopyPill'
+import { Icon } from '@/components/Icon'
 import { COPY, EMAIL, LOCATION, SOCIALS, YEAR } from '@/lib/site'
 import { pageMeta } from '@/lib/seo'
 
@@ -64,16 +65,13 @@ export default function ContactPage() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`${s.label}, ${s.handle}, opens in a new tab`}
-                    className="u-group col-span-full grid grid-cols-subgrid items-baseline py-[16px] text-read md:py-[20px]"
+                    className="u-group col-span-full flex items-center gap-[16px] py-[14px] text-read md:py-[18px]"
+                    data-reveal=""
                   >
-                    <span className="col-span-4 md:col-span-3" data-reveal="">
-                      <span className="u-box">
-                        {s.label}
-                        <span aria-hidden="true" className="u-line" />
-                      </span>
-                    </span>
-                    <span className="col-span-4 md:col-span-3 md:text-right" style={{ color: 'var(--bone-64)' }} data-reveal="" data-align="end">
+                    <Icon name={s.icon} size={24} style={{ color: 'var(--bone-64)', flex: 'none' }} />
+                    <span className="u-box">
                       {s.handle}
+                      <span aria-hidden="true" className="u-line" />
                     </span>
                   </a>
                 </li>

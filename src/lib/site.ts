@@ -8,11 +8,11 @@ export const NAV = [
 ] as const
 
 export const SOCIALS = [
-  { label: 'Surf', handle: '@zakaria', href: 'https://surfsocial.org/zakaria' },
-  { label: 'LinkedIn', handle: 'in/zkortam', href: 'https://linkedin.com/in/zkortam' },
-  { label: 'GitHub', handle: 'zkortam', href: 'https://github.com/zkortam' },
-  { label: 'X', handle: '@zakariakortam', href: 'https://x.com/zakariakortam' },
-  { label: 'Instagram', handle: '@zkortam', href: 'https://instagram.com/zkortam' },
+  { label: 'Surf', icon: 'surf', handle: '@zakaria', href: 'https://surfsocial.org/zakaria' },
+  { label: 'LinkedIn', icon: 'linkedin', handle: 'in/zkortam', href: 'https://linkedin.com/in/zkortam' },
+  { label: 'GitHub', icon: 'github', handle: 'zkortam', href: 'https://github.com/zkortam' },
+  { label: 'X', icon: 'x', handle: '@zakariakortam', href: 'https://x.com/zakariakortam' },
+  { label: 'Instagram', icon: 'instagram', handle: '@zkortam', href: 'https://instagram.com/zkortam' },
 ] as const
 
 export const LOCATION = 'San Jose, California'

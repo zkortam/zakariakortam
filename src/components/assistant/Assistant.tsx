@@ -9,6 +9,7 @@ import { useSpeech } from './useSpeech'
 import { getLenis } from '@/lib/lenis'
 import { projects } from '@/lib/projects-data'
 import { EMAIL, NAV, SOCIALS } from '@/lib/site'
+import { Icon } from '../Icon'
 
 type Item = {
   id: string
@@ -477,9 +478,7 @@ export function Assistant() {
             <div className="asst-card-top">
               <span className="asst-grab" aria-hidden="true" />
               <button type="button" className="asst-icon-btn asst-close" onClick={close} aria-label="Close">
-                <svg aria-hidden="true" width="14" height="14" viewBox="0 0 14 14" fill="none">
-                  <path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                </svg>
+                <Icon name="close" size={18} />
               </button>
             </div>
             <div
@@ -616,16 +615,11 @@ export function Assistant() {
                 aria-label={speech.listening ? 'Stop voice input' : 'Ask with your voice'}
                 aria-pressed={speech.listening}
               >
-                <svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <rect x="5.5" y="1.75" width="5" height="8" rx="2.5" stroke="currentColor" strokeWidth="1.4" />
-                  <path d="M3 7.5a5 5 0 0010 0M8 12.5v2" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
-                </svg>
+                <Icon name="mic" size={18} />
               </button>
             )}
             <button type="submit" className="asst-send" disabled={!q.trim() || streaming} aria-label="Send question">
-              <svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path d="M8 13V3M3.5 7.5L8 3l4.5 4.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
+              <Icon name="up" size={18} strokeWidth={2.25} />
             </button>
           </form>
         </div>

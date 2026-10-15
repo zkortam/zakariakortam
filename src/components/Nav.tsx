@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { TLink } from './TLink'
 import { MobileMenu } from './MobileMenu'
+import { Icon } from './Icon'
 import { EMAIL, NAV } from '@/lib/site'
 
 function isActive(pathname: string, href: string) {
@@ -151,27 +152,23 @@ export function Nav() {
             ))}
           </nav>
           <span className="hidden justify-self-end md:col-span-2 md:col-start-11 md:block">
-            <a href={`mailto:${EMAIL}`} className="u-box u-hover" data-align="end">
-              Email
-              <span aria-hidden="true" className="u-line" />
+            <a href={`mailto:${EMAIL}`} className="nav-icon" aria-label={`Email ${EMAIL}`} title="Email">
+              <Icon name="mail" size={22} />
             </a>
           </span>
           <button
             ref={btn}
             type="button"
-            className="nav-menu-btn col-span-2 col-start-3 -my-[12px] h-[44px] justify-self-end md:hidden"
+            className={`nav-menu-btn nav-icon col-span-2 col-start-3 justify-self-end md:hidden ${open ? 'on' : ''}`}
             aria-expanded={open}
             aria-controls="menu"
+            aria-label={open ? 'Close menu' : 'Menu'}
             onClick={() => setOpen((o) => !o)}
-            data-align="end"
           >
-            <span className={`roll ${open ? 'on' : ''}`}>
-              <span>
-                <span>Menu</span>
-                <span aria-hidden={!open}>Close</span>
-              </span>
+            <span aria-hidden="true" className="burger">
+              <span />
+              <span />
             </span>
-            <span className="sr-only">{open ? ', menu open' : ''}</span>
           </button>
           <div className="nav-nojs col-span-2 col-start-3 justify-self-end gap-[16px] md:hidden">
             {NAV.map((l) => (

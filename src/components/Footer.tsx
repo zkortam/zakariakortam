@@ -2,6 +2,7 @@ import { FooterLight } from './FooterLight'
 import { Wordmark } from './Wordmark'
 import { ULink } from './ULink'
 import { TLink } from './TLink'
+import { Icon } from './Icon'
 import { COPY, EMAIL, LOCATION, NAV, SOCIALS, YEAR } from '@/lib/site'
 
 /** End credits. */
@@ -29,11 +30,11 @@ export function Footer() {
                 </li>
               ))}
             </ul>
-            <ul className="col-span-2 flex flex-col gap-[4px] md:col-start-9" data-reveal="">
+            <ul className="socials col-span-4 mt-[20px] self-start md:col-span-2 md:col-start-9 md:-mt-[11px]" data-reveal="">
               {SOCIALS.map((s) => (
                 <li key={s.label}>
-                  <a href={s.href} target="_blank" rel="noopener noreferrer" aria-label={`${s.label}, opens in a new tab`} className="flink">
-                    {s.label}
+                  <a href={s.href} target="_blank" rel="noopener noreferrer" aria-label={`${s.label}, opens in a new tab`} title={s.label} className="flink">
+                    <Icon name={s.icon} size={22} />
                   </a>
                 </li>
               ))}

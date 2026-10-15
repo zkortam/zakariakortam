@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, type RefObject } from 'react'
 import { usePathname } from 'next/navigation'
 import { TLink } from './TLink'
+import { Icon } from './Icon'
 import { EMAIL, NAV, SOCIALS } from '@/lib/site'
 import { getLenis } from '@/lib/lenis'
 
@@ -106,7 +107,7 @@ export function MobileMenu({
             {EMAIL}
             <span aria-hidden="true" className="u-line" />
           </a>
-          <div className="mt-[16px] flex flex-wrap gap-x-[20px] text-body" style={{ color: 'var(--bone-64)' }}>
+          <div className="socials mt-[12px]">
             {SOCIALS.map((s) => (
               <a
                 key={s.label}
@@ -114,10 +115,11 @@ export function MobileMenu({
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`${s.label}, opens in a new tab`}
+                title={s.label}
                 tabIndex={open ? 0 : -1}
-                className="flex h-[44px] items-center"
+                className="flink"
               >
-                {s.label}
+                <Icon name={s.icon} size={22} />
               </a>
             ))}
           </div>

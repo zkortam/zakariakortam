@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
+import { Icon } from './Icon'
 
 /*
  * Pop a live demo (or any panel) into an always-on-top window with Document Picture-in-Picture, so it
@@ -104,12 +105,15 @@ export function PopOut({
   return (
     <div ref={box} className={`popout ${className}`}>
       {supported && (
-        <button type="button" className="popout-btn c3" onClick={pip ? () => pip.close() : open} aria-pressed={!!pip}>
-          <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true" focusable="false">
-            <rect x="1.5" y="3.5" width="9" height="9" rx="1.5" fill="none" stroke="currentColor" strokeWidth="1.2" />
-            <path d="M7 1.5h5.5V7M12.5 1.5 6.5 7.5" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-          {pip ? 'Bring back' : 'Pop out'}
+        <button
+          type="button"
+          className="popout-btn c3"
+          onClick={pip ? () => pip.close() : open}
+          aria-pressed={!!pip}
+          aria-label={pip ? 'Bring back' : 'Pop out into its own window'}
+          title={pip ? 'Bring back' : 'Pop out'}
+        >
+          <Icon name={pip ? 'popin' : 'popout'} size={20} />
         </button>
       )}
       {pip ? (
