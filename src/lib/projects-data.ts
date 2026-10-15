@@ -330,7 +330,7 @@ export const projects: Project[] = [
       { value: '25k', label: 'lines of TypeScript' },
       { value: '0', label: 'third-party runtime dependencies in the SDK' },
     ],
-    demo: { title: 'Caught before it runs', line: 'Every tool call an agent proposes gets a verdict before the host executes it, and a fix only ships with proof.' },
+    demo: { title: 'A fix that ships with its proof', line: 'Wingman’s incident screen, ported from its code, with the incident from its own demo: an export that ignored the user’s filters, the assertion that fails 5 of 5 times before a three-line config change and passes 5 of 5 after it. Apply it, then export as each user: only the one who reported it gets the new config.' },
   },
   {
     id: 'robodog',

@@ -797,27 +797,6 @@ html:not(.js) .nav-menu-btn { display: none; }
 .ag-cell.best { box-shadow: 0 0 0 2px #F3EDE8; color: #fff; transform: scale(1.06); }
 .ag-pick { display: flex; justify-content: space-between; gap: 12px; margin-top: 20px; font-size: 15px; }
 
-.wm-grid { display: grid; gap: 16px; padding: 20px; font-size: 12px; }
-@media (min-width: 900px) { .wm-grid { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 28px; padding: 40px; font-size: 13px; } }
-.wm-term { min-width: 0; }
-.wm-bar { color: var(--bone-64); font-size: 11px; padding-bottom: 14px; }
-.wm-body { display: flex; flex-direction: column; gap: 18px; min-height: 300px; }
-.wm-call p { line-height: 1.5; word-break: break-word; }
-.wm-user { color: #F3EDE8; }
-.wm-prop { color: rgba(243,237,232,.7); }
-.wm-term .wm-k, .wm-step .wm-k { color: rgba(243,237,232,.45); margin-right: 6px; }
-.wm-verdict { display: flex; gap: 10px; align-items: baseline; margin-top: 4px; opacity: 0; transform: translateY(4px); transition: opacity 400ms var(--e-quint), transform 500ms var(--e-expo); }
-.wm-verdict.in { opacity: 1; transform: none; }
-.wm-chip { flex: none; font-size: 11px; font-weight: 600; letter-spacing: .02em; padding: 2px 8px; border-radius: 6px; }
-.wm-chip.allow { background: rgba(91,209,139,.16); color: #6FDD9C; }
-.wm-chip.rethink { background: rgba(232,163,92,.16); color: #F0B36E; }
-.wm-chip.escalate { background: rgba(255,107,107,.16); color: #FF8A8A; }
-.wm-why { color: rgba(243,237,232,.75); }
-.wm-proof { display: flex; flex-direction: column; gap: 12px; }
-.wm-step { display: grid; grid-template-columns: 74px 1fr; gap: 10px; opacity: .2; transform: translateX(-6px); transition: opacity 400ms var(--e-quint), transform 500ms var(--e-expo), color 300ms var(--e-std); line-height: 1.4; }
-.wm-step.in { opacity: 1; transform: none; }
-.wm-step.bad.in > span:last-child { color: #FF8A8A; }
-.wm-step.good.in > span:last-child { color: #6FDD9C; }
 .ss-wrap { position: relative; padding: 20px; display: flex; flex-direction: column; gap: 14px; }
 .ss-svg { display: none; }
 .ss-layer { position: relative; }
