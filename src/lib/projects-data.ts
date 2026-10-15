@@ -43,7 +43,7 @@ export const projects: Project[] = [
     line: 'Product for AI agent trust: identity, authorization, policy, and lifecycle for autonomous agents.',
     kind: 'work',
     featured: true,
-    year: 'July 2026 to now',
+    year: '2026–now',
     role: 'Associate Innovation Product Manager',
     org: 'DigiCert',
     overview:
@@ -64,7 +64,7 @@ export const projects: Project[] = [
     line: 'An agentic platform that connects factory systems (PLCs, MES, and SCADA) to AI agents.',
     kind: 'work',
     featured: true,
-    year: 'April 2025 to July 2026',
+    year: '2025–26',
     role: 'Founding AI Engineer',
     org: 'FacilisAI',
     overview:
@@ -92,7 +92,7 @@ export const projects: Project[] = [
     line: 'Shipped features for the Incorta AI Copilot, from PRD to rollout.',
     kind: 'work',
     featured: true,
-    year: 'July 2024 to March 2025',
+    year: '2024–25',
     role: 'Product Engineering Intern',
     org: 'Incorta',
     overview:
@@ -114,7 +114,7 @@ export const projects: Project[] = [
     line: 'Took a mobile queuing app from discovery to a shipped Flutter MVP.',
     kind: 'work',
     featured: true,
-    year: 'June to October 2023',
+    year: '2023',
     role: 'Product Intern',
     org: 'Inqueue',
     overview:
@@ -167,7 +167,7 @@ export const projects: Project[] = [
     line: 'A social network with feeds, short video, messaging, and live, on web, iOS, and Android.',
     kind: 'project',
     featured: true,
-    year: '2022 to now',
+    year: '2022–now',
     role: 'Product, design, and engineering',
     overview:
       'Surf has feeds, posts, shorts with a video editor in the browser, messaging and calls, live streaming, creator analytics, subscriptions, and family controls. One Next.js codebase runs the web app and the iOS and Android apps.',
@@ -224,7 +224,7 @@ export const projects: Project[] = [
     line: 'A SPICE circuit simulator written from scratch, running in the browser, with an AI agent built in.',
     kind: 'project',
     featured: true,
-    year: '2025 to now',
+    year: '2025–now',
     role: 'Product, design, and engineering',
     overview:
       'SPICE++ is an LTspice replacement that runs in the browser. It has a schematic editor, a waveform viewer, and a simulation engine I wrote myself in TypeScript.',
@@ -474,7 +474,7 @@ export const projects: Project[] = [
     line: 'A sprinkler that uses oscillators to spread water more evenly.',
     kind: 'project',
     featured: false,
-    year: '2020 to 2022',
+    year: '2020–22',
     role: 'Lead Designer',
     overview:
       'A two-year high school design project. I prototyped and tested a sprinkler that uses oscillators to cover ground more evenly and waste less water.',

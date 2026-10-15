@@ -1330,3 +1330,21 @@ a, button { transition-property: color, background-color, border-color, opacity,
   background: radial-gradient(closest-side, color-mix(in oklab, var(--acc) 42%, transparent), transparent); opacity: .6; }
 .rh-meta { display: flex; flex-wrap: wrap; gap: 4px 20px; margin-top: 20px; color: var(--bone); }
 .rh-meta span { color: var(--bone-64); }
+
+/* ---------- Work page: the products as tiles ---------- */
+.bt-top { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
+.bt-year { flex: none; font-size: 15px; opacity: .56; }
+.wgrid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
+@media (min-width: 768px) { .wgrid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; } }
+@media (min-width: 1280px) { .wgrid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; } }
+.bt.bt-w { height: 520px; min-height: 0; }
+@media (min-width: 1024px) { .bt.bt-w { height: 560px; } }
+.bt-w .bt-title { font-size: 28px; }
+.bt-w.bt-shot .bt-media { padding: 28px 0 0 28px; justify-content: flex-start; }
+.bt-w.bt-helio .bt-media { padding: 28px 28px 0; }
+.bt-w.bt-shot .bt-media img { width: 150%; max-width: none; border-radius: 14px 0 0 0; }
+.bt-w.bt-helio .bt-card { width: 100%; border-radius: 18px 18px 0 0; }
+.bt-w.bt-airo { flex-direction: column; }
+.bt-w.bt-airo .bt-head { flex: none; padding-bottom: 0; }
+.bt-w.bt-airo .bt-media { padding: 28px 28px 0; }
+.wgrid > .bt { grid-column: auto; }

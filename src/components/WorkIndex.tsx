@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { ProjectTile } from './ProjectTile'
+import { Tile, tileMedia } from './Bento'
 import { ExperienceList } from './ExperienceList'
 import { IndexRows } from './IndexRows'
 import { projects, type Category, type Project } from '@/lib/projects-data'
@@ -162,10 +162,13 @@ export function WorkIndex() {
         )}
 
         {featured.length > 0 && (
-          <div className="grid-main mt-sec gap-y-[64px] md:gap-y-[80px] lg:gap-y-[96px]">
-            {featured.map((p, i) => (
-              <ProjectTile key={p.id} project={p} index={i} />
-            ))}
+          <div className="grid-main mt-sec">
+            <div className="wgrid col-span-full">
+              {featured.map((p) => {
+                const t = tileMedia(p.id, true)
+                return <Tile key={p.id} id={p.id} className={`bt-w ${t.cls}`} media={t.media} year />
+              })}
+            </div>
           </div>
         )}
 
