@@ -324,9 +324,9 @@ html[data-route="entering"] #page { opacity: 0; transition: none; }
   -webkit-mask-image: radial-gradient(ellipse 50% 62% at 50% 38%, #000 72%, transparent 100%);
   mask-image: radial-gradient(ellipse 50% 62% at 50% 38%, #000 72%, transparent 100%); }
 .hero-portrait img { width: 100%; height: 100%; display: block; }
-.hero-beam { position: absolute; inset: 0; width: 100%; height: 100%; display: block; mix-blend-mode: screen; opacity: 0; transition: opacity 1800ms var(--e-std); }
-.hero-beam[data-on] { opacity: 1; }
-html[data-quality="low"] .hero-beam { display: none; }
+.hero-glass { position: absolute; inset: 0; width: 100%; height: 100%; display: block; opacity: 0; transition: opacity 1600ms var(--e-std); }
+.hero-glass[data-on] { opacity: 1; }
+html[data-quality="low"] .hero-glass { display: none; }
 .hero-vignette { position: absolute; left: 0; right: 0; bottom: 0; height: 34%; background: linear-gradient(transparent, #0B0306 85%); pointer-events: none; }
 /* The title is centred in the space between the bar and the top of the portrait. */
 .hero-statement { position: absolute; left: 0; right: 0; top: var(--nav-h); bottom: var(--ph); z-index: 3; display: grid; align-items: center; }
@@ -1282,7 +1282,7 @@ html.swipe-nav { touch-action: pan-y pinch-zoom; }
 
   /* Chrome, motion and media that mean nothing on paper */
   #room, .nav, .menu, .cmdk, .skip, .footer, .swipe-hint, .row-preview, .haptic, #flip, video, audio, iframe, canvas,
-  .hero-layer, .hero-beam, .hero-vignette, .hero-portrait, .hero-wm, .demo, .pills, .cmd-hint, .amb, .scrim, [data-ambient], .light,
+  .hero-layer, .hero-glass, .hero-vignette, .hero-portrait, .hero-wm, .demo, .pills, .cmd-hint, .amb, .scrim, [data-ambient], .light,
   .plate-link, .u-line, .rows-solo, .rows:has(.arrow-shift), .rows:has(.arrow-shift) + .rule-end,
   .grid-main:has(> .col-span-full > .demo), .plate-stage, .pm-desk, [data-plate-media],
   main:has([data-flip-target]) > .plate:not([data-flip-target]),

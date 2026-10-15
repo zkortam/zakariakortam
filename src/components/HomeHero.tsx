@@ -2,7 +2,7 @@ import Image from 'next/image'
 import { HeroDepth, HeroLayer } from './HeroDepth'
 import { Wordmark } from './Wordmark'
 import { PortraitLight } from './PortraitLight'
-import { HeroBeam } from './HeroBeam'
+import { HeroGlass } from './HeroGlass'
 import { COPY } from '@/lib/site'
 
 /** The opening plate: letterbox gate, light gathering behind the portrait, the name rising and parting. */
@@ -13,7 +13,7 @@ export function HomeHero() {
         <HeroLayer kind="bloom" className="hero-bloom">
           <div className="fill bloom-in" />
         </HeroLayer>
-        <HeroBeam />
+        <HeroGlass />
       </div>
 
       <div className="hero-portrait">
