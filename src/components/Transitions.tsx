@@ -177,7 +177,9 @@ function releaseLoops(vids: HTMLVideoElement[]) {
 }
 
 function decodeAll(root: Element, cap: number) {
-  const imgs = Array.from(root.querySelectorAll('img'))
+  // Only pictures that are actually laid out: the other breakpoint's composition is display:none and
+  // lazy, so its decode() would never settle and every entrance would wait out the full cap.
+  const imgs = Array.from(root.querySelectorAll('img')).filter((i) => i.getClientRects().length > 0)
   return Promise.race([Promise.all(imgs.map((i) => i.decode().catch(() => undefined))), wait(cap)])
 }
 
@@ -203,6 +205,15 @@ function makeFlip(req: FlipRequest): FlipState | undefined {
     if (val) clone.style.setProperty(v, val)
   }
   const loops = carryLoops(source, clone)
+  // Scroll-driven parallax is evaluated from layout position, which the fixed clone does not share: freeze
+  // each layer at the offset it shows right now.
+  const livePx = source.querySelectorAll<HTMLElement>('.px-sd')
+  clone.querySelectorAll<HTMLElement>('.px-sd').forEach((n, i) => {
+    const live = livePx[i]
+    if (!live) return
+    n.style.transform = getComputedStyle(live).transform
+    n.style.animation = 'none'
+  })
   clone.removeAttribute('data-flip-source')
   clone.removeAttribute('data-flip-target')
   clone.querySelectorAll('[id]').forEach((n) => n.removeAttribute('id'))
@@ -443,18 +454,71 @@ export function Transitions({ children }: { children: ReactNode }) {
   const pending = useRef<Pending | null>(null)
   const popped = useRef(false)
   const first = useRef(true)
+  // Where each route was left, so back and forward land exactly there once the page has rendered.
+  const positions = useRef(new Map<string, number>())
+  const here = useRef(pathname)
+  const popSafety = useRef(0)
 
   useEffect(() => {
-    history.scrollRestoration = 'auto'
+    // Scroll position is ours to restore: the browser's own restoration lands at a different moment in each
+    // engine (and sometimes after the new page has painted), so back and forward could jump twice.
+    history.scrollRestoration = 'manual'
+    const html = document.documentElement
+    const KEY = 'zk-scroll'
+    try {
+      const saved = JSON.parse(sessionStorage.getItem(KEY) || '{}') as Record<string, number>
+      Object.entries(saved).forEach(([k, v]) => positions.current.set(k, v))
+    } catch {
+      /* storage blocked */
+    }
+    // A reload or a return from another site lands where the reader was.
+    const nav = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined
+    if (nav && (nav.type === 'reload' || nav.type === 'back_forward')) {
+      const y = positions.current.get(location.pathname) ?? 0
+      if (y) {
+        const land = () => {
+          getLenis()?.scrollTo(y, { immediate: true, force: true })
+          window.scrollTo(0, y)
+        }
+        land()
+        requestAnimationFrame(land)
+      }
+    }
+    const save = () => {
+      try {
+        sessionStorage.setItem(KEY, JSON.stringify(Object.fromEntries(positions.current)))
+      } catch {
+        /* storage blocked */
+      }
+    }
+    const onScroll = () => {
+      if (!html.dataset.route && !popped.current) positions.current.set(here.current, window.scrollY)
+    }
+    window.addEventListener('pagehide', save)
     const onPop = () => {
-      popped.current = true
       const p = pending.current
       if (p?.flip) teardown(p.flip)
       pending.current = null
-      delete document.documentElement.dataset.route
+      delete html.dataset.route
+      if (location.pathname === here.current) return
+      popped.current = true
+      // Hide the old page for the instant between the URL changing and the new page committing, so the
+      // browser's own scroll restoration never shows on the wrong content; it then fades in like any route.
+      if (!motionOff()) {
+        html.dataset.route = 'entering'
+        clearTimeout(popSafety.current)
+        popSafety.current = window.setTimeout(() => {
+          if (html.dataset.route === 'entering') delete html.dataset.route
+        }, 1500)
+      }
     }
+    window.addEventListener('scroll', onScroll, { passive: true })
     window.addEventListener('popstate', onPop)
-    return () => window.removeEventListener('popstate', onPop)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('popstate', onPop)
+      window.removeEventListener('pagehide', save)
+    }
   }, [])
 
   const go = useCallback(
@@ -493,9 +557,25 @@ export function Transitions({ children }: { children: ReactNode }) {
       return
     }
     const html = document.documentElement
+    here.current = pathname
     if (popped.current) {
       popped.current = false
-      requestAnimationFrame(() => getLenis()?.resize())
+      const y = positions.current.get(pathname) ?? 0
+      const land = () => {
+        getLenis()?.resize()
+        getLenis()?.scrollTo(y, { immediate: true, force: true })
+        window.scrollTo(0, y)
+      }
+      land()
+      window.dispatchEvent(new Event('zk:route'))
+      clearTimeout(popSafety.current)
+      // WebKit applies its own restoration a frame later; land again just before the page is shown.
+      requestAnimationFrame(() =>
+        requestAnimationFrame(() => {
+          land()
+          if (html.dataset.route === 'entering') delete html.dataset.route
+        }),
+      )
       return
     }
     const p = pending.current

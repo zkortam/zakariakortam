@@ -11,6 +11,11 @@ import { Nav } from "@/components/Nav";
 import { QuietLayer } from "@/components/QuietLayer";
 import { LiquidGlass } from "@/components/LiquidGlass";
 import { KineticType } from "@/components/KineticType";
+import { Warm } from "@/components/Warm";
+import { ThemeColor } from "@/components/ThemeColor";
+import { Wordmark } from "@/components/Wordmark";
+import { TOD_SCRIPT } from "@/lib/tod";
+import { SPECULATION_RULES, VT_SCRIPT } from "@/lib/instant";
 import { SITE_URL } from "@/lib/seo";
 
 const geist = Geist({
@@ -28,13 +33,16 @@ const HOME_TITLE = "Zakaria Kortam | Product Manager & Builder";
 const HOME_DESCRIPTION =
   "Zakaria Kortam, Associate Product Manager (Innovation) at DigiCert, builds products 0 to 1: Helio, Surf, Surf Messenger, SPICE++, RTL++, and AiroFind.";
 
+// viewport-fit=cover lets the oxblood run under notches, islands and the home indicator; the safe-area
+// insets in globals.css keep every control clear of them. theme-color starts oxblood and then follows the
+// section under the bar (ThemeColor). Android Chrome resizes the page above the keyboard.
 export const viewport: Viewport = {
-  width: 'device-width',
+  width: "device-width",
   initialScale: 1,
-  viewportFit: 'cover',
-  // Android Chrome: the page resizes above the keyboard, so the sheet needs no JS tracking.
-  interactiveWidget: 'resizes-content',
-}
+  viewportFit: "cover",
+  themeColor: "#14060A",
+  interactiveWidget: "resizes-content",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -114,16 +122,22 @@ export default function RootLayout({
     <html lang="en" className={geist.variable} data-tone-top="dark" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: HEAD_SCRIPT }} />
-        <meta name="theme-color" content="#14060A" />
+        <script dangerouslySetInnerHTML={{ __html: TOD_SCRIPT + VT_SCRIPT }} />
+        <script id="zk-spec" type="speculationrules" dangerouslySetInnerHTML={{ __html: SPECULATION_RULES }} />
       </head>
       <body>
         <a href="#main" className="skip">
           Skip to content
         </a>
         <StructuredData />
+        <div className="print-head" aria-hidden="true">
+          <Wordmark as="p" />
+        </div>
         <Room />
         <Transitions>
           <SmoothScroll />
+          <Warm />
+          <ThemeColor />
           <Observer />
           <Nav />
           <Assistant />

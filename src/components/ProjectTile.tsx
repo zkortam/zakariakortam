@@ -15,6 +15,8 @@ export function ProjectTile({ project, index }: { project: Project; index: numbe
   // Tiles stay still, but they show the loop's first frame: a tile opening into its plate lands on the same picture.
   const vid = spec.video
   const card = c === 'card' && vid ? { src: vid.poster, w: vid.w, h: vid.h, alt: img.alt } : img
+  // The first row is above the fold on tablets and desktops: fetch it with the HTML, not after layout.
+  const load = index === 0 ? ({ priority: true } as const) : index < 3 ? ({ loading: 'eager' } as const) : {}
   return (
     <TLink
       href={`/portfolio/${project.id}`}
@@ -42,7 +44,7 @@ export function ProjectTile({ project, index }: { project: Project; index: numbe
         {c === 'card' && (
           <span className="absolute inset-0 flex items-center justify-center">
             <span className={`card tile-card block ${project.id === 'helio' ? '' : 'card-plain'}`} style={{ width: project.id === 'helio' ? '92%' : '84%' }} data-flip-img="" data-flip-fit="width">
-              <Image src={card.src} alt={card.alt} width={card.w} height={card.h} sizes={TILE_SIZES} quality={82} data-hero-sizes={hero} />
+              <Image src={card.src} alt={card.alt} width={card.w} height={card.h} sizes={TILE_SIZES} quality={82} data-hero-sizes={hero} {...load} />
             </span>
           </span>
         )}
@@ -56,7 +58,7 @@ export function ProjectTile({ project, index }: { project: Project; index: numbe
             <span className="absolute left-0 right-0 top-[8%] mx-auto block h-[96%]" style={{ aspectRatio: `${img.w} / ${img.h}` }}>
               <span className="relative block" data-flip-img="" data-flip-fit="width">
                 <span className="phone-shadow block">
-                  <Image src={img.src} alt={img.alt} width={img.w} height={img.h} sizes={TILE_SIZES} quality={82} className="block h-auto w-full" data-hero-sizes={hero} />
+                  <Image src={img.src} alt={img.alt} width={img.w} height={img.h} sizes={TILE_SIZES} quality={82} className="block h-auto w-full" data-hero-sizes={hero} {...load} />
                 </span>
                 {vid && (
                   <span
@@ -79,13 +81,13 @@ export function ProjectTile({ project, index }: { project: Project; index: numbe
         )}
         {c === 'bleed' && (
           <span className="absolute inset-0 block" data-flip-img="" data-flip-fit="cover">
-            <Image src={img.src} alt={img.alt} fill sizes={TILE_SIZES} quality={75} className="object-cover" style={{ objectPosition: '58% 50%' }} data-hero-sizes={hero} />
+            <Image src={img.src} alt={img.alt} fill sizes={TILE_SIZES} quality={75} className="object-cover" style={{ objectPosition: '58% 50%' }} data-hero-sizes={hero} {...load} />
           </span>
         )}
         {c === 'results' && (
           <span className="absolute left-0 right-0 top-[6%] block">
             <span className="tile-results block" data-flip-img="" data-flip-fit="width">
-              <Image src={img.src} alt={img.alt} width={img.w} height={img.h} sizes={TILE_SIZES} quality={82} className="block h-auto w-full" data-hero-sizes={hero} />
+              <Image src={img.src} alt={img.alt} width={img.w} height={img.h} sizes={TILE_SIZES} quality={82} className="block h-auto w-full" data-hero-sizes={hero} {...load} />
             </span>
           </span>
         )}

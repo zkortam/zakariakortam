@@ -14,6 +14,7 @@ import { NextRow } from '@/components/IndexRows'
 import { domainOf, noWidow } from '@/lib/site'
 import { pageMeta } from '@/lib/seo'
 import { ProjectStructuredData } from '@/components/StructuredData'
+import { HeroPreload } from '@/components/HeroPreload'
 
 type Params = { params: Promise<{ id: string }> }
 
@@ -173,7 +174,8 @@ export default async function ProjectPage({ params }: Params) {
     const nextSpec = PLATES[next.id]
     return (
       <>
-        <ProjectKeys prev={prev.id} next={next.id} />
+        <HeroPreload path={`/portfolio/${p.id}`} />
+        <ProjectKeys prev={prev.id} next={next.id} prevTitle={prev.title} nextTitle={next.title} />
         <ProjectStructuredData p={p} />
         <main id="main" tabIndex={-1}>
           <Plate project={p} spec={spec} heading="h1" link={false} flipTarget showGithub />
@@ -196,7 +198,7 @@ export default async function ProjectPage({ params }: Params) {
   const prev = prevIn(list, p.id)
   return (
     <>
-      <ProjectKeys prev={prev.id} next={next.id} />
+      <ProjectKeys prev={prev.id} next={next.id} prevTitle={prev.title} nextTitle={next.title} />
       <ProjectStructuredData p={p} />
       <main id="main" tabIndex={-1}>
         <section className="role-hero" data-tone="dark">
