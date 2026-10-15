@@ -204,7 +204,7 @@ export const projects: Project[] = [
       { value: '51', label: 'crypto modules' },
       { value: '4', label: 'platforms: Mac, Windows, iOS, Android' },
     ],
-    demo: { title: 'Sealed before it leaves', line: 'Type a message and send it. It is encrypted in your browser right now, and the middle lane is everything a server ever sees.' },
+    demo: { title: 'Sealed before it leaves', line: 'Write to Maya and send it. It is sealed in your browser the way Surf Messenger seals it, and next to the phone is everything the server stores.' },
   },
   {
     id: 'spice-plus-plus',
@@ -290,7 +290,7 @@ export const projects: Project[] = [
       { value: '105', label: 'commits' },
       { value: '1', label: 'scraper on its own Azure VM' },
     ],
-    demo: { title: 'The whole window at once', line: 'AiroFind reads every departure and return pair around your dates in a few page loads, then picks the cheapest.' },
+    demo: { title: 'Search to cheapest', line: 'The real loading flight and results from a San Francisco to New York search, ported from the app. A real search cruises for about a minute; here it lands in a few seconds.' },
   },
   {
     id: 'documap-ai',

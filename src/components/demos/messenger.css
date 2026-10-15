@@ -1,0 +1,117 @@
+/*
+ * Surf Messenger demo (MessengerSeal.tsx). Every value inside the phone is read off
+ * SurfWebsite/app/components/{device,device-metrics,app-screens}.tsx and app/messenger/screens.tsx,
+ * which take theirs from SurfVersion4's message components in the dark theme:
+ *   device   320 x 694 screen, 7px band, radii 45 / 52, island 102 x 30 at 9, home bar 114 x 4 at 7
+ *   app      390 wide, scaled 320 / 390 into the glass; canvas #050508, ink #fff, muted .5, hair .08,
+ *            accent #2563eb; header 58 + 56, bubbles 16/24 px-4 py-2 r16 tail 4, composer pill 44 r24
+ */
+
+.sm-grid {
+  --sm-dv: .86;
+  display: grid; justify-items: center; gap: 32px; padding: 28px 16px 32px;
+}
+@media (min-width: 390px) { .sm-grid { --sm-dv: .94; } }
+@media (min-width: 600px) { .sm-grid { --sm-dv: 1; padding: 48px 32px; } }
+@media (min-width: 900px) {
+  .sm-grid { --sm-dv: .92; grid-template-columns: auto minmax(0, 500px); justify-content: center; align-items: center; column-gap: clamp(48px, 7vw, 112px); padding: 56px 48px; }
+}
+.sm-col { min-width: 0; }
+
+/* ── the device ── */
+.sm-device { position: relative; flex: none; width: calc(334px * var(--sm-dv)); height: calc(708px * var(--sm-dv)); }
+.sm-frame { position: absolute; left: 0; top: 0; width: 334px; height: 708px; transform: scale(var(--sm-dv)); transform-origin: top left; }
+.sm-rail { position: absolute; width: 3.5px; box-shadow: 0 1px 2px rgba(0,0,0,.65); }
+.sm-rail.l { left: -2px; border-radius: 2.5px 0 0 2.5px; background: linear-gradient(90deg, #52565f 0%, #2b2e35 60%, #1b1d22 100%); }
+.sm-rail.r { right: -2px; border-radius: 0 2.5px 2.5px 0; background: linear-gradient(270deg, #52565f 0%, #2b2e35 60%, #1b1d22 100%); }
+.sm-body {
+  position: relative; width: 100%; height: 100%; padding: 7px; border-radius: 52px;
+  background: linear-gradient(152deg, #545862 0%, #23252c 24%, #101116 60%, #33363f 100%);
+  box-shadow: 0 70px 130px -34px rgba(0,0,0,.95), 0 24px 50px -20px rgba(0,0,0,.7), 0 0 0 .5px rgba(255,255,255,.14), inset 0 1px 0 rgba(255,255,255,.22);
+}
+.sm-screen { position: relative; width: 100%; height: 100%; overflow: hidden; border-radius: 45px; background: #050508; isolation: isolate; }
+.sm-status { pointer-events: none; position: absolute; inset: 0 0 auto; height: 48px; z-index: 40; color: #fff; -webkit-font-smoothing: antialiased; }
+.sm-time { position: absolute; left: 0; top: 0; width: 109px; height: 48px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; letter-spacing: -0.01em; }
+.sm-glyphs { position: absolute; right: 0; top: 0; height: 48px; padding-right: 19px; display: flex; align-items: center; gap: 5px; }
+.sm-home { pointer-events: none; position: absolute; z-index: 40; left: 50%; bottom: 7px; width: 114px; height: 4px; margin-left: -57px; border-radius: 999px; background: rgba(255,255,255,.7); }
+.sm-island { pointer-events: none; position: absolute; z-index: 40; left: 50%; top: 9px; width: 102px; height: 30px; margin-left: -51px; border-radius: 15px; background: #000; }
+.sm-island span { position: absolute; right: 9px; top: 50%; width: 11px; height: 11px; margin-top: -5.5px; border-radius: 50%; background: radial-gradient(circle at 34% 30%, #191c24 0%, #07080b 58%, #000 100%); box-shadow: inset 0 0 0 .5px rgba(88,112,158,.22); }
+.sm-glass { pointer-events: none; position: absolute; inset: 0; z-index: 50; background: linear-gradient(151deg, rgba(255,255,255,.075) 0%, rgba(255,255,255,.02) 26%, rgba(255,255,255,0) 52%); box-shadow: inset 0 0 14px rgba(0,0,0,.55); }
+
+/* ── the app, at 390 ── */
+.sm-app {
+  position: absolute; left: 0; top: 0; width: 390px; height: 846px; transform: scale(.8205128); transform-origin: top left;
+  display: flex; flex-direction: column; background: #050508; color: #fff; text-align: left;
+  font-feature-settings: "cv11"; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; letter-spacing: normal;
+}
+.sm-app p { margin: 0; }
+.sm-btn { flex: none; display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; color: rgba(255,255,255,.6); }
+
+.sm-head { position: relative; z-index: 10; flex: none; padding-top: 58px; background: rgba(255,255,255,.04); border-bottom: 1px solid rgba(255,255,255,.08); }
+.sm-headrow { display: flex; align-items: center; gap: 12px; height: 56px; padding: 0 16px; }
+.sm-back { margin-left: -8px; margin-right: -4px; }
+.sm-av { position: relative; flex: none; width: 32px; height: 32px; }
+.sm-av img { display: block; width: 32px; height: 32px; border-radius: 50%; object-fit: cover; background: #15161c; }
+.sm-online { position: absolute; right: -2px; bottom: -2px; width: 12px; height: 12px; border-radius: 50%; background: #4ade80; border: 2px solid #050508; }
+.sm-who { flex: 1; min-width: 0; }
+.sm-name { display: flex; align-items: center; gap: 4px; font-size: 16px; line-height: 20px; font-weight: 600; }
+.sm-name > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sm-badge { flex: none; }
+.sm-state { font-size: 14px; line-height: 1.25; color: rgba(255,255,255,.5); }
+.sm-actions { display: flex; align-items: center; gap: 2px; margin-right: -8px; }
+
+.sm-thread { flex: 1; min-height: 0; display: flex; flex-direction: column; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: none; padding: 0 16px 110px; }
+.sm-thread::-webkit-scrollbar { display: none; }
+.sm-flow { margin-top: auto; display: flex; flex-direction: column; }
+.sm-day { padding: 8px 0; text-align: center; font-size: 14px; line-height: 20px; color: rgba(255,255,255,.5); }
+.sm-line { display: flex; justify-content: flex-start; transform-origin: bottom left; }
+.sm-line.mine { justify-content: flex-end; transform-origin: bottom right; }
+.sm-bubble {
+  display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: flex-end; gap: 2px 8px; max-width: 82%;
+  padding: 8px 16px; border-radius: 16px; font-size: 16px; line-height: 24px;
+  background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.08);
+}
+.sm-bubble.tail { border-bottom-left-radius: 4px; }
+.mine > .sm-bubble { background: #2563eb; border: 0; box-shadow: 0 8px 32px rgba(0,0,0,.45); }
+.mine > .sm-bubble.tail { border-bottom-left-radius: 16px; border-bottom-right-radius: 4px; }
+.sm-text { min-width: 0; overflow-wrap: anywhere; }
+.sm-meta { flex: none; display: inline-flex; align-items: center; gap: 4px; padding-bottom: 3px; font-size: 14px; line-height: 1; color: rgba(255,255,255,.4); }
+.mine .sm-meta { color: rgba(255,255,255,.92); }
+.sm-meta > span { display: inline-flex; }
+.sm-read { color: #fff; }
+.sm-line.fresh { animation: sm-in 350ms cubic-bezier(.32,.72,0,1) both; }
+@keyframes sm-in { from { opacity: 0; transform: translateY(14px) scale(.96); } }
+
+.sm-composer { position: absolute; left: 0; right: 0; bottom: 0; z-index: 10; padding: 10px 16px 40px; background: #050508; margin: 0; }
+.sm-row { display: flex; align-items: center; gap: 8px; }
+.sm-pill { flex: 1; min-width: 0; min-height: 44px; display: flex; align-items: center; gap: 4px; padding: 0 6px 0 16px; border-radius: 24px; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.08); transition: border-color 200ms cubic-bezier(.4,0,.2,1); }
+.sm-pill:has(.sm-field:focus-visible) { border-color: rgba(255,255,255,.3); }
+.sm-field { flex: 1; min-width: 0; padding: 8px 0; margin: 0; border: 0; outline: none; background: transparent; color: #fff; caret-color: #2563eb; font: inherit; font-size: 16px; line-height: 24px; -webkit-appearance: none; appearance: none; }
+.sm-field::placeholder { color: rgba(255,255,255,.35); opacity: 1; }
+.sm-field:disabled { opacity: 1; -webkit-text-fill-color: currentColor; }
+.sm-send { flex: none; display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 50%; background: #2563eb; color: #fff; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: transform 160ms cubic-bezier(.4,0,.2,1); }
+.sm-send:disabled { cursor: default; }
+.sm-send:not(:disabled):active { transform: scale(.94); }
+.sm-send:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+
+/* ── the lane ── */
+.sm-lane { width: 100%; max-width: 500px; min-width: 0; }
+.sm-label { margin: 0; font-size: 13px; letter-spacing: -0.005em; color: rgba(243,237,232,.64); }
+.sm-json {
+  margin-top: 14px; font-size: 11px; line-height: 1.6; color: rgba(243,237,232,.4);
+  word-break: break-all; animation: sm-fade 500ms cubic-bezier(.16,1,.3,1) both;
+}
+.sm-jl { text-indent: -2ch; margin-left: 2ch; }
+@media (min-width: 600px) { .sm-json { font-size: 12px; } }
+.sm-k { color: rgba(243,237,232,.6); }
+.sm-v { color: rgba(243,237,232,.92); }
+@keyframes sm-fade { from { opacity: 0; } }
+.sm-notes { display: grid; gap: 10px; margin-top: 22px; font-size: 14px; line-height: 1.5; color: rgba(243,237,232,.64); }
+.sm-notes p { margin: 0; }
+.sm-opened { color: #F3EDE8; }
+.sm-empty { margin: 14px 0 0; font-size: 14px; color: rgba(243,237,232,.64); }
+
+@media (prefers-reduced-motion: reduce) {
+  .sm-line.fresh, .sm-json { animation: none; }
+  .sm-pill, .sm-send { transition: none; }
+}

@@ -1,0 +1,154 @@
+/*
+ * AiroFind's search screens, ported from AiroFind (app/globals.css, tailwind.config.ts and the
+ * compiled Tailwind of components/ui/SearchSummary, FlightArc, LoadingAnimation, FlightCard and
+ * components/ResultsList). Tokens: background #000, foreground #FAFAFA, muted #9CA3AF, radii 16/24.
+ * The app's `sm:` breakpoint (viewport >= 640px) becomes a container query on the screen, so the
+ * demo lays out like the app would at the screen's own width.
+ */
+
+.af { margin: 0; }
+
+.af-screen {
+  --af-fg: #FAFAFA;
+  --af-muted: #9CA3AF;
+  --af-ease-out: cubic-bezier(0, 0, 0.2, 1);
+  container: af / inline-size;
+  position: relative;
+  height: 600px;
+  overflow: hidden;
+  border-radius: 24px;
+  background: #000;
+  color: var(--af-fg);
+  font-size: 16px;
+  line-height: 1.5;
+  text-align: left;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  user-select: none;
+}
+@media (min-width: 640px) { .af-screen { height: 720px; } }
+
+:where(.af-screen) p { margin: 0; }
+.af-screen svg { display: block; }
+
+/* max-w-2xl mx-auto px-4 sm:px-6 py-8 sm:py-12 */
+.af-page { max-width: 672px; margin: 0 auto; padding: 32px 16px; }
+@container af (min-width: 640px) { .af-page { padding: 48px 24px; } }
+
+/* ---------- SearchSummary ---------- */
+.af-summary { display: flex; align-items: center; gap: 8px; margin-bottom: 32px; padding: 8px 8px 8px 24px; border-radius: 9999px; background: rgb(255 255 255 / 0.06); }
+.af-summary-text { flex: 1 1 0%; min-width: 0; padding: 4px 0; }
+.af-route { display: flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 500; white-space: nowrap; color: var(--af-fg); }
+.af-truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.af-route-arrow { width: 16px; height: 16px; flex-shrink: 0; color: var(--af-muted); }
+.af-details {
+  display: flex; align-items: center; margin-top: 2px; padding-right: 20px; font-size: 14px; line-height: 20px;
+  overflow-x: auto; scrollbar-width: none;
+  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 24px), transparent 100%);
+  mask-image: linear-gradient(to right, #000 calc(100% - 24px), transparent 100%);
+}
+.af-details::-webkit-scrollbar { display: none; }
+.af-detail { display: inline-flex; align-items: center; white-space: nowrap; color: var(--af-muted); }
+.af-sep { margin: 0 8px; color: rgb(255 255 255 / 0.25); }
+.af-new { display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; flex-shrink: 0; border-radius: 9999px; background: rgb(255 255 255 / 0.1); color: var(--af-fg); }
+.af-new svg { width: 20px; height: 20px; }
+
+/* ---------- LoadingAnimation + FlightArc ---------- */
+.af-loading {
+  display: flex; flex-direction: column; align-items: center; padding: 24px 0 64px;
+  transition: opacity 320ms var(--af-ease-out), transform 320ms var(--af-ease-out);
+}
+@container af (min-width: 640px) { .af-loading { padding-top: 48px; } }
+.af-loading[data-leaving] { opacity: 0; transform: translateY(-8px); }
+
+.af-arc { width: 100%; margin: 0 auto; }
+.af-arc-svg { margin: 0 auto; overflow: visible; }
+.af-arc-labels { position: relative; height: 28px; margin: 8px auto 0; }
+.af-arc-label {
+  position: absolute; top: 0; transform: translateX(-50%); text-align: center;
+  font-size: 16px; line-height: 24px; font-weight: 500; color: var(--af-fg);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+@container af (min-width: 640px) { .af-arc-label { font-size: 18px; line-height: 28px; } }
+
+/* ---------- ResultsList ---------- */
+.af-out { transition: opacity 400ms var(--af-ease-out); }
+.af-out[data-out] { opacity: 0; }
+
+.af-results { margin-top: 32px; }
+.af-results-head { display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 24px; }
+@container af (min-width: 640px) { .af-results-head { flex-direction: row; align-items: center; } }
+.af-count { font-size: 14px; line-height: 20px; color: var(--af-muted); }
+.af-pills { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+.af-pill { display: flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 9999px; font-size: 12px; line-height: 16px; font-weight: 500; color: var(--af-fg); background: rgb(255 255 255 / 0.1); }
+.af-sort { display: flex; align-items: center; }
+.af-pill-left { padding-right: 8px; border-radius: 9999px 0 0 9999px; }
+.af-pill-right { padding: 8px; border-radius: 0 9999px 9999px 0; border-left: 1px solid rgb(255 255 255 / 0.1); }
+.af-chev { width: 12px; height: 12px; }
+.af-dir { width: 14px; height: 14px; }
+
+.af-list > * + * { margin-top: 16px; }
+.af-slide-up { animation: af-slide-up 0.3s ease-out both; }
+@keyframes af-slide-up { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+.af[data-halted] .af-slide-up { animation-play-state: paused; }
+.af[data-still] .af-slide-up { animation: none; }
+
+/* ---------- FlightCard ---------- */
+/* text-muted/NN never compiles in AiroFind (muted is a CSS variable), so those lines inherit #FAFAFA. */
+.af-card { display: block; width: 100%; padding: 20px; border-radius: 24px; background: rgb(255 255 255 / 0.08); color: var(--af-fg); }
+.af-card-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+.af-card-price { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.af-price { flex-shrink: 0; font-size: 20px; line-height: 28px; font-weight: 600; letter-spacing: -0.025em; }
+.af-cheapest { flex-shrink: 0; padding: 2px 6px; border-radius: 9999px; font-size: 9px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.025em; color: #4ade80; background: rgb(34 197 94 / 0.1); }
+.af-card-airline { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.af-airline { display: none; font-size: 12px; line-height: 16px; font-weight: 500; }
+.af-logo { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; overflow: hidden; border-radius: 9999px; }
+.af-logo img { width: 28px; height: 28px; object-fit: contain; }
+@container af (min-width: 640px) {
+  .af-card-price, .af-card-airline { gap: 12px; }
+  .af-price { font-size: 24px; line-height: 32px; }
+  .af-cheapest { padding: 2px 8px; font-size: 10px; }
+  .af-airline { display: inline; font-size: 14px; line-height: 20px; }
+}
+
+/* space-y-6, with the same margin collapsing the app gets */
+.af-legs > * ~ * { margin-top: 24px; }
+.af-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; }
+.af-compact .af-label { margin-bottom: 12px; }
+.af-label-full { display: none; margin-bottom: 8px; }
+@container af (min-width: 640px) {
+  .af-compact { display: none; }
+  .af-label-full { display: block; }
+}
+
+.af-leg { display: flex; align-items: center; gap: 12px; }
+@container af (min-width: 640px) { .af-leg { gap: 20px; } }
+.af-leg-end { min-width: 48px; }
+.af-leg-start { text-align: right; }
+.af-time { font-size: 14px; line-height: 20px; font-weight: 500; letter-spacing: -0.025em; }
+.af-airport { font-size: 11px; }
+.af-leg-mid { flex: 1 1 0%; display: flex; flex-direction: column; align-items: center; min-width: 0; gap: 2px; }
+.af-duration { font-size: 10px; letter-spacing: 0.025em; }
+.af-leg-line { display: flex; align-items: center; gap: 4px; width: 100%; }
+.af-rule { flex: 1 1 0%; height: 2px; border-radius: 9999px; background: rgb(255 255 255 / 0.2); }
+.af-stop { width: 6px; height: 6px; border-radius: 9999px; background: rgb(255 255 255 / 0.4); }
+
+.af-card-foot { display: flex; align-items: center; gap: 10px; margin-top: 20px; font-size: 11px; }
+.af-weather { display: inline-flex; align-items: center; gap: 4px; }
+.af-weather svg { width: 12px; height: 12px; }
+
+/* ---------- Demo controls (on the light paper section, as Helio's) ---------- */
+.af-controls { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 4px; margin-top: 12px; padding-inline: 12px; }
+.af-toggle {
+  display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px 0 12px; border: 0; border-radius: 999px;
+  background: transparent; font: inherit; font-size: 14px; font-weight: 500; color: oklch(.52 .006 85); cursor: pointer;
+  transition: background-color 150ms, color 150ms, transform 90ms;
+}
+@media (hover: hover) { .af-toggle:hover { color: oklch(.215 .006 85); background: oklch(.215 .006 85 / .05); } }
+.af-toggle:active { transform: scale(.96); }
+.af-toggle:focus-visible { outline: 2px solid oklch(.215 .006 85); outline-offset: 2px; }
+/* On a phone the screen runs edge to edge, so it is exactly as wide as the app would be there. */
+@media (max-width: 639px) {
+  .af-screen { margin-inline: calc(50% - 50vw); border-radius: 0; }
+  .af-controls { justify-content: center; }
+}
