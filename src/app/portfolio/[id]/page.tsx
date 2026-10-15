@@ -169,7 +169,7 @@ function Stats({ p }: { p: Project }) {
 function Results({ p, first = false }: { p: Project; first?: boolean }) {
   if (!p.results?.length) return null
   return (
-    <Block title="Results" first={first}>
+    <Block title={p.kind === 'work' ? 'What I did' : 'Results'} first={first}>
       <ul className="text-read">
         {p.results.map((r) => (
           <li key={r} className="presult" data-reveal="">
@@ -230,9 +230,10 @@ export default async function ProjectPage({ params }: Params) {
               {noWidow(p.overview)}
             </p>
           </div>
+          <Stats p={p} />
           <DemoSection p={p} />
           <Narrative p={p} />
-          {p.stats?.length ? <Results p={p} /> : null}
+          <Results p={p} />
           <div className="grid-main mt-sec">
             <NextRow href={`/portfolio/${next.id}`} title={next.title} />
           </div>

@@ -27,8 +27,6 @@ export interface Project {
   tags?: Category[]
   /** Measured from the project's repository. */
   stats?: { value: string; label: string }[]
-  /** A role page's headline; the word in *stars* is the one that lands. */
-  headline?: string
   /** A role page's light, in the company's own hue. */
   accent?: string
   /** The live demo section on the project page. */
@@ -39,7 +37,6 @@ export const projects: Project[] = [
   // Work
   {
     id: 'digicert',
-    headline: 'Trust for *autonomous* agents.',
     accent: '#3D6BF2',
     tags: ['Roles', 'AI'],
     title: 'DigiCert',
@@ -50,22 +47,17 @@ export const projects: Project[] = [
     role: 'Associate Innovation Product Manager',
     org: 'DigiCert',
     overview:
-      'I own product for AI agent trust on DigiCert’s Innovation team: how an autonomous agent proves who it is, what it is allowed to do, which policies apply to it, and how its credentials are issued, rotated, and revoked.',
-    problem:
-      'Companies are starting to let AI agents act on their own, calling APIs and services on someone’s behalf. Today there is no good way to give an agent its own identity, limit where it can reach, or hold it to a policy the security team can audit.',
-    approach:
-      'I defined a DNS-level verification product, so an agent can only resolve approved destinations before it makes an outbound call. I built a Kubernetes Envoy sidecar that enforces each agent’s egress policy with identity-bound connections. I drove the requirements and the policy model across engineering and security, and tied them to the certificate lifecycle roadmap.',
+      'I own product for AI agent trust: how an autonomous agent proves who it is, what it may do, and how its credentials are managed.',
     results: [
-      'DNS-level verification: agents resolve only approved destinations',
-      'An Envoy sidecar on Kubernetes enforcing per-agent egress policy',
-      'One policy model agreed across engineering and security',
+      'Defined a DNS-level verification product, so agents only reach approved destinations',
+      'Built a Kubernetes Envoy sidecar that enforces each agent’s egress policy',
+      'Drove the requirements and policy model across engineering and security',
     ],
     stack: ['AI agent identity', 'Authorization and policy', 'PKI', 'Kubernetes', 'Envoy'],
     links: { live: 'https://www.digicert.com' },
   },
   {
     id: 'facilis-ai',
-    headline: 'AI agents on the *factory* floor.',
     accent: '#E8893A',
     tags: ['Roles', 'AI'],
     title: 'FacilisAI',
@@ -76,15 +68,12 @@ export const projects: Project[] = [
     role: 'Founding AI Engineer',
     org: 'FacilisAI',
     overview:
-      'I architected and launched FacilisAI’s flagship product, an agentic platform that connects plant systems (PLCs, MES, SCADA) to specialized AI agents. Operators work with it through chat and scheduled background tasks, and work that took a month now takes hours. I also built and run the company’s website.',
-    problem:
-      'Plant software is old and often air-gapped. Work that touches it is slow and manual, and cloud AI can’t reach it.',
-    approach:
-      'I led discovery from zero: more than 15 customer interviews that set the ideal customer profile, the roadmap, and our competitive positioning in the OT market. I owned the agent architecture and the integrations, shipped on-prem and air-gapped installs with small edge models, drove execution across engineering, design, and customer success, and owned the enterprise demos and sales cycles.',
+      'I architected and launched the flagship product: an agentic platform that connects plant systems to AI agents and cuts month-long tasks to hours.',
     results: [
-      'Deployed to 20 enterprise demo testers, including MEAU and OKI',
-      'More than $100K in provisional contracts, with about 100% retention',
-      'Tasks that took a month now take hours',
+      'Architected the agent platform and its plant integrations',
+      'Led discovery for the OT market: ICP, roadmap, and positioning',
+      'Owned the enterprise demos and sales cycles',
+      'Built and run facilis.ai',
     ],
     stats: [
       { value: '20', label: 'enterprise demo testers' },
@@ -97,7 +86,6 @@ export const projects: Project[] = [
   },
   {
     id: 'incorta-dashboards',
-    headline: 'Shipping the *AI Copilot*.',
     accent: '#8E5CF0',
     tags: ['Roles', 'AI'],
     title: 'Incorta',
@@ -108,23 +96,18 @@ export const projects: Project[] = [
     role: 'Product Engineering Intern',
     org: 'Incorta',
     overview:
-      'I shipped more than five features end to end for the Incorta AI Copilot, from the PRD and design review through QA and rollout to enterprise customers. Under them I built the TypeScript interpreters that turn model-generated JSON specs into streamed charts, and the charting library they draw with.',
-    problem:
-      'The Copilot had to draw fast, correct charts from model output over enterprise data, with the access controls enterprise customers expect.',
-    approach:
-      'I iterated on the UX in Figma and defined adoption, completion, and latency metrics, then shipped fixes after launch based on them. I presented demos to PM and engineering leadership and folded their feedback into scope and edge cases.',
+      'I shipped AI Copilot features for Incorta, from PRD to rollout.',
     results: [
-      '5+ Copilot features shipped end to end',
-      'Tables, sparklines, and time series from one spec format',
-      'Adoption, completion, and latency metrics defined and tracked after launch',
-      'RBAC, audit logging, and accessibility written into PRDs and release criteria',
+      'Shipped 5+ Copilot features end to end',
+      'Built the interpreters that turn model output into streamed charts',
+      'Defined adoption, completion, and latency KPIs',
+      'Wrote RBAC, audit logging, and accessibility into release criteria',
     ],
     stack: ['TypeScript', 'React', 'SQL', 'Vitest', 'GitHub Actions', 'Figma'],
     links: { live: 'https://incorta.com' },
   },
   {
     id: 'inqueue',
-    headline: 'A queuing app, from *zero* to launch.',
     accent: '#1BB5A3',
     tags: ['Roles', 'Consumer apps'],
     title: 'Inqueue',
@@ -135,13 +118,11 @@ export const projects: Project[] = [
     role: 'Product Intern',
     org: 'Inqueue',
     overview:
-      'I owned the MVP of a mobile queuing app from discovery to launch: the market research, the core user journeys, and the shipped Flutter app.',
-    approach:
-      'I set the KPIs (activation, core-flow completion, and notification engagement) and reprioritized the backlog from what they showed. I partnered with design to validate our assumptions and fed what we learned in usability testing into the roadmap and the UX.',
+      'I took a mobile queuing app from discovery to a shipped Flutter MVP.',
     results: [
       'Shipped the MVP in Flutter',
-      'KPIs for activation, core-flow completion, and notification engagement',
-      'Backlog reprioritized from usage and usability signals',
+      'Set KPIs for activation, flow completion, and notifications',
+      'Fed usability findings into the roadmap',
     ],
     stack: ['Flutter', 'User research', 'KPIs', 'Usability testing'],
   },
