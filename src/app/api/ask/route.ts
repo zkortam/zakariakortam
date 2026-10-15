@@ -9,7 +9,7 @@ export const dynamic = 'force-dynamic'
 const MAX_MESSAGES = 8
 const MAX_CHARS = 1500
 const MAX_BODY_BYTES = 16_000
-const MAX_COMPLETION_TOKENS = 500
+const MAX_COMPLETION_TOKENS = 220
 const UPSTREAM_TIMEOUT_MS = 30_000
 const RETRIEVAL_TIMEOUT_MS = 600
 
@@ -66,10 +66,27 @@ const textResponse = (body: BodyInit) =>
 export async function POST(req: Request) {
   if (!originAllowed(req)) return jsonError(403, 'Not allowed.')
 
-  const base = process.env.AZURE_OPENAI_BASE_URL
-  const key = process.env.AZURE_OPENAI_API_KEY
-  const model = process.env.AZURE_OPENAI_MODEL
-  if (!base || !key || !model) return jsonError(503, 'Ask is not available right now.')
+  // Cerebras first (an answer in about 0.2 s), Azure as the fallback.
+  const providers = [
+    process.env.CEREBRAS_API_KEY && {
+      name: 'cerebras',
+      url: 'https://api.cerebras.ai/v1/chat/completions',
+      headers: { authorization: `Bearer ${process.env.CEREBRAS_API_KEY}` },
+      model: process.env.CEREBRAS_MODEL || 'gpt-oss-120b',
+      extra: { reasoning_effort: 'low' },
+    },
+    process.env.AZURE_OPENAI_BASE_URL &&
+      process.env.AZURE_OPENAI_API_KEY &&
+      process.env.AZURE_OPENAI_MODEL && {
+        name: 'azure',
+        url: `${process.env.AZURE_OPENAI_BASE_URL.replace(/\/$/, '')}/chat/completions`,
+        headers: { 'api-key': process.env.AZURE_OPENAI_API_KEY },
+        model: process.env.AZURE_OPENAI_MODEL,
+        // This model reasons by default and reasoning tokens count against the cap; skip it.
+        extra: { reasoning_effort: 'none' },
+      },
+  ].filter(Boolean) as unknown as { name: string; url: string; headers: Record<string, string>; model: string; extra: Record<string, unknown> }[]
+  if (!providers.length) return jsonError(503, 'Ask is not available right now.')
 
   const body = await readJson(req, MAX_BODY_BYTES)
   if (typeof body === 'string') return jsonError(body === 'Expected JSON.' ? 400 : 413, body)
@@ -89,27 +106,37 @@ export async function POST(req: Request) {
   const timeout = AbortSignal.timeout(UPSTREAM_TIMEOUT_MS)
   const signal = AbortSignal.any([timeout, req.signal])
 
-  let upstream: Response
-  try {
-    upstream = await fetch(`${base.replace(/\/$/, '')}/chat/completions`, {
-      method: 'POST',
-      headers: { 'api-key': key, 'content-type': 'application/json' },
-      body: JSON.stringify({
-        model,
-        messages: [{ role: 'system', content: system }, ...messages],
-        stream: true,
-        max_completion_tokens: MAX_COMPLETION_TOKENS,
-        // This model reasons by default, and reasoning tokens count against the cap.
-        // These answers are retrieval and rephrasing, so skip it: faster, and never empty.
-        reasoning_effort: 'none',
-      }),
-      signal,
-    })
-  } catch (e) {
-    const timedOut = timeout.aborted
-    console.error('[ask] upstream fetch failed', timedOut ? 'timeout' : (e as Error).name)
-    return jsonError(timedOut ? 504 : 502, 'The answer took too long. Try again.')
+  let upstream: Response | null = null
+  let lastErr = ''
+  for (const pv of providers) {
+    try {
+      const r = await fetch(pv.url, {
+        method: 'POST',
+        headers: { ...pv.headers, 'content-type': 'application/json' },
+        body: JSON.stringify({
+          model: pv.model,
+          messages: [{ role: 'system', content: system }, ...messages],
+          stream: true,
+          max_completion_tokens: MAX_COMPLETION_TOKENS,
+          ...pv.extra,
+        }),
+        signal,
+      })
+      // A content-filter refusal is an answer, not an outage: do not fall through.
+      if (r.ok || (r.status === 400 && pv.name === 'azure')) {
+        upstream = r
+        break
+      }
+      lastErr = `${pv.name} ${r.status}`
+      console.error('[ask] provider failed', lastErr)
+      upstream = r
+    } catch (e) {
+      lastErr = `${pv.name} ${timeout.aborted ? 'timeout' : (e as Error).name}`
+      console.error('[ask] provider error', lastErr)
+      if (timeout.aborted) return jsonError(504, 'The answer took too long. Try again.')
+    }
   }
+  if (!upstream) return jsonError(502, 'Ask is busy right now. Try again shortly.')
   if (!upstream.ok || !upstream.body) {
     let code = ''
     try {

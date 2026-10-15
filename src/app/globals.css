@@ -639,10 +639,9 @@ html:not(.js) .nav-menu-btn { display: none; }
   .asst.is-open .asst-dock { bottom: var(--kb, 0px); padding-inline: 0; }
   .asst.is-open .asst-col {
     padding: 0 12px calc(12px + env(safe-area-inset-bottom)); border-radius: 26px 26px 0 0;
-    background: linear-gradient(180deg, rgba(255,235,238,.07), rgba(255,235,238,0) 72px), rgba(22, 9, 12, .9);
-    -webkit-backdrop-filter: blur(28px) saturate(1.25); backdrop-filter: blur(28px) saturate(1.25);
-    border-top: 1px solid rgba(255, 255, 255, .12); box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 -30px 80px -30px rgba(11, 3, 6, .8);
-    animation: sheetIn 560ms var(--e-expo) both;
+    background: #1A0A0E;
+    border-top: 1px solid rgba(255, 255, 255, .1); box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
+    will-change: transform; animation: sheetIn 480ms cubic-bezier(.32, .72, 0, 1) both;
   }
   .asst.is-open .asst-card { background: none; border: 0; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; border-radius: 0; margin: 0 -12px 8px; transform: none; max-height: calc(100dvh - var(--kb, 0px) - var(--pill-h) - 96px); }
   .asst.is-open .asst-pill { background: rgba(255, 235, 238, .07); box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
@@ -652,7 +651,7 @@ html:not(.js) .nav-menu-btn { display: none; }
   .asst-note { padding: 10px 18px 0; border-top: 0; }
   .ask-md .ask-cards { grid-template-columns: 1fr; }
 }
-@keyframes sheetIn { from { transform: translateY(40%); opacity: .4; } to { transform: none; opacity: 1; } }
+@keyframes sheetIn { from { transform: translate3d(0, 100%, 0); } to { transform: translate3d(0, 0, 0); } }
 
 @media (prefers-reduced-transparency: reduce) {
   .asst-pill, .asst-card, .asst.is-open .asst-col { background: #1E0D12; -webkit-backdrop-filter: none; backdrop-filter: none; }
@@ -932,4 +931,11 @@ html[data-quality="low"] .idle-light > i { animation: none; will-change: auto; }
 @keyframes citeFlash {
   0%, 70% { background-color: rgba(178, 62, 76, .16); box-shadow: 0 0 0 .25em rgba(178, 62, 76, .16); }
   100% { background-color: rgba(178, 62, 76, 0); box-shadow: 0 0 0 .25em rgba(178, 62, 76, 0); }
+}
+
+/* Assistant glow on touch devices: one static rim, opacity only. */
+.edge-lite { position: fixed; inset: 0; z-index: 68; pointer-events: none; will-change: opacity; transition: opacity 500ms var(--e-quint);
+  box-shadow: inset 0 0 0 1.5px rgba(250, 140, 150, .35), inset 0 0 28px 6px rgba(224, 112, 127, .32), inset 0 0 70px 10px rgba(122, 26, 40, .28); }
+@media (max-width: 767px) {
+  .asst.is-open .asst-scrim { background: rgba(11, 3, 6, .55); }
 }

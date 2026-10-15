@@ -20,7 +20,7 @@ type Item = {
 
 type Turn = { id: number; q: string; a: string; state: 'streaming' | 'done' | 'error' }
 
-const STARTERS = ['What is Helio and how does it work?', 'What has he shipped this year?', 'How does he use AI to build?']
+const STARTERS = ['What is Helio?', 'What did he ship this year?', 'Does he consult?']
 const EXAMPLES = [
   'How does AiroFind find cheap flights?',
   'Show me his AI projects',
@@ -182,15 +182,22 @@ export function Assistant() {
   // With no conversation yet, typing shows a jump list with "Ask" in it.
   // During a conversation, typing is a follow-up; matching pages show as small chips.
   const listMode = turns.length === 0
+  // Phones and tablets get a cheap composited glow instead of the per-frame shader.
+  const [lite, setLite] = useState(false)
+  useEffect(() => {
+    const mq = window.matchMedia('(pointer: coarse), (max-width: 767px)')
+    const set = () => setLite(mq.matches || document.documentElement.dataset.quality === 'low')
+    set()
+    mq.addEventListener('change', set)
+    return () => mq.removeEventListener('change', set)
+  }, [])
   const shown = useMemo<Item[]>(() => {
     if (!listMode) return []
-    if (!t) {
-      const featured = new Set(projects.filter((p) => p.featured && p.kind === 'project').map((p) => p.id))
-      return items.filter((i) => (i.group === 'Pages' && i.id !== 'home') || (i.group === 'Projects' && featured.has(i.id)))
-    }
+    // Empty: just the three suggested questions. Pages and projects only appear once you type.
+    if (!t) return []
     const askRow: Item = { id: 'ask', label: `Ask “${t}”`, hint: 'AI answer', group: 'Ask', run: () => ask(t) }
     return matches.length === 0 || looksLikeQuestion(t) ? [askRow, ...matches] : [...matches, askRow]
-  }, [listMode, t, items, matches, ask])
+  }, [listMode, t, matches, ask])
 
   useEffect(() => setActive(t ? 0 : -1), [t])
 
@@ -402,7 +409,7 @@ export function Assistant() {
 
   return (
     <div className={`asst ${open ? 'is-open' : ''} ${shownPill ? 'is-shown' : ''}`}>
-      <EdgeGlow level={open ? (streaming || speech.listening ? 1 : 0.62) : 0} busy={streaming || speech.listening} />
+      <EdgeGlow lite={lite} level={open ? (streaming || speech.listening ? 1 : 0.62) : 0} busy={streaming || speech.listening} />
       <div className="asst-scrim" onClick={close} aria-hidden="true" />
       <div className="asst-dock grid-main">
         <div
@@ -504,7 +511,6 @@ export function Assistant() {
                 ))}
               </div>
             )}
-            <p className="asst-note">Written by AI from his project notes. It can be wrong.</p>
           </section>
 
           <form

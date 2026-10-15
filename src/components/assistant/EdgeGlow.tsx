@@ -52,7 +52,16 @@ void main(){
 
 const SCALE = 0.5
 
-export function EdgeGlow({ level, busy }: { level: number; busy: boolean }) {
+export function EdgeGlow({ level, busy, lite = false }: { level: number; busy: boolean; lite?: boolean }) {
+  return lite ? <LiteGlow level={level} /> : <ShaderGlow level={level} busy={busy} />
+}
+
+/** Phones and tablets: a static rim of light that only fades, so it stays on the compositor. */
+function LiteGlow({ level }: { level: number }) {
+  return <div aria-hidden="true" className="edge-lite" style={{ opacity: Math.min(1, level) }} />
+}
+
+function ShaderGlow({ level, busy }: { level: number; busy: boolean }) {
   const canvas = useRef<HTMLCanvasElement>(null)
   const target = useRef({ level, busy: busy ? 1 : 0 })
   const kick = useRef<() => void>(() => {})
