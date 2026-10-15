@@ -47,11 +47,11 @@ export const COPY = {
     { label: 'UC San Diego', value: 'B.S. Electrical Engineering, 2026' },
     { label: 'Evergreen Valley College', value: 'A.S. Mathematics, A.S. Computer Science, A.S. Physics' },
   ],
-  contactHead: 'Email is best. I usually reply within a day.',
+  contactHead: 'Email is best.',
   inquiries: [
     { label: 'Consulting', subject: 'Consulting', body: 'Product design, AI implementation, and taking products from zero to one.' },
     { label: 'Opportunities', subject: 'Opportunity', body: 'Roles, collaborations, and projects in product and AI.' },
-    { label: 'General', subject: 'Hello', body: 'Questions about my work, speaking, or anything else.' },
+    { label: 'General', subject: 'Hello', body: 'Questions about my work, or anything else.' },
   ],
   footerHead: 'Email is best.',
   notFoundLine: 'This page doesn’t exist or has moved.',

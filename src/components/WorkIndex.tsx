@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { Tile, tileMedia } from './Bento'
 import { ExperienceList } from './ExperienceList'
 import { IndexRows } from './IndexRows'
-import { projects, type Category, type Project } from '@/lib/projects-data'
+import { byRecency, projects, type Category, type Project } from '@/lib/projects-data'
 import { Icon } from './Icon'
 
 const FILTERS: [string, Category | 'All'][] = [
@@ -98,6 +98,8 @@ export function WorkIndex() {
   const featured = shown.filter((p) => p.kind === 'project' && p.featured)
   const roles = shown.filter((p) => p.kind === 'work')
   const more = shown.filter((p) => p.kind === 'project' && !p.featured)
+  // Browsing: newest first. Searching: best match first.
+  if (!q.trim()) more.sort(byRecency)
 
 
   // Results that mount after a filter change play the site's entrance themselves.

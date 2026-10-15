@@ -486,6 +486,16 @@ export const work = projects.filter((p) => p.kind === 'work')
 export const featuredProjects = projects.filter(
   (p) => p.kind === 'project' && p.featured,
 )
-export const earlierProjects = projects.filter(
-  (p) => p.kind === 'project' && !p.featured,
-)
+/** Newest first: a project still running counts as this year; ties go to the later start. */
+export function byRecency(a: Project, b: Project) {
+  const span = (y: string) => {
+    const start = Number(y.match(/\d{4}/)?.[0] ?? 0)
+    const end = /now/.test(y) ? 9999 : (() => { const t = y.match(/[–-](\d{2,4})\s*$/); return t ? (t[1].length === 2 ? Math.floor(start / 100) * 100 + Number(t[1]) : Number(t[1])) : start })()
+    return [end, start]
+  }
+  const [ea, sa] = span(a.year)
+  const [eb, sb] = span(b.year)
+  return eb - ea || sb - sa
+}
+
+export const earlierProjects = projects.filter((p) => p.kind === 'project' && !p.featured).sort(byRecency)
