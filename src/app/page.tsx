@@ -3,7 +3,6 @@ import { Plate } from '@/components/Plate'
 import { Footer } from '@/components/Footer'
 import { TLink } from '@/components/TLink'
 import { BodyOfWork } from '@/components/BodyOfWork'
-import { Showreel } from '@/components/Showreel'
 import { featuredProjects } from '@/lib/projects-data'
 import { PLATES } from '@/lib/media'
 import { COPY } from '@/lib/site'
@@ -23,9 +22,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <Showreel />
-
-        <section className="paper pt-sec pb-sec" data-tone="light">
+        <section className="paper pb-sec" data-tone="light">
           <div className="grid-main">
             <BodyOfWork />
           </div>

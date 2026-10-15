@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist } from "next/font/google";
 import "./globals.css";
-import "./look.css";
 import { StructuredData } from "@/components/StructuredData";
 import { Room } from "@/components/Room";
 import { Transitions } from "@/components/Transitions";
