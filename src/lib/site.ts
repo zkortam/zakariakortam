@@ -8,6 +8,7 @@ export const NAV = [
 ] as const
 
 export const SOCIALS = [
+  { label: 'Surf', handle: '@zakaria', href: 'https://surfsocial.org/zakaria' },
   { label: 'LinkedIn', handle: 'in/zkortam', href: 'https://linkedin.com/in/zkortam' },
   { label: 'GitHub', handle: 'zkortam', href: 'https://github.com/zkortam' },
   { label: 'X', handle: '@zakariakortam', href: 'https://x.com/zakariakortam' },

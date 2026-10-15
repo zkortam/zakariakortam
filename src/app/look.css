@@ -1,0 +1,66 @@
+/* ==========================================================================
+   Rounded panels on paper, and the nav as a floating glass capsule.
+   Every dark section (hero, plates, footer, openings) floats inside a paper margin with the same radius,
+   so the page reads as a few large objects rather than bands.
+   ========================================================================== */
+
+:root { --gut: 8px; --rad: 26px; }
+@media (min-width: 768px) { :root { --gut: 12px; --rad: 32px; } }
+@media (min-width: 1024px) { :root { --gut: 16px; --rad: 40px; } }
+
+#page { background: var(--paper); padding-bottom: var(--gut); display: flow-root; }
+
+.hero, .plate, .footer, .role-hero, .contact, .nf {
+  margin: var(--gut) var(--gut) 0;
+  border-radius: var(--rad);
+  overflow: hidden;
+  isolation: isolate;
+}
+.hero { height: calc(100svh - 2 * var(--gut)); }
+.footer { margin-top: var(--gut); }
+
+/* Paper sections between panels keep their own rhythm; consecutive panels sit one margin apart. */
+.plate + .plate { margin-top: var(--gut); }
+
+/* The nav: clear at the top of the page, a glass capsule once you scroll. */
+.nav .gl { inset: 8px calc(var(--m) - 14px); border-radius: 999px; }
+@media (min-width: 768px) { .nav .gl { inset: 10px calc(var(--m) - 16px); } }
+.nav .gl.glass-dark { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .1), 0 10px 30px -12px rgba(0, 0, 0, .5); }
+.nav .gl.glass-light { box-shadow: inset 0 0 0 1px rgba(22, 12, 13, .06), 0 10px 30px -14px rgba(60, 30, 25, .25); }
+
+/* ---------- Glass ---------- */
+.glass-pill {
+  display: inline-flex; align-items: center; border-radius: 999px; color: #fff;
+  background: rgba(18, 16, 20, .42);
+  -webkit-backdrop-filter: blur(22px) saturate(1.7); backdrop-filter: blur(22px) saturate(1.7);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .16), inset 0 1px 0 rgba(255, 255, 255, .22), 0 12px 32px -14px rgba(0, 0, 0, .55);
+}
+@media (prefers-reduced-transparency: reduce) { .glass-pill { background: rgba(18, 16, 20, .86); -webkit-backdrop-filter: none; backdrop-filter: none; } }
+
+/* ---------- Showreel: one frame that opens as you arrive ---------- */
+.show { --p: 0; padding: var(--gut) var(--gut) 0; }
+.show-frame {
+  position: relative; height: calc(100svh - 2 * var(--gut)); min-height: 520px; max-height: 1100px; overflow: hidden; border-radius: var(--rad); background: #0B0B0E;
+  clip-path: inset(calc((1 - var(--p)) * 10%) calc((1 - var(--p)) * 14%) round calc(var(--rad) + (1 - var(--p)) * 12px));
+  will-change: clip-path;
+}
+.show-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1400ms cubic-bezier(.4, 0, .2, 1); }
+.show-slide.on { opacity: 1; }
+.show-img { object-fit: cover; transform: scale(calc(1.12 - var(--p) * .08)); transition: transform 7s cubic-bezier(.22, 1, .36, 1); }
+.show-slide.on .show-img { transform: scale(calc(1.08 - var(--p) * .08)); }
+.show-tall { display: none; }
+@media (max-width: 767px) { .show-wide { display: none; } .show-tall { display: block; object-position: top center; } }
+.show-bar {
+  position: absolute; left: 16px; right: 16px; bottom: 16px; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  opacity: clamp(0, calc((var(--p) - .65) * 3), 1); transform: translateY(calc((1 - var(--p)) * 24px));
+}
+@media (min-width: 1024px) { .show-bar { left: 28px; right: 28px; bottom: 28px; } }
+.show-cap { gap: 12px; height: 52px; padding: 0 22px; font-size: 16px; line-height: 1; letter-spacing: -0.01em; transition: transform 300ms var(--e-quint); }
+.show-name { font-weight: 600; }
+.show-dom { color: rgba(255, 255, 255, .66); }
+.show-pause { justify-content: center; width: 52px; height: 52px; flex: none; transition: transform 200ms var(--e-std); }
+.show-pause svg { width: 20px; height: 20px; }
+.show-pause:active, .show-cap:active { transform: scale(.96); }
+@media (hover: hover) { .show-cap:hover { transform: scale(1.03); } }
+@media (prefers-reduced-motion: reduce) { .show-frame { clip-path: none; } .show-img, .show-slide.on .show-img { transform: none; transition: none; } .show-slide { transition: none; } }
+@media (max-width: 1023px) { .show-bar { top: 16px; bottom: auto; transform: translateY(calc((1 - var(--p)) * -24px)); } }
