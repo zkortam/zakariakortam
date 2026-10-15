@@ -23,7 +23,7 @@ export function BlogIndex({ posts }: { posts: Card[] }) {
         <h1 className="oc col-span-4 text-display md:col-span-4" data-rise="">
           Blog
         </h1>
-        {tags.length > 1 && (
+        {tags.length > 1 && posts.length > 1 && (
           <div className="wb-tools col-span-4 md:col-span-8 md:col-start-5" data-reveal="">
             <div className="seg" role="group" aria-label="Filter by topic">
               <button type="button" aria-pressed={!tag} className={!tag ? 'on' : ''} onClick={() => setTag(null)}>

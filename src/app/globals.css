@@ -953,7 +953,6 @@ html[data-quality="low"] .idle-light > i { animation: none; will-change: auto; }
     .hd-wordmark { animation-name: hdWordmark; }
     .hd-statement { animation-name: hdStatement; }
     .hero-glass { animation: hdGlass linear both; animation-timeline: --hero; animation-range: exit-crossing 0% exit-crossing 100%; }
-    html.lite-2 .hd-portrait, html.lite-2 .hd-wordmark, html.lite-2 .hd-statement, html.lite-2 .hero-glass { animation: none; }
   }
   @media (prefers-reduced-motion: no-preference) and (min-width: 768px) {
     .px-sd { animation: pxY linear both; animation-timeline: view(); animation-range: cover 0% cover 100%; }
@@ -1296,7 +1295,6 @@ a, button { transition-property: color, background-color, border-color, opacity,
     .hero { transform-origin: 50% 100%; will-change: transform, clip-path; animation: heroCard linear both; animation-timeline: --hero; animation-range: exit 0% exit 90%; }
     /* Scale and clip only: both run on the compositor, so the shrink never repaints the hero. */
     @keyframes heroCard { from { clip-path: inset(0 round 0); } to { scale: .86; clip-path: inset(0 round 56px); } }
-    html.lite-2 .hero { animation: none; }
 
     /* The next project arrives as a rounded card and opens to the full screen. */
     main:has(> .plate:not(:first-child)) { background: var(--paper); }
@@ -1506,7 +1504,8 @@ a, button { transition-property: color, background-color, border-color, opacity,
 @media (hover: hover) { .ct-social a:hover { background: rgba(255, 245, 247, .14); color: var(--bone); } }
 .ct-foot { z-index: 1; margin-top: 48px; color: var(--bone-64); }
 @media (max-width: 1023px) {
-  .ct-portrait { position: relative; width: min(84vw, 460px); margin: -24px auto -48px; order: -1; }
+  .ct-portrait { position: relative; width: min(84vw, 460px); margin: -24px auto -48px; order: -1;
+    -webkit-mask-image: radial-gradient(ellipse 50% 52% at 50% 40%, #000 58%, transparent 100%); mask-image: radial-gradient(ellipse 50% 52% at 50% 40%, #000 58%, transparent 100%); }
   .contact { padding-top: 88px; }
 }
 @media (prefers-reduced-motion: no-preference) {
@@ -1569,3 +1568,6 @@ html[data-quality="low"] .bc-glass { -webkit-backdrop-filter: none; backdrop-fil
 .bc-meta > span, .post-meta > span, .post-toc-h { display: inline-flex; align-items: center; gap: 7px; }
 .post-meta { gap: 8px 22px; }
 .post-cover .post-credit { position: absolute; right: 18px; bottom: 14px; font-size: 11px; color: rgba(255, 255, 255, .75); }
+/* Scroll-linked effects run on the compositor, so low-power mode keeps them: switching them off mid-scroll made the hero snap. */
+.ct-portrait { z-index: 1; }
+.ct-body, .ct-foot { z-index: 2; }

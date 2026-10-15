@@ -37,6 +37,8 @@ export function HeroDepth({ children }: { children: ReactNode }) {
   const portraitY = useMotionValue('0%')
   const wordmarkY = useMotionValue('0%')
   const statementO = useMotionValue(1)
+  const cardScale = useMotionValue(1)
+  const cardClip = useMotionValue('inset(0px round 0px)')
 
   const nx = useMotionValue(0)
   const ny = useMotionValue(0)
@@ -91,11 +93,11 @@ export function HeroDepth({ children }: { children: ReactNode }) {
 
   return (
     <LazyMotion features={domAnimation} strict>
-      {js && <ScrollDriver target={ref} reduced={reduced} portraitY={portraitY} wordmarkY={wordmarkY} statementO={statementO} />}
+      {js && <ScrollDriver target={ref} reduced={reduced} portraitY={portraitY} wordmarkY={wordmarkY} statementO={statementO} cardScale={cardScale} cardClip={cardClip} />}
       <Ctx.Provider value={{ js, portraitY, wordmarkY, statementO, wx, wy, px, py, bx, by }}>
-        <section ref={ref} className="hero" data-tone="dark">
+        <m.section ref={ref} className="hero" data-tone="dark" style={js ? { scale: cardScale, clipPath: cardClip, transformOrigin: '50% 100%' } : undefined}>
           {children}
-        </section>
+        </m.section>
       </Ctx.Provider>
     </LazyMotion>
   )
@@ -107,24 +109,33 @@ function ScrollDriver({
   portraitY,
   wordmarkY,
   statementO,
+  cardScale,
+  cardClip,
 }: {
   target: RefObject<HTMLElement | null>
   reduced: RefObject<boolean>
   portraitY: MotionValue<string>
   wordmarkY: MotionValue<string>
   statementO: MotionValue<number>
+  cardScale: MotionValue<number>
+  cardClip: MotionValue<string>
 }) {
   const { scrollYProgress: p } = useScroll({ target, offset: ['start start', 'end start'] })
   useEffect(() => {
     const apply = (v: number) => {
-      const off = reduced.current || lite(2)
+      // Only reduced motion turns this off: dropping it mid-scroll on a slow frame made the hero snap.
+      const off = reduced.current
       portraitY.set(off ? '0%' : `${v * 36}%`)
       wordmarkY.set(off ? '0%' : `${v * -26}%`)
       statementO.set(off ? 1 : Math.max(0, 1 - v / 0.45))
+      // The same shrink into a rounded card as the CSS path (exit 0% to 90%).
+      const k = off ? 0 : Math.min(1, v / 0.9)
+      cardScale.set(1 - 0.14 * k)
+      cardClip.set(`inset(0px round ${(56 * k).toFixed(1)}px)`)
     }
     apply(p.get())
     return p.on('change', apply)
-  }, [p, reduced, portraitY, wordmarkY, statementO])
+  }, [p, reduced, portraitY, wordmarkY, statementO, cardScale, cardClip])
   return null
 }
 
