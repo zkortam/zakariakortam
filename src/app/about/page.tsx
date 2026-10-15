@@ -86,7 +86,7 @@ export default function AboutPage() {
               Education
             </h2>
             <div className="mt-head col-span-full grid grid-cols-subgrid">
-              <Rows items={[COPY.education]} />
+              <Rows items={COPY.education} />
             </div>
           </div>
         </section>

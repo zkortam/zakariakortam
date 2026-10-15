@@ -6,6 +6,7 @@ import { Room } from "@/components/Room";
 import { Transitions } from "@/components/Transitions";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { Observer } from "@/components/Observer";
+import { CommandMenu } from "@/components/CommandMenu";
 import { Nav } from "@/components/Nav";
 
 const geist = Geist({
@@ -25,7 +26,7 @@ export const metadata: Metadata = {
     default: "Zakaria Kortam | Product Manager & Builder",
     template: "%s | Zakaria Kortam"
   },
-  description: "Associate Product Manager, Innovation at DigiCert. Builder of Helio, Surf, Surf Messenger, SPICE++, and AiroFind. Previously founding AI engineer at FacilisAI and product engineering at Incorta. UC San Diego EE. Based in San Jose, CA.",
+  description: "Associate Product Manager, Innovation at DigiCert. Builder of Helio, Surf, Surf Messenger, SPICE++, RTL++, and AiroFind. Previously founding AI engineer at FacilisAI and product engineering at Incorta. UC San Diego EE. Based in San Jose, CA.",
   keywords: [
     "Zakaria Kortam",
     "Product Manager",
@@ -103,6 +104,7 @@ export default function RootLayout({
           <SmoothScroll />
           <Observer />
           <Nav />
+          <CommandMenu />
           <div id="page">{children}</div>
         </Transitions>
       </body>

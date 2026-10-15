@@ -15,11 +15,10 @@ export function StructuredData() {
       "@type": "Organization",
       "name": "DigiCert"
     },
-    "alumniOf": {
-      "@type": "CollegeOrUniversity",
-      "name": "UC San Diego",
-      "department": "Electrical Engineering"
-    },
+    "alumniOf": [
+      { "@type": "CollegeOrUniversity", "name": "UC San Diego", "department": "Electrical Engineering" },
+      { "@type": "CollegeOrUniversity", "name": "Evergreen Valley College" }
+    ],
     "knowsAbout": [
       "Artificial Intelligence",
       "Machine Learning",

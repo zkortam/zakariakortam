@@ -6,6 +6,8 @@ import { Plate } from '@/components/Plate'
 import { Stills } from '@/components/Stills'
 import { Footer } from '@/components/Footer'
 import { ULink } from '@/components/ULink'
+import { ProjectKeys } from '@/components/ProjectKeys'
+import { DEMOS } from '@/components/demos'
 import { LivePill } from '@/components/LivePill'
 import { Rule } from '@/components/Rule'
 import { NextRow } from '@/components/IndexRows'
@@ -26,6 +28,11 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 function nextIn(list: Project[], id: string) {
   const i = list.findIndex((p) => p.id === id)
   return list[(i + 1) % list.length]
+}
+
+function prevIn(list: Project[], id: string) {
+  const i = list.findIndex((p) => p.id === id)
+  return list[(i - 1 + list.length) % list.length]
 }
 
 function Overview({ p }: { p: Project }) {
@@ -56,6 +63,45 @@ function Overview({ p }: { p: Project }) {
           </div>
         ))}
       </dl>
+    </div>
+  )
+}
+
+/** Measured numbers, set large. */
+function Numbers({ p }: { p: Project }) {
+  if (!p.stats?.length) return null
+  return (
+    <div className="grid-main mt-sec">
+      <Rule className="col-span-full" />
+      <dl className="col-span-full grid grid-cols-2 gap-x-[var(--g)] gap-y-[40px] pt-row md:grid-cols-4">
+        {p.stats.map((s, i) => (
+          <div key={s.label} className="stat" data-reveal="" style={{ ['--d' as string]: `${i * 80}ms` }}>
+            <dt className="sr-only">{s.label}</dt>
+            <dd className={`stat-v tnum ${s.value.length > 6 ? 'long' : ''}`}>{s.value}</dd>
+            <dd className="stat-l">{s.label}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  )
+}
+
+/** The live demo, full width, under a heading. */
+function DemoSection({ p }: { p: Project }) {
+  const Demo = DEMOS[p.id]
+  if (!Demo || !p.demo) return null
+  return (
+    <div className="grid-main mt-sec">
+      <Rule className="col-span-full" />
+      <h2 className="oc col-span-4 pt-row text-statement md:col-span-5" data-rise="">
+        {p.demo.title}
+      </h2>
+      <p className="col-span-4 mt-[24px] text-read md:col-span-5 md:col-start-7 md:mt-0 md:pt-row" data-reveal="">
+        {noWidow(p.demo.line)}
+      </p>
+      <div className="col-span-full mt-head" data-reveal="">
+        <Demo />
+      </div>
     </div>
   )
 }
@@ -117,13 +163,17 @@ export default async function ProjectPage({ params }: Params) {
 
   if (spec) {
     const next = nextIn(featuredProjects, p.id)
+    const prev = prevIn(featuredProjects, p.id)
     const nextSpec = PLATES[next.id]
     return (
       <>
+        <ProjectKeys prev={prev.id} next={next.id} />
         <main id="main" tabIndex={-1}>
           <Plate project={p} spec={spec} heading="h1" link={false} flipTarget showGithub />
           <section className="paper pt-sec" data-tone="light">
             <Overview p={p} />
+            <Numbers p={p} />
+            <DemoSection p={p} />
             <Narrative p={p} />
             <div className="mt-stills" />
           </section>
@@ -140,9 +190,12 @@ export default async function ProjectPage({ params }: Params) {
     )
   }
 
-  const next = p.kind === 'work' ? nextIn(work, p.id) : nextIn(earlierProjects, p.id)
+  const list = p.kind === 'work' ? work : earlierProjects
+  const next = nextIn(list, p.id)
+  const prev = prevIn(list, p.id)
   return (
     <>
+      <ProjectKeys prev={prev.id} next={next.id} />
       <main id="main" tabIndex={-1}>
         <section className="role-hero" data-tone="dark">
           <div aria-hidden="true" className="light light-rose" style={{ width: '100vmax', height: '100vmax', left: '70%', top: '30%', opacity: 0.8 }} />
@@ -158,15 +211,18 @@ export default async function ProjectPage({ params }: Params) {
             <p className="text-body" style={{ color: 'var(--bone-64)' }} data-reveal="">
               {p.role}, {p.year}
             </p>
-            {p.links?.live && (
+            {(p.links?.live || p.links?.github) && (
               <div className="pills" data-reveal="" data-align="end">
-                <LivePill href={p.links.live} />
+                {p.links?.github && <LivePill href={p.links.github} label="GitHub" />}
+                {p.links?.live && <LivePill href={p.links.live} />}
               </div>
             )}
           </div>
         </section>
         <section className="paper pt-sec pb-sec" data-tone="light">
           <Overview p={p} />
+          <Numbers p={p} />
+          <DemoSection p={p} />
           <Narrative p={p} />
           <Results p={p} />
           <div className="grid-main mt-sec">

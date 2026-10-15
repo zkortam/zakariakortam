@@ -29,7 +29,7 @@ export const COPY = {
   aboutStory: [
     'Most of what I know about product came from shipping my own things. Surf started in 2022 and is on its fourth version. Helio, SPICE++, and AiroFind came after it.',
     'Before DigiCert I was the founding AI engineer at FacilisAI, building agents that work with factory systems. Before that I did product work at Incorta and Inqueue.',
-    'I was also COO of ClosingTheDivide, a nonprofit that has donated more than 1,350 computers and set up 12 computer labs.',
+    'I started at Evergreen Valley College, where I earned associate degrees in math, computer science, and physics, then transferred to UC San Diego.',
   ],
   tools: [
     { label: 'Product', value: 'Roadmaps, PRDs, KPIs, user research, A/B tests' },
@@ -37,7 +37,10 @@ export const COPY = {
     { label: 'AI', value: 'Claude, OpenAI, MCP, retrieval, vector databases' },
     { label: 'Infrastructure', value: 'Supabase, Postgres, Docker, Kubernetes, AWS, Azure' },
   ],
-  education: { label: 'UC San Diego', value: 'B.S. Electrical Engineering, 2026' },
+  education: [
+    { label: 'UC San Diego', value: 'B.S. Electrical Engineering, 2026' },
+    { label: 'Evergreen Valley College', value: 'A.S. Mathematics, A.S. Computer Science, A.S. Physics' },
+  ],
   contactHead: 'Email is best. I usually reply within a day.',
   footerHead: 'Email is best.',
   notFoundLine: 'This page doesn’t exist or has moved.',

@@ -20,6 +20,10 @@ export interface Project {
     live?: string
     github?: string
   }
+  /** Measured from the project's repository. */
+  stats?: { value: string; label: string }[]
+  /** The live demo section on the project page. */
+  demo?: { title: string; line: string }
 }
 
 export const projects: Project[] = [
@@ -109,7 +113,7 @@ export const projects: Project[] = [
     id: 'helio',
     image: '/work/helio.webp',
     title: 'Helio',
-    line: 'A voice AI tutor that teaches math and science on a live whiteboard.',
+    line: 'A voice AI tutor that talks, listens, and teaches math and science on a live whiteboard.',
     kind: 'project',
     featured: true,
     year: '2026',
@@ -127,12 +131,19 @@ export const projects: Project[] = [
     ],
     stack: ['Rust', 'WebAssembly', 'TypeScript', 'Cloudflare', 'Supabase'],
     links: { live: 'https://helio.education' },
+    stats: [
+      { value: '262k', label: 'lines of Rust' },
+      { value: '3,503', label: 'tests' },
+      { value: '1,970', label: 'commits in two weeks' },
+      { value: '4', label: 'Rust crates, one core shared by client and server' },
+    ],
+    demo: { title: 'Watch a beat', line: 'Every step is checked before the tutor says it, then written on the board in sync with the words.' },
   },
   {
     id: 'surf',
     image: '/work/surf.webp',
     title: 'Surf',
-    line: 'A social platform I have been building since 2022.',
+    line: 'A full social network built by one person, on web, iOS, and Android.',
     kind: 'project',
     featured: true,
     year: '2022 to now',
@@ -150,12 +161,19 @@ export const projects: Project[] = [
     ],
     stack: ['Next.js', 'React', 'TypeScript', 'Supabase', 'Capacitor'],
     links: { live: 'https://surfsocial.org' },
+    stats: [
+      { value: '823k', label: 'lines of TypeScript' },
+      { value: '24,249', label: 'tests' },
+      { value: '1,935', label: 'database migrations' },
+      { value: '5,969', label: 'commits this year' },
+    ],
+    demo: { title: 'One codebase, every screen', line: 'The same app runs on the web, iOS, Android, and the desktop, on a database where every row is guarded by a security policy.' },
   },
   {
     id: 'surf-messenger',
     image: '/work/surf-messenger.webp',
     title: 'Surf Messenger',
-    line: 'Surf’s messaging as its own app, on Mac, Windows, and phones.',
+    line: 'Private messaging with end-to-end encryption, on Mac, Windows, and phones.',
     kind: 'project',
     featured: true,
     year: '2026',
@@ -169,12 +187,19 @@ export const projects: Project[] = [
       live: 'https://surfmessenger.com',
       github: 'https://github.com/zkortam/SurfMessengerDesktop',
     },
+    stats: [
+      { value: 'X3DH', label: 'key agreement' },
+      { value: 'Double Ratchet', label: 'a new key for every message' },
+      { value: '51', label: 'crypto modules' },
+      { value: '4', label: 'platforms: Mac, Windows, iOS, Android' },
+    ],
+    demo: { title: 'Sealed before it leaves', line: 'This is real encryption, running in your browser right now. The middle lane is everything a server ever sees.' },
   },
   {
     id: 'spice-plus-plus',
     image: '/work/spice-plus-plus.webp',
     title: 'SPICE++',
-    line: 'A circuit simulator in the browser, written from scratch.',
+    line: 'A SPICE circuit simulator written from scratch, running in the browser, with an AI agent built in.',
     kind: 'project',
     featured: true,
     year: '2025 to now',
@@ -192,12 +217,49 @@ export const projects: Project[] = [
     ],
     stack: ['TypeScript', 'Azure OpenAI', 'Supabase', 'Stripe'],
     links: { live: 'https://www.spicepp.com' },
+    stats: [
+      { value: '195k', label: 'lines of TypeScript' },
+      { value: '21', label: 'device types' },
+      { value: '5', label: 'analysis types' },
+      { value: '4', label: 'file formats in and out' },
+    ],
+    demo: { title: 'Run the engine', line: 'This is the SPICE++ simulation engine, running in your browser. Drag a value and it solves the circuit again, instantly.' },
+  },
+  {
+    id: 'rtl-plus-plus',
+    image: '/work/hd/rtlpp-desktop.webp',
+    title: 'RTL++',
+    line: 'Verilog in the browser, two simulators, and a debugger that tells you why a test failed.',
+    kind: 'project',
+    featured: true,
+    year: '2026',
+    role: 'Creator',
+    overview:
+      'RTL++ is a browser workspace for digital logic. You write Verilog or SystemVerilog, run every test in two simulators, and build for iCE40 and ECP5 FPGAs.',
+    problem:
+      'Hardware tools are heavy installs, and when a test fails they show a waveform and leave you to work out why.',
+    approach:
+      'When a test fails, RTL++ traces the wrong value back through the waveform to the line of code that set it, and shows each step of that chain next to the source.',
+    results: [
+      'Verilog and SystemVerilog, tested in two simulators',
+      'Traces any value back to the line that made it',
+      'Builds for iCE40 and ECP5 FPGAs',
+    ],
+    stack: ['TypeScript', 'Verilog', 'WebAssembly', 'FPGA toolchains'],
+    links: { live: 'https://rtlpp.vercel.app' },
+    stats: [
+      { value: '50k', label: 'lines of TypeScript' },
+      { value: '2', label: 'simulators on every test' },
+      { value: '2', label: 'FPGA families' },
+      { value: '93', label: 'commits in two days' },
+    ],
+    demo: { title: 'From failure to fix', line: 'A test fails. RTL++ walks the wrong value back to the line that caused it, the fix lands, and the rerun passes.' },
   },
   {
     id: 'airofind',
     image: '/work/airofind.webp',
     title: 'AiroFind',
-    line: 'A fast, quiet flight search.',
+    line: 'Flight search that prices every date pair around your trip and finds the cheapest.',
     kind: 'project',
     featured: true,
     year: '2026',
@@ -209,6 +271,12 @@ export const projects: Project[] = [
       'A Next.js front end on Vercel, with a fare scraper running on its own Azure VM.',
     stack: ['Next.js', 'Three.js', 'Framer Motion', 'Azure'],
     links: { live: 'https://airofind.com' },
+    stats: [
+      { value: '49', label: 'fares priced per grid read' },
+      { value: '105', label: 'commits' },
+      { value: '1', label: 'scraper on its own Azure VM' },
+    ],
+    demo: { title: 'The whole window at once', line: 'AiroFind reads every departure and return pair around your dates in a few page loads, then picks the cheapest.' },
   },
   {
     id: 'documap-ai',
@@ -230,22 +298,74 @@ export const projects: Project[] = [
     stack: ['Python', 'FastAPI', 'LangChain', 'ChromaDB', 'Next.js'],
   },
   {
-    id: 'closingthedivide',
-    title: 'ClosingTheDivide',
-    line: 'A nonprofit putting computers in classrooms. I was COO.',
+    id: 'wingman',
+    title: 'Wingman',
+    line: 'Reviews what an AI agent is about to do before it does it.',
     kind: 'project',
     featured: false,
-    year: '2021 to 2025',
-    role: 'Chief Operating Officer',
+    year: '2026',
+    role: 'Co-creator, with Ali Alani',
     overview:
-      'ClosingTheDivide is a 501(c)(3) that gets computers to students who don’t have them. As COO I ran operations across 20+ branches and 185 volunteers.',
-    results: [
-      '1,350+ computers donated',
-      '$285K raised',
-      '12 computer labs in other countries',
+      'Wingman sits where an agent calls its tools. It catches poorly considered actions before they run, learns from the moments a user pushes back, and only keeps a configuration change if it fails before the change and passes after it.',
+    stack: ['TypeScript', 'npm SDK'],
+    links: { github: 'https://github.com/zkortam/wingman' },
+    stats: [
+      { value: '537', label: 'tests' },
+      { value: '25k', label: 'lines of TypeScript' },
+      { value: '0', label: 'third-party runtime dependencies in the SDK' },
     ],
-    stack: ['Operations', 'Fundraising', 'Curriculum'],
-    links: { live: 'https://closingthedivide.foundation' },
+    demo: { title: 'Caught before it runs', line: 'Every tool call an agent proposes gets a verdict before the host executes it, and a fix only ships with proof.' },
+  },
+  {
+    id: 'robodog',
+    title: 'RoboDog',
+    line: 'Voice and vision for a robot on an Arduino UNO Q, all running locally.',
+    kind: 'project',
+    featured: false,
+    year: '2026',
+    role: 'Developer, UC San Diego ECE 180',
+    overview:
+      'RoboDog gives a robot a conversational presence. It listens hands free, speaks with local text to speech, recognizes people who have opted in, and reads facial expressions, with the voice and vision stack kept separate from motor control.',
+    stack: ['Python', 'OpenCV', 'Arduino UNO Q', 'Cerebras'],
+    links: { live: 'https://ece180robodog.vercel.app', github: 'https://github.com/zkortam/ece180robodog' },
+  },
+  {
+    id: 'fridgit',
+    title: 'Fridgit',
+    line: 'A shared fridge you keep track of by camera, voice, or receipt.',
+    kind: 'project',
+    featured: false,
+    year: '2026',
+    role: 'Creator',
+    overview:
+      'Fridgit tracks what is in a shared fridge. Hold food up to the camera to add or remove it, say what you bought, or scan the receipt, and each item is credited to whoever added it.',
+    stack: ['JavaScript', 'Computer vision', 'Speech input'],
+    links: { live: 'https://www.fridgit.org' },
+  },
+  {
+    id: 'dealflow',
+    title: 'DealFlow',
+    line: 'An AI agent that prepares you to negotiate salary, software, or rent.',
+    kind: 'project',
+    featured: false,
+    year: '2026',
+    role: 'Developer',
+    overview:
+      'DealFlow researches market data for an offer, a software quote, or a lease, writes the counter-offer and the email, and lets you rehearse the conversation by voice.',
+    stack: ['TypeScript', 'Toolhouse', 'LLM tools'],
+  },
+  {
+    id: 'sentiment-analysis',
+    title: 'Sentiment Analysis',
+    line: 'A real-time sentiment model served on Kubernetes with GitOps.',
+    kind: 'project',
+    featured: false,
+    year: '2025',
+    role: 'Creator',
+    overview:
+      'A FastAPI service that scores the sentiment of text in real time, packaged in Docker and deployed to AWS EKS through GitHub Actions and ArgoCD.',
+    stack: ['Python', 'FastAPI', 'scikit-learn', 'Docker', 'Kubernetes', 'AWS'],
+    links: { github: 'https://github.com/zkortam/sentiment-analysis-v2' },
   },
   {
     id: 'alex-ai',

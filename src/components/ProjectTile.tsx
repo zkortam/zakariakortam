@@ -38,7 +38,7 @@ export function ProjectTile({ project, index }: { project: Project; index: numbe
       <span className="tile-media mt-[14px] block" style={{ background: spec.ground }}>
         {c === 'card' && (
           <span className="absolute inset-0 flex items-center justify-center">
-            <span className="card tile-card block" style={{ width: '92%' }} data-flip-img="" data-flip-fit="width">
+            <span className={`card tile-card block ${project.id === 'helio' ? '' : 'card-plain'}`} style={{ width: project.id === 'helio' ? '92%' : '84%' }} data-flip-img="" data-flip-fit="width">
               <Image src={img.src} alt={img.alt} width={img.w} height={img.h} sizes={TILE_SIZES} quality={82} data-hero-sizes={hero} />
             </span>
           </span>

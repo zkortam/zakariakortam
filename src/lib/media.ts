@@ -120,6 +120,25 @@ export const PLATES: Record<string, PlateSpec> = {
       b2: { src: '/work/hd/spice-plus-plus-sim.webp', w: 3200, h: 2000, alt: 'SPICE++ editor with an RC circuit and an AC sweep' },
     },
   },
+  'rtl-plus-plus': {
+    id: 'rtl-plus-plus',
+    ground: 'linear-gradient(110deg,#E6ECF4 0%,#F1F1EE 50%,#E3E9F2 100%)',
+    tone: 'light',
+    titleLines: ['RTL++'],
+    composition: 'card',
+    primary: {
+      src: '/work/hd/rtlpp-app.webp',
+      w: 2304,
+      h: 1612,
+      alt: 'RTL++ explaining a failing counter test: the source line, the trace of why count is 0 at 100 ns, and the waveform',
+    },
+    mobile: { src: '/work/derived/rtlpp-card-m.webp', w: 1236, h: 1612, alt: 'RTL++ counter source with the failing line highlighted and its waveform' },
+    stills: {
+      a: { src: '/work/hd/rtlpp-desktop.webp', w: 2880, h: 1800, alt: "RTL++'s home page, Digital logic in the browser" },
+      b1: { src: '/work/hd/rtlpp-mobile.webp', w: 1170, h: 2532, alt: 'RTL++ home page on a phone' },
+      b2: { src: '/work/hd/rtlpp-app.webp', w: 2304, h: 1612, alt: 'RTL++ trace of a failing test with its waveform' },
+    },
+  },
   airofind: {
     id: 'airofind',
     ground: '#000000',

@@ -13,6 +13,7 @@ export const HERO_SIZES: Record<string, string> = {
   surf: PHONE_SIZES,
   'surf-messenger': PHONE_SIZES,
   'spice-plus-plus': BOARD_SIZES,
+  'rtl-plus-plus': CARD_SIZES,
   airofind: RESULTS_SIZES,
 }
 
@@ -58,7 +59,7 @@ export function PlateMediaLayer({ spec }: { spec: PlateSpec }) {
             <div className="col-start-4 col-end-13 row-start-2 flex items-end justify-end" style={{ containerType: 'size' }}>
               <div className="obj-hover">
                 <div data-enter="">
-                  <div className="card card-desk" data-flip-img="" data-flip-fit="width">
+                  <div className={`card card-desk ${spec.id === 'helio' ? '' : 'card-plain'}`} style={{ ['--ar' as string]: img.w / img.h }} data-flip-img="" data-flip-fit="width">
                     <Image src={img.src} alt={img.alt} width={img.w} height={img.h} sizes={CARD_SIZES} quality={82} />
                   </div>
                 </div>
@@ -112,7 +113,7 @@ export function PlateMediaFlow({ spec }: { spec: PlateSpec }) {
           <div className="col-span-4 md:col-span-12">
             <div className="obj-hover">
               <div data-enter="">
-                <div className="card card-m" data-flip-img="" data-flip-fit="width">
+                <div className={`card card-m ${spec.id === 'helio' ? '' : 'card-plain'}`} data-flip-img="" data-flip-fit="width">
                   <picture>
                     <source media="(min-width:768px)" srcSet={desk.srcSet} sizes="100vw" width={img.w} height={img.h} />
                     <img {...mob} alt={m.alt} loading="lazy" decoding="async" />

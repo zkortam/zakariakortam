@@ -4,6 +4,7 @@ import { ExperienceList } from '@/components/ExperienceList'
 import { Footer } from '@/components/Footer'
 import { TLink } from '@/components/TLink'
 import { Rule } from '@/components/Rule'
+import { BodyOfWork } from '@/components/BodyOfWork'
 import { featuredProjects } from '@/lib/projects-data'
 import { PLATES } from '@/lib/media'
 import { COPY } from '@/lib/site'
@@ -19,6 +20,16 @@ export default function HomePage() {
           <div className="grid-main">
             <p className="oc col-span-4 text-statement md:col-span-12 lg:col-span-11" data-rise="">
               {COPY.statementLead} <span className="c-ink50">{COPY.statementRest}</span>
+            </p>
+          </div>
+        </section>
+
+        <section className="paper pb-sec" data-tone="light">
+          <div className="grid-main">
+            <Rule className="col-span-full" />
+            <BodyOfWork />
+            <p className="c3 col-span-4 mt-[32px] text-body md:col-span-6" data-reveal="">
+              Counted from the repositories of Surf, Helio, SPICE++, RTL++, AiroFind, Wingman, and the Surf site.
             </p>
           </div>
         </section>
