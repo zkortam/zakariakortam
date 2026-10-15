@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 import { ExperienceList } from '@/components/ExperienceList'
 import { Footer } from '@/components/Footer'
-import { Rule } from '@/components/Rule'
 import { COPY, noWidow } from '@/lib/site'
 import { pageMeta } from '@/lib/seo'
 
@@ -21,7 +20,6 @@ function Rows({ items }: { items: readonly { label: string; value: string }[] })
       <ul className="rows col-span-full grid grid-cols-subgrid">
         {items.map((t) => (
           <li key={t.label} className="row col-span-full grid grid-cols-subgrid items-baseline py-[20px] md:py-[28px]">
-            <Rule className="rule-top" />
             <span className="col-span-4 text-read md:col-span-6" data-reveal="">
               {t.label}
             </span>
@@ -31,7 +29,6 @@ function Rows({ items }: { items: readonly { label: string; value: string }[] })
           </li>
         ))}
       </ul>
-      <Rule className="rule-end col-span-full" />
     </>
   )
 }

@@ -9,7 +9,6 @@ import { ULink } from '@/components/ULink'
 import { ProjectKeys } from '@/components/ProjectKeys'
 import { DEMOS } from '@/components/demos'
 import { LivePill } from '@/components/LivePill'
-import { Rule } from '@/components/Rule'
 import { NextRow } from '@/components/IndexRows'
 import { domainOf, noWidow } from '@/lib/site'
 import { pageMeta } from '@/lib/seo'
@@ -93,32 +92,12 @@ function Overview({ p }: { p: Project }) {
   )
 }
 
-/** Measured numbers, set large. */
-function Numbers({ p }: { p: Project }) {
-  if (!p.stats?.length) return null
-  return (
-    <div className="grid-main mt-sec">
-      <Rule className="col-span-full" />
-      <dl className="col-span-full grid grid-cols-2 gap-x-[var(--g)] gap-y-[40px] pt-row md:grid-cols-4">
-        {p.stats.map((s, i) => (
-          <div key={s.label} className="stat" data-reveal="" style={{ ['--d' as string]: `${i * 80}ms` }}>
-            <dt className="sr-only">{s.label}</dt>
-            <dd className={`stat-v tnum ${s.value.length > 6 ? 'long' : ''}`}>{s.value}</dd>
-            <dd className="stat-l">{s.label}</dd>
-          </div>
-        ))}
-      </dl>
-    </div>
-  )
-}
-
 /** The live demo, full width, under a heading. */
 function DemoSection({ p }: { p: Project }) {
   const Demo = DEMOS[p.id]
   if (!Demo || !p.demo) return null
   return (
     <div className="grid-main mt-sec">
-      <Rule className="col-span-full" />
       <h2 className="oc col-span-4 pt-row text-statement md:col-span-5" data-rise="">
         {p.demo.title}
       </h2>
@@ -135,7 +114,6 @@ function DemoSection({ p }: { p: Project }) {
 function Block({ title, children, first = false }: { title: string; children: React.ReactNode; first?: boolean }) {
   return (
     <div className={`grid-main ${first ? '' : 'mt-sec'}`}>
-      <Rule className="col-span-full" />
       <h2 className="oc col-span-4 pt-row text-statement md:col-span-5" data-rise="">
         {title}
       </h2>
@@ -172,7 +150,6 @@ function Results({ p, first = false }: { p: Project; first?: boolean }) {
       <ul className="text-read">
         {p.results.map((r) => (
           <li key={r} className="relative py-[16px] md:py-[20px]" data-reveal="">
-            <span aria-hidden="true" className="rule absolute left-0 right-0 top-0" />
             {noWidow(r)}
           </li>
         ))}
@@ -199,7 +176,6 @@ export default async function ProjectPage({ params }: Params) {
           <Plate project={p} spec={spec} heading="h1" link={false} flipTarget showGithub />
           <section className="paper pt-sec" data-tone="light">
             <Overview p={p} />
-            <Numbers p={p} />
             <DemoSection p={p} />
             <Narrative p={p} />
             <div className="mt-stills" />
@@ -249,7 +225,6 @@ export default async function ProjectPage({ params }: Params) {
         </section>
         <section className="paper pt-sec pb-sec" data-tone="light">
           <Overview p={p} />
-          <Numbers p={p} />
           <DemoSection p={p} />
           <Narrative p={p} />
           <Results p={p} />

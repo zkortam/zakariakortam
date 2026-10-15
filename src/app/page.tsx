@@ -3,7 +3,6 @@ import { Plate } from '@/components/Plate'
 import { ExperienceList } from '@/components/ExperienceList'
 import { Footer } from '@/components/Footer'
 import { TLink } from '@/components/TLink'
-import { Rule } from '@/components/Rule'
 import { BodyOfWork } from '@/components/BodyOfWork'
 import { featuredProjects } from '@/lib/projects-data'
 import { PLATES } from '@/lib/media'
@@ -26,7 +25,6 @@ export default function HomePage() {
 
         <section className="paper pb-sec" data-tone="light">
           <div className="grid-main">
-            <Rule className="col-span-full" />
             <BodyOfWork />
             <p className="c3 col-span-4 mt-[32px] text-body md:col-span-6" data-reveal="">
               Counted from the repositories of Surf, Helio, SPICE++, RTL++, AiroFind, Wingman, and the Surf site.
@@ -43,7 +41,6 @@ export default function HomePage() {
           <div className="grid-main">
             <div className="rows-solo col-span-full">
               <TLink href="/portfolio" className="u-group relative block py-row">
-                <Rule className="absolute left-0 right-0 top-0" />
                 <span className="flex items-end justify-between gap-[24px]">
                   <span className="oc text-statement" data-reveal="">
                     <span className="u-box">
@@ -55,7 +52,6 @@ export default function HomePage() {
                     <span className="arrow-shift">→</span>
                   </span>
                 </span>
-                <Rule className="absolute bottom-0 left-0 right-0" />
               </TLink>
             </div>
           </div>

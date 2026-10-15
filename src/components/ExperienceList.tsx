@@ -1,15 +1,13 @@
 import { TLink } from './TLink'
-import { Rule } from './Rule'
-import { work } from '@/lib/projects-data'
+import { work, type Project } from '@/lib/projects-data'
 
 /** Four role rows on a subgrid: org, role, years. */
-export function ExperienceList() {
+export function ExperienceList({ items = work }: { items?: Project[] }) {
   return (
     <>
       <ul className="rows col-span-full grid grid-cols-subgrid">
-        {work.map((p) => (
+        {items.map((p) => (
           <li key={p.id} className="row col-span-full grid grid-cols-subgrid">
-            <Rule className="rule-top" />
             <TLink href={`/portfolio/${p.id}`} className="u-group col-span-full grid grid-cols-subgrid items-baseline py-row">
               <span className="col-span-4 text-statement md:col-span-6 md:row-span-2 lg:row-span-1" data-reveal="">
                 <span className="u-box oc">
@@ -31,7 +29,6 @@ export function ExperienceList() {
           </li>
         ))}
       </ul>
-      <Rule className="rule-end col-span-full" />
     </>
   )
 }

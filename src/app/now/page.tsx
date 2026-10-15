@@ -30,7 +30,6 @@ export default function NowPage() {
             <ul className="col-span-full grid grid-cols-subgrid">
               {NOW.map((n) => (
                 <li key={n.label} className="relative col-span-full grid grid-cols-subgrid py-row">
-                  <span aria-hidden="true" className="rule absolute left-0 right-0 top-0" />
                   <span className="c3 col-span-4 text-read md:col-span-6" data-reveal="">
                     {n.label}
                   </span>

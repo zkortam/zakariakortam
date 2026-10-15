@@ -1,3 +1,6 @@
+export const CATEGORIES = ['AI', 'Consumer apps', 'Engineering tools', 'Hardware', 'Hackathons', 'Roles'] as const
+export type Category = (typeof CATEGORIES)[number]
+
 export interface Project {
   id: string
   title: string
@@ -20,6 +23,8 @@ export interface Project {
     live?: string
     github?: string
   }
+  /** Categories for browsing the Work page. */
+  tags?: Category[]
   /** Measured from the project's repository. */
   stats?: { value: string; label: string }[]
   /** The live demo section on the project page. */
@@ -30,6 +35,7 @@ export const projects: Project[] = [
   // Work
   {
     id: 'digicert',
+    tags: ['Roles'],
     title: 'DigiCert',
     line: 'New products in digital trust: certificates, PKI, and identity.',
     kind: 'work',
@@ -48,6 +54,7 @@ export const projects: Project[] = [
   },
   {
     id: 'facilis-ai',
+    tags: ['Roles', 'AI'],
     title: 'FacilisAI',
     line: 'Agents that work with factory systems: PLCs, MES, and SCADA.',
     kind: 'work',
@@ -71,6 +78,7 @@ export const projects: Project[] = [
   },
   {
     id: 'incorta-dashboards',
+    tags: ['Roles', 'AI'],
     title: 'Incorta',
     line: 'Charts and schema interpreters behind the AI Copilot dashboard.',
     kind: 'work',
@@ -94,6 +102,7 @@ export const projects: Project[] = [
   },
   {
     id: 'inqueue',
+    tags: ['Roles', 'Consumer apps'],
     title: 'Inqueue',
     line: 'Took a queuing app from research to a shipped Flutter MVP.',
     kind: 'work',
@@ -111,6 +120,7 @@ export const projects: Project[] = [
   // Projects
   {
     id: 'helio',
+    tags: ['AI', 'Consumer apps'],
     image: '/work/helio.webp',
     title: 'Helio',
     line: 'A voice AI tutor that talks, listens, and teaches math and science on a live whiteboard.',
@@ -141,6 +151,7 @@ export const projects: Project[] = [
   },
   {
     id: 'surf',
+    tags: ['Consumer apps'],
     image: '/work/surf.webp',
     title: 'Surf',
     line: 'A full social network built by one person, on web, iOS, and Android.',
@@ -171,6 +182,7 @@ export const projects: Project[] = [
   },
   {
     id: 'surf-messenger',
+    tags: ['Consumer apps'],
     image: '/work/surf-messenger.webp',
     title: 'Surf Messenger',
     line: 'Private messaging with end-to-end encryption, on Mac, Windows, and phones.',
@@ -197,6 +209,7 @@ export const projects: Project[] = [
   },
   {
     id: 'spice-plus-plus',
+    tags: ['Engineering tools', 'AI'],
     image: '/work/spice-plus-plus.webp',
     title: 'SPICE++',
     line: 'A SPICE circuit simulator written from scratch, running in the browser, with an AI agent built in.',
@@ -227,6 +240,7 @@ export const projects: Project[] = [
   },
   {
     id: 'rtl-plus-plus',
+    tags: ['Engineering tools'],
     image: '/work/hd/rtlpp-desktop.webp',
     title: 'RTL++',
     line: 'Verilog in the browser, two simulators, and a debugger that tells you why a test failed.',
@@ -257,6 +271,7 @@ export const projects: Project[] = [
   },
   {
     id: 'airofind',
+    tags: ['Consumer apps'],
     image: '/work/airofind.webp',
     title: 'AiroFind',
     line: 'Flight search that prices every date pair around your trip and finds the cheapest.',
@@ -280,6 +295,7 @@ export const projects: Project[] = [
   },
   {
     id: 'documap-ai',
+    tags: ['AI', 'Hackathons'],
     title: 'Documap',
     line: 'Contract analysis. Won the SAG-AFTRA Challenge at Stanford Law.',
     kind: 'project',
@@ -299,6 +315,7 @@ export const projects: Project[] = [
   },
   {
     id: 'wingman',
+    tags: ['AI', 'Engineering tools'],
     title: 'Wingman',
     line: 'Reviews what an AI agent is about to do before it does it.',
     kind: 'project',
@@ -318,6 +335,7 @@ export const projects: Project[] = [
   },
   {
     id: 'robodog',
+    tags: ['Hardware', 'AI'],
     title: 'RoboDog',
     line: 'Voice and vision for a robot on an Arduino UNO Q, all running locally.',
     kind: 'project',
@@ -331,6 +349,7 @@ export const projects: Project[] = [
   },
   {
     id: 'fridgit',
+    tags: ['Consumer apps'],
     title: 'Fridgit',
     line: 'A shared fridge you keep track of by camera, voice, or receipt.',
     kind: 'project',
@@ -344,6 +363,7 @@ export const projects: Project[] = [
   },
   {
     id: 'dealflow',
+    tags: ['AI'],
     title: 'DealFlow',
     line: 'An AI agent that prepares you to negotiate salary, software, or rent.',
     kind: 'project',
@@ -356,6 +376,7 @@ export const projects: Project[] = [
   },
   {
     id: 'sentiment-analysis',
+    tags: ['AI', 'Engineering tools'],
     title: 'Sentiment Analysis',
     line: 'A real-time sentiment model served on Kubernetes with GitOps.',
     kind: 'project',
@@ -369,6 +390,7 @@ export const projects: Project[] = [
   },
   {
     id: 'alex-ai',
+    tags: ['AI', 'Hackathons'],
     title: 'Alex AI',
     line: 'Picks a business structure and files the paperwork. 1st at TedAI × Microsoft.',
     kind: 'project',
@@ -382,6 +404,7 @@ export const projects: Project[] = [
   },
   {
     id: 'nexus-robot',
+    tags: ['Hardware'],
     title: 'Nexus',
     line: 'A path-following robot on Arduino with vision and PID control.',
     kind: 'project',
@@ -395,6 +418,7 @@ export const projects: Project[] = [
   },
   {
     id: 'risk-factors-viz',
+    tags: ['AI', 'Hackathons'],
     title: 'Risk Factors',
     line: 'Pulls risk factors out of SEC filings and graphs how they connect.',
     kind: 'project',
@@ -407,6 +431,7 @@ export const projects: Project[] = [
   },
   {
     id: 'legiscan',
+    tags: ['AI', 'Hackathons'],
     title: 'Legiscan',
     line: 'Compares a bill to current law and scores how complex it is.',
     kind: 'project',
@@ -419,6 +444,7 @@ export const projects: Project[] = [
   },
   {
     id: 'clippy-2',
+    tags: ['AI', 'Consumer apps'],
     title: 'Clippy 2.0',
     line: 'Clippy, brought back as a chatbot. 1,200+ users.',
     kind: 'project',
@@ -431,6 +457,7 @@ export const projects: Project[] = [
   },
   {
     id: 'hypersonic-sprinkler',
+    tags: ['Hardware'],
     title: 'Hypersonic Sprinkler',
     line: 'A sprinkler that uses oscillators to spread water more evenly.',
     kind: 'project',

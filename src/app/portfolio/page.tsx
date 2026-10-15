@@ -1,9 +1,6 @@
 import type { Metadata } from 'next'
-import { ProjectTile } from '@/components/ProjectTile'
-import { ExperienceList } from '@/components/ExperienceList'
-import { IndexRows } from '@/components/IndexRows'
+import { WorkIndex } from '@/components/WorkIndex'
 import { Footer } from '@/components/Footer'
-import { earlierProjects, featuredProjects } from '@/lib/projects-data'
 import { COPY } from '@/lib/site'
 import { pageMeta } from '@/lib/seo'
 
@@ -29,29 +26,7 @@ export default function WorkPage() {
             </p>
           </div>
 
-          <div className="grid-main mt-sec gap-y-[64px] md:gap-y-[80px] lg:gap-y-[96px]">
-            {featuredProjects.map((p, i) => (
-              <ProjectTile key={p.id} project={p} index={i} />
-            ))}
-          </div>
-
-          <div className="grid-main mt-big">
-            <h2 className="oc col-span-4 text-statement md:col-span-12" data-rise="">
-              Roles
-            </h2>
-            <div className="mt-head col-span-full grid grid-cols-subgrid">
-              <ExperienceList />
-            </div>
-          </div>
-
-          <div className="grid-main mt-sec">
-            <h2 className="oc col-span-4 text-statement md:col-span-12" data-rise="">
-              Earlier projects
-            </h2>
-            <div className="mt-head col-span-full grid grid-cols-subgrid">
-              <IndexRows items={earlierProjects} />
-            </div>
-          </div>
+          <WorkIndex />
         </section>
       </main>
       <Footer />

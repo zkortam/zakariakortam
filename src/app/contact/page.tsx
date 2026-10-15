@@ -39,7 +39,6 @@ export default function ContactPage() {
             <ul className="rows col-span-4 grid grid-cols-subgrid md:col-span-6 md:col-start-7">
               {SOCIALS.map((s) => (
                 <li key={s.label} className="row col-span-full grid grid-cols-subgrid">
-                  <span aria-hidden="true" className="rule rule-top" data-rule="" />
                   <a
                     href={s.href}
                     target="_blank"
@@ -60,7 +59,6 @@ export default function ContactPage() {
                 </li>
               ))}
             </ul>
-            <span aria-hidden="true" className="rule rule-end col-span-4 md:col-span-6 md:col-start-7" data-rule="" />
           </div>
           <div className="grid-main contact-foot text-body" style={{ color: 'var(--bone-64)' }}>
             <span className="col-span-2 md:col-span-6">{LOCATION}</span>
