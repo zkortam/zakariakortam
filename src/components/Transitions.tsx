@@ -530,6 +530,8 @@ export function Transitions({ children }: { children: ReactNode }) {
         router.push(href, { scroll: false })
         return
       }
+      // Fetch the next page the moment the tap lands, so it is ready when the fade ends.
+      router.prefetch(href)
       const flip = flipReq ? makeFlip(flipReq) : undefined
       const state: Pending = { href, flip }
       pending.current = state
@@ -545,7 +547,7 @@ export function Transitions({ children }: { children: ReactNode }) {
             }
           }, 1500)
         },
-        flip ? 120 : 200,
+        flip ? 110 : 170,
       )
     },
     [router],

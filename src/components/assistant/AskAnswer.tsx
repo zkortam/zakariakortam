@@ -33,8 +33,32 @@ function mail(s: string, key: string): ReactNode[] {
  * A final line made only of links becomes the related row: project pages render as
  * small cards (title and one line), other pages as quiet chips.
  */
-export function AskAnswer({ text, onNavigate }: { text: string; onNavigate: (href: string) => void }) {
-  const blocks = text
+/** Did the visitor ask to see a set of projects? Only then do answers carry links (shown as cards). */
+export const wantsList = (q: string) => /\b(show|list|find|which|what are|projects?|work on|built)\b/i.test(q) && /\b(projects?|apps?|products?|things|work)\b/i.test(q)
+
+/** List answers: any "Title, /portfolio/id" or bare path becomes a proper link, so it renders as a card. */
+function asLinks(t: string) {
+  return t
+    .replace(/^\s*[-*•]?\s*([^\n,\[\]]+?),?\s*\(?(\/portfolio\/[a-z0-9-]+)\)?\s*$/gm, (_, label: string, href: string) => `[${projectFor(href)?.title ?? label.trim()}](${href})`)
+    .replace(/(?<!\()(\/portfolio\/[a-z0-9-]+)(?![\w)])/g, (href: string) => `[${projectFor(href)?.title ?? 'Open'}](${href})`)
+}
+
+/** Remove every link from an answer: [label](href) becomes label, bare URLs and link-only lines go. */
+function stripLinks(t: string) {
+  return t
+    .replace(/,?\s*\(?\/portfolio\/[a-z0-9-]+\/?\)?/g, '')
+    .split('\n')
+    .filter((line) => !/^\s*(\[[^\]]*\]\([^)]*\)\s*[·,|]?\s*)+$/.test(line) && !/^\s*\[\/[a-z0-9/-]*\]\s*$/.test(line))
+    .join('\n')
+    .replace(/\[([^\]]+)\]\((?!mailto:)[^)]*\)/g, '$1')
+    .replace(/\[(\/[a-z0-9/-]*)\](?!\()/g, '')
+    .replace(/https?:\/\/\S+/g, '')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim()
+}
+
+export function AskAnswer({ text, onNavigate, q = '' }: { text: string; onNavigate: (href: string) => void; q?: string }) {
+  const blocks = (wantsList(q) ? asLinks(text) : stripLinks(text))
     // A bare [/path] from the model becomes a proper link with the page's name.
     .replace(/\[(\/[a-z0-9/-]*)\](?!\()/g, (_, p: string) => `[${projectFor(p)?.title ?? 'Open'}](${p})`)
     .replace(/\*\*(.+?)\*\*/g, '$1')

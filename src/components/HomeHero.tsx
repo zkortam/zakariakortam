@@ -25,7 +25,7 @@ export function HomeHero() {
                 priority
                 fetchPriority="high"
                 quality={90}
-                sizes="(min-width:2400px) and (min-height:1300px) 1200px, (min-width:768px) 640px, 560px"
+                sizes="(min-width:2400px) and (min-height:1300px) 1200px, (min-width:1680px) 960px, (min-width:768px) 640px, 560px"
                 alt="Zakaria Kortam"
               />
               <PortraitLight />

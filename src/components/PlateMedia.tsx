@@ -4,7 +4,7 @@ import { Parallax } from './Parallax'
 import { LoopVideo } from './LoopVideo'
 import { PHONE_SCREEN, type PlateSpec } from '@/lib/media'
 
-const PHONE_SIZES = '(min-width:1024px) 400px, 300px'
+const PHONE_SIZES = '(min-width:1600px) 520px, (min-width:1024px) 400px, 300px'
 const CARD_SIZES = '(min-width:1024px) 71vw, 100vw'
 const RESULTS_SIZES = '(min-width:1024px) 560px, 100vw'
 const BOARD_SIZES = '(min-width:1024px) 120vw, 180vw'

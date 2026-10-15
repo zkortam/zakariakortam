@@ -51,11 +51,17 @@ function clean(s: string): string {
 async function retrievalNote(question: string): Promise<string | null> {
   const { results, mode } = await rankProjects(question, RETRIEVAL_TIMEOUT_MS)
   if (mode !== 'semantic') return null
-  const top = results.slice(0, 6).map((r) => {
+  // Among close matches, his main projects and roles come before hackathon and earlier work.
+  const main = (id: string) => {
+    const p = projects.find((x) => x.id === id)
+    return p && (p.featured || p.kind === 'work') ? 0.08 : 0
+  }
+  const ranked = [...results].sort((a, b) => b.score + main(b.id) - (a.score + main(a.id)))
+  const top = ranked.slice(0, 6).map((r) => {
     const p = projects.find((x) => x.id === r.id)
     return `${p?.org ?? p?.title ?? r.id} (/portfolio/${r.id})`
   })
-  return `Search over his projects ranks these as most related to the visitor's latest message, most relevant first: ${top.join(', ')}. Use this to choose which projects to mention and link, but only if they actually answer the question.`
+  return `Search over his projects ranks these as most related to the visitor's latest message, most relevant first: ${top.join(', ')}. Use this to choose which projects to mention, only if they actually answer the question.`
 }
 
 const textResponse = (body: BodyInit) =>

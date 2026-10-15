@@ -121,7 +121,7 @@
 #room { position: fixed; inset: 0; z-index: 0; background: var(--ox); pointer-events: none; overflow: hidden; }
 #room > i { position: absolute; width: 110vmax; height: 110vmax; left: 50%; top: 42%; transform: translate(-50%, -50%); opacity: .45; background: url(/light/pool-rose.webp) center / 100% 100% no-repeat; }
 #page { position: relative; z-index: 1; transition: opacity 320ms var(--e-quint); }
-html[data-route="leaving"] #page { opacity: 0; transition: opacity 200ms var(--e-exit); }
+html[data-route="leaving"] #page { opacity: 0; transition: opacity 170ms var(--e-exit); }
 html[data-route="leaving-fast"] #page { opacity: 0; transition: opacity 120ms var(--e-exit); }
 html[data-route="entering"] #page { opacity: 0; transition: none; }
 
@@ -231,7 +231,7 @@ html[data-route="entering"] #page { opacity: 0; transition: none; }
 .plate .plate-stage { order: 2; margin-top: 40px; flex: 1 1 auto; min-height: 56svh; }
 .plate-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; row-gap: 12px; }
 .plate-foot > .grid-full { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
-.pills { display: flex; gap: 12px; }
+.pills { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 10px 12px; min-width: 0; }
 
 @media (min-width: 1024px) {
   .plate.reel {
@@ -1383,4 +1383,16 @@ html.swipe-nav { touch-action: pan-y pinch-zoom; }
 @media (min-width: 2400px) and (min-height: 1300px) {
   .hero-portrait { height: min(70svh, 1200px, calc(100svh - 300px)); }
   .plate.reel { max-height: none; }
+}
+/* Large monitors: chrome text scales with the page. */
+@media (min-width: 2200px) {
+  .nav-inner, .footer .text-body, .pill { font-size: 18px; }
+}
+
+/* Taps: no browser delay or grey flash, and an immediate, gentle press response. */
+a, button, [role="button"], input, label { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+a, button { transition-property: color, background-color, border-color, opacity, transform; }
+@media (hover: none) {
+  .pill:active, .demo-btn:active, .asst-send:active, .asst-icon-btn:active, .wi-cat:active, .hb-ex:active { transform: scale(.96); transition: transform 90ms var(--e-std); }
+  .u-group:active, .flink:active, .tile:active { opacity: .72; transition: opacity 90ms linear; }
 }

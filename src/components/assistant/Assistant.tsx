@@ -541,7 +541,7 @@ export function Assistant() {
                         {tn.state === 'streaming' && !tn.a ? (
                           <span className="sr-only">Writing an answer</span>
                         ) : (
-                          <AskAnswer text={tn.a} onNavigate={navigate} />
+                          <AskAnswer text={tn.a} onNavigate={navigate} q={tn.q} />
                         )}
                       </div>
                     </li>

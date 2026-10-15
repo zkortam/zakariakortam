@@ -38,7 +38,7 @@ export function Footer() {
                 </li>
               ))}
             </ul>
-            <div className="c3 col-span-4 mt-[32px] flex flex-col gap-[4px] md:col-span-2 md:col-start-11 md:mt-0 md:text-right" data-reveal="" data-align="end">
+            <div className="c3 col-span-4 mt-[32px] flex flex-col gap-[4px] md:col-span-2 md:col-start-11 md:mt-0 md:text-right md:whitespace-nowrap" data-reveal="" data-align="end">
               <span>{LOCATION}</span>
               <span className="tnum">©{'\u00a0'}{YEAR}</span>
             </div>
