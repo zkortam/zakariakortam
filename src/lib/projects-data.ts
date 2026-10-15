@@ -147,7 +147,7 @@ export const projects: Project[] = [
       { value: '1,970', label: 'commits in two weeks' },
       { value: '4', label: 'Rust crates, one core shared by client and server' },
     ],
-    demo: { title: 'Give it an equation', line: 'Type any linear equation. Every step is checked before the tutor says it, then written on the board in sync with the words.' },
+    demo: { title: 'A lesson on the board', line: 'Helio writes in its own hand while it talks, sweeps the term it is talking about, then hands the pen over and checks the answer.' },
   },
   {
     id: 'surf',
