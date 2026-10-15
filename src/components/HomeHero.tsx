@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import { HeroDepth, HeroLayer } from './HeroDepth'
 import { Wordmark } from './Wordmark'
+import { HeroLight } from './HeroLight'
 import { PortraitLight } from './PortraitLight'
 import { COPY } from '@/lib/site'
 
@@ -9,6 +10,7 @@ export function HomeHero() {
   return (
     <HeroDepth>
       <div className="hero-layer" aria-hidden="true">
+        <HeroLight />
         <HeroLayer kind="bloom" className="hero-bloom">
           <div className="fill bloom-in" />
         </HeroLayer>
@@ -39,9 +41,9 @@ export function HomeHero() {
       <div className="hero-statement">
         <HeroLayer kind="statement">
           <div className="grid-main">
-            <p className="hs-p text-read col-span-4 md:col-span-5 md:col-start-7" style={{ color: 'var(--bone-92)' }}>
+            <p className="hs-p text-read col-span-4 text-center md:col-span-8 md:col-start-3" style={{ color: 'var(--bone-92)' }}>
               {COPY.heroLines.map((l, i) => (
-                <span key={i} className="hs-l" style={{ ['--i' as string]: i }}>
+                <span key={i} className={`hs-l ${i > 0 ? 'hs-dim' : ''}`} style={{ ['--i' as string]: i }}>
                   {l}
                   {i < COPY.heroLines.length - 1 ? ' ' : ''}
                 </span>
