@@ -235,7 +235,7 @@ export const projects: Project[] = [
       { value: '5', label: 'analysis types' },
       { value: '4', label: 'file formats in and out' },
     ],
-    demo: { title: 'Run the engine', line: 'This is the SPICE++ simulation engine, running in your browser. Pick a circuit, drag a value, and it solves again.' },
+    demo: { title: 'Run the engine', line: 'SPICE++ itself, in your browser: its example circuits, schematic and waveform dock, solved by its own engine in this tab. Click a part to change its value and the circuit runs again; hover the plot to read it.' },
   },
   {
     id: 'rtl-plus-plus',
