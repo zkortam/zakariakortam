@@ -15,7 +15,7 @@ function busy(lastTarget: Element | null): boolean {
   const html = document.documentElement
   if (document.hidden || html.dataset.route) return true
   if (document.fullscreenElement || (document as Document & { pictureInPictureElement?: Element }).pictureInPictureElement) return true
-  if (document.querySelector('.cmdk.open, .menu.open, dialog[open]')) return true
+  if (document.querySelector('.asst.is-open, .menu.open, dialog[open]')) return true
   const sel = window.getSelection()
   if (sel && !sel.isCollapsed) return true
   // Focus left behind in a closed (aria-hidden) panel is not typing.

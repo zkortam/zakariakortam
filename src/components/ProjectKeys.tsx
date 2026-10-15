@@ -11,7 +11,7 @@ export function ProjectKeys({ prev, next }: { prev: string; next: string }) {
       if (e.metaKey || e.ctrlKey || e.altKey || e.shiftKey) return
       const t = e.target
       if (t instanceof HTMLElement && (/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName) || t.isContentEditable)) return
-      if (document.querySelector('.cmdk.open, .menu.open')) return
+      if (document.querySelector('.asst.is-open, .menu.open')) return
       if (e.key === 'ArrowRight') go(`/portfolio/${next}`)
       else if (e.key === 'ArrowLeft') go(`/portfolio/${prev}`)
     }

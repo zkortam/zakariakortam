@@ -1084,3 +1084,46 @@ html[data-quality="low"] .idle-light > i { animation: none; will-change: auto; }
   .plate[data-plate="spice-plus-plus"] .pm-flow, .plate[data-plate="rtl-plus-plus"] .pm-flow { justify-content: center; }
   .plate[data-plate="spice-plus-plus"] .card-m, .plate[data-plate="rtl-plus-plus"] .card-m { width: calc(100% + 2 * var(--m)); margin-left: calc(-1 * var(--m)); border-radius: 0; box-shadow: none; }
 }
+/* ======================================================================
+   Visual pass (light, glass, color, type). Additive only; see components:
+   PortraitLight, LiquidGlass, KineticWordmark, PopOut.
+   ====================================================================== */
+
+/* Portrait relit by San Jose's sun: canvas over the photo, shown only after its first frame. */
+.portrait-light { position: absolute; inset: 0; width: 100%; height: 100%; display: block; opacity: 0; transition: opacity 1400ms var(--e-text); pointer-events: none; }
+.portrait-light[data-on] { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .portrait-light { transition: none; } }
+@media print { .portrait-light { display: none; } }
+
+/* Liquid glass (Chromium): the same frosted glass, plus an SVG displacement that bends the backdrop at
+   the rim only. Other engines ignore url() in backdrop-filter and keep the rules above untouched. */
+@media (prefers-reduced-transparency: no-preference) {
+  html.lg:not(.lite) .glass-dark[data-lg], html.lg:not(.lite) .glass-light[data-lg] { -webkit-backdrop-filter: var(--lg-f); backdrop-filter: var(--lg-f); }
+  /* Specular rim: light from above catches the top-left bevel, a weaker kick on the far edge. */
+  html.lg .pill.glass-dark::after, html.lg .pill.glass-light::after, html.lg .cmdk-panel::after {
+    content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px; pointer-events: none;
+    background: linear-gradient(160deg, rgba(255,255,255,.34), rgba(255,255,255,.06) 28%, rgba(255,255,255,0) 50%, rgba(255,255,255,.05) 78%, rgba(255,255,255,.16));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  }
+  html.lg .pill.glass-light::after { background: linear-gradient(160deg, rgba(255,255,255,.9), rgba(255,255,255,.2) 30%, rgba(255,255,255,0) 50%, rgba(22,12,13,.04) 80%, rgba(22,12,13,.08)); }
+  /* Rain on the nav glass */
+  /* The nav pane runs 24px past the bar (clipped) so its bottom bevel has real backdrop to bend. */
+  html.lg .nav .gl { bottom: -24px; clip-path: inset(0 0 24px 0); box-shadow: none; }
+  html.lg .nav .gl::after { content: ""; position: absolute; left: 0; right: 0; bottom: 24px; height: 1px; pointer-events: none; }
+  html.lg .nav .gl.glass-dark::after { background: rgba(255,255,255,.08); }
+  html.lg .nav .gl.glass-light::after { background: rgba(22,12,13,.07); }
+  /* Rain on the nav glass */
+  html.lg:not(.lite) .nav .gl[data-lg-rain]::before { content: ""; position: absolute; inset: 0 0 24px 0; pointer-events: none; background: var(--lg-drops) 0 0 / 100% 100% no-repeat; }
+}
+
+/* Pop-out (Document Picture-in-Picture, Chromium on desktop only) */
+.popout { position: relative; }
+.popout-btn { position: absolute; right: 0; bottom: calc(100% + 14px); display: inline-flex; align-items: center; gap: 8px; height: 32px; padding: 0; border: 0; background: none; font: inherit; font-size: 15px; line-height: 1; cursor: pointer; transition: color 300ms var(--e-std); }
+@media (hover: hover) { .popout-btn:hover { color: var(--ink); } [data-tone="dark"] .popout-btn:hover { color: var(--bone); } }
+.popout-away { display: flex; align-items: center; justify-content: center; min-height: 240px; border-radius: 20px; box-shadow: inset 0 0 0 1px var(--rule); font-size: 15px; }
+[data-tone="dark"] .popout-away { box-shadow: inset 0 0 0 1px var(--bone-rule); }
+.pip-body { margin: 0; min-height: 100vh; background: var(--ox); color: var(--bone); display: flex; align-items: center; }
+.pip-root { width: 100%; padding: 12px; }
+.pip-root .demo-cap { padding: 0 8px 4px; }
+@media print { .popout-btn { display: none; } }

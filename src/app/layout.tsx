@@ -9,6 +9,8 @@ import { Observer } from "@/components/Observer";
 import { Assistant } from "@/components/assistant/Assistant";
 import { Nav } from "@/components/Nav";
 import { QuietLayer } from "@/components/QuietLayer";
+import { LiquidGlass } from "@/components/LiquidGlass";
+import { KineticType } from "@/components/KineticType";
 import { SITE_URL } from "@/lib/seo";
 
 const geist = Geist({
@@ -125,6 +127,8 @@ export default function RootLayout({
           <Observer />
           <Nav />
           <Assistant />
+          <LiquidGlass />
+          <KineticType />
           <div id="page">{children}</div>
         </Transitions>
         <QuietLayer />
