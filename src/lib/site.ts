@@ -30,17 +30,17 @@ export const COPY = {
   statementBy: 'Sir Jony Ive',
   allWork: 'All work',
   workLine: '',
-  aboutHead: 'I’m a product manager who builds. I take products from zero to one, end to end.',
+  aboutHead: 'I’m a product manager who builds, from the first question to the final detail.',
   aboutStory: [
     'I’m drawn to the whole arc of making something: the ambiguity of a first idea, the discipline of deciding what it should become, and the long, patient work of refining it until it feels inevitable.',
     'Along the way, I obsess over the smallest things. The details most people will never consciously notice, and the ones no one would think to ask for, are where I spend a disproportionate amount of my time.',
     'Attend to those details with enough care and they stop being small. They become the quiet, defining difference between a product people use and a product people love.',
   ],
   tools: [
-    { label: 'Product', value: 'Zero to one. Talking to customers, deciding what to build, roadmaps, PRDs, metrics, launch.' },
-    { label: 'Design', value: 'Product and interaction design, motion, design systems. Figma, then straight to code.' },
-    { label: 'Building', value: 'End to end: TypeScript, React, Next.js, Rust, Python, Postgres, and native apps for iOS, Android, and desktop.' },
-    { label: 'AI', value: 'Claude Code, Codex, and agents in my daily loop. Agents, MCP, retrieval, evals, and voice in what I ship.' },
+    { label: 'Product', value: 'Finding the problem worth solving, then holding the line on what matters through discovery, roadmaps, metrics, and launch.' },
+    { label: 'Design', value: 'Interaction, motion, and systems. I sketch in Figma and finish in code, where the details actually live.' },
+    { label: 'Building', value: 'End to end, in TypeScript, React, Next.js, Rust, Python, and Postgres, with native apps for iOS, Android, and desktop.' },
+    { label: 'AI', value: 'Agents are part of how I work every day and part of what I ship, from retrieval and evals to MCP and voice.' },
     { label: 'Cloud', value: 'Vercel, Supabase, Cloudflare, Azure, AWS, Docker, Kubernetes.' },
   ],
   education: [
@@ -49,7 +49,7 @@ export const COPY = {
   ],
   contactHead: 'Email is best.',
   inquiries: [
-    { label: 'Consulting', subject: 'Consulting', body: 'Product design, AI implementation, and taking products from zero to one.' },
+    { label: 'Consulting', subject: 'Consulting', body: 'Product strategy, design, and AI, from a first idea to a launch.' },
     { label: 'Opportunities', subject: 'Opportunity', body: 'Roles, collaborations, and projects in product and AI.' },
     { label: 'General', subject: 'Hello', body: 'Questions about my work, or anything else.' },
   ],
