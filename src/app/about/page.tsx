@@ -87,6 +87,9 @@ export default function AboutPage() {
                   {noWidow(s)}
                 </p>
               ))}
+              <p className="about-sign" data-reveal="">
+                Zakaria Kortam
+              </p>
             </div>
           </div>
 

@@ -1514,3 +1514,4 @@ a, button { transition-property: color, background-color, border-color, opacity,
 }
 @keyframes ctIn { from { opacity: 0; transform: translateY(6%); } }
 
+.about-sign { margin-top: 36px; font-weight: 500; letter-spacing: -0.01em; }
