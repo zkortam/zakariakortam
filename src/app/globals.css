@@ -684,7 +684,7 @@ html:not(.js) .nav-menu-btn { display: none; }
 .wm-call p { line-height: 1.5; word-break: break-word; }
 .wm-user { color: #F3EDE8; }
 .wm-prop { color: rgba(243,237,232,.7); }
-.wm-k { color: rgba(243,237,232,.45); margin-right: 6px; }
+.wm-term .wm-k, .wm-step .wm-k { color: rgba(243,237,232,.45); margin-right: 6px; }
 .wm-verdict { display: flex; gap: 10px; align-items: baseline; margin-top: 4px; opacity: 0; transform: translateY(4px); transition: opacity 400ms var(--e-quint), transform 500ms var(--e-expo); }
 .wm-verdict.in { opacity: 1; transform: none; }
 .wm-chip { flex: none; font-size: 11px; font-weight: 600; letter-spacing: .02em; padding: 2px 8px; border-radius: 6px; }
@@ -745,3 +745,4 @@ html:not(.js) .nav-menu-btn { display: none; }
 .wi-cat.on::after { content: ''; position: absolute; left: 0; right: 0; bottom: 4px; height: 1.5px; background: currentColor; }
 @media (hover: hover) { .wi-cat:hover { color: var(--ink); } }
 .wi-reset { text-decoration: underline; text-underline-offset: .2em; }
+.contact-inq { margin-top: clamp(64px, 9vw, 128px); row-gap: 8px; }

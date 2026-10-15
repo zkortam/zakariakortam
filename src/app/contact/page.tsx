@@ -7,7 +7,7 @@ export const metadata: Metadata = pageMeta({
   path: '/contact',
   title: 'Contact',
   ogTitle: 'Contact Zakaria Kortam',
-  description: `Contact Zakaria Kortam by email at ${EMAIL}, or find him on LinkedIn, GitHub, X, and Instagram.`,
+  description: `Contact Zakaria Kortam for consulting on product design and AI implementation, opportunities, or general questions. Email ${EMAIL}.`,
 })
 
 export default function ContactPage() {
@@ -34,6 +34,26 @@ export default function ContactPage() {
             <div className="col-span-4 mt-[24px] md:col-span-12" data-reveal="">
               <CopyPill />
             </div>
+          </div>
+          <div className="grid-main contact-inq">
+            {COPY.inquiries.map((q) => (
+              <a
+                key={q.label}
+                href={`mailto:${EMAIL}?subject=${encodeURIComponent(q.subject)}`}
+                className="u-group col-span-4 block py-[20px] md:col-span-4"
+                data-reveal=""
+              >
+                <span className="text-read block font-medium">
+                  <span className="u-box">
+                    {q.label}
+                    <span aria-hidden="true" className="u-line" />
+                  </span>
+                </span>
+                <span className="mt-[8px] block max-w-[34ch] text-body" style={{ color: 'var(--bone-64)' }}>
+                  {q.body}
+                </span>
+              </a>
+            ))}
           </div>
           <div className="grid-main contact-links">
             <ul className="rows col-span-4 grid grid-cols-subgrid md:col-span-6 md:col-start-7">

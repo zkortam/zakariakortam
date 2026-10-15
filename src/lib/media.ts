@@ -50,7 +50,7 @@ const airoResults: Img = {
 export const PLATES: Record<string, PlateSpec> = {
   helio: {
     id: 'helio',
-    ground: 'linear-gradient(110deg,#FBEBDD 0%,#F6F1EA 45%,#E6F0F8 100%)',
+    ground: '#F6F1EA url(/light/ground-helio.webp) center / cover no-repeat',
     tone: 'light',
     titleLines: ['Helio'],
     composition: 'card',
@@ -99,30 +99,26 @@ export const PLATES: Record<string, PlateSpec> = {
   },
   'spice-plus-plus': {
     id: 'spice-plus-plus',
-    ground: '#0B0B0D',
+    ground: '#07090F',
     tone: 'dark',
     titleLines: ['SPICE++'],
-    composition: 'bleed',
+    composition: 'card',
     primary: {
-      src: '/work/derived/spice-board.webp',
+      src: '/work/hd/spice-plus-plus-app.webp',
       w: 3200,
-      h: 1690,
-      alt: 'SPICE++ 3D breadboard view with resistors and wires',
+      h: 2000,
+      alt: 'SPICE++ designing a Sallen-Key low-pass filter: the schematic, its Bode plot, and the agent verifying the 2 kHz cutoff',
     },
+    mobile: { src: '/work/derived/spice-app-m.webp', w: 1530, h: 2000, alt: 'SPICE++ Bode plot of a Sallen-Key low-pass filter' },
     stills: {
-      a: {
-        src: '/work/hd/spice-plus-plus-app.webp',
-        w: 3200,
-        h: 2000,
-        alt: 'SPICE++ editor with a Sallen-Key schematic, a Bode plot and the assistant panel',
-      },
+      a: { src: '/work/hd/spice-plus-plus-desktop.webp', w: 2880, h: 1800, alt: "SPICE++'s home page, The engineering agent for analog circuits" },
       b1: { src: '/work/hd/spice-plus-plus-mobile.webp', w: 1170, h: 2532, alt: 'SPICE++ home page on a phone' },
       b2: { src: '/work/hd/spice-plus-plus-sim.webp', w: 3200, h: 2000, alt: 'SPICE++ editor with an RC circuit and an AC sweep' },
     },
   },
   'rtl-plus-plus': {
     id: 'rtl-plus-plus',
-    ground: 'linear-gradient(110deg,#E6ECF4 0%,#F1F1EE 50%,#E3E9F2 100%)',
+    ground: '#EEF0F0 url(/light/ground-rtl.webp) center / cover no-repeat',
     tone: 'light',
     titleLines: ['RTL++'],
     composition: 'card',

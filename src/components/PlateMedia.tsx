@@ -12,7 +12,7 @@ export const HERO_SIZES: Record<string, string> = {
   helio: CARD_SIZES,
   surf: PHONE_SIZES,
   'surf-messenger': PHONE_SIZES,
-  'spice-plus-plus': BOARD_SIZES,
+  'spice-plus-plus': CARD_SIZES,
   'rtl-plus-plus': CARD_SIZES,
   airofind: RESULTS_SIZES,
 }

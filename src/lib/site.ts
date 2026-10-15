@@ -46,6 +46,11 @@ export const COPY = {
     { label: 'Evergreen Valley College', value: 'A.S. Mathematics, A.S. Computer Science, A.S. Physics' },
   ],
   contactHead: 'Email is best. I usually reply within a day.',
+  inquiries: [
+    { label: 'Consulting', subject: 'Consulting', body: 'Product design, AI implementation, and taking products from zero to one.' },
+    { label: 'Opportunities', subject: 'Opportunity', body: 'Roles, collaborations, and projects in product and AI.' },
+    { label: 'General', subject: 'Hello', body: 'Questions about my work, speaking, or anything else.' },
+  ],
   footerHead: 'Email is best.',
   notFoundLine: 'This page doesn’t exist or has moved.',
 } as const
