@@ -66,12 +66,7 @@ export function WingmanReview() {
       >
         <div className={`wm-grid ${mono.className}`}>
           <div className="wm-term">
-            <div className="wm-bar">
-              <i />
-              <i />
-              <i />
-              <span>agent host · wingman review</span>
-            </div>
+            <p className="wm-bar">agent host · wingman review</p>
             <div className="wm-body">
               {CALLS.slice(0, inRepair ? CALLS.length : shown).map((c, i) => {
                 const current = !inRepair && i === shown - 1
