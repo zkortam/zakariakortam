@@ -1,10 +1,10 @@
 # Zakaria Kortam
 
-> Zakaria Kortam is an Associate Product Manager on the Innovation team at DigiCert, based in San Jose, California. He takes products from zero to one, end to end: talking to customers, deciding what to build, designing it, writing the code, and shipping it. On his own time he builds Helio, Surf, Surf Messenger, SPICE++, RTL++, and AiroFind.
+> Zakaria Kortam is a Product Manager on the Innovation team at DigiCert, based in San Jose, California. He takes products from zero to one, end to end: talking to customers, deciding what to build, designing it, writing the code, and shipping it. On his own time he builds Helio, Surf, Surf Messenger, SPICE++, RTL++, and AiroFind.
 
 Site: https://www.zakariakortam.com
 
-- Role: Associate Product Manager, Innovation, at DigiCert (2026 to now). Before that, founding AI engineer at FacilisAI, product engineering intern at Incorta, and product intern at Inqueue.
+- Role: Product Manager, Innovation, at DigiCert (2026 to now). Before that, founding AI engineer at FacilisAI, product engineering intern at Incorta, and product intern at Inqueue.
 - Education: B.S. Electrical Engineering, UC San Diego (2026). A.S. Mathematics, A.S. Computer Science, and A.S. Physics, Evergreen Valley College.
 - Works across product (zero to one, customer discovery, roadmaps, PRDs, metrics, launch), product and interaction design, full stack engineering (TypeScript, React, Next.js, Rust, Python, Postgres, native apps), and AI (agents, MCP, retrieval, evals, voice).
 
@@ -26,7 +26,7 @@ Site: https://www.zakariakortam.com
 
 ## Experience
 
-- [Associate Product Manager, Innovation, DigiCert](https://www.zakariakortam.com/portfolio/digicert), 2026 to now: New products in digital trust: certificates, PKI, and identity. (https://www.digicert.com)
+- [Product Manager, Innovation, DigiCert](https://www.zakariakortam.com/portfolio/digicert), 2026 to now: New products in digital trust: certificates, PKI, and identity. (https://www.digicert.com)
 - [Founding AI Engineer, FacilisAI](https://www.zakariakortam.com/portfolio/facilis-ai), 2025 to 2026: Agents that work with factory systems: PLCs, MES, and SCADA. (https://facilis.ai)
 - [Product Engineering Intern, Incorta](https://www.zakariakortam.com/portfolio/incorta-dashboards), 2024 to 2025: Charts and schema interpreters behind the AI Copilot dashboard. (https://incorta.com)
 - [Product Intern, Inqueue](https://www.zakariakortam.com/portfolio/inqueue), 2023: Took a queuing app from research to a shipped Flutter MVP.

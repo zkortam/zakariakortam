@@ -11,7 +11,7 @@ export const metadata: Metadata = pageMeta({
   ogTitle: 'About Zakaria Kortam',
   type: 'profile',
   description:
-    'Zakaria Kortam is an Associate Product Manager at DigiCert who takes products from zero to one, end to end. UC San Diego EE, based in San Jose.',
+    'Zakaria Kortam is a Product Manager at DigiCert who takes products from zero to one, end to end. UC San Diego EE, based in San Jose.',
 })
 
 function Rows({ items }: { items: readonly { label: string; value: string }[] }) {

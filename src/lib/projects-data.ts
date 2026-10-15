@@ -41,7 +41,7 @@ export const projects: Project[] = [
     kind: 'work',
     featured: true,
     year: '2026 to now',
-    role: 'Associate Product Manager, Innovation',
+    role: 'Product Manager, Innovation',
     org: 'DigiCert',
     overview:
       'I work on new products at DigiCert, the certificate authority behind a large share of the web’s TLS, code signing, and PKI.',

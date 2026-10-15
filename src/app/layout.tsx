@@ -31,7 +31,7 @@ const HEAD_SCRIPT =
 
 const HOME_TITLE = "Zakaria Kortam | Product Manager & Builder";
 const HOME_DESCRIPTION =
-  "Zakaria Kortam, Associate Product Manager (Innovation) at DigiCert, builds products 0 to 1: Helio, Surf, Surf Messenger, SPICE++, RTL++, and AiroFind.";
+  "Zakaria Kortam, Product Manager (Innovation) at DigiCert, builds products 0 to 1: Helio, Surf, Surf Messenger, SPICE++, RTL++, and AiroFind.";
 
 // viewport-fit=cover lets the oxblood run under notches, islands and the home indicator; the safe-area
 // insets in globals.css keep every control clear of them. theme-color starts oxblood and then follows the
