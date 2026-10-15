@@ -63,20 +63,22 @@ export function useClock(live: boolean, cb: (t: number, dt: number) => void) {
   }, [live])
 }
 
-/** The stage every demo sits on: a dark, lit panel with a quiet caption row underneath. */
+/** The stage every demo sits on. */
 export function Stage({
   children,
-  caption,
+  note,
   className = '',
 }: {
   children: ReactNode
+  /** Only for honesty notes (for example "Example fares."); everything else lives in the section copy. */
+  note?: string
   caption?: ReactNode
   className?: string
 }) {
   return (
     <figure className={`demo ${className}`}>
       <div className="demo-stage">{children}</div>
-      {caption && <figcaption className="demo-cap">{caption}</figcaption>}
+      {note && <figcaption className="demo-cap">{note}</figcaption>}
     </figure>
   )
 }

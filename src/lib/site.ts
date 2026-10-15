@@ -24,8 +24,8 @@ export const COPY = {
   ],
   statementLead: 'I work on the whole product.',
   statementRest: 'Talking to customers, deciding what to build, writing the code, and shipping it.',
-  allWork: 'All work, including earlier projects',
-  workLine: 'Products I have built, and the teams I have worked with.',
+  allWork: 'All work',
+  workLine: '',
   aboutHead: 'I’m a product manager who builds. I take products from zero to one, end to end.',
   aboutStory: [
     'I love product design, and I love getting things out the door. Most of what I know about product came from shipping my own things. Surf started in 2022 and is on its fourth version. Helio, SPICE++, RTL++, and AiroFind came after it.',
@@ -39,7 +39,7 @@ export const COPY = {
     { label: 'Building', value: 'End to end: TypeScript, React, Next.js, Rust, Python, Postgres, and native apps for iOS, Android, and desktop.' },
     { label: 'AI', value: 'Claude Code, Codex, and agents in my daily loop. Agents, MCP, retrieval, evals, and voice in what I ship.' },
     { label: 'Cloud', value: 'Vercel, Supabase, Cloudflare, Azure, AWS, Docker, Kubernetes.' },
-    { label: 'Shipping', value: 'Small releases, real tests, fast fixes. 8,580 commits in 2026.' },
+    { label: 'Shipping', value: 'Small releases, real tests, fast fixes.' },
   ],
   education: [
     { label: 'UC San Diego', value: 'B.S. Electrical Engineering, 2026' },

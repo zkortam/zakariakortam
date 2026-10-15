@@ -181,11 +181,6 @@ export default async function ProjectPage({ params }: Params) {
             <div className="mt-stills" />
           </section>
           {!DEMOS[p.id] && <Stills spec={spec} />}
-          {p.results?.length ? (
-            <section className="paper pb-sec" data-tone="light">
-              <Results p={p} first />
-            </section>
-          ) : null}
           {nextSpec && <Plate project={next} spec={nextSpec} line="Next project →" />}
         </main>
         <Footer />
@@ -227,7 +222,6 @@ export default async function ProjectPage({ params }: Params) {
           <Overview p={p} />
           <DemoSection p={p} />
           <Narrative p={p} />
-          <Results p={p} />
           <div className="grid-main mt-sec">
             <NextRow href={`/portfolio/${next.id}`} title={next.title} />
           </div>

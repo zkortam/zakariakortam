@@ -288,20 +288,14 @@ export function Assistant() {
     let raf = 0
     let aside = false
     let asideTimer = 0
-    // Like Safari's toolbar: tucked away while reading down, back on scroll up or after a pause.
+    // Like Safari's toolbar: tucked away while reading down, back only when scrolling up.
     let lastY = window.scrollY
     let reading = false
-    let restTimer = 0
     const onScrollDir = () => {
       const y = window.scrollY
       if (Math.abs(y - lastY) > 6) {
         reading = y > lastY
         lastY = y
-        clearTimeout(restTimer)
-        restTimer = window.setTimeout(() => {
-          reading = false
-          schedule()
-        }, 1400)
       }
       schedule()
     }
@@ -348,7 +342,6 @@ export function Assistant() {
       cancelAnimationFrame(raf)
       clearTimeout(asideTimer)
       window.removeEventListener('scroll', onScrollDir)
-      clearTimeout(restTimer)
       window.removeEventListener('resize', schedule)
       window.removeEventListener('zk:route', schedule)
       document.removeEventListener('pointerover', onOver)
@@ -475,11 +468,6 @@ export function Assistant() {
           <section ref={card} className="asst-card" aria-hidden={!open}>
             <div className="asst-card-top">
               <span className="asst-grab" aria-hidden="true" />
-              {turns.length > 0 && (
-                <button type="button" className="asst-text-btn" onClick={() => setTurns([])} disabled={streaming}>
-                  New question
-                </button>
-              )}
               <button type="button" className="asst-icon-btn asst-close" onClick={close} aria-label="Close">
                 <svg aria-hidden="true" width="14" height="14" viewBox="0 0 14 14" fill="none">
                   <path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
@@ -603,14 +591,11 @@ export function Assistant() {
                       ? 'Listening'
                       : open && turns.length
                         ? 'Ask a follow-up'
-                        : example < 0
-                          ? LABEL
-                          : `Try ‘${EXAMPLES[example]}’`}
+                        : LABEL}
                   </span>
                 </span>
               )}
             </div>
-            {!open && !q && <kbd className="asst-kbd">{mod}</kbd>}
             {speech.supported && (
               <button
                 type="button"

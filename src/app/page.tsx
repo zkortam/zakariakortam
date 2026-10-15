@@ -1,9 +1,7 @@
 import { HomeHero } from '@/components/HomeHero'
 import { Plate } from '@/components/Plate'
-import { ExperienceList } from '@/components/ExperienceList'
 import { Footer } from '@/components/Footer'
 import { TLink } from '@/components/TLink'
-import { BodyOfWork } from '@/components/BodyOfWork'
 import { featuredProjects } from '@/lib/projects-data'
 import { PLATES } from '@/lib/media'
 import { COPY } from '@/lib/site'
@@ -23,21 +21,12 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="paper pb-sec" data-tone="light">
-          <div className="grid-main">
-            <BodyOfWork />
-            <p className="c3 col-span-4 mt-[32px] text-body md:col-span-6" data-reveal="">
-              Counted from the repositories of Surf, Helio, SPICE++, RTL++, AiroFind, Wingman, and the Surf site.
-            </p>
-          </div>
-        </section>
-
         {featuredProjects.map((p) => {
           const spec = PLATES[p.id]
           return spec ? <Plate key={p.id} project={p} spec={spec} /> : null
         })}
 
-        <section className="paper pt-sec" data-tone="light">
+        <section className="paper sec-pad" data-tone="light">
           <div className="grid-main">
             <div className="rows-solo col-span-full">
               <TLink href="/portfolio" className="u-group relative block py-row">
@@ -57,16 +46,6 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="paper sec-pad" data-tone="light">
-          <div className="grid-main">
-            <h2 className="oc col-span-4 text-display md:col-span-12" data-rise="">
-              Experience
-            </h2>
-            <div className="mt-head col-span-full grid grid-cols-subgrid">
-              <ExperienceList />
-            </div>
-          </div>
-        </section>
       </main>
       <Footer />
     </>

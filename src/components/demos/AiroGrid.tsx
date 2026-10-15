@@ -51,14 +51,7 @@ export function AiroGrid() {
 
   return (
     <div ref={ref}>
-      <Stage
-        caption={
-          <>
-            <span>One read of the date grid prices 49 departure and return pairs. Example fares.</span>
-            <span>The scraper runs on its own Azure VM.</span>
-          </>
-        }
-      >
+      <Stage note="Example fares.">
         <div className="ag-grid">
           <svg viewBox="0 0 540 220" className="ag-sky" role="img" aria-label="Route from San Jose to New York">
             <defs>

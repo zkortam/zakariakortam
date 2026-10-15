@@ -33,11 +33,11 @@ void main(){
   float h3 = 0.5 + 0.5 * sin(a * 1.0 + t * 0.30 + 3.1);
   vec3 oxblood = vec3(0.62, 0.10, 0.20);
   vec3 rose    = vec3(0.98, 0.52, 0.60);
-  vec3 amber   = vec3(1.00, 0.70, 0.40);
+  vec3 amber   = vec3(0.86, 0.36, 0.42);
   vec3 blue    = vec3(0.48, 0.62, 1.00);
   vec3 col = mix(rose, amber, smoothstep(0.15, 0.85, h1));
   col = mix(col, oxblood, smoothstep(0.35, 1.0, h2) * 0.55);
-  col = mix(col, blue, smoothstep(0.72, 1.0, h3) * 0.55);
+
 
   // Width breathes along the edge so the light reads as flowing, not a frame.
   float w = uWidth * (0.75 + 0.25 * sin(a * 4.0 - t * 0.9) + 0.18 * uBusy * sin(t * 2.2 + a * 2.0));

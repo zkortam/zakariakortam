@@ -56,14 +56,7 @@ export function WingmanReview() {
 
   return (
     <div ref={ref}>
-      <Stage
-        caption={
-          <>
-            <span>Example session. ALLOW, RETHINK and ESCALATE are Wingman&apos;s real verdicts, returned before the host executes anything.</span>
-            <span>Nothing ships without fail before, pass after.</span>
-          </>
-        }
-      >
+      <Stage note="Example session.">
         <div className={`wm-grid ${mono.className}`}>
           <div className="wm-term">
             <p className="wm-bar">agent host · wingman review</p>

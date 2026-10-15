@@ -118,7 +118,7 @@ export function AskAnswer({ text, onNavigate }: { text: string; onNavigate: (hre
           </p>
         )
       })}
-      {cards.length > 0 && (
+      {cards.length > 1 && (
         <ul className="ask-cards">
           {cards.map(({ r, p }) => (
             <li key={r.href}>

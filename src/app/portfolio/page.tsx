@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import { WorkIndex } from '@/components/WorkIndex'
 import { Footer } from '@/components/Footer'
-import { COPY } from '@/lib/site'
 import { pageMeta } from '@/lib/seo'
 
 export const metadata: Metadata = pageMeta({
@@ -21,9 +20,6 @@ export default function WorkPage() {
             <h1 className="oc col-span-4 text-display md:col-span-6" data-rise="">
               Work
             </h1>
-            <p className="cap-md col-span-4 mt-[24px] text-read md:col-span-5 md:col-start-7 md:mt-0" data-reveal="">
-              {COPY.workLine}
-            </p>
           </div>
 
           <WorkIndex />

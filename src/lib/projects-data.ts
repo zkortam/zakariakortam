@@ -133,7 +133,7 @@ export const projects: Project[] = [
     problem:
       'A tutor that talks and draws at the same time has to keep voice, ink, and reasoning in step without lag. It can’t say anything wrong, and it has to be safe for kids.',
     approach:
-      'A Rust core compiled to WebAssembly runs the board, layout, and handwriting. Every claim gets checked before it is spoken. A provider layer lets me swap model and voice vendors. The design came from 18 research reports and seven rounds of review.',
+      'A Rust core compiled to WebAssembly runs the board, layout, and handwriting. Every claim gets checked before it is spoken. A provider layer lets me swap model and voice vendors.',
     results: [
       'Speech and handwriting synced word by word',
       'Claims checked before they are spoken',
@@ -178,7 +178,6 @@ export const projects: Project[] = [
       { value: '1,935', label: 'database migrations' },
       { value: '5,969', label: 'commits this year' },
     ],
-    demo: { title: 'One codebase, every screen', line: 'The same app runs on the web, iOS, Android, and the desktop, on a database that enforces who can see what, row by row.' },
   },
   {
     id: 'surf-messenger',

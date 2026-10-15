@@ -218,7 +218,6 @@ html[data-route="entering"] #page { opacity: 0; transition: none; }
 
 @media (hover: hover) {
   .plate:has(.plate-link:hover) .title-u > .u-line { transform: scaleX(1); transform-origin: left; }
-  .plate:has(.plate-link:hover) .plate-line { color: var(--ink-60); }
   .plate[data-tone="dark"]:has(.plate-link:hover) .plate-line { color: var(--bone-64); }
   .plate:has(.plate-link:hover) .obj-hover { transform: translateY(-6px); }
   .plate:has(.plate-link) { cursor: pointer; }
@@ -447,8 +446,8 @@ html:not(.js) .nav-menu-btn { display: none; }
   html.lite-2 [data-open] .open-img { transform: none !important; }
 
   /* Object entrances */
-  html.js [data-enter] { transition: opacity 1100ms var(--e-expo), transform 1100ms var(--e-expo); }
-  html.js [data-enter]:not(.in) { opacity: 0; transform: translateY(64px); }
+  html.js [data-enter] { transition: opacity 800ms var(--e-expo), transform 900ms var(--e-expo); }
+  html.js [data-enter]:not(.in) { opacity: 0; transform: translateY(24px); }
   html.js [data-enter="phone"] { transform-origin: 50% 100%; transition-delay: 120ms; }
   html.js [data-enter="phone"]:not(.in) { transform: translateY(64px) rotateX(10deg); }
 
@@ -1043,3 +1042,31 @@ html[data-quality="low"] .idle-light > i { animation: none; will-change: auto; }
 .wv-plot { touch-action: pan-y; cursor: crosshair; border-radius: 8px; user-select: none; -webkit-user-select: none; }
 .wv-plot svg { display: block; }
 .wv-plot:focus-visible { outline: 2px solid var(--bone); outline-offset: 4px; }
+/* Helio's whiteboard is its own surface: no dark stage behind it. */
+.demo-stage:has(.hb-wrap) { background: none; box-shadow: none; overflow: visible; }
+.demo-stage:has(.hb-wrap) .hb-wrap { padding-inline: 0; }
+/* Helio's controls sit on paper now: ink, not bone. */
+.demo-stage:has(.hb-wrap) .hb-in { background: rgba(22,12,13,.06); color: var(--ink); }
+.demo-stage:has(.hb-wrap) .hb-in::placeholder { color: var(--ink-50); }
+.demo-stage:has(.hb-wrap) .hb-in:hover { background: rgba(22,12,13,.08); }
+.demo-stage:has(.hb-wrap) .hb-in:focus-visible { background: rgba(22,12,13,.08); box-shadow: 0 0 0 2px rgba(22,12,13,.5); }
+.demo-stage:has(.hb-wrap) .demo-btn { background: var(--ink); color: var(--paper); }
+.demo-stage:has(.hb-wrap) .demo-btn:hover { background: #000; }
+.demo-stage:has(.hb-wrap) .demo-label, .demo-stage:has(.hb-wrap) .hb-ex { color: var(--ink-60); }
+.demo-stage:has(.hb-wrap) .hb-ex:hover { color: var(--ink); background: rgba(22,12,13,.05); }
+.demo-stage:has(.hb-wrap) .hb-err { color: #B3261E; }
+.demo-stage:has(.hb-wrap) .hb-wrap { padding-top: 0; }
+
+/* Plate titles: no hyperlink underline on hover; the description keeps full contrast. */
+.plate .u-line { display: none; }
+
+/* Safe areas: landscape phones with notches, Dynamic Island, rounded corners. */
+.grid-main { padding-left: max(var(--m), env(safe-area-inset-left)); padding-right: max(var(--m), env(safe-area-inset-right)); }
+
+/* Bigger hit areas on touch without changing the look. */
+@media (pointer: coarse) {
+  .footer a, .flink { display: inline-block; padding-block: 11px; margin-block: -11px; }
+  .footer li { padding-block: 6px; }
+  .asst-icon-btn, .asst-send { position: relative; }
+  .asst-icon-btn::after, .asst-send::after { content: ''; position: absolute; inset: -5px; }
+}

@@ -210,17 +210,29 @@ export function Observer() {
     )
 
     // M3 and object entrances: triggered when the plate is well into view, after decode.
+    // Plates: start decoding a full screen ahead, then enter as soon as the plate is on screen,
+    // so the object is ready and never arrives late.
+    const preIO = io((entries, obs) => {
+      for (const e of entries) {
+        if (!e.isIntersecting) continue
+        obs.unobserve(e.target)
+        void decodeAll(e.target as HTMLElement, 2000)
+      }
+    }, '100% 0px 100% 0px')
     const plateIO = io((entries, obs) => {
       for (const e of entries) {
         if (!e.isIntersecting) continue
         const plate = e.target as HTMLElement
         obs.unobserve(plate)
         const items = Array.from(plate.querySelectorAll<HTMLElement>('[data-open],[data-enter]'))
-        void decodeAll(plate, 1200).then(() => items.forEach((n) => n.classList.add('in')))
+        void decodeAll(plate, 250).then(() => items.forEach((n) => n.classList.add('in')))
       }
-    }, '0px 0px -30% 0px')
+    }, '0px 0px -10% 0px')
     page.querySelectorAll('.plate').forEach((p) => {
-      if (p.querySelector('[data-open],[data-enter]')) plateIO.observe(p)
+      if (p.querySelector('[data-open],[data-enter]')) {
+        preIO.observe(p)
+        plateIO.observe(p)
+      }
     })
 
     // Ambient drift only while on screen.

@@ -21,10 +21,6 @@ export const PRINCIPLES: { head: string; body: string }[] = [
     head: 'Use every tool.',
     body: 'AI and the cloud change how fast an idea becomes a product. I use them every day, and I check their work.',
   },
-  {
-    head: 'Make things people love.',
-    body: 'Not tolerate. Love. That is the bar I hold every product to, including this site.',
-  },
 ]
 
 export const NOW_UPDATED = 'October 2026'

@@ -4,7 +4,15 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { ProjectTile } from './ProjectTile'
 import { ExperienceList } from './ExperienceList'
 import { IndexRows } from './IndexRows'
-import { CATEGORIES, projects, type Category, type Project } from '@/lib/projects-data'
+import { projects, type Category, type Project } from '@/lib/projects-data'
+
+const FILTERS: [string, Category | 'All'][] = [
+  ['All', 'All'],
+  ['AI', 'AI'],
+  ['Apps', 'Consumer apps'],
+  ['Tools', 'Engineering tools'],
+  ['Hardware', 'Hardware'],
+]
 
 /**
  * The Work page as something a stranger can browse: search by name, idea or technology, or pick a
@@ -90,11 +98,6 @@ export function WorkIndex() {
   const roles = shown.filter((p) => p.kind === 'work')
   const more = shown.filter((p) => p.kind === 'project' && !p.featured)
 
-  const counts = useMemo(() => {
-    const c: Record<string, number> = { All: projects.length }
-    for (const k of CATEGORIES) c[k] = projects.filter((p) => p.tags?.includes(k)).length
-    return c
-  }, [])
 
   // Results that mount after a filter change play the site's entrance themselves.
   useEffect(() => {
@@ -134,16 +137,15 @@ export function WorkIndex() {
           )}
         </div>
         <div className="wi-cats col-span-4 mt-[20px] md:col-span-6 md:col-start-7 md:mt-0" role="group" aria-label="Filter by category" data-reveal="">
-          {(['All', ...CATEGORIES] as const).map((c) => (
+          {FILTERS.map(([label, c]) => (
             <button
-              key={c}
+              key={label}
               type="button"
               aria-pressed={cat === c}
               onClick={() => setCat(c)}
               className={`wi-cat text-body ${cat === c ? 'on' : ''}`}
             >
-              {c}
-              {c !== 'All' && <span className="tnum">{counts[c]}</span>}
+              {label}
             </button>
           ))}
         </div>
