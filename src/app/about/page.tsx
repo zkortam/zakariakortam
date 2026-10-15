@@ -74,7 +74,7 @@ export default function AboutPage() {
 
           <div className="grid-main pt-sec">
             <h2 className="oc col-span-4 text-display md:col-span-12" data-rise="">
-              Tools
+              How I work
             </h2>
             <div className="mt-head col-span-full grid grid-cols-subgrid">
               <Rows items={COPY.tools} />

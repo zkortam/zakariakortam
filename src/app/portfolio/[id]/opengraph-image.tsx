@@ -15,6 +15,6 @@ export default async function ProjectOg({ params }: { params: Promise<{ id: stri
   const p = projects.find((x) => x.id === id)
   const title = p?.title ?? 'Zakaria Kortam'
   const line = p?.line ?? ''
-  const foot = p ? `${p.role.split(',')[0]}, ${p.year}` : ''
+  const foot = p ? (p.kind === 'work' ? `${p.org ?? p.title}, ${p.year}` : p.year) : ''
   return new ImageResponse(<OgCard title={title} line={line} foot={foot} />, { ...OG_SIZE, fonts: await ogFonts() })
 }

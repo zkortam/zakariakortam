@@ -62,7 +62,7 @@ export function Plate({
 
       <div className="plate-foot grid-main" data-flip-strip="">
         <p className="c3 text-body" data-reveal="">
-          {project.role}, {project.year}
+          {project.year}
         </p>
         <div className="pills" data-reveal="" data-align="end">
           {showGithub && project.links?.github && <LivePill href={project.links.github} label="GitHub" light={light} />}

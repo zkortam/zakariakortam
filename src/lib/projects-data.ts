@@ -117,7 +117,7 @@ export const projects: Project[] = [
     kind: 'project',
     featured: true,
     year: '2026',
-    role: 'Founder',
+    role: 'Product, design, and engineering',
     overview:
       'Helio is a live tutor in place of a lesson video. Students talk to it and interrupt whenever they want. It explains out loud while it writes, draws, and animates on an unlimited whiteboard, with the voice and the ink in sync.',
     problem:
@@ -147,7 +147,7 @@ export const projects: Project[] = [
     kind: 'project',
     featured: true,
     year: '2022 to now',
-    role: 'Founder',
+    role: 'Product, design, and engineering',
     overview:
       'Surf has feeds, posts, shorts with a video editor in the browser, messaging and calls, live streaming, creator analytics, subscriptions, and family controls. One Next.js codebase runs the web app and the iOS and Android apps.',
     problem:
@@ -177,7 +177,7 @@ export const projects: Project[] = [
     kind: 'project',
     featured: true,
     year: '2026',
-    role: 'Founder',
+    role: 'Product, design, and engineering',
     overview:
       'Surf Messenger takes Surf’s messaging and calls and makes them a separate app. It runs on macOS and Windows and on phones, on the same backend as Surf.',
     approach:
@@ -203,7 +203,7 @@ export const projects: Project[] = [
     kind: 'project',
     featured: true,
     year: '2025 to now',
-    role: 'Creator',
+    role: 'Product, design, and engineering',
     overview:
       'SPICE++ is an LTspice replacement that runs in the browser. It has a schematic editor, a waveform viewer, and a simulation engine I wrote myself in TypeScript.',
     problem:
@@ -233,7 +233,7 @@ export const projects: Project[] = [
     kind: 'project',
     featured: true,
     year: '2026',
-    role: 'Creator',
+    role: 'Product, design, and engineering',
     overview:
       'RTL++ is a browser workspace for digital logic. You write Verilog or SystemVerilog, run every test in two simulators, and build for iCE40 and ECP5 FPGAs.',
     problem:
@@ -263,7 +263,7 @@ export const projects: Project[] = [
     kind: 'project',
     featured: true,
     year: '2026',
-    role: 'Creator',
+    role: 'Product, design, and engineering',
     overview:
       'AiroFind is a flight search with a plain black interface that keeps out of the way of the results.',
     problem: 'Most flight search sites are slow and crowded with clutter.',
@@ -285,7 +285,7 @@ export const projects: Project[] = [
     kind: 'project',
     featured: false,
     year: '2025',
-    role: 'Creator',
+    role: 'Product, design, and engineering',
     overview:
       'Documap reads contracts and pulls out clauses, defined terms, and what changed between versions. I owned it from the first idea to the demo.',
     approach:
@@ -336,7 +336,7 @@ export const projects: Project[] = [
     kind: 'project',
     featured: false,
     year: '2026',
-    role: 'Creator',
+    role: 'Product, design, and engineering',
     overview:
       'Fridgit tracks what is in a shared fridge. Hold food up to the camera to add or remove it, say what you bought, or scan the receipt, and each item is credited to whoever added it.',
     stack: ['JavaScript', 'Computer vision', 'Speech input'],
@@ -361,7 +361,7 @@ export const projects: Project[] = [
     kind: 'project',
     featured: false,
     year: '2025',
-    role: 'Creator',
+    role: 'Product, design, and engineering',
     overview:
       'A FastAPI service that scores the sentiment of text in real time, packaged in Docker and deployed to AWS EKS through GitHub Actions and ArgoCD.',
     stack: ['Python', 'FastAPI', 'scikit-learn', 'Docker', 'Kubernetes', 'AWS'],
@@ -387,7 +387,7 @@ export const projects: Project[] = [
     kind: 'project',
     featured: false,
     year: '2025',
-    role: 'Creator',
+    role: 'Product, design, and engineering',
     overview:
       'An Arduino robot that follows a path using RGB sensing, IR and light sensors, and a PID controller I tuned in MATLAB.',
     stack: ['Arduino', 'C/C++', 'MATLAB'],
@@ -424,7 +424,7 @@ export const projects: Project[] = [
     kind: 'project',
     featured: false,
     year: '2023',
-    role: 'Creator',
+    role: 'Product, design, and engineering',
     overview:
       'A GPT-3.5 chatbot with Clippy’s personality and an old Windows look. It peaked at 1,200+ active users and closed in August 2023.',
     stack: ['JavaScript', 'GPT-3.5'],
