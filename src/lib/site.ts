@@ -32,10 +32,9 @@ export const COPY = {
   workLine: '',
   aboutHead: 'I’m a product manager who builds. I take products from zero to one, end to end.',
   aboutStory: [
-    'I love product design, and I love getting things out the door. Most of what I know about product came from shipping my own things. Surf started in 2022 and is on its fourth version. Helio, SPICE++, RTL++, and AiroFind came after it.',
-    'I build with AI and cloud tools every day. Agents write, test, and review code alongside me, and I review everything that ships.',
-    'Before DigiCert I was the founding AI engineer at FacilisAI, building agents that work with factory systems. Before that I did product work at Incorta and Inqueue.',
-    'I started at Evergreen Valley College, where I earned associate degrees in math, computer science, and physics, then transferred to UC San Diego.',
+    'Most of what I know about product, I learned by shipping my own. I started Surf in 2022 and I’m on its fourth version. Helio, SPICE++, RTL++, and AiroFind came after.',
+    'I took the long way to engineering: Evergreen Valley College first, where I earned three associate degrees, then electrical engineering at UC San Diego.',
+    'I like building communities as much as products. I founded the computer science club and the Muslim Student Association at Evergreen Valley College, and the Egyptian Student Association, Triton Tory, and the Triton Law Review at UC San Diego.',
   ],
   tools: [
     { label: 'Product', value: 'Zero to one. Talking to customers, deciding what to build, roadmaps, PRDs, metrics, launch.' },
