@@ -137,7 +137,7 @@ export const projects: Project[] = [
       { value: '1,970', label: 'commits in two weeks' },
       { value: '4', label: 'Rust crates, one core shared by client and server' },
     ],
-    demo: { title: 'Watch a beat', line: 'Every step is checked before the tutor says it, then written on the board in sync with the words.' },
+    demo: { title: 'Give it an equation', line: 'Type any linear equation. Every step is checked before the tutor says it, then written on the board in sync with the words.' },
   },
   {
     id: 'surf',
@@ -193,7 +193,7 @@ export const projects: Project[] = [
       { value: '51', label: 'crypto modules' },
       { value: '4', label: 'platforms: Mac, Windows, iOS, Android' },
     ],
-    demo: { title: 'Sealed before it leaves', line: 'This is real encryption, running in your browser right now. The middle lane is everything a server ever sees.' },
+    demo: { title: 'Sealed before it leaves', line: 'Type a message and send it. It is encrypted in your browser right now, and the middle lane is everything a server ever sees.' },
   },
   {
     id: 'spice-plus-plus',
@@ -223,7 +223,7 @@ export const projects: Project[] = [
       { value: '5', label: 'analysis types' },
       { value: '4', label: 'file formats in and out' },
     ],
-    demo: { title: 'Run the engine', line: 'This is the SPICE++ simulation engine, running in your browser. Drag a value and it solves the circuit again, instantly.' },
+    demo: { title: 'Run the engine', line: 'This is the SPICE++ simulation engine, running in your browser. Pick a circuit, drag a value, and it solves again.' },
   },
   {
     id: 'rtl-plus-plus',
@@ -253,7 +253,7 @@ export const projects: Project[] = [
       { value: '2', label: 'FPGA families' },
       { value: '93', label: 'commits in two days' },
     ],
-    demo: { title: 'From failure to fix', line: 'A test fails. RTL++ walks the wrong value back to the line that caused it, the fix lands, and the rerun passes.' },
+    demo: { title: 'From failure to fix', line: 'A test fails, RTL++ walks the wrong value back to the line that caused it, and the fix passes. Then the counter is yours to edit and run.' },
   },
   {
     id: 'airofind',
