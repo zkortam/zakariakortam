@@ -32,9 +32,9 @@ export const COPY = {
   workLine: '',
   aboutHead: 'I’m a product manager who builds. I take products from zero to one, end to end.',
   aboutStory: [
-    'Most of what I know about product, I learned by building my own, and I’ve been doing it since 2022.',
-    'I took the long way to engineering: Evergreen Valley College first, where I earned three associate degrees, then electrical engineering at UC San Diego.',
-    'I like building communities as much as products. I founded the computer science club and the Muslim Student Association at Evergreen Valley College, and the Egyptian Student Association, Triton Tory, and the Triton Law Review at UC San Diego.',
+    'I’m happiest at the very start of something, when there’s only an idea and a lot of questions. I like turning that into something real, and I like owning every part of it: listening to people, deciding what matters, designing it, and building it.',
+    'I care about craft. The details nobody asks for are usually the ones people feel, so those are the ones I spend the most time on.',
+    'I like bringing people together as much as building things. Give me a group with a shared idea and I’ll want to give it a home.',
   ],
   tools: [
     { label: 'Product', value: 'Zero to one. Talking to customers, deciding what to build, roadmaps, PRDs, metrics, launch.' },
