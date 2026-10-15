@@ -1514,4 +1514,35 @@ a, button { transition-property: color, background-color, border-color, opacity,
 }
 @keyframes ctIn { from { opacity: 0; transform: translateY(6%); } }
 
-.about-sign { margin-top: 36px; font-weight: 500; letter-spacing: -0.01em; }
+
+/* ---------- About: signature and scroll scenes ---------- */
+.about-sign { margin-top: 20px; font-size: clamp(54px, 5vw, 76px); line-height: 1; color: var(--ink); }
+.about-sign span { display: inline-block; padding: 0 .2em .1em 0; }
+.ab-open { margin: 0 var(--m); }
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* The portrait settles out of a slight zoom as it arrives, and drifts up as it leaves. */
+    .ab-portrait img { animation: abZoom linear both; animation-timeline: view(); animation-range: cover 0% cover 100%; will-change: transform; }
+    @keyframes abZoom { 0% { transform: scale(1.12); opacity: .3; } 30% { transform: scale(1); opacity: 1; } 75% { transform: scale(1); opacity: 1; } 100% { transform: translateY(-4%) scale(.98); opacity: .6; } }
+    /* Each paragraph rises in, holds, and quiets as it passes. */
+    .ab-line { animation: abLine linear both; animation-timeline: view(); animation-range: cover 0% cover 100%; }
+    @keyframes abLine { 0% { opacity: 0; transform: translateY(32px); } 28% { opacity: 1; transform: none; } 78% { opacity: 1; transform: none; } 100% { opacity: .25; transform: translateY(-16px); } }
+    /* The signature writes itself left to right. */
+    .about-sign span { animation: abSign linear both; animation-timeline: view(); animation-range: entry 40% cover 45%; }
+    @keyframes abSign { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+    /* San Jose opens from a rounded card to the full width, the photo easing back as it does, then closes again. */
+    .ab-open { margin: 0; animation: abOpen linear both; animation-timeline: view(); animation-range: cover 0% cover 100%; }
+    .ab-open img { animation: abPhoto linear both; animation-timeline: view(); animation-range: cover 0% cover 100%; }
+    @keyframes abOpen { 0% { clip-path: inset(0 var(--m) round 32px); } 40%, 60% { clip-path: inset(0 0 round 0); } 100% { clip-path: inset(0 var(--m) round 32px); } }
+    @keyframes abPhoto { 0% { transform: scale(1.18); } 50% { transform: scale(1.04); } 100% { transform: scale(1); } }
+    .ab-open { border-radius: 0; }
+    /* Experience and How I work rows arrive one by one. */
+    main:has(.ab-portrait) .rows .row { animation: abRow linear both; animation-timeline: view(); animation-range: entry 0% entry 100%; }
+    @keyframes abRow { from { opacity: 0; transform: translateY(24px); } }
+    /* School cards rise and their photos zoom out to rest. */
+    .ab-card { animation: abCard linear both; animation-timeline: view(); animation-range: entry 0% cover 40%; }
+    .ab-card img { animation: abPhoto2 linear both; animation-timeline: view(); animation-range: entry 0% exit 100%; }
+    @keyframes abCard { from { opacity: 0; transform: translateY(56px) scale(.94); } }
+    @keyframes abPhoto2 { from { transform: scale(1.2); } to { transform: scale(1); } }
+  }
+}

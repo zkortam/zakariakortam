@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
+import { Mrs_Saint_Delafield } from 'next/font/google'
 import { ExperienceList } from '@/components/ExperienceList'
 import { Footer } from '@/components/Footer'
 import { COPY, noWidow } from '@/lib/site'
@@ -13,6 +14,8 @@ export const metadata: Metadata = pageMeta({
   description:
     'Zakaria Kortam is an Associate Innovation Product Manager at DigiCert who takes products from zero to one, end to end. UC San Diego EE, based in San Jose.',
 })
+
+const sign = Mrs_Saint_Delafield({ subsets: ['latin'], weight: '400', display: 'swap' })
 
 /** Photos from Wikimedia Commons, credited as their licenses ask. */
 const SAN_JOSE = {
@@ -69,7 +72,7 @@ export default function AboutPage() {
           </div>
 
           <div className="grid-main mt-sec items-end">
-            <div className="col-span-3 md:col-span-5 lg:col-span-4" data-media="">
+            <div className="ab-portrait col-span-3 md:col-span-5 lg:col-span-4" data-media="">
               <Image
                 src="/portrait/zakaria-paper.webp"
                 width={1485}
@@ -83,19 +86,19 @@ export default function AboutPage() {
             </div>
             <div className="col-span-4 mt-[48px] flex flex-col gap-[32px] text-read md:col-span-5 md:col-start-7 md:mt-0">
               {COPY.aboutStory.map((s) => (
-                <p key={s} data-reveal="">
+                <p key={s} className="ab-line">
                   {noWidow(s)}
                 </p>
               ))}
-              <p className="about-sign" data-reveal="">
-                Zakaria Kortam
+              <p className={`about-sign ${sign.className}`} aria-label="Signed, Zakaria Kortam">
+                <span aria-hidden="true">Zakaria Kortam</span>
               </p>
             </div>
           </div>
 
 
-          <div className="grid-main mt-big">
-            <figure className="ph-wide col-span-full" data-reveal="">
+          <div className="mt-big">
+            <figure className="ph-wide ab-open">
               <Image src="/about/san-jose.webp" alt="Downtown San Jose at night" width={2400} height={1028} sizes="100vw" quality={82} />
               <figcaption>
                 <span>San Jose, California</span>
@@ -130,7 +133,7 @@ export default function AboutPage() {
             </h2>
             <div className="edu mt-head col-span-full">
               {SCHOOLS.map((sc) => (
-                <figure key={sc.name} className="edu-card" data-reveal="">
+                <figure key={sc.name} className="edu-card ab-card">
                   <Image src={sc.src} alt={sc.alt} fill sizes="(min-width:768px) 50vw, 100vw" quality={82} />
                   <figcaption className="edu-txt">
                     <span className="edu-name">{sc.name}</span>
