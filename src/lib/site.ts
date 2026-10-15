@@ -32,7 +32,7 @@ export const COPY = {
   workLine: '',
   aboutHead: 'I’m a product manager who builds. I take products from zero to one, end to end.',
   aboutStory: [
-    'Most of what I know about product, I learned by shipping my own. I started Surf in 2022 and I’m on its fourth version. Helio, SPICE++, RTL++, and AiroFind came after.',
+    'Most of what I know about product, I learned by building my own, and I’ve been doing it since 2022.',
     'I took the long way to engineering: Evergreen Valley College first, where I earned three associate degrees, then electrical engineering at UC San Diego.',
     'I like building communities as much as products. I founded the computer science club and the Muslim Student Association at Evergreen Valley College, and the Egyptian Student Association, Triton Tory, and the Triton Law Review at UC San Diego.',
   ],

@@ -1514,22 +1514,3 @@ a, button { transition-property: color, background-color, border-color, opacity,
 }
 @keyframes ctIn { from { opacity: 0; transform: translateY(6%); } }
 
-/* ---------- About: the products, gliding past ---------- */
-.made-sec { padding: var(--sec) 0; overflow: clip; view-timeline: --made block; }
-.made { overflow-x: auto; scrollbar-width: none; }
-.made::-webkit-scrollbar { display: none; }
-.made-track { display: flex; gap: 20px; width: max-content; padding: 0 var(--m); }
-.made-item { display: flex; flex-direction: column; gap: 14px; width: min(78vw, 560px); }
-@media (min-width: 1024px) { .made-item { width: 34vw; } }
-.made-shot { position: relative; display: block; aspect-ratio: 16 / 10; overflow: hidden; border-radius: 22px; background: #111;
-  box-shadow: 0 0 0 1px rgba(22, 12, 13, .06), 0 30px 60px -30px rgba(22, 12, 13, .35); }
-.made-shot img { object-fit: cover; object-position: top; transition: transform 900ms var(--e-expo); }
-@media (hover: hover) { .made-item:hover .made-shot img { transform: scale(1.03); } }
-.made-name { font-size: 18px; font-weight: 500; }
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) and (min-width: 768px) {
-    .made { overflow: visible; }
-    .made-track { will-change: transform; animation: madeGlide linear both; animation-timeline: --made; animation-range: cover 0% cover 100%; }
-    @keyframes madeGlide { from { transform: translateX(8vw); } to { transform: translateX(calc(-100% + 92vw)); } }
-  }
-}
