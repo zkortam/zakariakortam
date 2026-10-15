@@ -15,18 +15,7 @@ export default function WorkPage() {
   return (
     <>
       <main id="main" tabIndex={-1}>
-        <section className="paper work-head pt-page pb-sec" data-tone="light">
-          <div className="wh-light" aria-hidden="true">
-            <i />
-            <i />
-            <i />
-          </div>
-          <div className="grid-main relative">
-            <h1 className="oc col-span-4 text-display md:col-span-6" data-rise="">
-              Work
-            </h1>
-          </div>
-
+        <section className="paper pt-page pb-sec" data-tone="light">
           <WorkIndex />
         </section>
       </main>

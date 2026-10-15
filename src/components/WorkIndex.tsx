@@ -43,6 +43,8 @@ function keywordScore(p: Project, terms: string[]) {
 
 export function WorkIndex() {
   const [q, setQ] = useState('')
+  const [open, setOpen] = useState(false)
+  const input = useRef<HTMLInputElement>(null)
   const [cat, setCat] = useState<Category | 'All'>('All')
   const [semantic, setSemantic] = useState<Record<string, number> | null>(null)
   const results = useRef<HTMLDivElement>(null)
@@ -116,38 +118,57 @@ export function WorkIndex() {
 
   return (
     <>
-      <div className="grid-main mt-sec">
-        <div className="wi-search col-span-4 md:col-span-6" data-reveal="">
-          <Icon name="search" className="wi-glass" />
-          <input
-            type="search"
-            value={q}
-            onChange={(e) => setQ(e.target.value)}
-            placeholder="Search by name or idea"
-            aria-label="Search projects"
-            className="wi-input text-read"
-            enterKeyHint="search"
-            autoComplete="off"
-            spellCheck={false}
-          />
-          {q && (
-            <button type="button" className="wi-clear text-body" onClick={() => setQ('')} aria-label="Clear search">
-              <Icon name="close" size={18} />
-            </button>
-          )}
-        </div>
-        <div className="wi-cats col-span-4 mt-[20px] md:col-span-6 md:col-start-7 md:mt-0" role="group" aria-label="Filter by category" data-reveal="">
-          {FILTERS.map(([label, c]) => (
+      <div className="grid-main work-bar">
+        <h1 className="oc col-span-4 text-display md:col-span-4" data-rise="">
+          Work
+        </h1>
+        <div className="wb-tools col-span-4 md:col-span-8 md:col-start-5" data-reveal="">
+          <div className="seg" role="group" aria-label="Filter by category">
+            {FILTERS.map(([label, c]) => (
+              <button key={label} type="button" aria-pressed={cat === c} onClick={() => setCat(c)} className={cat === c ? 'on' : ''}>
+                {label}
+              </button>
+            ))}
+          </div>
+          <div className={`wb-search ${open || q ? 'open' : ''}`}>
             <button
-              key={label}
               type="button"
-              aria-pressed={cat === c}
-              onClick={() => setCat(c)}
-              className={`wi-cat text-body ${cat === c ? 'on' : ''}`}
+              className="wb-icon"
+              aria-label="Search projects"
+              aria-expanded={open || !!q}
+              onClick={() => {
+                setOpen(true)
+                requestAnimationFrame(() => input.current?.focus())
+              }}
             >
-              {label}
+              <Icon name="search" size={20} />
             </button>
-          ))}
+            <input
+              ref={input}
+              type="search"
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+              onBlur={() => !q && setOpen(false)}
+              onKeyDown={(e) => {
+                if (e.key === 'Escape') {
+                  setQ('')
+                  setOpen(false)
+                  input.current?.blur()
+                }
+              }}
+              placeholder="Search by name or idea"
+              aria-label="Search projects"
+              tabIndex={open || q ? 0 : -1}
+              enterKeyHint="search"
+              autoComplete="off"
+              spellCheck={false}
+            />
+            {q && (
+              <button type="button" className="wb-icon" onClick={() => setQ('')} aria-label="Clear search">
+                <Icon name="close" size={18} />
+              </button>
+            )}
+          </div>
         </div>
       </div>
 

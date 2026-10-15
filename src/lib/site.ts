@@ -44,7 +44,6 @@ export const COPY = {
     { label: 'Building', value: 'End to end: TypeScript, React, Next.js, Rust, Python, Postgres, and native apps for iOS, Android, and desktop.' },
     { label: 'AI', value: 'Claude Code, Codex, and agents in my daily loop. Agents, MCP, retrieval, evals, and voice in what I ship.' },
     { label: 'Cloud', value: 'Vercel, Supabase, Cloudflare, Azure, AWS, Docker, Kubernetes.' },
-    { label: 'Shipping', value: 'Small releases, real tests, fast fixes.' },
   ],
   education: [
     { label: 'UC San Diego', value: 'B.S. Electrical Engineering, 2026' },
