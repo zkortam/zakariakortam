@@ -20,7 +20,7 @@ export const LOCATION = 'San Jose, California'
 export const COPY = {
   heroTitle: 'Product Manager',
   heroLines: [
-    'Product Manager at DigiCert.',
+    'Associate Innovation Product Manager at DigiCert.',
     'On my own time I build Helio,',
     'Surf, SPICE++, and AiroFind.',
   ],

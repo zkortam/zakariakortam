@@ -148,14 +148,32 @@ function Narrative({ p }: { p: Project }) {
   )
 }
 
+/** Measured from the project's repository: big numbers in rounded tiles. */
+function Stats({ p }: { p: Project }) {
+  if (!p.stats?.length) return null
+  return (
+    <div className="grid-main mt-sec">
+      <div className="pstats col-span-full" style={{ ['--n' as string]: p.stats.length }}>
+        {p.stats.map((s) => (
+          <div key={s.label} className="pstat" data-reveal="">
+            <span className="pstat-v tnum">{s.value}</span>
+            <span className="pstat-l">{s.label}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 function Results({ p, first = false }: { p: Project; first?: boolean }) {
   if (!p.results?.length) return null
   return (
     <Block title="Results" first={first}>
       <ul className="text-read">
         {p.results.map((r) => (
-          <li key={r} className="relative py-[16px] md:py-[20px]" data-reveal="">
-            {noWidow(r)}
+          <li key={r} className="presult" data-reveal="">
+            <Icon name="check" size="1em" strokeWidth={2.5} className="presult-i" />
+            <span>{noWidow(r)}</span>
           </li>
         ))}
       </ul>
@@ -182,8 +200,10 @@ export default async function ProjectPage({ params }: Params) {
           <Plate project={p} spec={spec} heading="h1" link={false} flipTarget showGithub />
           <section className="paper pt-sec" data-tone="light">
             <Overview p={p} />
+            <Stats p={p} />
             <DemoSection p={p} />
             <Narrative p={p} />
+            <Results p={p} />
             <div className="mt-stills" />
           </section>
           {!DEMOS[p.id] && <Stills spec={spec} />}
@@ -212,20 +232,41 @@ export default async function ProjectPage({ params }: Params) {
               <p className="plate-line text-read" style={{ color: 'var(--bone-92)' }} data-reveal="">
                 {noWidow(p.line)}
               </p>
-              <div className="plate-meta" data-reveal="">
-                <span className="text-body" style={{ color: 'var(--bone-64)' }}>
-                  {p.role}, {p.year}
-                </span>
-                {p.links?.github && <LivePill href={p.links.github} label="GitHub" />}
-                {p.links?.live && <LivePill href={p.links.live} />}
-              </div>
+              {(p.links?.github || p.links?.live) && (
+                <div className="plate-meta" data-reveal="">
+                  {p.links?.github && <LivePill href={p.links.github} label="GitHub" />}
+                  {p.links?.live && <LivePill href={p.links.live} />}
+                </div>
+              )}
             </div>
+          </div>
+          <div className="grid-main relative">
+            <dl className="rh-facts col-span-full" data-reveal="">
+              <div>
+                <dt>Role</dt>
+                <dd>{p.role}</dd>
+              </div>
+              <div>
+                <dt>When</dt>
+                <dd>{p.year}</dd>
+              </div>
+              <div className="rh-wide">
+                <dt>{p.kind === 'work' ? 'Focus' : 'Built with'}</dt>
+                <dd>{p.stack.join(', ')}</dd>
+              </div>
+            </dl>
           </div>
         </section>
         <section className="paper pt-sec pb-sec" data-tone="light">
-          <Overview p={p} />
+          <div className="grid-main">
+            <p className="p-lead col-span-4 md:col-span-10 lg:col-span-9" data-reveal="">
+              {noWidow(p.overview)}
+            </p>
+          </div>
+          <Stats p={p} />
           <DemoSection p={p} />
           <Narrative p={p} />
+          <Results p={p} />
           <div className="grid-main mt-sec">
             <NextRow href={`/portfolio/${next.id}`} title={next.title} />
           </div>
