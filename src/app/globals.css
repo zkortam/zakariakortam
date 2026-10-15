@@ -527,7 +527,7 @@ html:not(.js) .nav-menu-btn { display: none; }
 @media (min-width: 1024px) { .nf { padding-bottom: 160px; } }
 
 /* ---------- Assistant: floating pill, glass card, edge glow ---------- */
-.asst { --pill-h: 52px; --dock-b: calc(24px + env(safe-area-inset-bottom)); }
+.asst { --pill-h: 60px; --dock-b: calc(24px + env(safe-area-inset-bottom)); }
 .edge-glow { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 71; pointer-events: none; }
 .asst-scrim { position: fixed; inset: 0; z-index: 69; background: rgba(11, 3, 6, .4); opacity: 0; pointer-events: none; transition: opacity 420ms var(--e-quint); }
 .asst.is-open .asst-scrim { opacity: 1; pointer-events: auto; }
@@ -537,7 +537,7 @@ html:not(.js) .nav-menu-btn { display: none; }
 
 /* The pill */
 .asst-pill {
-  position: relative; display: flex; align-items: center; gap: 10px; height: var(--pill-h); padding: 0 9px 0 15px; border-radius: 999px; color: var(--bone);
+  position: relative; display: flex; align-items: center; gap: 10px; height: var(--pill-h); padding: 0 10px 0 22px; border-radius: 999px; color: var(--bone); font-size: 17px;
   background: linear-gradient(180deg, rgba(255,235,238,.09), rgba(255,235,238,.02) 60%), rgba(24, 10, 14, .8);
   -webkit-backdrop-filter: blur(24px) saturate(1.3); backdrop-filter: blur(24px) saturate(1.3);
   border: 1px solid rgba(255, 255, 255, .12);
@@ -634,7 +634,7 @@ html:not(.js) .nav-menu-btn { display: none; }
 
 /* Phones: the open assistant is a bottom sheet */
 @media (max-width: 767px) {
-  .asst { --pill-h: 48px; --dock-b: calc(14px + env(safe-area-inset-bottom)); }
+  .asst { --pill-h: 56px; --dock-b: calc(14px + env(safe-area-inset-bottom)); }
   .asst.is-open .asst-dock { bottom: var(--kb, 0px); padding-inline: 0; }
   .asst.is-open .asst-col {
     padding: 0 12px calc(12px + env(safe-area-inset-bottom)); border-radius: 26px 26px 0 0;
@@ -1069,4 +1069,18 @@ html[data-quality="low"] .idle-light > i { animation: none; will-change: auto; }
   .footer li { padding-block: 6px; }
   .asst-icon-btn, .asst-send { position: relative; }
   .asst-icon-btn::after, .asst-send::after { content: ''; position: absolute; inset: -5px; }
+}
+/* Large monitors: the hero portrait and reading size grow with the screen. */
+@media (min-width: 1680px) {
+  :root { --read: clamp(22px, 1.6vw, 40px); }
+  .hero-portrait { height: min(76svh, 960px, calc(100svh - 252px)); }
+}
+/* iPad portrait: less empty space between the plate copy and its object. */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .plate .plate-stage { min-height: 44svh; }
+}
+/* Phones: landscape crops (SPICE++, RTL++) need no tall stage. */
+@media (max-width: 767px) {
+  .plate[data-plate="spice-plus-plus"] .pm-flow, .plate[data-plate="rtl-plus-plus"] .pm-flow { justify-content: center; }
+  .plate[data-plate="spice-plus-plus"] .card-m, .plate[data-plate="rtl-plus-plus"] .card-m { width: calc(100% + 2 * var(--m)); margin-left: calc(-1 * var(--m)); border-radius: 0; box-shadow: none; }
 }

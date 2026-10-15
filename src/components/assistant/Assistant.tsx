@@ -288,14 +288,21 @@ export function Assistant() {
     let raf = 0
     let aside = false
     let asideTimer = 0
-    // Like Safari's toolbar: tucked away while reading down, back only when scrolling up.
+    // Tucked away only while actively scrolling down; back on scroll up or once scrolling stops.
     let lastY = window.scrollY
     let reading = false
+    let settle = 0
     const onScrollDir = () => {
       const y = window.scrollY
       if (Math.abs(y - lastY) > 6) {
         reading = y > lastY
         lastY = y
+        // Back as soon as scrolling settles.
+        clearTimeout(settle)
+        settle = window.setTimeout(() => {
+          reading = false
+          schedule()
+        }, 450)
       }
       schedule()
     }
@@ -342,6 +349,7 @@ export function Assistant() {
       cancelAnimationFrame(raf)
       clearTimeout(asideTimer)
       window.removeEventListener('scroll', onScrollDir)
+      clearTimeout(settle)
       window.removeEventListener('resize', schedule)
       window.removeEventListener('zk:route', schedule)
       document.removeEventListener('pointerover', onOver)

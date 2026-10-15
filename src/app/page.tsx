@@ -2,6 +2,7 @@ import { HomeHero } from '@/components/HomeHero'
 import { Plate } from '@/components/Plate'
 import { Footer } from '@/components/Footer'
 import { TLink } from '@/components/TLink'
+import { BodyOfWork } from '@/components/BodyOfWork'
 import { featuredProjects } from '@/lib/projects-data'
 import { PLATES } from '@/lib/media'
 import { COPY } from '@/lib/site'
@@ -18,6 +19,12 @@ export default function HomePage() {
             <p className="oc col-span-4 text-statement md:col-span-12 lg:col-span-11" data-rise="">
               {COPY.statementLead} <span className="c-ink50">{COPY.statementRest}</span>
             </p>
+          </div>
+        </section>
+
+        <section className="paper pb-sec" data-tone="light">
+          <div className="grid-main">
+            <BodyOfWork />
           </div>
         </section>
 

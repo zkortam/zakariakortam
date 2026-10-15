@@ -109,7 +109,7 @@ export const PLATES: Record<string, PlateSpec> = {
       h: 2000,
       alt: 'SPICE++ designing a Sallen-Key low-pass filter: the schematic, its Bode plot, and the agent verifying the 2 kHz cutoff',
     },
-    mobile: { src: '/work/derived/spice-app-m.webp', w: 1530, h: 2000, alt: 'SPICE++ Bode plot of a Sallen-Key low-pass filter' },
+    mobile: { src: '/work/derived/spice-bode-m.webp', w: 1560, h: 890, alt: 'SPICE++ Bode plot of a Sallen-Key low-pass filter' },
     stills: {
       a: { src: '/work/hd/spice-plus-plus-desktop.webp', w: 2880, h: 1800, alt: "SPICE++'s home page, The engineering agent for analog circuits" },
       b1: { src: '/work/hd/spice-plus-plus-mobile.webp', w: 1170, h: 2532, alt: 'SPICE++ home page on a phone' },
@@ -128,7 +128,7 @@ export const PLATES: Record<string, PlateSpec> = {
       h: 1612,
       alt: 'RTL++ explaining a failing counter test: the source line, the trace of why count is 0 at 100 ns, and the waveform',
     },
-    mobile: { src: '/work/derived/rtlpp-card-m.webp', w: 1236, h: 1612, alt: 'RTL++ counter source with the failing line highlighted and its waveform' },
+    mobile: { src: '/work/derived/rtlpp-wave-m.webp', w: 1500, h: 572, alt: 'RTL++ waveform of the counter test, failing at 100 ns' },
     stills: {
       a: { src: '/work/hd/rtlpp-desktop.webp', w: 2880, h: 1800, alt: "RTL++'s home page, Digital logic in the browser" },
       b1: { src: '/work/hd/rtlpp-mobile.webp', w: 1170, h: 2532, alt: 'RTL++ home page on a phone' },

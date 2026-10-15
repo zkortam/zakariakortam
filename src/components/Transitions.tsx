@@ -154,6 +154,10 @@ function prepareFlip(f: FlipState): (() => void) | undefined {
   }
   // Destination entrances are already "played" in the clone: land them instantly.
   target.querySelectorAll<HTMLElement>('[data-open],[data-enter]').forEach((n) => n.classList.add('in', 'now'))
+  // The plate's title and line sit in the same place on both pages: land them, do not replay them.
+  if (f.kind === 'plate') {
+    target.querySelectorAll<HTMLElement>('.plate-head [data-rise], .plate-head [data-reveal], .plate-foot [data-reveal]').forEach((n) => n.classList.add('split', 'in', 'now'))
+  }
   const hide: HTMLElement[] = []
   let frames: Keyframe[]
   let duration: number
@@ -253,7 +257,7 @@ function prepareFlip(f: FlipState): (() => void) | undefined {
     const cs = getComputedStyle(target)
     ground = document.createElement('div')
     ground.setAttribute('aria-hidden', 'true')
-    ground.style.cssText = `position:fixed;left:${tr.left}px;top:${Math.max(0, tr.top)}px;width:${tr.width}px;height:${Math.min(tr.bottom, window.innerHeight) - Math.max(0, tr.top)}px;z-index:1;pointer-events:none;opacity:0`
+    ground.style.cssText = `position:fixed;left:${tr.left}px;top:${Math.max(0, tr.top)}px;width:${tr.width}px;height:${Math.min(tr.bottom, window.innerHeight) - Math.max(0, tr.top)}px;z-index:1;pointer-events:none;opacity:1`
     ground.style.backgroundColor = cs.backgroundColor
     ground.style.backgroundImage = cs.backgroundImage
     target.style.background = 'transparent'
@@ -276,7 +280,6 @@ function prepareFlip(f: FlipState): (() => void) | undefined {
       }),
     )
     const anim = f.host.animate(frames, { duration, easing: EASE_QUINT, fill: 'forwards' })
-    ground?.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 320, easing: EASE_QUINT, fill: 'forwards' })
     void (async () => {
       try {
         await anim.finished
