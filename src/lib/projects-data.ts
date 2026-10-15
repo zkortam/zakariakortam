@@ -154,7 +154,7 @@ export const projects: Project[] = [
     tags: ['Consumer apps'],
     image: '/work/surf.webp',
     title: 'Surf',
-    line: 'A full social network built by one person, on web, iOS, and Android.',
+    line: 'A social network with feeds, short video, messaging, and live, on web, iOS, and Android.',
     kind: 'project',
     featured: true,
     year: '2022 to now',
@@ -162,9 +162,9 @@ export const projects: Project[] = [
     overview:
       'Surf has feeds, posts, shorts with a video editor in the browser, messaging and calls, live streaming, creator analytics, subscriptions, and family controls. One Next.js codebase runs the web app and the iOS and Android apps.',
     problem:
-      'A whole social product built by one person. Design, engineering, safety, and infrastructure all land on me.',
+      'A social network has to get feeds, video, messaging, safety, and scale right at the same time, and every part has to feel fast.',
     approach:
-      'This is the fourth version, rebuilt on Next.js and Supabase. Database access rules are tested against a live database. Every release has to pass type checks, lint, unit tests, and end-to-end tests.',
+      'This is the fourth version, rebuilt on Next.js and Supabase. Database access rules are tested against a live database, with type checks, unit tests, and end-to-end tests in CI.',
     results: [
       '150+ routes on web, iOS, and Android',
       'Shorts, live streaming, and calls',
@@ -178,7 +178,7 @@ export const projects: Project[] = [
       { value: '1,935', label: 'database migrations' },
       { value: '5,969', label: 'commits this year' },
     ],
-    demo: { title: 'One codebase, every screen', line: 'The same app runs on the web, iOS, Android, and the desktop, on a database where every row is guarded by a security policy.' },
+    demo: { title: 'One codebase, every screen', line: 'The same app runs on the web, iOS, Android, and the desktop, on a database that enforces who can see what, row by row.' },
   },
   {
     id: 'surf-messenger',

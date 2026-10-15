@@ -19,7 +19,7 @@ export const PRINCIPLES: { head: string; body: string }[] = [
   },
   {
     head: 'Use every tool.',
-    body: 'AI and the cloud let one person build what used to take a team. I use them hard, and I check their work.',
+    body: 'AI and the cloud change how fast an idea becomes a product. I use them every day, and I check their work.',
   },
   {
     head: 'Make things people love.',

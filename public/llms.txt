@@ -18,7 +18,7 @@ Site: https://www.zakariakortam.com
 ## Products
 
 - [Helio](https://www.zakariakortam.com/portfolio/helio): A voice AI tutor that talks, listens, and teaches math and science on a live whiteboard. (live: https://helio.education)
-- [Surf](https://www.zakariakortam.com/portfolio/surf): A full social network built by one person, on web, iOS, and Android. (live: https://surfsocial.org)
+- [Surf](https://www.zakariakortam.com/portfolio/surf): A social network with feeds, short video, messaging, and live, on web, iOS, and Android. (live: https://surfsocial.org)
 - [Surf Messenger](https://www.zakariakortam.com/portfolio/surf-messenger): Private messaging with end-to-end encryption, on Mac, Windows, and phones. (live: https://surfmessenger.com, code: https://github.com/zkortam/SurfMessengerDesktop)
 - [SPICE++](https://www.zakariakortam.com/portfolio/spice-plus-plus): A SPICE circuit simulator written from scratch, running in the browser, with an AI agent built in. (live: https://www.spicepp.com)
 - [RTL++](https://www.zakariakortam.com/portfolio/rtl-plus-plus): Verilog in the browser, two simulators, and a debugger that tells you why a test failed. (live: https://rtlpp.vercel.app)
