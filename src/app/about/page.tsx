@@ -11,8 +11,32 @@ export const metadata: Metadata = pageMeta({
   ogTitle: 'About Zakaria Kortam',
   type: 'profile',
   description:
-    'Zakaria Kortam is a Product Manager at DigiCert who takes products from zero to one, end to end. UC San Diego EE, based in San Jose.',
+    'Zakaria Kortam is an Associate Innovation Product Manager at DigiCert who takes products from zero to one, end to end. UC San Diego EE, based in San Jose.',
 })
+
+/** Photos from Wikimedia Commons, credited as their licenses ask. */
+const SAN_JOSE = {
+  credit: 'Photo: Ben Loomis, CC BY 2.0',
+  href: 'https://commons.wikimedia.org/wiki/File:San_Jose_CA_skyline_at_night_2014.jpg',
+}
+const SCHOOLS = [
+  {
+    name: 'UC San Diego',
+    degree: 'B.S. Electrical Engineering, 2026',
+    src: '/about/geisel.webp',
+    alt: 'Geisel Library at UC San Diego',
+    credit: 'Photo: Stephen Bay, CC BY 4.0',
+    href: 'https://commons.wikimedia.org/wiki/File:Geisel_Library,_UC_San_Diego.jpg',
+  },
+  {
+    name: 'Evergreen Valley College',
+    degree: 'A.S. Mathematics, A.S. Computer Science, A.S. Physics',
+    src: '/about/evc.webp',
+    alt: 'The lake at Evergreen Valley College',
+    credit: 'Photo: Cristiano Tomás, CC BY-SA 4.0',
+    href: 'https://commons.wikimedia.org/wiki/File:Evergreen_Lake_-_Evergreen_Valley_College_0825.jpg',
+  },
+]
 
 function Rows({ items }: { items: readonly { label: string; value: string }[] }) {
   return (
@@ -67,6 +91,18 @@ export default function AboutPage() {
           </div>
 
           <div className="grid-main mt-big">
+            <figure className="ph-wide col-span-full" data-reveal="">
+              <Image src="/about/san-jose.webp" alt="Downtown San Jose at night" width={2400} height={1028} sizes="100vw" quality={82} />
+              <figcaption>
+                <span>San Jose, California</span>
+                <a href={SAN_JOSE.href} target="_blank" rel="noopener noreferrer">
+                  {SAN_JOSE.credit}
+                </a>
+              </figcaption>
+            </figure>
+          </div>
+
+          <div className="grid-main mt-big">
             <h2 className="oc col-span-4 text-display md:col-span-12" data-rise="">
               Experience
             </h2>
@@ -88,8 +124,19 @@ export default function AboutPage() {
             <h2 className="oc col-span-4 text-display md:col-span-12" data-rise="">
               Education
             </h2>
-            <div className="mt-head col-span-full grid grid-cols-subgrid">
-              <Rows items={COPY.education} />
+            <div className="edu mt-head col-span-full">
+              {SCHOOLS.map((sc) => (
+                <figure key={sc.name} className="edu-card" data-reveal="">
+                  <Image src={sc.src} alt={sc.alt} fill sizes="(min-width:768px) 50vw, 100vw" quality={82} />
+                  <figcaption className="edu-txt">
+                    <span className="edu-name">{sc.name}</span>
+                    <span className="edu-deg">{sc.degree}</span>
+                  </figcaption>
+                  <a className="edu-credit" href={sc.href} target="_blank" rel="noopener noreferrer">
+                    {sc.credit}
+                  </a>
+                </figure>
+              ))}
             </div>
           </div>
         </section>

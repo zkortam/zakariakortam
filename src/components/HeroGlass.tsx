@@ -130,7 +130,8 @@ export function HeroGlass() {
     let k = 1
     const size = () => {
       const r = canvas.getBoundingClientRect()
-      k = Math.min(window.devicePixelRatio || 1, 2) * scale
+      // Soft light needs no retina pixels: one device pixel per CSS pixel is a quarter of the work on a 2x screen.
+      k = Math.min(window.devicePixelRatio || 1, 1) * scale
       const w = Math.max(1, Math.round(r.width * k))
       const h = Math.max(1, Math.round(r.height * k))
       if (canvas.width !== w || canvas.height !== h) {

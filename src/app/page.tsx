@@ -16,9 +16,12 @@ export default function HomePage() {
         <section className="paper sw-pin" data-tone="light">
           <div className="sw-stage">
             <div className="grid-main">
-              <p className="col-span-4 text-statement md:col-span-12 lg:col-span-11">
-                <ScrollWords lead={COPY.statementLead} rest={COPY.statementRest} />
-              </p>
+              <figure className="col-span-4 m-0 md:col-span-12 lg:col-span-11">
+                <blockquote className="text-statement">
+                  <ScrollWords lead={COPY.statementLead} rest={COPY.statementRest} />
+                </blockquote>
+                <figcaption className="sw-by c3 text-read">{COPY.statementBy}</figcaption>
+              </figure>
             </div>
           </div>
         </section>

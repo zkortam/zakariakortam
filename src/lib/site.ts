@@ -1,14 +1,12 @@
-import { published } from '@/content/blog/posts'
 export const EMAIL = 'zakaria@zakariakortam.com'
 
-/** The Blog link shows only once a post is published. */
-export const NAV: readonly { href: string; label: string }[] = [
+export const NAV = [
   { href: '/portfolio', label: 'Work' },
   { href: '/about', label: 'About' },
+  { href: '/blog', label: 'Blog' },
   { href: '/now', label: 'Now' },
-  ...(published.length ? [{ href: '/blog', label: 'Blog' }] : []),
   { href: '/contact', label: 'Contact' },
-]
+] as const
 
 export const SOCIALS = [
   { label: 'Surf', icon: 'surf', handle: '@zakaria', href: 'https://surfsocial.org/zakaria' },
@@ -27,8 +25,9 @@ export const COPY = {
     'On my own time I build Helio,',
     'Surf, SPICE++, and AiroFind.',
   ],
-  statementLead: 'I work on the whole product.',
-  statementRest: 'Talking to customers, deciding what to build, writing the code, and shipping it.',
+  statementLead: 'True simplicity is derived from so much more than just the absence of clutter and ornamentation.',
+  statementRest: 'It’s about bringing order to complexity.',
+  statementBy: 'Jony Ive',
   allWork: 'All work',
   workLine: '',
   aboutHead: 'I’m a product manager who builds. I take products from zero to one, end to end.',

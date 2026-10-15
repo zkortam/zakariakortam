@@ -4,6 +4,7 @@
  * over its own slice of the pinned scroll. Without scroll-timeline support, or with reduced motion, it is simply
  * the sentence.
  */
+/** The second sentence is the one that lands, so it carries the full ink. */
 export function ScrollWords({ lead, rest }: { lead: string; rest: string }) {
   const a = lead.split(' ')
   const b = rest.split(' ')
@@ -19,12 +20,14 @@ export function ScrollWords({ lead, rest }: { lead: string; rest: string }) {
         {lead} {rest}
       </span>
       <span aria-hidden="true">
-        {a.map((w, i) => (
-          <span key={`a${i}`}>
-            {word(w, i)}{' '}
-          </span>
-        ))}
         <span className="c-ink50">
+          {a.map((w, i) => (
+            <span key={`a${i}`}>
+              {word(w, i)}{' '}
+            </span>
+          ))}
+        </span>
+        <span>
           {b.map((w, i) => (
             <span key={`b${i}`}>
               {word(w, a.length + i)}

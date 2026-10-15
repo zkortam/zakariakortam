@@ -14,6 +14,23 @@ const docs = readdirSync(dir)
   .sort()
   .map((f) => ({ id: f.replace(/\.md$/, ''), text: readFileSync(join(dir, f), 'utf8').trim() }))
 
+// Published blog posts too, so Ask can answer about what Zakaria has written. Dashes become commas (house style).
+const blogDir = join(root, 'blog')
+try {
+  for (const f of readdirSync(blogDir).filter((f) => f.endsWith('.md') && f.toLowerCase() !== 'readme.md').sort()) {
+    const src = readFileSync(join(blogDir, f), 'utf8')
+    const head = src.match(/^---\s*\n([\s\S]*?)\n---\s*\n?/)
+    const meta = Object.fromEntries((head?.[1] ?? '').split('\n').map((l) => [l.slice(0, l.indexOf(':')).trim(), l.slice(l.indexOf(':') + 1).trim()]))
+    if (/^(true|yes)$/i.test(meta.draft ?? '')) continue
+    const slug = f.replace(/\.md$/, '')
+    const body = src.slice(head?.[0].length ?? 0).trim()
+    const text = `# Blog post: ${meta.title}\n\nPage: /blog/${slug}. Published ${meta.date}.${meta.summary ? ` ${meta.summary}` : ''}\n\n${body}`
+    docs.push({ id: `blog-${slug}`, text: text.replace(/\s*[–—]\s*/g, ', ') })
+  }
+} catch {
+  /* no blog folder */
+}
+
 const banned = /[–—]/
 for (const d of docs) {
   if (banned.test(d.text)) throw new Error(`src/knowledge/${d.id}.md contains an em or en dash`)

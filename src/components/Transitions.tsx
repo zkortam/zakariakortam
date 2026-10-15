@@ -28,6 +28,20 @@ type Pending = { href: string; instant?: boolean; flip?: FlipState; safety?: num
 
 const Ctx = createContext<{ go: (href: string, flip?: FlipRequest) => void }>({ go: () => {} })
 
+
+/** The tone of the page under the middle of the screen, so the room behind a fading page is the page's own colour. */
+function setRoom(at: 'view' | 'top' = 'view') {
+  const html = document.documentElement
+  const y = at === 'top' ? 1 : window.innerHeight / 2
+  let tone = 'dark'
+  // Page sections only: tiles and cards inside a section carry their own tone and must not count.
+  document.querySelectorAll<HTMLElement>('#page main > [data-tone], #page main > article[data-tone], #page footer[data-tone]').forEach((el) => {
+    const r = el.getBoundingClientRect()
+    if (r.top <= y && r.bottom > y) tone = el.dataset.tone || tone
+  })
+  html.dataset.room = tone
+}
+
 export function useTransitionNav() {
   return useContext(Ctx)
 }
@@ -501,6 +515,7 @@ export function Transitions({ children }: { children: ReactNode }) {
       pending.current = null
       delete html.dataset.route
       if (location.pathname === here.current) return
+      setRoom()
       popped.current = true
       // Hide the old page for the instant between the URL changing and the new page committing, so the
       // browser's own scroll restoration never shows on the wrong content; it then fades in like any route.
@@ -535,6 +550,7 @@ export function Transitions({ children }: { children: ReactNode }) {
       const flip = flipReq ? makeFlip(flipReq) : undefined
       const state: Pending = { href, flip }
       pending.current = state
+      setRoom()
       html.dataset.route = flip ? 'leaving-fast' : 'leaving'
       window.setTimeout(
         () => {
@@ -576,6 +592,7 @@ export function Transitions({ children }: { children: ReactNode }) {
         requestAnimationFrame(() => {
           land()
           if (html.dataset.route === 'entering') delete html.dataset.route
+          window.setTimeout(() => setRoom(), 400)
         }),
       )
       return
@@ -600,6 +617,7 @@ export function Transitions({ children }: { children: ReactNode }) {
       requestAnimationFrame(() => {
         delete html.dataset.route
         play?.()
+        window.setTimeout(() => setRoom('top'), 400)
       }),
     )
   }, [pathname])

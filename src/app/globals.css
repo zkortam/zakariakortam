@@ -119,6 +119,9 @@
 
 /* ---------- Room ---------- */
 #room { position: fixed; inset: 0; z-index: 0; background: var(--ox); pointer-events: none; overflow: hidden; }
+/* Behind a light page the room is paper, so a page fading out never flashes the dark red through. */
+html[data-room="light"] #room { background: var(--paper); }
+html[data-room="light"] #room > i, html[data-room="light"] #room::before { display: none; }
 #room > i { position: absolute; width: 110vmax; height: 110vmax; left: 50%; top: 42%; transform: translate(-50%, -50%); opacity: .45; background: url(/light/pool-rose.webp) center / 100% 100% no-repeat; }
 #page { position: relative; z-index: 1; transition: opacity 320ms var(--e-quint); }
 html[data-route="leaving"] #page { opacity: 0; transition: opacity 170ms var(--e-exit); }
@@ -1290,8 +1293,9 @@ a, button { transition-property: color, background-color, border-color, opacity,
 
     /* Leaving the hero, the whole opening shrinks into a rounded card on the paper. */
     #main:has(> .hero) { background: var(--paper); }
-    .hero { transform-origin: 50% 100%; animation: heroCard linear both; animation-timeline: --hero; animation-range: exit 0% exit 90%; }
-    @keyframes heroCard { to { scale: .86; border-radius: 56px; } }
+    .hero { transform-origin: 50% 100%; will-change: transform, clip-path; animation: heroCard linear both; animation-timeline: --hero; animation-range: exit 0% exit 90%; }
+    /* Scale and clip only: both run on the compositor, so the shrink never repaints the hero. */
+    @keyframes heroCard { from { clip-path: inset(0 round 0); } to { scale: .86; clip-path: inset(0 round 56px); } }
     html.lite-2 .hero { animation: none; }
 
     /* The next project arrives as a rounded card and opens to the full screen. */
@@ -1383,3 +1387,77 @@ a, button { transition-property: color, background-color, border-color, opacity,
   .seg button { flex: 1 1 auto; padding: 0 8px; font-size: 14px; }
 }
 @media (max-width: 767px) { .hx::before { inset: -40px 0; } }
+
+/* A wide product screen cropped into a tile, zoomed on its focal point. */
+.bt-crop .bt-media { padding: 28px 0 0 28px; }
+.bt-cropbox { position: relative; display: block; width: 100%; height: 100%; overflow: hidden; border-radius: 16px 0 0 0; box-shadow: 0 0 0 1px rgba(255,255,255,.07), 0 -20px 60px -20px rgba(0,0,0,.45); }
+.bt-cropbox img { object-fit: cover; object-position: var(--pos); transform: scale(var(--zoom)); transform-origin: var(--pos); }
+
+/* ---------- About: real photographs of the places ---------- */
+.ph-wide { position: relative; margin: 0; overflow: hidden; border-radius: 24px; }
+@media (min-width: 1024px) { .ph-wide { border-radius: 32px; } }
+.ph-wide img { display: block; width: 100%; height: auto; aspect-ratio: 21 / 9; object-fit: cover; }
+@media (max-width: 767px) { .ph-wide img { aspect-ratio: 4 / 3; } }
+.ph-wide figcaption { position: absolute; left: 0; right: 0; bottom: 0; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 6px 16px; padding: 64px 24px 20px; color: #fff; font-size: 17px; background: linear-gradient(transparent, rgba(0,0,0,.45)); }
+@media (min-width: 1024px) { .ph-wide figcaption { padding: 96px 32px 26px; font-size: 20px; } }
+.ph-wide figcaption a, .edu-credit { font-size: 12px; color: rgba(255,255,255,.7); }
+.edu { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
+@media (min-width: 768px) { .edu { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; } }
+.edu-card { position: relative; margin: 0; overflow: hidden; border-radius: 24px; aspect-ratio: 4 / 3; color: #fff; isolation: isolate; }
+@media (min-width: 1024px) { .edu-card { border-radius: 28px; aspect-ratio: 5 / 4; } }
+.edu-card img { object-fit: cover; z-index: -1; }
+.edu-card::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, transparent 45%, rgba(0,0,0,.55)); }
+.edu-txt { position: absolute; left: 0; right: 0; bottom: 0; display: flex; flex-direction: column; gap: 6px; padding: 24px; }
+@media (min-width: 1024px) { .edu-txt { padding: 32px; } }
+.edu-name { font-size: clamp(26px, 2.4vw, 36px); line-height: 1.1; font-weight: 600; letter-spacing: -0.025em; }
+.edu-deg { font-size: 17px; line-height: 1.35; color: rgba(255,255,255,.86); }
+.edu-credit { position: absolute; top: 16px; right: 20px; }
+
+/* ---------- Blog ---------- */
+.bl-meta { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 15px; color: var(--ink-60); }
+.bl-sum { font-size: 17px; line-height: 1.45; color: var(--ink-60); text-wrap: pretty; }
+.bl-cover { position: relative; display: block; overflow: hidden; border-radius: 20px; background: rgba(22, 12, 13, .06); aspect-ratio: 16 / 10; }
+.bl-cover img { object-fit: cover; transition: transform 900ms var(--e-expo); }
+@media (hover: hover) { a:hover > .bl-cover img { transform: scale(1.03); } }
+.bl-lead { display: grid; gap: 24px; }
+@media (min-width: 1024px) { .bl-lead { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 48px; align-items: center; } .bl-lead.no-cover { grid-template-columns: minmax(0, 1fr); } }
+.bl-lead .bl-cover { border-radius: 28px; }
+.bl-lead-txt { display: flex; flex-direction: column; gap: 14px; }
+.bl-lead-title { font-size: clamp(30px, 3.2vw, 52px); line-height: 1.08; font-weight: 600; letter-spacing: -0.03em; text-wrap: balance; }
+.no-cover .bl-lead-title { max-width: 22ch; }
+.bl-read { display: inline-flex; align-items: center; gap: 8px; margin-top: 8px; font-size: 17px; font-weight: 500; }
+.bl-read .ar { transition: transform 300ms var(--e-std); }
+@media (hover: hover) { .bl-lead:hover .bl-read .ar { transform: translateX(4px); } }
+.bl-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 48px 20px; }
+@media (min-width: 768px) { .bl-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1280px) { .bl-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.bl-card { display: flex; flex-direction: column; gap: 10px; }
+.bl-card .bl-cover { margin-bottom: 8px; }
+.bl-title { font-size: 22px; line-height: 1.25; font-weight: 600; letter-spacing: -0.015em; text-wrap: balance; }
+.bl-card .bl-sum { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.post-back { display: inline-flex; align-items: center; gap: 8px; }
+.post-meta { display: flex; flex-wrap: wrap; gap: 4px 16px; margin-top: 24px; }
+.post-cover { position: relative; margin: 0; overflow: hidden; border-radius: 24px; aspect-ratio: 16 / 9; background: rgba(22, 12, 13, .06); }
+@media (min-width: 1024px) { .post-cover { border-radius: 32px; aspect-ratio: 2 / 1; } }
+.post-cover img { object-fit: cover; }
+.post-toc { position: sticky; top: 120px; align-self: start; }
+.post-toc ol { margin-top: 12px; display: flex; flex-direction: column; gap: 10px; font-size: 15px; line-height: 1.4; }
+.post-toc a { color: var(--ink-60); transition: color 200ms var(--e-std); }
+.post-toc a:hover { color: var(--ink); }
+.prose h2, .prose h3 { scroll-margin-top: 110px; }
+.prose figure { margin: 2em 0; }
+.prose figcaption { margin-top: 10px; font-size: 15px; color: var(--ink-60); }
+.prose table { width: 100%; border-collapse: collapse; font-size: .9em; }
+.prose th, .prose td { padding: 10px 12px; border-bottom: 1px solid rgba(22, 12, 13, .1); text-align: left; }
+/* A hairline across the top that fills as you read. */
+.read-progress { position: fixed; left: 0; right: 0; top: 0; z-index: 60; height: 2px; background: var(--ink); transform-origin: 0 50%; transform: scaleX(0); pointer-events: none; }
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) { .read-progress { animation: readFill linear both; animation-timeline: scroll(root block); } }
+}
+@supports not (animation-timeline: scroll()) { .read-progress { display: none; } }
+@keyframes readFill { to { transform: scaleX(1); } }
+.bl-cover[data-tint="0"] { background: linear-gradient(135deg, #F3D9CC, #EBC8CF); }
+.bl-cover[data-tint="1"] { background: linear-gradient(135deg, #D9DFF3, #E9D3DD); }
+.bl-cover[data-tint="2"] { background: linear-gradient(135deg, #F1E3C8, #F0D0C4); }
+.sw-by { margin-top: 28px; }
+@supports (animation-timeline: view()) { @media (prefers-reduced-motion: no-preference) { .sw-by { animation: swIn linear both; animation-timeline: --sw; animation-range: contain 78% contain 90%; } } }

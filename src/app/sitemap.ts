@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next'
 import { execSync } from 'node:child_process'
 import { projects } from '@/lib/projects-data'
-import { published } from '@/content/blog/posts'
+import { POSTS } from '@/content/blog/posts.generated'
 import { absUrl } from '@/lib/seo'
 
 /** Date of the last commit, so lastmod only moves when the site changes. Falls back to build time. */
@@ -31,11 +31,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: 'monthly',
     priority: p.kind === 'project' && p.featured ? 0.8 : p.kind === 'work' ? 0.7 : 0.5,
   }))
-  const posts: MetadataRoute.Sitemap = published.length
-    ? [
+  const posts: MetadataRoute.Sitemap = [
         { url: absUrl('/blog'), lastModified, changeFrequency: 'weekly', priority: 0.7 },
-        ...published.map((p) => ({ url: absUrl(`/blog/${p.slug}`), lastModified: new Date(`${p.date}T12:00:00Z`), changeFrequency: 'yearly' as const, priority: 0.6 })),
+        ...POSTS.map((p) => ({ url: absUrl(`/blog/${p.slug}`), lastModified: new Date(`${p.date}T12:00:00Z`), changeFrequency: 'yearly' as const, priority: 0.6 })),
       ]
-    : []
   return [...pages, ...items, ...posts]
 }
