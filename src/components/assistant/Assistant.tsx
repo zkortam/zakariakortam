@@ -288,6 +288,23 @@ export function Assistant() {
     let raf = 0
     let aside = false
     let asideTimer = 0
+    // Like Safari's toolbar: tucked away while reading down, back on scroll up or after a pause.
+    let lastY = window.scrollY
+    let reading = false
+    let restTimer = 0
+    const onScrollDir = () => {
+      const y = window.scrollY
+      if (Math.abs(y - lastY) > 6) {
+        reading = y > lastY
+        lastY = y
+        clearTimeout(restTimer)
+        restTimer = window.setTimeout(() => {
+          reading = false
+          schedule()
+        }, 1400)
+      }
+      schedule()
+    }
     const measure = () => {
       raf = 0
       const vh = window.innerHeight
@@ -295,7 +312,7 @@ export function Assistant() {
       const past = hero ? hero.getBoundingClientRect().bottom < vh * 0.5 : window.scrollY > vh * 0.5
       const footer = document.querySelector<HTMLElement>('#page footer')
       const nearFooter = footer ? footer.getBoundingClientRect().top < vh - 40 : false
-      setInView(past && !nearFooter && !aside)
+      setInView(past && !nearFooter && !aside && !reading)
     }
     const schedule = () => {
       if (!raf) raf = requestAnimationFrame(measure)
@@ -321,7 +338,7 @@ export function Assistant() {
       }
     }
     measure()
-    window.addEventListener('scroll', schedule, { passive: true })
+    window.addEventListener('scroll', onScrollDir, { passive: true })
     window.addEventListener('resize', schedule)
     window.addEventListener('zk:route', schedule)
     document.addEventListener('pointerover', onOver)
@@ -330,7 +347,8 @@ export function Assistant() {
     return () => {
       cancelAnimationFrame(raf)
       clearTimeout(asideTimer)
-      window.removeEventListener('scroll', schedule)
+      window.removeEventListener('scroll', onScrollDir)
+      clearTimeout(restTimer)
       window.removeEventListener('resize', schedule)
       window.removeEventListener('zk:route', schedule)
       document.removeEventListener('pointerover', onOver)

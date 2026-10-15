@@ -180,7 +180,7 @@ export default async function ProjectPage({ params }: Params) {
             <Narrative p={p} />
             <div className="mt-stills" />
           </section>
-          <Stills spec={spec} />
+          {!DEMOS[p.id] && <Stills spec={spec} />}
           {p.results?.length ? (
             <section className="paper pb-sec" data-tone="light">
               <Results p={p} first />
