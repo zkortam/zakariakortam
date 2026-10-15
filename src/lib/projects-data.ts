@@ -266,7 +266,7 @@ export const projects: Project[] = [
       { value: '2', label: 'FPGA families' },
       { value: '93', label: 'commits in two days' },
     ],
-    demo: { title: 'From failure to fix', line: 'A test fails, RTL++ walks the wrong value back to the line that caused it, and the fix passes. Then the counter is yours to edit and run.' },
+    demo: { title: 'Every value has a reason', line: 'A real RTL++ run at the moment a test fails: the line that caused it, the chain of causes and the waveform. Edit the counter and run it again; Icarus Verilog simulates it in this tab.' },
   },
   {
     id: 'airofind',

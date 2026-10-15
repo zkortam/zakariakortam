@@ -1,39 +1,16 @@
 /**
- * The RTL++ counter template (apps/rtlpp/src/lib/project/templates/src/counter) with the one bug the
- * home page story is about: the wrap compares against MAX - 1. Only the header comment is shortened.
- * The testbench is the template's tb_counter.sv, unchanged.
+ * The RTL++ counter template (apps/rtlpp/src/lib/project/templates/src/counter in zkortam/spiceplusplus):
+ * tb_counter.sv unchanged. counter.sv is the home page's recorded one (SHOWCASE.source): the template
+ * with line 16 changed, its header comment whole.
  */
+import { SHOWCASE } from '@/vendor/rtlpp/site/showcase.generated'
 
 export const COUNTER_FILE = 'counter.sv'
 export const TB_FILE = 'tb_counter.sv'
 export const TB_NAME = 'tb_counter'
 
-export const BUG_LINE = 15 // zero based: line 16
-export const BUGGY = "            count <= (count == MAX - 1) ? '0 : count + 1'b1;"
-export const FIXED = "            count <= (count == MAX) ? '0 : count + 1'b1;"
-
-export const COUNTER_BUGGY = `// Counts from 0 to MAX while en is high, then wraps to 0.
-module counter #(
-    parameter int WIDTH = 8,
-    parameter int MAX = 9
-) (
-    input  logic             clk,
-    input  logic             rst,
-    input  logic             en,
-    output logic [WIDTH-1:0] count = '0,
-    output logic             wrap
-);
-    always_ff @(posedge clk) begin
-        if (rst)
-            count <= '0;
-        else if (en)
-${BUGGY}
-    end
-
-    assign wrap = en && (count == MAX);
-endmodule`
-
-export const COUNTER_FIXED = COUNTER_BUGGY.replace(BUGGY, FIXED)
+/** The recorded run's counter.sv: the template with line 16 changed. */
+export const COUNTER_RECORDED = SHOWCASE.source
 
 export const TB_COUNTER = `\`timescale 1ns/1ps
 module tb_counter;
@@ -76,6 +53,6 @@ module tb_counter;
 endmodule
 `
 
-/** The signals drawn, in order, from the testbench scope. */
-export const WAVES = ['clk', 'rst', 'en', 'count', 'wrap'] as const
+/** The signals the recorded run draws, in its order, from the testbench scope. */
+export const WAVES = ['clk', 'rst', 'en', 'count'] as const
 export type WaveName = (typeof WAVES)[number]

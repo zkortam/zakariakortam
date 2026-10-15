@@ -1,0 +1,167 @@
+/*
+ * RTL++ ShowcaseRun, ported (src/components/demos/RtlTrace.tsx, rtl/RunView.tsx, rtl/code.tsx).
+ * Every value is the Tailwind class or theme value the real component uses:
+ * apps/rtlpp/src/app/(marketing)/_site/RunView.tsx and code.tsx, the .site variables in
+ * src/app/globals.css (--s-text-2, --s-text-3), apps/rtlpp/src/app/theme.css (--c-accent,
+ * --c-ink-2, --c-hover) and the Button / GHOST / focus-ring classes of src/components/ui/Glass.tsx.
+ */
+
+.rp-wrap {
+  /* The home page holds ShowcaseRun in max-w-6xl. */
+  max-width: 72rem;
+  margin: 0 auto;
+  --rp-text-2: rgba(255, 255, 255, 0.72);
+  --rp-text-3: rgba(255, 255, 255, 0.56);
+  --rp-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --rp-ease: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* figure: overflow-hidden rounded-[20px] bg-[#0b0b0c] shadow-[...] */
+.rp {
+  margin: 0;
+  overflow: hidden;
+  border-radius: 20px;
+  background: #0b0b0c;
+  box-shadow: 0 60px 160px -40px rgba(10, 132, 255, 0.22), 0 40px 120px -30px rgba(0, 0, 0, 0.9);
+  color: #fff;
+  /* The RTL++ site names Inter (--font-inter in apps/rtlpp/src/app/layout.tsx) but loads no web font,
+     so visitors see their system sans. This site does load an Inter, so the stack starts after it. */
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-feature-settings: "rlig" 1, "calt" 1, "cv05" 1;
+  line-height: 1.5;
+  text-align: left;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.rp p, .rp ol, .rp pre, .rp figure { margin: 0; padding: 0; }
+.rp ol { list-style: none; }
+.rp p, .rp li { text-wrap: pretty; }
+
+.rp-mono { font-family: var(--rp-mono); }
+.rp-white { color: #fff; }
+.rp-num { font-variant-numeric: tabular-nums; }
+.rp-t2 { color: var(--rp-text-2); }
+.rp-t3 { color: var(--rp-text-3); }
+.rp-running { opacity: 0.5; }
+
+/* header: flex flex-wrap items-baseline gap-x-3 gap-y-1 px-5 pb-1 pt-4 text-[13.5px], plus the Run controls */
+.rp-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 12px;
+  padding: 16px 12px 4px 20px;
+}
+.rp-head-text {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 12px;
+  min-width: 0;
+  font-size: 13.5px;
+}
+.rp-actions { display: flex; align-items: center; gap: 4px; margin: -6px 0 -6px auto; } /* the 32px controls take no more height than the line */
+
+/* Button: inline-flex h-8 items-center gap-1.5 rounded-full px-3.5 text-sm font-medium */
+.rp-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 9999px;
+  font: inherit;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+  user-select: none;
+  cursor: pointer;
+  background: transparent;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 120ms var(--rp-ease), filter 120ms var(--rp-ease), background-color 120ms var(--rp-ease), color 120ms var(--rp-ease);
+}
+.rp-btn:active { transform: scale(0.98); }
+.rp-btn:disabled { opacity: 0.4; cursor: default; }
+.rp-btn:disabled:active { transform: none; }
+.rp-btn:focus-visible { outline: none; box-shadow: 0 0 0 1px rgba(11, 11, 12, 0.9), 0 0 0 3px rgba(10, 112, 224, 0.55); }
+/* variant="primary": bg-accent text-white hover:brightness-110 active:brightness-95, min-w-[76px] */
+.rp-primary { min-width: 76px; background: var(--rp-accent); color: #fff; }
+.rp-primary:hover:not(:disabled) { filter: brightness(1.1); }
+.rp-primary:active:not(:disabled) { filter: brightness(0.95); }
+/* GHOST: text-ink-secondary hover:bg-hover hover:text-ink */
+.rp-ghost { color: rgb(173 173 179); }
+.rp-ghost:hover:not(:disabled) { background: rgba(255, 255, 255, 0.06); color: rgb(244 244 246); }
+
+/* grid grid-cols-1 lg:grid-cols-[1.15fr_1fr] */
+.rp-grid { display: grid; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 1024px) {
+  .rp-grid { grid-template-columns: 1.15fr 1fr; }
+}
+
+/* CodeView */
+.rp-code { min-width: 0; }
+.rp-code-file { padding: 12px 16px 8px; font-family: var(--rp-mono); font-size: 12px; color: var(--rp-text-3); }
+.rp-code-scroll { overflow-x: auto; overscroll-behavior-x: contain; }
+.rp-code-body { position: relative; min-width: max-content; }
+.rp-code-pre { padding-bottom: 16px !important; font-family: var(--rp-mono); font-size: 12.5px; line-height: 1.7; white-space: pre; }
+.rp-code-pre code { font: inherit; }
+.rp-row { display: flex; min-width: max-content; padding-right: 16px; }
+.rp-row[data-mark="cause"] { background: rgba(255, 105, 97, 0.13); }
+.rp-row[data-mark="step"] { background: rgba(10, 132, 255, 0.1); }
+.rp-ln { width: 40px; flex-shrink: 0; padding-right: 16px; text-align: right; font-variant-numeric: tabular-nums; user-select: none; }
+.rp-code-input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0 16px 0 40px;
+  border: 0;
+  border-radius: 0;
+  outline: none;
+  resize: none;
+  overflow: hidden;
+  background: transparent;
+  color: transparent;
+  caret-color: #f4f4f6;
+  font-family: var(--rp-mono);
+  font-size: 12.5px;
+  line-height: 1.7;
+  font-weight: 400;
+  letter-spacing: normal;
+  white-space: pre;
+  tab-size: 8;
+  -webkit-text-fill-color: transparent;
+}
+.rp-code-input::selection { background: rgba(10, 132, 255, 0.35); -webkit-text-fill-color: transparent; }
+.rp-code-scroll:has(.rp-code-input:focus-visible) { box-shadow: inset 0 0 0 1.5px rgba(124, 182, 255, 0.5); border-radius: 8px; }
+
+/* WhyView: flex min-w-0 flex-col gap-3 p-4 */
+.rp-why { display: flex; min-width: 0; flex-direction: column; gap: 12px; padding: 16px; }
+.rp-why-q { font-size: 13px; color: var(--rp-text-2); }
+.rp-steps { display: flex; flex-direction: column; gap: 8px; }
+/* li: rounded-xl px-4 py-3, bg-white/[0.03] or bg-[rgba(255,105,97,0.08)] on the first diverging step */
+.rp-step { border-radius: 12px; padding: 12px 16px; background: rgba(255, 255, 255, 0.03); }
+.rp-step[data-first] { background: rgba(255, 105, 97, 0.08); }
+.rp-step-head { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 8px; font-size: 13.5px; }
+.rp-step-line { margin-top: 6px !important; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: var(--rp-mono); font-size: 12px; }
+.rp-step-line.rp-wrap-text { margin-top: 0 !important; white-space: pre-wrap; overflow-wrap: anywhere; }
+.rp-step-ln { padding-right: 8px; font-variant-numeric: tabular-nums; color: var(--rp-text-3); }
+.rp-step-cond { margin-top: 4px !important; font-size: 12px; color: var(--rp-text-3); }
+.rp-why-stop { font-size: 12.5px; color: var(--rp-text-3); }
+
+/* waveform: px-3 pb-4 pt-2, svg block h-auto w-full */
+.rp-wave { padding: 8px 12px 16px; }
+.rp-wave-svg text { font-family: ui-sans-serif, sans-serif; }
+.rp-wave-svg { display: block; width: 100%; height: auto; }
+
+/* The line under the frame, as the RTL++ home page sets it under ShowcaseRun. */
+.rp-cap { margin: 20px auto 0; max-width: 48rem; text-align: center; font-size: 14px; line-height: 1.625; color: var(--ink-60, rgba(0, 0, 0, 0.6)); text-wrap: pretty; }
+
+@media (prefers-reduced-motion: reduce) {
+  .rp-btn { transition: none; }
+  .rp-btn:active { transform: none; }
+}

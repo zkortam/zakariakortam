@@ -1,389 +1,218 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import { Stage, mono, useClock, useLive } from './shared'
-import { Editor, type LineMark } from './rtl/Editor'
-import { Waves } from './rtl/Waves'
+import { useCallback, useEffect, useState, type CSSProperties } from 'react'
+import { useLive } from './shared'
+import { CodeView } from './rtl/code'
+import { FAIL, WaveView, WhyView, causeLine, type WaveRun } from './rtl/RunView'
 import { useIcarus } from './rtl/useIcarus'
 import type { RunResult } from './rtl/protocol'
-import { BUG_LINE, COUNTER_BUGGY, COUNTER_FILE, COUNTER_FIXED, TB_COUNTER, TB_FILE } from './rtl/sources'
+import { COUNTER_FILE, COUNTER_RECORDED, WAVES } from './rtl/sources'
+import { SHOWCASE } from '@/vendor/rtlpp/site/showcase.generated'
+import { describeOutcome, formatTime } from '@/vendor/rtlpp/site/format'
+import type { TestOutcome } from '@/vendor/rtlpp/site/outcome'
+import './rtl.css'
 
-/**
- * The RTL++ debugging story on its own counter, run for real: Icarus Verilog (WebAssembly, in a
- * worker) compiles counter.sv against tb_counter in this tab, and the waveforms and the verdict come
- * from its VCD and its output. The story plays first: the test fails, the why chain walks the wrong
- * value back to the line that set it, the fix lands and the rerun passes. Then the code is yours.
+/*
+ * The RTL++ home page's ShowcaseRun (apps/rtlpp/src/app/(marketing)/_site/RunView.tsx), ported:
+ * the workspace at the failure, recorded from the real engines, with the code, the Why chain and
+ * the waveform drawn by RTL++'s own code. It opens on that still frame. counter.sv is editable, and
+ * Run compiles and simulates it against tb_counter with Icarus Verilog (WebAssembly, in a worker),
+ * then draws that run through the same WaveView. The recorded Why chain stays only while the run
+ * is the recorded one (same file, same failure); RTL++ builds the chain from the Yosys netlist,
+ * which this page does not run, so an edited design gets its verdict and waveform, never a chain.
  */
 
-type Phase = 'run' | 'fail' | 'why1' | 'why2' | 'why3' | 'fix' | 'rerun' | 'pass'
-const SCRIPT: [Phase, number][] = [
-  ['run', 2.4],
-  ['fail', 1.2],
-  ['why1', 1.8],
-  ['why2', 1.8],
-  ['why3', 1.8],
-  ['fix', 1.6],
-  ['rerun', 2.4],
-  ['pass', 0.01],
-]
-const ORDER = SCRIPT.map(([p]) => p)
-const TOTAL = SCRIPT.reduce((a, [, d]) => a + d, 0)
-const RST_LINE = 6
+const OK = '#30d158' // --s-ok
+const WARN = '#ffb340' // --s-warn
+const ACCENT = '#0A70E0' // bg-accent: --c-accent, 10 112 224, in apps/rtlpp/src/app/theme.css
 
-const WHY = [
-  { id: 'why1', head: 'count 0, expected 9, at 95 ns', body: 'Set by line 16, because count was 8 and 8 == MAX - 1.' },
-  { id: 'why2', head: 'count 1 to 8, over 8 edges', body: 'Line 16 on every edge from 15 ns to 85 ns, en high, rst low.' },
-  { id: 'why3', head: 'rst 0 at 15 ns', body: 'Line 7. A primary input, set by the testbench, so not the cause.' },
-] as const
+/** A run in this tab, worded the way the RTL++ Tests rail words it (describeOutcome). */
+function outcomeOf(r: RunResult, engineDown: string | null): TestOutcome {
+  if (r.kind === 'ran' && r.passed) return { status: 'unconfirmed', message: 'Icarus passed it. The netlist simulator does not run on this page.' }
+  if (r.kind === 'ran')
+    return { status: 'failed', message: r.failure?.message ?? 'The test failed', ...(r.failure?.atNs !== undefined ? { atFs: Math.round(r.failure.atNs * 1e6) } : {}) }
+  if (r.kind === 'compile') {
+    const e = r.errors.find((x) => x.file === COUNTER_FILE) ?? r.errors[0]
+    return { status: 'error', message: e ? `${e.file} line ${e.line}: ${e.message}` : r.raw.split('\n')[0] || 'The design did not compile' }
+  }
+  if (engineDown) return { status: 'error', message: `Icarus Verilog did not load. ${engineDown}` }
+  if (/seconds/.test(r.reason)) return { status: 'stopped', reason: 'time-limit' }
+  if (/MB/.test(r.reason)) return { status: 'stopped', reason: 'data-limit' }
+  return { status: 'error', message: r.reason }
+}
 
-const EXPECTS = [
-  'count steps from 0 to 9 and wraps to 0, for 25 cycles',
-  'wrap is high exactly when count is 9',
-  'count holds while en is low',
-  'rst clears count',
-]
+const toneOf = (o: TestOutcome) => (o.status === 'passed' ? OK : o.status === 'failed' || o.status === 'error' ? FAIL : WARN)
+const messageOf = (o: TestOutcome) => ('message' in o ? o.message : undefined)
 
-const ns = (t: number) => `${Number.isInteger(t) ? t : t.toFixed(1)} ns`
-const dec = (bits: string) => (/^[01]+$/.test(bits) ? String(parseInt(bits, 2)) : bits)
+/** The run's lanes, in the recorded run's order and units (femtoseconds), up to where it ended. */
+function waveOf(r: Extract<RunResult, { kind: 'ran' }>): WaveRun {
+  const endFs = Math.round((r.failure?.atNs ?? r.endNs) * 1e6)
+  const lanes = WAVES.flatMap((name) => {
+    const w = r.waves[name]
+    if (!w) return []
+    const times: number[] = []
+    const values: string[] = []
+    w.times.forEach((t, i) => {
+      const fs = Math.round(t * 1e6)
+      if (fs > endFs) return
+      times.push(fs)
+      values.push(w.values[i])
+    })
+    return [{ name, width: w.width, times, values }]
+  })
+  return { test: SHOWCASE.test, wave: { endFs, lanes } }
+}
 
-type Run = { status: 'idle' | 'running' | 'done'; code: string; result?: RunResult }
+/** True when a run here is the recorded one: the recorded file, failing the same way at the same time. */
+function isRecorded(code: string, r: RunResult) {
+  return (
+    code === COUNTER_RECORDED &&
+    r.kind === 'ran' &&
+    !r.passed &&
+    r.failure?.message === SHOWCASE.failing.message &&
+    r.failure?.atNs !== undefined &&
+    Math.round(r.failure.atNs * 1e6) === SHOWCASE.failing.atFs
+  )
+}
+
+function PlayIcon() {
+  return (
+    <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none">
+      <path d="M7.5 4.8l12 7.2-12 7.2z" fill="currentColor" />
+    </svg>
+  )
+}
+
+type Live = { code: string; result: RunResult; outcome: TestOutcome }
 
 export function RtlTrace() {
-  const { ref, live, near, reduced } = useLive<HTMLDivElement>()
+  const { ref, near } = useLive<HTMLDivElement>()
   const engine = useIcarus(near)
-  const [story, setStory] = useState<{ bug: RunResult; fix: RunResult } | null>(null)
-  const [mode, setMode] = useState<'story' | 'edit'>('story')
-  const [storyT, setStoryT] = useState(0)
-  const [code, setCode] = useState(COUNTER_BUGGY)
-  const [tab, setTab] = useState<'dut' | 'tb'>('dut')
-  const [run, setRun] = useState<Run>({ status: 'idle', code: '' })
-  const [lastRan, setLastRan] = useState<{ result: RunResult; code: string } | null>(null)
-  const [drawn, setDrawn] = useState(1)
+  const [code, setCode] = useState(COUNTER_RECORDED)
+  const [live, setLive] = useState<Live | null>(null)
+  const [running, setRunning] = useState(false)
   const [mac, setMac] = useState(false)
 
   useEffect(() => setMac(/Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent)), [])
+  const shortcut = mac ? 'Meta+Enter' : 'Control+Enter'
 
-  // Run the story's two versions for real as soon as the engine is in.
-  const ready = engine.state.kind === 'ready'
+  const engineDown = engine.state.kind === 'failed' ? engine.state.message : null
   const runCode = engine.run
-  useEffect(() => {
-    if (!ready || story) return
-    let gone = false
-    ;(async () => {
-      const bug = await runCode(COUNTER_BUGGY)
-      const fix = await runCode(COUNTER_FIXED)
-      if (!gone) setStory({ bug, fix })
-    })()
-    return () => {
-      gone = true
-    }
-  }, [ready, story, runCode])
-
-  // Story clock: plays once while on screen; reduced motion lands on the last frame.
-  const storyEnd = reduced ? TOTAL : storyT
-  useClock(live && mode === 'story' && !!story && !reduced && storyT < TOTAL, (_, dt) => setStoryT((s) => Math.min(TOTAL, s + dt)))
-  // Draw each new run across the waves.
-  useClock(live && mode === 'edit' && drawn < 1, (_, dt) => setDrawn((d) => Math.min(1, d + dt / 1.1)))
-
-  let acc = 0
-  let phase: Phase = 'pass'
-  let local = 1
-  for (const [p, d] of SCRIPT) {
-    if (storyEnd < acc + d) {
-      phase = p
-      local = (storyEnd - acc) / d
-      break
-    }
-    acc += d
-  }
-  const reached = (p: Phase) => ORDER.indexOf(phase) >= ORDER.indexOf(p)
-  const storyCode = reached('fix') ? COUNTER_FIXED : COUNTER_BUGGY
-
-  const engage = useCallback(() => {
-    if (mode === 'edit') return
-    setCode(storyCode)
-    setMode('edit')
-    setRun({ status: 'idle', code: '' })
-  }, [mode, storyCode])
-
   const execute = useCallback(async () => {
-    const src = mode === 'story' ? storyCode : code
-    if (mode === 'story') {
-      setCode(src)
-      setMode('edit')
-    }
-    setTab('dut')
-    setRun({ status: 'running', code: src })
+    if (running) return
+    const src = code
+    setRunning(true)
     const result = await runCode(src)
-    setRun({ status: 'done', code: src, result })
-    if (result.kind === 'ran') {
-      setLastRan({ result, code: src })
-      setDrawn(reduced ? 1 : 0)
-    }
-  }, [mode, storyCode, code, runCode, reduced])
+    setRunning(false)
+    setLive({ code: src, result, outcome: outcomeOf(result, null) })
+  }, [running, code, runCode])
 
-  const replay = () => {
-    setCode(COUNTER_BUGGY)
-    setRun({ status: 'idle', code: '' })
-    setLastRan(null)
-    setTab('dut')
-    setStoryT(0)
-    setMode('story')
+  // A run that came back because the engine failed to load says so.
+  const outcome: TestOutcome | null = live ? (live.result.kind === 'stopped' && engineDown ? outcomeOf(live.result, engineDown) : live.outcome) : null
+
+  const reset = () => {
+    setCode(COUNTER_RECORDED)
+    setLive(null)
   }
 
-  // What the waves show.
-  const view = useMemo(() => {
-    if (mode === 'story') {
-      if (!story) return null
-      const r = reached('rerun') ? story.fix : story.bug
-      const d = phase === 'run' || phase === 'rerun' ? local : 1
-      return { result: r, drawn: d, dim: false }
-    }
-    if (lastRan) return { result: lastRan.result, drawn, dim: lastRan.code !== code || run.status !== 'done' || run.result?.kind !== 'ran' }
-    return story ? { result: story.fix, drawn: 1, dim: true } : null
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mode, story, phase, local, run, lastRan, drawn, code])
+  // What the frame shows: the recorded run until something has run here.
+  const ranCode = live ? live.code : COUNTER_RECORDED
+  const recorded = !live || isRecorded(live.code, live.result)
+  const stale = code !== ranCode
+  const wave: WaveRun | null = !live ? SHOWCASE : live.result.kind === 'ran' ? waveOf(live.result) : null
+  const cause = recorded && !stale ? causeLine(SHOWCASE) : null
 
-  const shown = view?.result.kind === 'ran' ? view.result : null
-  const storyFailed = mode === 'story' && reached('fail') && !reached('rerun')
-  const verdict: 'pass' | 'fail' | null =
-    !shown || (mode === 'story' && (phase === 'run' || phase === 'rerun')) ? null : shown.passed ? 'pass' : 'fail'
-
-  // Line marks in the editor.
-  const marks: Record<number, LineMark> = {}
-  if (mode === 'story' && tab === 'dut') {
-    if (reached('fix')) marks[BUG_LINE] = 'good'
-    else if (phase === 'why3') marks[RST_LINE] = 'bad'
-    else if (reached('why1')) marks[BUG_LINE] = 'bad'
-  }
-  const res = mode === 'edit' && run.status === 'done' ? run.result : undefined
-  if (res?.kind === 'compile') {
-    const own = res.errors.filter((e) => e.file === (tab === 'dut' ? COUNTER_FILE : TB_FILE))
-    if (own[0]) marks[own[0].line - 1] = 'bad'
-  }
-
-  // Status line.
-  let status = ''
-  let tone: '' | 'ok' | 'bad' = ''
-  let note = ''
-  if (engine.state.kind === 'failed' && !story) {
-    status = 'Could not load Icarus Verilog'
-    tone = 'bad'
-  } else if (!story && mode === 'story') {
-    status = 'Loading Icarus Verilog, 3.3 MB'
-  } else if (mode === 'story') {
-    const failure = story?.bug.kind === 'ran' ? story.bug.failure : null
-    if (phase === 'run' || phase === 'rerun') status = 'Running'
-    else if (phase === 'pass' && story?.fix.kind === 'ran') {
-      status = `Passed at ${ns(story.fix.endNs)}`
-      tone = 'ok'
-    } else if (storyFailed && failure) {
-      status = `Failed at ${ns(failure.atNs ?? 0)}`
-      tone = 'bad'
-      note = failure.message
-    }
-  } else if (run.status === 'running') status = 'Compiling and running'
-  else if (run.status === 'done' && run.result) {
-    const r = run.result
-    if (r.kind === 'ran' && r.passed) {
-      status = `Passed at ${ns(r.endNs)}`
-      tone = 'ok'
-    } else if (r.kind === 'ran') {
-      status = r.failure?.atNs !== undefined ? `Failed at ${ns(r.failure.atNs)}` : 'Failed'
-      tone = 'bad'
-      note = r.failure?.message ?? ''
-    } else if (r.kind === 'compile') {
-      status = 'Did not compile'
-      tone = 'bad'
-    } else {
-      status = 'Stopped'
-      tone = 'bad'
-    }
-    if (run.code !== code) note = 'Edited since this run'
-  } else status = code === COUNTER_BUGGY || code === COUNTER_FIXED ? 'Ready' : 'Edited, not run yet'
-
-  const busy = run.status === 'running'
-  const wrong = shown && !shown.passed && shown.check && (mode === 'edit' || reached('fail')) ? { name: shown.check.expr, atNs: shown.check.atNs } : null
+  const words = running ? 'Running' : outcome ? describeOutcome(outcome) : SHOWCASE.failing.outcome
+  const tone = running ? undefined : outcome ? toneOf(outcome) : FAIL
+  const message = running ? undefined : outcome ? messageOf(outcome) : SHOWCASE.failing.message
+  const r = live?.result
 
   return (
-    <div ref={ref}>
-      <Stage
-        caption={
-          <>
-            <span>Icarus Verilog, compiled to WebAssembly, runs counter.sv against tb_counter in this tab.</span>
-            <span>The why chain replays RTL++&rsquo;s trace of the original bug.</span>
-          </>
-        }
-      >
-        <div className="rtl-top">
-          <span className={mono.className}>tb_counter</span>
-          <span className={`rtl-status ${tone}`} role="status" aria-live="polite">
-            {status}
-          </span>
-          {note && <span className="rtl-note">{note}</span>}
-          <span className="rtl-actions">
-            {engine.state.kind === 'failed' && !story ? (
-              <button type="button" className="demo-btn" onClick={engine.retry}>
+    <div ref={ref} className="rp-wrap" data-no-swipe="">
+      <figure className="rp" style={{ '--rp-accent': ACCENT } as CSSProperties}>
+        <div className="rp-head">
+          <p className="rp-head-text" role="status" aria-live="polite">
+            <span className="rp-mono rp-white">{SHOWCASE.test}</span>
+            <span className={running ? 'rp-t3 rp-running' : undefined} style={tone ? { color: tone } : undefined}>
+              {words}
+            </span>
+            {message && <span className="rp-t2">{message}</span>}
+            {stale && !running && <span className="rp-t3">Ran before the latest edit</span>}
+          </p>
+          <span className="rp-actions">
+            {engineDown && (
+              <button type="button" className="rp-btn rp-ghost" onClick={engine.retry}>
                 Try again
               </button>
-            ) : (
-              <>
-                {(mode === 'edit' || phase === 'pass') && (
-                  <button type="button" className="demo-btn ghost" onClick={replay}>
-                    Replay
-                  </button>
-                )}
-                <button type="button" className="demo-btn" onClick={execute} disabled={busy} aria-keyshortcuts={mac ? 'Meta+Enter' : 'Control+Enter'}>
-                  Run test
-                </button>
-              </>
             )}
+            {(code !== COUNTER_RECORDED || live) && (
+              <button type="button" className="rp-btn rp-ghost" onClick={reset} disabled={running}>
+                Reset
+              </button>
+            )}
+            <button type="button" className="rp-btn rp-primary" onClick={execute} disabled={running} aria-keyshortcuts={shortcut}>
+              <PlayIcon />
+              Run
+            </button>
           </span>
         </div>
-
-        <div className="rtl-grid">
-          <div className="rtl-src">
-            <div className="rtl-tabs" role="tablist" aria-label="Files">
-              {(
-                [
-                  ['dut', COUNTER_FILE],
-                  ['tb', TB_FILE],
-                ] as const
-              ).map(([k, name]) => (
-                <button
-                  key={k}
-                  type="button"
-                  role="tab"
-                  aria-selected={tab === k}
-                  className={`rtl-tab ${mono.className}`}
-                  onClick={() => setTab(k)}
-                >
-                  {name}
-                  {k === 'tb' && <span className="rtl-ro">read only</span>}
-                </button>
-              ))}
-              <span className={`rtl-hint ${mono.className}`} aria-hidden="true">
-                {mac ? '⌘' : 'Ctrl'} Enter runs
-              </span>
-            </div>
-            <Editor
-              className={mono.className}
-              value={tab === 'dut' ? (mode === 'story' ? storyCode : code) : TB_COUNTER}
-              readOnly={tab === 'tb'}
-              onChange={tab === 'dut' ? setCode : undefined}
-              onEngage={tab === 'dut' ? engage : undefined}
-              onRun={execute}
-              marks={marks}
-              label={tab === 'dut' ? 'counter.sv, editable' : 'tb_counter.sv, read only'}
-            />
-          </div>
-
-          <div className="rtl-why" aria-live={mode === 'edit' ? 'polite' : 'off'}>
-            {mode === 'story' ? (
-              <>
-                <p className="demo-label">{reached('fix') ? 'Fix' : 'Why is count 0 at 100 ns?'}</p>
-                {reached('fix') ? (
-                  <>
-                    <div className="rtl-card show ok">
-                      <p className={mono.className}>count == MAX - 1 → count == MAX</p>
-                      <p>The counter wrapped one cycle early. Compare against MAX and run again.</p>
-                    </div>
-                    {phase === 'pass' && <p className="rtl-turn">Your turn. Change counter.sv, then run the test.</p>}
-                  </>
-                ) : (
-                  WHY.map((w) => (
-                    <div key={w.id} className={`rtl-card ${reached(w.id) ? 'show' : ''} ${phase === w.id ? 'on' : ''}`}>
-                      <p className={mono.className}>{w.head}</p>
-                      <p>{w.body}</p>
-                    </div>
-                  ))
-                )}
-              </>
-            ) : (
-              <>
-                <p className="demo-label">{run.status === 'idle' ? 'Your run' : run.status === 'running' ? 'Running in Icarus Verilog' : 'Result'}</p>
-                {res && <ResultCard r={res} />}
-                {run.status === 'running' && (
-                  <div className="rtl-card show">
-                    <p className={mono.className}>iverilog -g2012, then vvp</p>
-                    <p>Compiling counter.sv with tb_counter and simulating it.</p>
-                  </div>
-                )}
-                <div className="rtl-expects">
-                  <p className="demo-label">tb_counter checks that</p>
-                  <ul>
-                    {EXPECTS.map((e) => (
-                      <li key={e}>{e}</li>
-                    ))}
-                  </ul>
-                </div>
-              </>
-            )}
-          </div>
-        </div>
-
-        <div className={`rtl-wave ${view?.dim ? 'dim' : ''}`}>
-          {shown ? (
-            <Waves waves={shown.waves} endNs={shown.endNs} drawn={view!.drawn} verdict={verdict} wrong={wrong} />
+        <div className="rp-grid">
+          <CodeView
+            src={code}
+            file={SHOWCASE.file}
+            marks={cause ? { [cause]: 'cause' } : {}}
+            edit={{ onChange: setCode, onRun: execute, label: `${SHOWCASE.file}, editable. ${mac ? 'Command' : 'Control'} Enter runs ${SHOWCASE.test}.`, shortcut }}
+          />
+          {recorded ? (
+            <WhyView />
           ) : (
-            <div className="rtl-wait">
-              {engine.state.kind === 'failed' ? <p>{engine.state.message}</p> : <p className="demo-pulse">Fetching Icarus Verilog and checking every file against its pinned SHA-256</p>}
+            <div className="rp-why">
+              {r?.kind === 'compile' ? (
+                <ol className="rp-steps">
+                  {(r.errors.length ? r.errors.slice(0, 4) : [{ file: '', line: 0, message: r.raw }]).map((e, i) => (
+                    <li key={i} className="rp-step">
+                      <p className="rp-step-line rp-wrap-text" style={{ color: 'rgba(255,255,255,0.62)' }}>
+                        {e.file && (
+                          <span className="rp-step-ln">
+                            {e.file}:{e.line}
+                          </span>
+                        )}
+                        {e.message}
+                      </p>
+                    </li>
+                  ))}
+                </ol>
+              ) : (
+                r?.kind === 'ran' && (
+                  <>
+                    <p className="rp-why-q">
+                      Icarus Verilog compiled <span className="rp-mono rp-white">{COUNTER_FILE}</span> in {Math.max(1, Math.round(r.timings.compileMs))} ms and simulated{' '}
+                      {formatTime(Math.round(r.endNs * 1e6))} in {Math.max(1, Math.round(r.timings.runMs))} ms, in this tab.
+                    </p>
+                    {!r.passed && (
+                      <p className="rp-why-stop">
+                        RTL++ traces why a value is wrong through the netlist Yosys builds from the design. Yosys does not run on this page, so this run has no chain of causes.
+                      </p>
+                    )}
+                  </>
+                )
+              )}
             </div>
           )}
         </div>
-      </Stage>
-    </div>
-  )
-}
-
-function ResultCard({ r }: { r: RunResult }) {
-  if (r.kind === 'ran' && r.passed)
-    return (
-      <div className="rtl-card show ok">
-        <p className={mono.className}>PASS at {ns(r.endNs)}</p>
-        <p>
-          Compiled in {Math.max(1, Math.round(r.timings.compileMs))} ms and simulated in {Math.max(1, Math.round(r.timings.runMs))} ms, in this tab.
-        </p>
-      </div>
-    )
-  if (r.kind === 'ran') {
-    const c = r.check
-    return (
-      <div className="rtl-card show on">
-        <p className={mono.className}>{r.failure?.message ?? 'Failed'}</p>
-        <p>
-          {r.failure?.line ? `${r.failure.file ?? TB_FILE} line ${r.failure.line}` : 'tb_counter'}
-          {r.failure?.atNs !== undefined ? `, at ${ns(r.failure.atNs)}` : ''}.
-          {c ? ` The check saw ${c.expr} = ${dec(c.got)}, expected ${dec(c.expected)}.` : ''}
-        </p>
-      </div>
-    )
-  }
-  if (r.kind === 'compile') {
-    const own = r.errors.filter((e) => e.file === COUNTER_FILE)
-    const list = (own.length ? own : r.errors).slice(0, 3)
-    return (
-      <div className="rtl-card show on">
-        <p className={mono.className}>{own.length ? 'counter.sv did not compile' : 'The design did not compile'}</p>
-        {list.length ? (
-          <ul className={`rtl-errs ${mono.className}`}>
-            {list.map((e, i) => (
-              <li key={i}>
-                {e.file === COUNTER_FILE ? '' : `${e.file} `}line {e.line}: {e.message}
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <pre className={`rtl-errs ${mono.className}`}>{r.raw}</pre>
+        {wave && (
+          <div className="rp-wave">
+            <WaveView run={wave} failed={!(live?.result.kind === 'ran' && live.result.passed)} />
+          </div>
         )}
-      </div>
-    )
-  }
-  return (
-    <div className="rtl-card show on">
-      <p className={mono.className}>Stopped</p>
-      <p>The simulation was stopped because {r.reason}.</p>
+      </figure>
+      <p className="rp-cap">
+        {!live
+          ? `Recorded from a real run: the ${SHOWCASE.template.name} design with line ${SHOWCASE.change.line} changed to ${SHOWCASE.change.after.replace(/^.*<=\s*/, '').replace(/;$/, '')}. Edit ${COUNTER_FILE} and press Run to simulate it here with Icarus Verilog.`
+          : recorded
+            ? `Run just now in this tab by Icarus Verilog, compiled to WebAssembly. It failed the same way as the recorded run, so the chain of causes is the recorded one.`
+            : `Run just now in this tab by Icarus Verilog, compiled to WebAssembly.`}
+      </p>
     </div>
   )
 }
-
