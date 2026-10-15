@@ -1,37 +1,47 @@
 import { TLink } from './TLink'
 import { work, type Project } from '@/lib/projects-data'
-import { previewOf } from '@/lib/preview'
-import { RowPreview } from './RowPreview'
+import { LOGOS } from '@/lib/logos'
 
-/** Four role rows on a subgrid: org, role, years. */
+/** The company's mark, or its name set in the house face when it has none to show. */
+export function OrgMark({ p, height = 28 }: { p: Project; height?: number }) {
+  const logo = LOGOS[p.id]
+  if (!logo) return <span className="org-word" style={{ fontSize: height * 0.92 }}>{p.org ?? p.title}</span>
+  return (
+    <span
+      role="img"
+      aria-label={p.org ?? p.title}
+      className="org-logo"
+      style={{
+        width: height * logo.ratio,
+        height,
+        WebkitMaskImage: `url(${logo.src})`,
+        maskImage: `url(${logo.src})`,
+        ['--brand' as string]: logo.brand,
+      }}
+    />
+  )
+}
+
+/** The roles as a timeline: four cards on a rail, newest first. Across on wide screens, down on phones. */
 export function ExperienceList({ items = work }: { items?: Project[] }) {
   return (
-    <>
-      <ul className="rows col-span-full grid grid-cols-subgrid">
-        {items.map((p) => (
-          <li key={p.id} className="row col-span-full grid grid-cols-subgrid" data-preview={previewOf(p)}>
-            <TLink href={`/portfolio/${p.id}`} className="u-group col-span-full grid grid-cols-subgrid items-baseline py-row">
-              <span className="col-span-4 text-statement md:col-span-6 md:row-span-2 lg:row-span-1" data-reveal="">
-                <span className="u-box oc">
-                  {p.org ?? p.title}
-                  <span aria-hidden="true" className="u-line thick" />
-                </span>
-              </span>
-              <span className="col-span-4 mt-[8px] text-read md:col-span-6 md:col-start-7 md:mt-0 lg:col-span-4" data-reveal="">
-                {p.role}
-              </span>
-              <span
-                className="c3 tnum col-span-4 mt-[8px] text-body md:col-span-6 md:col-start-7 lg:col-span-2 lg:col-start-11 lg:mt-0 lg:text-right lg:text-read"
-                data-reveal=""
-                data-align="end"
-              >
-                {p.year}
-              </span>
-            </TLink>
-          </li>
-        ))}
-      </ul>
-      {items.some(previewOf) && <RowPreview />}
-    </>
+    <ol className="xp col-span-full">
+      {items.map((p, i) => (
+        <li key={p.id} className="xp-item" data-reveal="" style={{ ['--d' as string]: `${i * 70}ms` }}>
+          <span className="xp-node" aria-hidden="true" />
+          <span className="xp-year meta">{p.year}</span>
+          <TLink href={`/portfolio/${p.id}`} className="xp-card cardx" data-light="">
+            <span className="xp-mark">
+              <OrgMark p={p} />
+            </span>
+            <span className="xp-role">{p.role}</span>
+            {p.highlight && <span className="xp-hl">{p.highlight}</span>}
+            <span className="xp-go" aria-hidden="true">
+              →
+            </span>
+          </TLink>
+        </li>
+      ))}
+    </ol>
   )
 }

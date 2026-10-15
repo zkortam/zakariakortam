@@ -13,7 +13,7 @@ export const HERO_SIZES: Record<string, string> = {
   helio: CARD_SIZES,
   surf: PHONE_SIZES,
   'surf-messenger': PHONE_SIZES,
-  'spice-plus-plus': CARD_SIZES,
+  'spice-plus-plus': BOARD_SIZES,
   'rtl-plus-plus': CARD_SIZES,
   airofind: RESULTS_SIZES,
 }
@@ -94,7 +94,10 @@ export function PlateMediaLayer({ spec }: { spec: PlateSpec }) {
             </div>
           )}
           {c === 'card' && (
-            <div className="col-start-4 col-end-13 row-start-2 flex items-end justify-end" style={{ containerType: 'size' }}>
+            <div
+              className={`row-start-2 flex items-end ${spec.align === 'left' ? 'col-start-1 col-end-10 justify-start' : 'col-start-4 col-end-13 justify-end'}`}
+              style={{ containerType: 'size' }}
+            >
               <div className="obj-hover">
                 <div data-enter="">
                   <div

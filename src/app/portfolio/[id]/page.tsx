@@ -2,8 +2,14 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { earlierProjects, featuredProjects, projects, work, type Project } from '@/lib/projects-data'
 import { PLATES } from '@/lib/media'
+import Image from 'next/image'
 import { Plate } from '@/components/Plate'
-import { Stills } from '@/components/Stills'
+import { StatBand, Flow, Story, ResultCards, Chips, Gallery } from '@/components/Case'
+import { OrgMark } from '@/components/ExperienceList'
+import { SHOTS } from '@/components/EarlierCards'
+import { Glyph } from '@/components/Glyph'
+import { SurfHistory } from '@/components/SurfHistory'
+import { ACCENT } from '@/lib/accent'
 import { Footer } from '@/components/Footer'
 import { ULink } from '@/components/ULink'
 import { ProjectKeys } from '@/components/ProjectKeys'
@@ -66,7 +72,7 @@ function Overview({ p }: { p: Project }) {
   const rows: [string, React.ReactNode][] = [
     ['Role', p.role],
     ['When', p.year],
-    ['Stack', noWidow(p.stack.join(', '))],
+    ['Stack', <Chips key="s" items={p.stack} />],
   ]
   if (p.links?.live || p.links?.github) {
     rows.push([
@@ -85,7 +91,7 @@ function Overview({ p }: { p: Project }) {
       <dl className="col-span-4 mt-[48px] grid grid-cols-subgrid gap-y-[12px] text-body md:col-span-5 md:col-start-1 md:row-start-1 md:mt-0" data-reveal="">
         {rows.map(([k, v]) => (
           <div key={k} className="col-span-full grid grid-cols-subgrid">
-            <dt className="c3 col-span-4 md:col-span-2">{k}</dt>
+            <dt className="meta c3 col-span-4 pt-[3px] md:col-span-2">{k}</dt>
             <dd className="col-span-4 md:col-span-3">{v}</dd>
           </div>
         ))}
@@ -115,50 +121,20 @@ function DemoSection({ p }: { p: Project }) {
   )
 }
 
-function Block({ title, children, first = false }: { title: string; children: React.ReactNode; first?: boolean }) {
+/** The picture on an earlier project's opening: its live screen, or its drawing, in the dark. */
+function RoleArt({ p }: { p: Project }) {
+  const shot = SHOTS[p.id]
+  if (shot) {
+    return (
+      <div className="role-art role-shot" aria-hidden="true" data-media="">
+        <Image src={shot} alt="" width={1200} height={750} quality={82} sizes="(min-width:1024px) 40vw, 90vw" priority />
+      </div>
+    )
+  }
   return (
-    <div className={`grid-main ${first ? '' : 'mt-sec'}`}>
-      <h2 className="oc col-span-4 pt-row text-statement md:col-span-5" data-rise="">
-        {title}
-      </h2>
-      <div className="col-span-4 mt-[24px] md:col-span-5 md:col-start-7 md:mt-0 md:pt-row">{children}</div>
+    <div className="role-art role-glyph" aria-hidden="true">
+      <Glyph id={p.id} />
     </div>
-  )
-}
-
-function Narrative({ p }: { p: Project }) {
-  return (
-    <>
-      {p.problem && (
-        <Block title="The problem">
-          <p className="text-read" data-reveal="">
-            {noWidow(p.problem)}
-          </p>
-        </Block>
-      )}
-      {p.approach && (
-        <Block title="The approach">
-          <p className="text-read" data-reveal="">
-            {noWidow(p.approach)}
-          </p>
-        </Block>
-      )}
-    </>
-  )
-}
-
-function Results({ p, first = false }: { p: Project; first?: boolean }) {
-  if (!p.results?.length) return null
-  return (
-    <Block title="Results" first={first}>
-      <ul className="text-read">
-        {p.results.map((r) => (
-          <li key={r} className="relative py-[16px] md:py-[20px]" data-reveal="">
-            {noWidow(r)}
-          </li>
-        ))}
-      </ul>
-    </Block>
   )
 }
 
@@ -179,13 +155,17 @@ export default async function ProjectPage({ params }: Params) {
         <ProjectStructuredData p={p} />
         <main id="main" tabIndex={-1}>
           <Plate project={p} spec={spec} heading="h1" link={false} flipTarget showGithub />
-          <section className="paper pt-sec" data-tone="light">
+          <section className="paper pt-sec" data-tone="light" style={{ ['--accent' as string]: ACCENT[p.id] }}>
             <Overview p={p} />
+            <StatBand p={p} />
             <DemoSection p={p} />
-            <Narrative p={p} />
+            <Flow p={p} />
+            {p.id === 'surf' && <SurfHistory />}
+            <Story p={p} />
+            <ResultCards p={p} />
             <div className="mt-stills" />
           </section>
-          {!DEMOS[p.id] && <Stills spec={spec} />}
+          <Gallery spec={spec} live={p.links?.live} />
           {nextSpec && <Plate project={next} spec={nextSpec} line="Next project →" />}
         </main>
         <Footer />
@@ -203,6 +183,7 @@ export default async function ProjectPage({ params }: Params) {
       <main id="main" tabIndex={-1}>
         <section className="role-hero" data-tone="dark">
           <div aria-hidden="true" className="light light-rose" style={{ width: '100vmax', height: '100vmax', left: '70%', top: '30%', opacity: 0.8 }} />
+          {p.kind === 'project' && <RoleArt p={p} />}
           <div className="grid-main relative">
             <h1 className="oc col-span-4 text-display md:col-span-12 lg:col-span-6" data-rise="">
               {p.title}
@@ -212,9 +193,12 @@ export default async function ProjectPage({ params }: Params) {
             </p>
           </div>
           <div className="plate-foot grid-main relative mt-[48px]">
-            <p className="text-body" style={{ color: 'var(--bone-64)' }} data-reveal="">
-              {p.role}, {p.year}
-            </p>
+            <div className="role-meta" data-reveal="">
+              {p.kind === 'work' && <OrgMark p={p} height={30} />}
+              <p className="text-body" style={{ color: 'var(--bone-64)' }}>
+                {p.role}, {p.year}
+              </p>
+            </div>
             {(p.links?.live || p.links?.github) && (
               <div className="pills" data-reveal="" data-align="end">
                 {p.links?.github && <LivePill href={p.links.github} label="GitHub" />}
@@ -225,8 +209,10 @@ export default async function ProjectPage({ params }: Params) {
         </section>
         <section className="paper pt-sec pb-sec" data-tone="light">
           <Overview p={p} />
+          <StatBand p={p} />
           <DemoSection p={p} />
-          <Narrative p={p} />
+          <Story p={p} />
+          <ResultCards p={p} />
           <div className="grid-main mt-sec">
             <NextRow href={`/portfolio/${next.id}`} title={next.title} />
           </div>

@@ -27,6 +27,8 @@ const config: Config = {
       },
       fontFamily: {
         sans: ["var(--font-sans)", "ui-sans-serif", "system-ui", "sans-serif"],
+        mono: ["var(--font-mono)", "ui-monospace", "SFMono-Regular", "monospace"],
+        serif: ["var(--font-serif)", "ui-serif", "Georgia", "serif"],
       },
       transitionTimingFunction: {
         expo: "cubic-bezier(.16,1,.3,1)",

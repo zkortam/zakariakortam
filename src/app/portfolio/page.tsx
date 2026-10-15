@@ -8,7 +8,7 @@ export const metadata: Metadata = pageMeta({
   title: 'Work',
   ogTitle: 'Work by Zakaria Kortam',
   description:
-    'Products Zakaria Kortam built end to end, including Helio, Surf, SPICE++, and AiroFind, plus his roles at DigiCert, FacilisAI, Incorta, and Inqueue.',
+    'Products Zakaria Kortam built end to end, including Helio, Surf, SPICE++, and AiroFind, plus his roles at DigiCert, Facilis, Incorta, and Inqueue.',
 })
 
 export default function WorkPage() {

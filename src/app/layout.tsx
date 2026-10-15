@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
-import { Geist } from "next/font/google";
+import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import "./globals.css";
+import "./visual.css";
 import { StructuredData } from "@/components/StructuredData";
 import { Room } from "@/components/Room";
 import { Transitions } from "@/components/Transitions";
@@ -14,6 +15,8 @@ import { KineticType } from "@/components/KineticType";
 import { Warm } from "@/components/Warm";
 import { ThemeColor } from "@/components/ThemeColor";
 import { Wordmark } from "@/components/Wordmark";
+import { CardLight } from "@/components/CardLight";
+import { CursorView } from "@/components/CursorView";
 import { TOD_SCRIPT } from "@/lib/tod";
 import { SPECULATION_RULES, VT_SCRIPT } from "@/lib/instant";
 import { SITE_URL } from "@/lib/seo";
@@ -24,6 +27,21 @@ const geist = Geist({
   display: "swap",
 });
 
+// Metadata (years, labels, figures' captions) in mono; pull quotes in a serif italic. Both are accents only.
+const mono = Geist_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+  display: "swap",
+});
+
+const serif = Instrument_Serif({
+  subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
+  variable: "--font-serif",
+  display: "swap",
+});
+
 // Sets html.js and the intro mode before first paint. The opening titles are CSS; they hold on the closed
 // gate until the portrait has decoded (900ms cap), so the first frames of the film are never lost to loading.
 const HEAD_SCRIPT =
@@ -31,7 +49,7 @@ const HEAD_SCRIPT =
 
 const HOME_TITLE = "Zakaria Kortam | Product Manager & Builder";
 const HOME_DESCRIPTION =
-  "Zakaria Kortam, Associate Product Manager (Innovation) at DigiCert, builds products 0 to 1: Helio, Surf, Surf Messenger, SPICE++, RTL++, and AiroFind.";
+  "Zakaria Kortam, Product Manager (Innovation) at DigiCert, builds products 0 to 1: Helio, Surf, Surf Messenger, SPICE++, RTL++, and AiroFind.";
 
 // viewport-fit=cover lets the oxblood run under notches, islands and the home indicator; the safe-area
 // insets in globals.css keep every control clear of them. theme-color starts oxblood and then follows the
@@ -78,7 +96,7 @@ export const metadata: Metadata = {
     "MCP",
     "React",
     "TypeScript",
-    "FacilisAI",
+    "Facilis",
     "UC San Diego",
     "San Jose",
     "Silicon Valley",
@@ -128,7 +146,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={geist.variable} data-tone-top="dark" suppressHydrationWarning>
+    <html lang="en" className={`${geist.variable} ${mono.variable} ${serif.variable}`} data-tone-top="dark" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: HEAD_SCRIPT }} />
         <script dangerouslySetInnerHTML={{ __html: TOD_SCRIPT + VT_SCRIPT }} />
@@ -152,6 +170,8 @@ export default function RootLayout({
           <Assistant />
           <LiquidGlass />
           <KineticType />
+          <CardLight />
+          <CursorView />
           <div id="page">{children}</div>
         </Transitions>
         <QuietLayer />
