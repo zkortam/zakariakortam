@@ -27,6 +27,10 @@ export interface Project {
   tags?: Category[]
   /** Measured from the project's repository. */
   stats?: { value: string; label: string }[]
+  /** A role page's headline; the word in *stars* is the one that lands. */
+  headline?: string
+  /** A role page's light, in the company's own hue. */
+  accent?: string
   /** The live demo section on the project page. */
   demo?: { title: string; line: string }
 }
@@ -35,6 +39,8 @@ export const projects: Project[] = [
   // Work
   {
     id: 'digicert',
+    headline: 'Trust for *autonomous* agents.',
+    accent: '#3D6BF2',
     tags: ['Roles', 'AI'],
     title: 'DigiCert',
     line: 'Product for AI agent trust: identity, authorization, policy, and lifecycle for autonomous agents.',
@@ -59,9 +65,11 @@ export const projects: Project[] = [
   },
   {
     id: 'facilis-ai',
+    headline: 'AI agents on the *factory* floor.',
+    accent: '#E8893A',
     tags: ['Roles', 'AI'],
     title: 'FacilisAI',
-    line: 'Founding AI engineer on an agentic platform that connects factory systems to AI agents.',
+    line: 'An agentic platform that connects factory systems (PLCs, MES, and SCADA) to AI agents.',
     kind: 'work',
     featured: true,
     year: 'April 2025 to July 2026',
@@ -89,6 +97,8 @@ export const projects: Project[] = [
   },
   {
     id: 'incorta-dashboards',
+    headline: 'Shipping the *AI Copilot*.',
+    accent: '#8E5CF0',
     tags: ['Roles', 'AI'],
     title: 'Incorta',
     line: 'Shipped features for the Incorta AI Copilot, from PRD to rollout.',
@@ -114,6 +124,8 @@ export const projects: Project[] = [
   },
   {
     id: 'inqueue',
+    headline: 'A queuing app, from *zero* to launch.',
+    accent: '#1BB5A3',
     tags: ['Roles', 'Consumer apps'],
     title: 'Inqueue',
     line: 'Took a mobile queuing app from discovery to a shipped Flutter MVP.',

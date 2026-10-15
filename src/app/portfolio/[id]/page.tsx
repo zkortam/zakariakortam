@@ -15,6 +15,7 @@ import { domainOf, noWidow } from '@/lib/site'
 import { pageMeta } from '@/lib/seo'
 import { ProjectStructuredData } from '@/components/StructuredData'
 import { HeroPreload } from '@/components/HeroPreload'
+import { RoleHero } from '@/components/RoleHero'
 import { Icon } from '@/components/Icon'
 
 type Params = { params: Promise<{ id: string }> }
@@ -222,51 +223,16 @@ export default async function ProjectPage({ params }: Params) {
       <ProjectKeys prev={prev.id} next={next.id} prevTitle={prev.title} nextTitle={next.title} />
       <ProjectStructuredData p={p} />
       <main id="main" tabIndex={-1}>
-        <section className="role-hero" data-tone="dark">
-          <div aria-hidden="true" className="light light-rose" style={{ width: '100vmax', height: '100vmax', left: '70%', top: '30%', opacity: 0.8 }} />
-          <div className="grid-main relative">
-            <h1 className="oc col-span-full text-display" data-rise="">
-              {p.title}
-            </h1>
-            <div className="col-span-4 mt-[20px] md:col-span-8 lg:col-span-6">
-              <p className="plate-line text-read" style={{ color: 'var(--bone-92)' }} data-reveal="">
-                {noWidow(p.line)}
-              </p>
-              {(p.links?.github || p.links?.live) && (
-                <div className="plate-meta" data-reveal="">
-                  {p.links?.github && <LivePill href={p.links.github} label="GitHub" />}
-                  {p.links?.live && <LivePill href={p.links.live} />}
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="grid-main relative">
-            <dl className="rh-facts col-span-full" data-reveal="">
-              <div>
-                <dt>Role</dt>
-                <dd>{p.role}</dd>
-              </div>
-              <div>
-                <dt>When</dt>
-                <dd>{p.year}</dd>
-              </div>
-              <div className="rh-wide">
-                <dt>{p.kind === 'work' ? 'Focus' : 'Built with'}</dt>
-                <dd>{p.stack.join(', ')}</dd>
-              </div>
-            </dl>
-          </div>
-        </section>
+        <RoleHero p={p} />
         <section className="paper pt-sec pb-sec" data-tone="light">
           <div className="grid-main">
             <p className="p-lead col-span-4 md:col-span-10 lg:col-span-9" data-reveal="">
               {noWidow(p.overview)}
             </p>
           </div>
-          <Stats p={p} />
           <DemoSection p={p} />
           <Narrative p={p} />
-          <Results p={p} />
+          {p.stats?.length ? <Results p={p} /> : null}
           <div className="grid-main mt-sec">
             <NextRow href={`/portfolio/${next.id}`} title={next.title} />
           </div>

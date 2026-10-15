@@ -1322,3 +1322,52 @@ a, button { transition-property: color, background-color, border-color, opacity,
 .rh-facts dt { font-size: 14px; color: var(--bone-64); margin-bottom: 6px; }
 .rh-facts dd { font-size: 18px; line-height: 1.4; color: var(--bone); }
 .p-lead { font-size: clamp(24px, 2.3vw, 38px); line-height: 1.28; letter-spacing: -0.02em; text-wrap: pretty; }
+
+/* ---------- Role pages: the opening ---------- */
+.rh { position: relative; overflow: hidden; isolation: isolate; background: var(--ox); color: var(--bone); padding: calc(var(--plate-top) + 24px) 0 var(--m); }
+@media (min-width: 1024px) { .rh { padding-bottom: 40px; } }
+.rh-glow { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+.rh-glow i { position: absolute; border-radius: 50%; filter: blur(20px); opacity: .5; }
+.rh-glow i:first-child { width: 90vmax; height: 90vmax; left: 46%; top: -30vmax; background: radial-gradient(closest-side, color-mix(in oklab, var(--acc) 70%, transparent), transparent 70%); animation: rhDrift 26s ease-in-out infinite alternate; }
+.rh-glow i:last-child { width: 70vmax; height: 70vmax; left: -20vmax; top: 30%; opacity: .32; background: radial-gradient(closest-side, color-mix(in oklab, var(--acc) 45%, #B33A4C), transparent 70%); animation: rhDrift 34s ease-in-out -12s infinite alternate-reverse; }
+@keyframes rhDrift { from { transform: translate(0, 0) scale(1); } to { transform: translate(-6vmax, 4vmax) scale(1.08); } }
+html[data-quality="low"] .rh-glow i { animation: none; }
+.rh-eyebrow { font-size: 18px; line-height: 1.3; font-weight: 500; color: var(--bone); margin-bottom: 20px; }
+.rh-eyebrow span { color: var(--bone-64); font-weight: 400; }
+.rh-title { margin: 0; max-width: 14ch; }
+.rh-w { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: .14em; margin-bottom: -.14em; }
+.rh-in { display: inline-block; transform-origin: 0 100%; }
+.rh-key { display: inline-grid; }
+.rh-key > span { grid-area: 1 / 1; }
+.rh-thin { font-weight: 250; }
+.rh-bold { font-weight: 700; opacity: 0; color: color-mix(in oklab, var(--acc) 35%, var(--bone)); }
+.rh-sub { margin-top: 28px; }
+.rh-role { color: var(--bone); }
+.rh-line { margin-top: 6px; color: var(--bone-64); }
+.rh-tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 56px; }
+@media (min-width: 1024px) { .rh-tiles { grid-template-columns: repeat(var(--n), minmax(0, 1fr)); gap: 16px; margin-top: 88px; } }
+.rh-tile { display: flex; flex-direction: column; justify-content: space-between; gap: 18px; min-height: 132px; padding: 22px 24px; border-radius: 24px;
+  background: rgba(255, 245, 247, .055); box-shadow: inset 0 0 0 1px rgba(255, 245, 247, .1), inset 0 1px 0 rgba(255, 255, 255, .08);
+  -webkit-backdrop-filter: blur(24px) saturate(1.4); backdrop-filter: blur(24px) saturate(1.4); }
+@media (min-width: 1024px) { .rh-tile { min-height: 168px; padding: 28px; border-radius: 28px; } }
+.rh-tile.wide { grid-column: 1 / -1; }
+@media (min-width: 1024px) { .rh-tile.wide { grid-column: auto; } }
+html[data-quality="low"] .rh-tile { -webkit-backdrop-filter: none; backdrop-filter: none; background: #241016; }
+.rh-big { font-size: clamp(36px, 3.6vw, 60px); line-height: .95; letter-spacing: -0.05em; font-weight: 600; }
+.rh-small { font-size: 15px; line-height: 1.35; color: var(--bone-64); }
+.rh-val { font-size: 18px; line-height: 1.35; color: var(--bone); text-wrap: pretty; }
+.rh-check { color: color-mix(in oklab, var(--acc) 45%, #8EE0B0); }
+.rh-tile.res { justify-content: space-between; }
+@media (prefers-reduced-motion: no-preference) {
+  html.js .rh-in { animation: rhRise 1350ms cubic-bezier(.19, 1, .22, 1) both; animation-delay: calc(140ms + var(--i) * 90ms); }
+  html.js .rh-thin { animation: rhOut 700ms cubic-bezier(.4, 0, .6, 1) 1300ms both; }
+  html.js .rh-bold { animation: rhIn 1300ms cubic-bezier(.3, .7, 0, 1) 1650ms both; }
+  html.js .rh-sub { animation: rhUp 1100ms cubic-bezier(.19, 1, .22, 1) 700ms both; }
+  html.js .rh-tile { animation: rhUp 1100ms cubic-bezier(.19, 1, .22, 1) both; animation-delay: calc(900ms + var(--i) * 90ms); }
+}
+@media (prefers-reduced-motion: reduce) { .rh-thin { opacity: 0; } .rh-bold { opacity: 1; } .rh-glow i { animation: none; } }
+@keyframes rhRise { from { transform: translateY(112%) rotate(3.5deg); } }
+@keyframes rhOut { to { opacity: 0; } }
+@keyframes rhIn { to { opacity: 1; } }
+@keyframes rhUp { from { opacity: 0; transform: translateY(24px); } }
+@media (min-width: 1024px) { .rh-tiles.one { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
