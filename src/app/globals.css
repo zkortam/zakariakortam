@@ -1462,23 +1462,29 @@ a, button { transition-property: color, background-color, border-color, opacity,
 .sw-by { margin-top: 28px; }
 @supports (animation-timeline: view()) { @media (prefers-reduced-motion: no-preference) { .sw-by { animation: swIn linear both; animation-timeline: --sw; animation-range: contain 78% contain 90%; } } }
 
-/* Sir Jony Ive behind his words: he stands on the right, the quote passes in front of his shoulder. */
-.sw-pin { position: relative; overflow: clip; }
-.sw-stage { position: relative; }
-.sw-ive { position: absolute; z-index: 0; right: max(var(--m), 3vw); bottom: 0; width: min(40vw, 640px); margin: 0; pointer-events: none;
-  -webkit-mask-image: linear-gradient(180deg, #000 55%, transparent 96%); mask-image: linear-gradient(180deg, #000 55%, transparent 96%); }
-.sw-ive img { display: block; width: 100%; height: auto; }
-.sw-stage .grid-main { z-index: 1; }
-.sw-credit { position: absolute; z-index: 1; right: var(--m); bottom: 14px; font-size: 11px; color: var(--ink-50); }
+/* The quote as a keynote shot: a dark stage in a rounded frame, Sir Jony Ive in a soft spotlight that dissolves into the
+   black (no cut edges), the words lighting up beside him while the camera eases in. */
+.sw-card { position: relative; overflow: hidden; isolation: isolate; height: min(78svh, 760px); margin: 0 var(--m); border-radius: 28px; background: #000; color: var(--bone); }
+@media (min-width: 1024px) { .sw-card { border-radius: 36px; } }
+.sw-photo { position: absolute; z-index: -1; top: 0; bottom: 0; right: 0; width: 64%;
+  -webkit-mask-image: radial-gradient(ellipse 58% 72% at 56% 34%, #000 38%, transparent 80%); mask-image: radial-gradient(ellipse 58% 72% at 56% 34%, #000 38%, transparent 80%); }
+.sw-photo img { object-fit: cover; object-position: 50% 18%; }
+.sw-quote { position: absolute; left: clamp(28px, 5vw, 80px); bottom: clamp(32px, 7vh, 80px); width: min(46%, 680px); margin: 0; }
+.sw-card .c-ink50 { color: rgba(243, 237, 232, .5); }
+.sw-by { margin-top: 24px; color: var(--bone-64); }
+.sw-credit { position: absolute; right: 22px; bottom: 16px; font-size: 11px; color: rgba(243, 237, 232, .4); }
 @media (max-width: 1023px) {
-  .sw-ive { top: 64px; bottom: auto; right: -4vw; width: min(64vw, 420px); -webkit-mask-image: linear-gradient(180deg, #000 35%, transparent 72%); mask-image: linear-gradient(180deg, #000 35%, transparent 72%); }
-  .sw-pin .sw-stage { justify-content: flex-end; padding-bottom: 96px; }
-  .sw-stage blockquote { font-size: clamp(26px, 6.6vw, 40px); }
+  .sw-card { height: calc(100svh - var(--nav-h) - 112px); }
+  .sw-pin .sw-stage { justify-content: flex-start; padding-top: calc(var(--nav-h) + 4px); }
+  .sw-photo { left: 0; width: auto; bottom: 34%;
+    -webkit-mask-image: radial-gradient(ellipse 70% 62% at 50% 38%, #000 40%, transparent 82%); mask-image: radial-gradient(ellipse 70% 62% at 50% 38%, #000 40%, transparent 82%); }
+  .sw-quote { left: 24px; right: 24px; bottom: 40px; width: auto; }
+  .sw-quote blockquote { font-size: clamp(24px, 6.4vw, 36px); }
 }
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
-    .sw-ive { animation: iveIn linear both; animation-timeline: --sw; animation-range: contain 0% contain 85%; will-change: transform, opacity; }
-    @keyframes iveIn { from { opacity: 0; transform: translateY(14%) scale(1.06); } 40% { opacity: 1; } to { opacity: 1; transform: none; } }
+    .sw-photo { will-change: transform, opacity; animation: swCam linear both; animation-timeline: --sw; animation-range: contain 0% contain 90%; }
+    @keyframes swCam { from { opacity: .35; transform: scale(1.14); } 45% { opacity: 1; } to { opacity: 1; transform: scale(1); } }
   }
 }
 

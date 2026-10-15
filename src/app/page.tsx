@@ -16,19 +16,19 @@ export default function HomePage() {
 
         <section className="paper sw-pin" data-tone="light">
           <div className="sw-stage">
-            <figure className="sw-ive" aria-hidden="true">
-              <Image src="/about/ive.webp" alt="" width={1100} height={1650} sizes="(min-width:1024px) 34vw, 70vw" quality={90} />
-            </figure>
-            <a className="sw-credit" href="https://commons.wikimedia.org/wiki/File:Jonathan_Ive_2009.jpg" target="_blank" rel="noopener noreferrer">
-              Photo: Gary Cohen, CC BY-SA 2.0
-            </a>
-            <div className="grid-main relative">
-              <figure className="col-span-4 m-0 md:col-span-8 lg:col-span-7">
+            <div className="sw-card" data-tone="dark">
+              <div className="sw-photo" aria-hidden="true">
+                <Image src="/about/ive.webp" alt="" fill sizes="(min-width:1024px) 60vw, 100vw" quality={90} />
+              </div>
+              <figure className="sw-quote">
                 <blockquote className="text-statement">
                   <ScrollWords lead={COPY.statementLead} rest={COPY.statementRest} />
                 </blockquote>
-                <figcaption className="sw-by c3 text-read">{COPY.statementBy}</figcaption>
+                <figcaption className="sw-by text-read">{COPY.statementBy}</figcaption>
               </figure>
+              <a className="sw-credit" href="https://commons.wikimedia.org/wiki/File:Jonathan_Ive_2009.jpg" target="_blank" rel="noopener noreferrer">
+                Photo: Gary Cohen, CC BY-SA 2.0
+              </a>
             </div>
           </div>
         </section>
