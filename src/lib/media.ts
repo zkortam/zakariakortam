@@ -5,6 +5,24 @@ export interface Img {
   alt: string
 }
 
+/** One encoded rendition of a product loop (see public/work/video). */
+export interface Clip {
+  mp4: string
+  webm: string
+  /** First frame of the loop, so the still and the moving picture are the same picture. */
+  poster: string
+  w: number
+  h: number
+}
+
+/** A seamless, muted product loop recorded from the live site. */
+export interface PlateVideo extends Clip {
+  /** Rendition for phones (< 768), when the plate art-directs a mobile crop. */
+  mobile?: Clip
+  /** Duration in seconds (for reference; the element loops natively). */
+  dur: number
+}
+
 export type Composition = 'card' | 'phone-right' | 'phone-left' | 'bleed' | 'results'
 
 export interface PlateSpec {
@@ -20,7 +38,23 @@ export interface PlateSpec {
   /** Light texture under the composition (AiroFind earth). */
   earth?: { desktop: Img; mobile: Img }
   stills: { a: Img; b1: Img; b2: Img; b2Phone?: boolean }
+  /**
+   * The product in motion, in place of the still. card: replaces the picture in the card; phones: plays inside the
+   * screen of the phone still (the still stays as the frame); results: the earth under the results turns.
+   */
+  video?: PlateVideo
 }
+
+const v = (name: string, w: number, h: number): Clip => ({
+  mp4: `/work/video/${name}.mp4`,
+  webm: `/work/video/${name}.webm`,
+  poster: `/work/video/${name}.webp`,
+  w,
+  h,
+})
+
+/** Where the screen sits inside the phone stills (1296 x 2752): a 320 x 694 screen in a 334 x 708 phone, radius 45. */
+export const PHONE_SCREEN = { left: 7 / 334, top: 7 / 708, width: 320 / 334, height: 694 / 708, rx: 45 / 320, ry: 45 / 694 }
 
 const helioApp: Img = {
   src: '/work/hd/helio-app.webp',
@@ -56,6 +90,7 @@ export const PLATES: Record<string, PlateSpec> = {
     composition: 'card',
     primary: helioApp,
     mobile: { src: '/work/derived/helio-card-m.webp', w: 1086, h: 1146, alt: helioApp.alt },
+    video: { ...v('helio', 2808, 1226), dur: 8.2, mobile: v('helio-m', 1074, 1140) },
     stills: {
       a: { src: '/work/hd/helio-desktop.webp', w: 2880, h: 1800, alt: "Helio's home page with the tutor demo board" },
       b1: { src: '/work/hd/helio-mobile.webp', w: 1170, h: 2532, alt: 'Helio on a phone, the board showing x equals 11' },
@@ -70,6 +105,7 @@ export const PLATES: Record<string, PlateSpec> = {
     composition: 'phone-right',
     ambient: { src: '/light/ambient-surf.webp', dur: 40 },
     primary: surfApp,
+    video: { ...v('surf', 1240, 2692), dur: 7.4, mobile: v('surf-m', 828, 1798) },
     stills: {
       a: { src: '/work/derived/surf-desktop.webp', w: 2880, h: 1800, alt: "Surf's home page: Social media you control" },
       b1: { src: '/work/hd/surf-mobile.webp', w: 1170, h: 2532, alt: "Surf's home page on a phone" },
@@ -85,6 +121,7 @@ export const PLATES: Record<string, PlateSpec> = {
     composition: 'phone-left',
     ambient: { src: '/light/ambient-surf-messenger.webp', dur: 46 },
     primary: messengerApp,
+    video: { ...v('surf-messenger', 1240, 2692), dur: 7.2, mobile: v('surf-messenger-m', 828, 1798) },
     stills: {
       a: {
         src: '/work/hd/surf-messenger-desktop.webp',
@@ -150,6 +187,7 @@ export const PLATES: Record<string, PlateSpec> = {
       desktop: { src: '/work/derived/airofind-earth.webp', w: 2880, h: 530, alt: '' },
       mobile: { src: '/work/derived/airofind-earth-m.webp', w: 1170, h: 820, alt: '' },
     },
+    video: { ...v('airofind-earth', 2880, 530), dur: 9, mobile: v('airofind-earth-m', 1170, 818) },
     stills: {
       a: { src: '/work/hd/airofind-desktop.webp', w: 2880, h: 1800, alt: "AiroFind's home page over the night earth" },
       b1: { src: '/work/hd/airofind-app-mobile.webp', w: 1170, h: 2532, alt: 'AiroFind results on a phone' },

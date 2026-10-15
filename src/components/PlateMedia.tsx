@@ -1,7 +1,8 @@
 import Image, { getImageProps } from 'next/image'
 import type { CSSProperties } from 'react'
 import { Parallax } from './Parallax'
-import type { PlateSpec } from '@/lib/media'
+import { LoopVideo } from './LoopVideo'
+import { PHONE_SCREEN, type PlateSpec } from '@/lib/media'
 
 const PHONE_SIZES = '(min-width:1024px) 400px, 300px'
 const CARD_SIZES = '(min-width:1024px) 71vw, 100vw'
@@ -15,6 +16,39 @@ export const HERO_SIZES: Record<string, string> = {
   'spice-plus-plus': BOARD_SIZES,
   'rtl-plus-plus': CARD_SIZES,
   airofind: RESULTS_SIZES,
+}
+
+/** The screen of a phone still, as a box for the loop that plays in it. */
+const SCREEN_STYLE: CSSProperties = {
+  left: `${PHONE_SCREEN.left * 100}%`,
+  top: `${PHONE_SCREEN.top * 100}%`,
+  width: `${PHONE_SCREEN.width * 100}%`,
+  height: `${PHONE_SCREEN.height * 100}%`,
+  borderRadius: `${PHONE_SCREEN.rx * 100}% / ${PHONE_SCREEN.ry * 100}%`,
+}
+
+/** A phone still with the product loop playing in its screen. The loop sits outside the drop-shadow filter (the
+ *  still casts the shadow), so a playing video never re-runs the filter. */
+function PhoneWithLoop({ spec, desk }: { spec: PlateSpec; desk: boolean }) {
+  const img = spec.primary
+  const vid = spec.video
+  return (
+    <div className="relative" data-flip-img="" data-flip-fit="width">
+      <div className={`phone-shadow ${desk ? 'phone-desk' : ''}`}>
+        <Image src={img.src} alt={img.alt} width={img.w} height={img.h} sizes={PHONE_SIZES} quality={82} />
+      </div>
+      {vid && (
+        <LoopVideo
+          clip={vid}
+          mobile={desk ? undefined : vid.mobile}
+          id={`${spec.id}`}
+          fill
+          className="phone-screen"
+          style={SCREEN_STYLE}
+        />
+      )}
+    </div>
+  )
 }
 
 function Ambient({ spec, className = '', style }: { spec: PlateSpec; className?: string; style?: CSSProperties }) {
@@ -44,7 +78,11 @@ export function PlateMediaLayer({ spec }: { spec: PlateSpec }) {
       {c === 'results' && spec.earth && (
         <div className="pm-desk earth m3-earth" data-open="" aria-hidden="true">
           <div className="open-img">
-            <Image src={spec.earth.desktop.src} alt="" fill sizes="100vw" quality={75} className="object-cover" />
+            {spec.video ? (
+              <LoopVideo clip={spec.video} id={`${spec.id}-earth`} fill />
+            ) : (
+              <Image src={spec.earth.desktop.src} alt="" fill sizes="100vw" quality={75} className="object-cover" />
+            )}
           </div>
         </div>
       )}
@@ -59,8 +97,17 @@ export function PlateMediaLayer({ spec }: { spec: PlateSpec }) {
             <div className="col-start-4 col-end-13 row-start-2 flex items-end justify-end" style={{ containerType: 'size' }}>
               <div className="obj-hover">
                 <div data-enter="">
-                  <div className={`card card-desk ${spec.id === 'helio' ? '' : 'card-plain'}`} style={{ ['--ar' as string]: img.w / img.h }} data-flip-img="" data-flip-fit="width">
-                    <Image src={img.src} alt={img.alt} width={img.w} height={img.h} sizes={CARD_SIZES} quality={82} />
+                  <div
+                    className={`card card-desk ${spec.id === 'helio' ? '' : 'card-plain'}`}
+                    style={{ ['--ar' as string]: spec.video ? spec.video.w / spec.video.h : img.w / img.h }}
+                    data-flip-img=""
+                    data-flip-fit="width"
+                  >
+                    {spec.video ? (
+                      <LoopVideo clip={spec.video} id={spec.id} alt={img.alt} />
+                    ) : (
+                      <Image src={img.src} alt={img.alt} width={img.w} height={img.h} sizes={CARD_SIZES} quality={82} />
+                    )}
                   </div>
                 </div>
               </div>
@@ -76,9 +123,7 @@ export function PlateMediaLayer({ spec }: { spec: PlateSpec }) {
                 <Parallax>
                   <div className="persp">
                     <div data-enter="phone">
-                      <div className="phone-shadow phone-desk" data-flip-img="" data-flip-fit="width">
-                        <Image src={img.src} alt={img.alt} width={img.w} height={img.h} sizes={PHONE_SIZES} quality={82} />
-                      </div>
+                      <PhoneWithLoop spec={spec} desk />
                     </div>
                   </div>
                 </Parallax>
@@ -114,10 +159,14 @@ export function PlateMediaFlow({ spec }: { spec: PlateSpec }) {
             <div className="obj-hover">
               <div data-enter="">
                 <div className={`card card-m ${spec.id === 'helio' ? '' : 'card-plain'}`} data-flip-img="" data-flip-fit="width">
+                  {spec.video ? (
+                    <LoopVideo clip={spec.video} mobile={spec.video.mobile} id={`${spec.id}-flow`} alt={m.alt} />
+                  ) : (
                   <picture>
                     <source media="(min-width:768px)" srcSet={desk.srcSet} sizes="100vw" width={img.w} height={img.h} />
                     <img {...mob} alt={m.alt} loading="lazy" decoding="async" />
                   </picture>
+                  )}
                 </div>
               </div>
             </div>
@@ -135,9 +184,7 @@ export function PlateMediaFlow({ spec }: { spec: PlateSpec }) {
             <Parallax>
               <div className="persp">
                 <div data-enter="phone">
-                  <div className="phone-shadow" data-flip-img="" data-flip-fit="width">
-                    <Image src={img.src} alt={img.alt} width={img.w} height={img.h} sizes={PHONE_SIZES} quality={82} />
-                  </div>
+                  <PhoneWithLoop spec={spec} desk={false} />
                 </div>
               </div>
             </Parallax>
@@ -160,7 +207,11 @@ export function PlateMediaFlow({ spec }: { spec: PlateSpec }) {
       {spec.earth && (
         <div className="earth-m m3-earth" data-open="" aria-hidden="true">
           <div className="open-img">
-            <Image src={spec.earth.mobile.src} alt="" width={spec.earth.mobile.w} height={spec.earth.mobile.h} sizes="100vw" quality={75} className="h-full w-full object-cover" />
+            {spec.video?.mobile ? (
+              <LoopVideo clip={spec.video.mobile} id={`${spec.id}-earth-m`} fill />
+            ) : (
+              <Image src={spec.earth.mobile.src} alt="" width={spec.earth.mobile.w} height={spec.earth.mobile.h} sizes="100vw" quality={75} className="h-full w-full object-cover" />
+            )}
           </div>
         </div>
       )}
