@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import { HeroDepth, HeroLayer } from './HeroDepth'
 import { Wordmark } from './Wordmark'
+import { PortraitLight } from './PortraitLight'
 import { COPY } from '@/lib/site'
 
 /** The opening plate: letterbox gate, light gathering behind the portrait, the name rising and parting. */
@@ -27,6 +28,7 @@ export function HomeHero() {
                 sizes="(min-width:768px) 640px, 560px"
                 alt="Zakaria Kortam"
               />
+              <PortraitLight />
             </div>
           </div>
         </HeroLayer>

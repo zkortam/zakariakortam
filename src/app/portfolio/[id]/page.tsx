@@ -8,6 +8,7 @@ import { Footer } from '@/components/Footer'
 import { ULink } from '@/components/ULink'
 import { ProjectKeys } from '@/components/ProjectKeys'
 import { DEMOS } from '@/components/demos'
+import { PopOut } from '@/components/PopOut'
 import { LivePill } from '@/components/LivePill'
 import { Rule } from '@/components/Rule'
 import { NextRow } from '@/components/IndexRows'
@@ -126,7 +127,9 @@ function DemoSection({ p }: { p: Project }) {
         {noWidow(p.demo.line)}
       </p>
       <div className="col-span-full mt-head" data-reveal="">
-        <Demo />
+        <PopOut title={`${p.title}: ${p.demo.title}`}>
+          <Demo />
+        </PopOut>
       </div>
     </div>
   )

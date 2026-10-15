@@ -8,6 +8,8 @@ import { SmoothScroll } from "@/components/SmoothScroll";
 import { Observer } from "@/components/Observer";
 import { CommandMenu } from "@/components/CommandMenu";
 import { Nav } from "@/components/Nav";
+import { LiquidGlass } from "@/components/LiquidGlass";
+import { KineticType } from "@/components/KineticType";
 import { SITE_URL } from "@/lib/seo";
 
 const geist = Geist({
@@ -116,6 +118,8 @@ export default function RootLayout({
           <Observer />
           <Nav />
           <CommandMenu />
+          <LiquidGlass />
+          <KineticType />
           <div id="page">{children}</div>
         </Transitions>
       </body>
